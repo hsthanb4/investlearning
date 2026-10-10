@@ -1,10 +1,10 @@
 /**
- * StockLearning Web Platform Application Controller
+ * InvestLearning Web Platform Application Controller
  * Handles Navigation, State, Sidebar Tree, Content Rendering,
  * Code Sandbox Grading Simulator, Anna's Archive Search, and Visualizer Sync.
  */
 
-class StockLearningApp {
+class InvestLearningApp {
   constructor() {
     this.currentModuleIndex = 0;
     this.currentLessonIndex = 0;
@@ -12,10 +12,10 @@ class StockLearningApp {
     this.activeVisualizer = "kline"; // 'kline', 'lob', 'markowitz', 'kelly', 'dcf'
 
     // Persistent state
-    this.theme = localStorage.getItem("stocklearning_theme") || "dark";
-    this.completedLessons = new Set(JSON.parse(localStorage.getItem("stocklearning_completed") || '["m01_l01", "m01_l02", "m01_l03", "m02_l01", "m02_l02", "m03_l01", "m03_l02", "m04_l01", "m04_l02", "m05_l01", "m05_l02", "m06_l01", "m06_l02", "m07_l01", "m07_l02", "m08_l01", "m08_l02", "m09_l01", "m09_l02", "m10_l01", "m10_l02"]'));
-    this.checkinStreak = parseInt(localStorage.getItem("stocklearning_streak") || "7", 10);
-    this.lastCheckin = localStorage.getItem("stocklearning_last_checkin") || "";
+    this.theme = localStorage.getItem("investlearning_theme") || "dark";
+    this.completedLessons = new Set(JSON.parse(localStorage.getItem("investlearning_completed") || '["m01_l01", "m01_l02", "m01_l03", "m02_l01", "m02_l02", "m03_l01", "m03_l02", "m04_l01", "m04_l02", "m05_l01", "m05_l02", "m06_l01", "m06_l02", "m07_l01", "m07_l02", "m08_l01", "m08_l02", "m09_l01", "m09_l02", "m10_l01", "m10_l02"]'));
+    this.checkinStreak = parseInt(localStorage.getItem("investlearning_streak") || "7", 10);
+    this.lastCheckin = localStorage.getItem("investlearning_last_checkin") || "";
 
     // Visualizer instances
     this.vKline = null;
@@ -34,74 +34,70 @@ class StockLearningApp {
     this.initVisualizers();
     this.renderBooks();
     this.updateGlobalProgress();
-    this.
+    this.bindEvents();
+    this.switchMainView('curriculum');
+  }
+
+
   // ==========================================
   // Section / View Switching Controller
   // ==========================================
   switchMainView(viewName) {
-    const sections = {
-      'curriculum': document.getElementById('curriculumSection') ? document.getElementById('curriculumSection').closest('.lesson-article-card') : null,
-      'visualizers': document.getElementById('visualizersSection'),
-      'library': document.getElementById('librarySection'),
-      'workbench': document.getElementById('workbenchSection')
-    };
+    const lessonView = document.getElementById('lessonViewContainer');
+    const vizSec = document.getElementById('visualizersSection');
+    const libSec = document.getElementById('librarySection');
+    const workSec = document.getElementById('workbenchSection');
+    const sidebar = document.getElementById('courseSidebar');
 
     // Update nav buttons
     const navBtns = document.querySelectorAll('.nav-center-menu a');
     navBtns.forEach(btn => {
       const href = btn.getAttribute('href') || '';
-      if (href.includes(viewName) || (viewName === 'curriculum' && href.includes('curriculumSection'))) {
+      if ((viewName === 'curriculum' && href.includes('curriculumSection')) ||
+          (viewName === 'visualizers' && href.includes('visualizersSection')) ||
+          (viewName === 'library' && href.includes('librarySection')) ||
+          (viewName === 'workbench' && href.includes('workbenchSection'))) {
         btn.classList.add('active');
       } else {
         btn.classList.remove('active');
       }
     });
 
-    // Toggle display
-    const currCard = document.querySelector('.lesson-article-card');
-    const vizSec = document.getElementById('visualizersSection');
-    const libSec = document.getElementById('librarySection');
-    const workSec = document.getElementById('workbenchSection');
-    const sidebar = document.getElementById('courseSidebar');
-
     if (viewName === 'curriculum') {
-      if (currCard) currCard.style.display = 'block';
+      if (lessonView) lessonView.style.display = 'block';
       if (vizSec) vizSec.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
       if (workSec) workSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'flex';
+      this.switchTab(this.currentTab || 'theory');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'visualizers') {
-      if (currCard) currCard.style.display = 'none';
+      if (lessonView) lessonView.style.display = 'none';
       if (vizSec) vizSec.style.display = 'block';
       if (libSec) libSec.style.display = 'none';
       if (workSec) workSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      // Trigger canvas resizing
       setTimeout(() => {
         if (this.vKline) this.vKline.render();
         if (this.vMarkowitz) this.vMarkowitz.render();
         if (this.vKelly) this.vKelly.render();
       }, 50);
     } else if (viewName === 'library') {
-      if (currCard) currCard.style.display = 'none';
+      if (lessonView) lessonView.style.display = 'none';
       if (vizSec) vizSec.style.display = 'none';
       if (libSec) libSec.style.display = 'block';
       if (workSec) workSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'workbench') {
-      if (currCard) currCard.style.display = 'none';
+      if (lessonView) lessonView.style.display = 'block';
       if (vizSec) vizSec.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
-      if (workSec) workSec.style.display = 'block';
-      if (sidebar) sidebar.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'flex';
+      this.switchTab('workbench');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
-
-  bindEvents();
   }
 
   // ==========================================
@@ -109,7 +105,7 @@ class StockLearningApp {
   // ==========================================
   applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("stocklearning_theme", theme);
+    localStorage.setItem("investlearning_theme", theme);
     this.theme = theme;
     const btn = document.getElementById("themeToggleBtn");
     if (btn) {
@@ -298,22 +294,6 @@ class StockLearningApp {
         editor.value = `# 自测工作台: ${lesson.title}\ndef evaluate_strategy():\n    # TODO: 实现策略计算与断言校验\n    return True\n`;
       }
     }
-
-    // 7. Math Typesetting with KaTeX
-    if (window.renderMathInElement) {
-      try {
-        const stage = document.getElementById("content-stage") || document.body;
-        window.renderMathInElement(stage, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false }
-          ],
-          throwOnError: false
-        });
-      } catch (e) {
-        console.warn("KaTeX render notice:", e);
-      }
-    }
   }
 
   toggleQA(idx) {
@@ -347,7 +327,7 @@ class StockLearningApp {
       this.completedLessons.add(lessonId);
       this.showToast("🎉 恭喜！课程已通过考核！", "success");
     }
-    localStorage.setItem("stocklearning_completed", JSON.stringify([...this.completedLessons]));
+    localStorage.setItem("investlearning_completed", JSON.stringify([...this.completedLessons]));
     this.updateGlobalProgress();
     this.renderSidebar();
     this.renderCurrentLesson();
@@ -377,8 +357,8 @@ class StockLearningApp {
     }
     this.checkinStreak += 1;
     this.lastCheckin = today;
-    localStorage.setItem("stocklearning_streak", this.checkinStreak.toString());
-    localStorage.setItem("stocklearning_last_checkin", today);
+    localStorage.setItem("investlearning_streak", this.checkinStreak.toString());
+    localStorage.setItem("investlearning_last_checkin", today);
     this.updateGlobalProgress();
     this.showToast(`🔥 签到成功！连续打卡达成 ${this.checkinStreak} 天！`, "success");
   }
@@ -423,26 +403,35 @@ class StockLearningApp {
   }
 
   initVisualizers() {
-    // 1. Candlestick
-    if (document.getElementById("klineCanvas")) {
-      this.vKline = new KLineVisualizer("klineCanvas", "klineHud");
-    }
-    // 2. LOB
-    if (document.getElementById("lobLadderContainer")) {
-      this.vLob = new LimitOrderBookEngine("lobLadderContainer", "lobDepthCanvas");
-    }
-    // 3. Markowitz
-    if (document.getElementById("markowitzCanvas")) {
-      this.vMarkowitz = new MarkowitzOptimizer("markowitzCanvas");
-    }
-    // 4. Kelly
-    if (document.getElementById("kellyCanvas")) {
-      this.vKelly = new KellySimulator("kellyCanvas", "kellyCurveCanvas");
-    }
-    // 5. DCF
-    if (document.getElementById("dcfMatrixContainer")) {
-      this.vDcf = new DCFValuationEngine("dcfMatrixContainer", "dcfMetricsContainer");
-    }
+    try {
+      if (document.getElementById("klineCanvas") && typeof KLineVisualizer !== "undefined") {
+        this.vKline = new KLineVisualizer("klineCanvas", "klineHud");
+      }
+    } catch(e) { console.warn("kline:", e); }
+
+    try {
+      if (document.getElementById("lobLadderContainer") && typeof LimitOrderBookEngine !== "undefined") {
+        this.vLob = new LimitOrderBookEngine("lobLadderContainer", "lobDepthCanvas");
+      }
+    } catch(e) { console.warn("lob:", e); }
+
+    try {
+      if (document.getElementById("markowitzCanvas") && typeof MarkowitzOptimizer !== "undefined") {
+        this.vMarkowitz = new MarkowitzOptimizer("markowitzCanvas");
+      }
+    } catch(e) { console.warn("markowitz:", e); }
+
+    try {
+      if (document.getElementById("kellyCanvas") && typeof KellySimulator !== "undefined") {
+        this.vKelly = new KellySimulator("kellyCanvas", "kellyCurveCanvas");
+      }
+    } catch(e) { console.warn("kelly:", e); }
+
+    try {
+      if (document.getElementById("dcfMatrixContainer") && typeof DCFValuationEngine !== "undefined") {
+        this.vDcf = new DCFValuationEngine("dcfMatrixContainer", "dcfMetricsContainer");
+      }
+    } catch(e) { console.warn("dcf:", e); }
   }
 
   // ==========================================
@@ -586,7 +575,7 @@ class StockLearningApp {
         const mod = CURRICULUM_DATA[this.currentModuleIndex];
         const lesson = mod.lessons[this.currentLessonIndex];
         this.completedLessons.add(lesson.id);
-        localStorage.setItem("stocklearning_completed", JSON.stringify([...this.completedLessons]));
+        localStorage.setItem("investlearning_completed", JSON.stringify([...this.completedLessons]));
         this.updateGlobalProgress();
         this.renderSidebar();
         this.showToast(`🎯 恭喜！当前课程斩获 ${totalScore.toFixed(1)} 分，顺利通过！`, "success");
@@ -714,5 +703,5 @@ class StockLearningApp {
 // Global initialization
 let app;
 window.addEventListener("DOMContentLoaded", () => {
-  app = new StockLearningApp();
+  app = new InvestLearningApp();
 });
