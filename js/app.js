@@ -469,14 +469,27 @@ class InvestLearningApp {
     const diffBadge = document.getElementById("lessonMetaDiff");
     if (diffBadge) diffBadge.style.display = "none";
 
-        // 1.5 Module Systemic Role & Intra-Module Chapter Progression Context
+    // 1.5 Module Systemic Role & Intra-Module Chapter Progression Context
     const ctxBox = document.getElementById("lessonSystemContextBox");
     if (ctxBox) {
+      const SHORT_TITLES = {
+        "m01_l01": "央行流动性", "m01_l02": "利率期限结构", "m01_l03": "经济与库存周期", "m01_l04": "汇率与资本流", "m01_l05": "全天候对冲",
+        "m02_l01": "限价订单簿", "m02_l02": "交易制度与对冲", "m02_l03": "订单流 OFI", "m02_l04": "交易冲击成本", "m02_l05": "资金流与龙虎榜",
+        "m03_l01": "三表与杜邦", "m03_l02": "盈利质量排雷", "m03_l03": "护城河与ROIC", "m03_l04": "现金流DCF估值", "m03_l05": "相对估值倍数",
+        "m04_l01": "市场结构识别", "m04_l02": "供需区与流动性", "m04_l03": "形态量化拓扑", "m04_l04": "动量自适应滤波", "m04_l05": "成交量分布VWAP",
+        "m05_l01": "单因子检验", "m05_l02": "FF5与Barra模型", "m05_l03": "统计套利配对", "m05_l04": "机器学习多因子", "m05_l05": "截面时序动量",
+        "m06_l01": "马科维茨MVO", "m06_l02": "风险平价模型", "m06_l03": "凯利公式与杠杆", "m06_l04": "VaR/CVaR熔断", "m06_l05": "尾部风险反脆弱",
+        "m07_l01": "前景理论偏误", "m07_l02": "执行清单状态机", "m07_l03": "交易日志与归因", "m07_l04": "概率思维决策树",
+        "m08_l01": "BSM期权定价", "m08_l02": "希腊字母对冲", "m08_l03": "多腿组合策略", "m08_l04": "波动率曲面VIX",
+        "m09_l01": "并购套利模型", "m09_l02": "可转债双低轮动", "m09_l03": "成分股调仓套利", "m09_l04": "困境反转深度价值",
+        "m10_l01": "回测偏差审计", "m10_l02": "撮合仿真与滑点", "m10_l03": "量化数据管道", "m10_l04": "实盘架构熔断哨兵"
+      };
+
       const chainSteps = mod.lessons.map((item, idx) => {
-        const shortName = item.title.split("(")[0].strip ? item.title.split("(")[0].trim() : item.title;
+        const shortName = SHORT_TITLES[item.id] || (item.title.replace(/\s*\([^)]*\)/g, "").split(/[：与、\s]/)[0] || item.title);
         const isCurr = idx === this.currentLessonIndex;
-        return `<a href="#" onclick="app.selectLesson(${this.currentModuleIndex}, ${idx}); return false;" style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:0.78rem; text-decoration:none; ${isCurr ? 'background:var(--claude-terracotta); color:#fff; font-weight:700;' : 'background:var(--bg-secondary); color:var(--text-secondary); border:1px solid var(--border-primary);'}">L${item.num} ${shortName}</a>`;
-      }).join(' <span style="color:var(--claude-terracotta); font-weight:700;">➔</span> ');
+        return `<a href="#" onclick="app.selectLesson(${this.currentModuleIndex}, ${idx}); return false;" class="step-node ${isCurr ? 'current' : ''}" title="${item.title}"><span class="step-node-num">L${item.num}</span><span>${shortName}</span>${isCurr ? '<span class="step-node-curr-dot"></span>' : ''}</a>`;
+      }).join('<span class="step-track-sep">›</span>');
 
       ctxBox.innerHTML = `
         <div class="callout-title" style="margin-bottom:8px; font-size:0.9rem;">
@@ -486,9 +499,14 @@ class InvestLearningApp {
         <div class="callout-body" style="font-size:0.86rem; line-height:1.65;">
           <div style="margin-bottom:6px;"><strong style="color:var(--text-primary);">【模块在体系中的角色】</strong>：${mod.system_role || mod.desc}</div>
           <div style="margin-bottom:8px;"><strong style="color:var(--claude-terracotta);">【本课承上启下定位】</strong>：${lesson.chapter_bridge || ''}</div>
-          <div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border-primary); display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
-            <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted);">本模块章节递进链：</span>
-            ${chainSteps}
+          <div class="chapter-stepper-box">
+            <div class="chapter-stepper-header">
+              <span class="chapter-stepper-label">本模块章节递进脉络</span>
+              <span class="chapter-stepper-counter">第 ${this.currentLessonIndex + 1} / ${mod.lessons.length} 课</span>
+            </div>
+            <div class="chapter-stepper-track">
+              ${chainSteps}
+            </div>
           </div>
         </div>
       `;
