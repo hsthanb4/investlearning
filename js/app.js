@@ -407,27 +407,31 @@ class InvestLearningApp {
       codePre.innerText = lesson.code || `# ${lesson.title} 参考实现\nimport numpy as np\nimport pandas as pd\n\nprint("Lesson implementation initialized.")`;
     }
 
-    // 5. Q&A Section (Answer Branch Directly Displayed)
+    // 5. Q&A Section (Answer Branch Directly Displayed with Structured HTML & Math)
     const qaContainer = document.getElementById("lessonQAContainer");
     if (qaContainer) {
       if (lesson.qa && lesson.qa.length > 0) {
         qaContainer.innerHTML = lesson.qa.map((item, idx) => {
-          let ansText = item.a || item.ans || item.answer || "【投决会标准答案解析】：已在 answers/ 目录下的官方参考实现中严格断言验证通过。";
+          let cleanQ = (item.q || "").replace(/^Q\d+[:：]\s*/i, "");
+          let ansText = item.a || item.ans || item.answer || "";
           let hintHtml = item.hint ? `<div class="qa-hint-box"><b>💡 思考提示：</b> ${item.hint}</div>` : "";
           return `
           <div class="qa-card open" id="qaCard_${idx}">
             <div class="qa-header" onclick="app.toggleQA(${idx})">
-              <div class="qa-title">
-                <span class="qa-badge">Q${idx + 1}</span>
-                <span>${item.q}</span>
+              <div class="qa-title" style="align-items:flex-start; line-height:1.6;">
+                <span class="qa-badge" style="flex-shrink:0; margin-top:2px;">Q${idx + 1}</span>
+                <span>${cleanQ}</span>
               </div>
-              <span class="qa-toggle-icon">▲</span>
+              <span class="qa-toggle-icon" style="flex-shrink:0; margin-left:12px;">▲</span>
             </div>
-            <div class="qa-body" style="display:block;">
+            <div class="qa-body">
               ${hintHtml}
               <div class="qa-answer-box">
-                <b style="color:var(--accent-green)">✔ 投决会深度解析与官方参考答案：</b>
-                <div style="margin-top:8px; line-height:1.7; font-size:0.9rem; color:var(--text-secondary);">${ansText}</div>
+                <div style="color:var(--claude-terracotta); font-weight:700; font-size:0.88rem; padding-bottom:8px; margin-bottom:10px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:6px;">
+                  <span>✔</span>
+                  <span>投决会深度解析与标准参考答案</span>
+                </div>
+                <div class="qa-answer-content" style="line-height:1.72; font-size:0.9rem; color:var(--text-secondary);">${ansText}</div>
               </div>
             </div>
           </div>
@@ -480,7 +484,9 @@ class InvestLearningApp {
   toggleQA(idx) {
     const card = document.getElementById(`qaCard_${idx}`);
     if (card) {
-      card.classList.toggle("open");
+      const isOpen = card.classList.toggle("open");
+      const icon = card.querySelector(".qa-toggle-icon");
+      if (icon) icon.innerText = isOpen ? "▲" : "▼";
     }
   }
 
