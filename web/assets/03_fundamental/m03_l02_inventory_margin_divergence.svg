@@ -1,0 +1,21 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">经典造假形态：“存货周转天数逆势飙升 + 毛利率反常走高”背离排雷</text>
+
+  <!-- Dual Divergence Lines -->
+  <line x1="80" y1="180" x2="700" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="80" y1="40" x2="80" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+
+  <!-- Inventory Days Up (Terracotta) -->
+  <path d="M 90 150 Q 250 130 420 90 T 680 45" fill="none" stroke="#CC5A36" stroke-width="2.5"/>
+  <text x="685" y="48" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36">存货周转天数狂飙 (滞销堆积)</text>
+
+  <!-- Gross Margin Up (Blue, Abnormal) -->
+  <path d="M 90 140 Q 250 110 420 70 T 680 30" fill="none" stroke="#486A7D" stroke-width="2.5" stroke-dasharray="4 2"/>
+  <text x="685" y="30" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#486A7D">虚增毛利率 (反常飙升)</text>
+
+  <rect x="180" y="110" width="380" height="50" rx="5" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1"/>
+  <text x="370" y="130" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36" text-anchor="middle">商业逻辑违背：产品卖不动，毛利率怎可能暴涨？</text>
+  <text x="370" y="148" font-family="Inter, sans-serif" font-size="9" fill="#4D4B46" text-anchor="middle">操纵手段：少结转当期营业成本，将生产成本蓄意囤积在存货资产中虚增当期毛利。</text>
+</svg>

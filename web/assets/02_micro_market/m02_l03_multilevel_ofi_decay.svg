@@ -1,0 +1,37 @@
+<svg viewBox="0 0 780 220" width="100%" height="220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="220" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">多档挂单簿加权 OFI 权重指数衰减与虚假诱骗过滤模型</text>
+
+  <!-- Bars for L1 to L5 weight -->
+  <g transform="translate(60, 50)">
+    <!-- L1 -->
+    <rect x="0" y="20" width="100" height="110" rx="4" fill="#486A7D"/>
+    <text x="50" y="15" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" fill="#486A7D" text-anchor="middle">L1 (1.00)</text>
+    <text x="50" y="75" font-family="Inter, sans-serif" font-size="10" fill="#FFFFFF" text-anchor="middle">最高信息量</text>
+    <text x="50" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">买卖一档</text>
+
+    <!-- L2 -->
+    <rect x="130" y="45" width="100" height="85" rx="4" fill="rgba(72, 106, 125, 0.75)"/>
+    <text x="180" y="40" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D" text-anchor="middle">L2 (0.60)</text>
+    <text x="180" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">买卖二档</text>
+
+    <!-- L3 -->
+    <rect x="260" y="70" width="100" height="60" rx="4" fill="rgba(72, 106, 125, 0.5)"/>
+    <text x="310" y="65" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D" text-anchor="middle">L3 (0.36)</text>
+    <text x="310" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">买卖三档</text>
+
+    <!-- L4 -->
+    <rect x="390" y="90" width="100" height="40" rx="4" fill="rgba(72, 106, 125, 0.35)"/>
+    <text x="440" y="85" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D" text-anchor="middle">L4 (0.21)</text>
+    <text x="440" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">买卖四档</text>
+
+    <!-- L5 -->
+    <rect x="520" y="105" width="100" height="25" rx="4" fill="rgba(72, 106, 125, 0.2)"/>
+    <text x="570" y="100" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D" text-anchor="middle">L5 (0.13)</text>
+    <text x="570" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">买卖五档</text>
+  </g>
+
+  <rect x="60" y="175" width="660" height="32" rx="4" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="390" y="195" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46" text-anchor="middle">权重公式: w_k = exp(-α * (k-1))。深度盘口充斥着大量虚假挂单撤单（Spoofing），必须予以快速衰减过滤。</text>
+</svg>

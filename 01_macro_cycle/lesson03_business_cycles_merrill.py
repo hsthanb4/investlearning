@@ -4,40 +4,81 @@ r"""
 第 3 课：经济周期、美林投资时钟与基钦库存周期轮动 (Business Cycles & Inventory Dynamics)
 ================================================================================
 
-【课程定位与第一性原理】
-自 1930 年代康德拉季耶夫、朱格拉与基钦提出宏观周期理论以来，资产定价的核心逻辑始终在于
-“大类资产收益率与宏观经济周期阶段的高度协变性”。
+::: {.callout-note}
+### 投决会资产配置公理：大类资产期望收益率是增长与通胀二阶导的投影
+- **[二元状态空间公理]**：宏观经济总需求（产出缺口 Growth Gap）与价格中枢（通胀加速度 Inflation Momentum）构成大类资产定价的双正交坐标系。
+- **[微观企业利润传导]**：经济增长驱动企业营业收入增速与销售净利率，通胀变动则决定上游原材料成本侵蚀与央行货币政策折现率。
+- **[夏普比率动态轮动]**：没有单一资产能够穿越所有宏观象限，主动宏观对冲的本质是始终将资本配置于与当前宏观体制兼容度最高的资产类别。
+:::
 
-美林证券（Merrill Lynch, 2004）总结出著名的“美林投资时钟”（Investment Clock），将宏观周期按照
-“经济增长（产出缺口 Growth）”与“通胀趋势（CPI/PPI Inflation）”两个维度划分为四个象限：
-1. 衰退期（Growth ↓, Inflation ↓）：产能过剩、信贷萎缩、利率快速下行。
-   - 大类资产排序：债券 (Bonds) > 现金 (Cash) > 股票 (Stocks) > 大宗商品 (Commodities)。
-2. 复苏期（Growth ↑, Inflation ↓）：宽松政策见效、需求回暖、企业利润恢复，折现率仍处低位。
-   - 大类资产排序：股票 (Stocks) > 债券 (Bonds) > 现金 (Cash) > 大宗商品 (Commodities)。
-3. 过热期（Growth ↑, Inflation ↑）：产能利用率触顶、原材料供不应求、央行开始加息紧缩。
-   - 大类资产排序：大宗商品 (Commodities) > 股票 (Stocks) > 现金 (Cash) > 债券 (Bonds)。
-4. 滞胀期（Growth ↓, Inflation ↑）：生产成本高企压垮企业盈利，央行受困于高通胀无法降息，股债双杀。
-   - 大类资产排序：现金 (Cash) > 大宗商品 (Commodities) > 债券 (Bonds) > 股票 (Stocks)。
+- **[美林投资时钟四象限判别模型]**：
+  - 产出缺口趋势（Growth Trend）与通胀趋势（Inflation Trend）将宏观周期映射为四大象限：
 
-【微观实战：基钦库存周期（40个月小周期）四阶段量化】
-在工业与制造业国家（如中国、德国、日韩），宏观经济的高频脉搏集中体现为“工业企业库存周期”：
-以“需求/营业收入增速（Demand/Sales Growth）”与“产成品存货增速（Inventory Growth）”两维交织：
+$$
+\text{Regime}_t = \begin{cases}
+\text{Recovery (复苏)}, & \text{Growth}_t > 0 \land \text{Inflation}_t \le 0 \implies \text{Stocks} \succ \text{Bonds} \succ \text{Cash} \succ \text{Commodities} \\
+\text{Overheat (过热)}, & \text{Growth}_t > 0 \land \text{Inflation}_t > 0 \implies \text{Commodities} \succ \text{Stocks} \succ \text{Cash} \succ \text{Bonds} \\
+\text{Stagflation (滞胀)}, & \text{Growth}_t \le 0 \land \text{Inflation}_t > 0 \implies \text{Cash} \succ \text{Commodities} \succ \text{Bonds} \succ \text{Stocks} \\
+\text{Recession (衰退)}, & \text{Growth}_t \le 0 \land \text{Inflation}_t \le 0 \implies \text{Bonds} \succ \text{Cash} \succ \text{Stocks} \succ \text{Commodities}
+\end{cases}
+$$
+
+- **[变量定义域与物理意义]**：
+  - $\text{Growth}_t \in \mathbb{R}$：实际产出缺口偏离度或 GDP/PMI 动量加速度。
+  - $\text{Inflation}_t \in \mathbb{R}$：CPI/PPI 通胀环比或同比加速度。
+
+- **[引导句锚点 1]**：美林投资时钟四象限与最优资产配置胜率矩阵如下所示：
+
 ```mermaid
 flowchart TD
-    Phase1["1. 被动去库存 (需求↑, 存货↓) ➔ 景气初见曙光，企业产品供不应求，盈利暴增 (股票黄金期)"] --> Phase2
-    Phase2["2. 主动补库存 (需求↑, 存货↑) ➔ 产销两旺，开足马力扩产，商品原材料暴涨 (商品/周期股繁荣)"] --> Phase3
-    Phase3["3. 被动补库存 (需求↓, 存货↑) ➔ 终端需求见顶下滑，生产惯性导致库存积压 (现金为王/防守)"] --> Phase4
-    Phase4["4. 主动去库存 (需求↓, 存货↓) ➔ 深度出清，降价甩卖关停产能，货币全面宽松 (长久期国债牛市)"] --> Phase1
+    Clock["美林投资时钟宏观状态判定"] --> Q1["1. 复苏期 (Growth ↑, Inflation ↓) ➔ 股票权益最优 (盈利恢复+低折现率)"]
+    Clock --> Q2["2. 过热期 (Growth ↑, Inflation ↑) ➔ 大宗商品最优 (原材料暴涨+加息压债)"]
+    Clock --> Q3["3. 滞胀期 (Growth ↓, Inflation ↑) ➔ 现金为王 (成本侵蚀+股债双杀)"]
+    Clock --> Q4["4. 衰退期 (Growth ↓, Inflation ↓) ➔ 长久期债券最优 (央行放水+利率牛市)"]
 ```
 
+- **[架构要点拆解 1]**：
+  - **[1. 复苏期最佳胜率]**：增长上行叠加通胀下行，企业盈利修复而贴现率保持低位，股票资产夏普比率最高。
+  - **[2. 过热期大宗暴利]**：工业产能利用率见顶，通胀飙升使商品领跑，加息压制债券收益。
+  - **[3. 滞胀期百慕大]**：成本高企压垮企业利润，央行无法降息，现金与商品对冲成为唯一防线。
+
+- **[微观实战：基钦库存周期（40个月小周期）四阶段量化]**：
+  - 制造业核心微观脉搏由“需求/营业收入增速”与“产成品存货增速”交织构成：
+
+$$
+\text{Phase}_t = \begin{cases}
+\text{Passive Destock (被动去库存)}, & \text{Sales}_t > 0 \land \text{Inventory}_t \le 0 \implies \text{需求回暖，库存消耗，权益黄金期} \\
+\text{Active Restock (主动补库存)}, & \text{Sales}_t > 0 \land \text{Inventory}_t > 0 \implies \text{供需两旺，开工扩产，商品/周期股繁荣} \\
+\text{Passive Restock (被动补库存)}, & \text{Sales}_t \le 0 \land \text{Inventory}_t > 0 \implies \text{需求见顶，产品积压滞销，现金防御} \\
+\text{Active Destock (主动去库存)}, & \text{Sales}_t \le 0 \land \text{Inventory}_t \le 0 \implies \text{降价甩卖，产能出清，长债牛市}
+\end{cases}
+$$
+
+- **[引导句锚点 2]**：制造业基钦库存周期四阶段相空间演化轨迹如下拓扑所示：
+
+```mermaid
+flowchart TD
+    P1["1. 被动去库存 (需求↑, 存货↓) ➔ 景气初现，供不应求，ROE 见底修复 (股票黄金期)"] --> P2
+    P2["2. 主动补库存 (需求↑, 存货↑) ➔ 产能全开，原材料暴涨 (商品/周期股繁荣)"] --> P3
+    P3["3. 被动补库存 (需求↓, 存货↑) ➔ 需求拐头，产品积压 (现金为王/防守)"] --> P4
+    P4["4. 主动去库存 (需求↓, 存货↓) ➔ 停产关线，深度出清，降息宽松 (利率债牛市)"] --> P1
+```
+
+- **[架构要点拆解 2]**：
+  - **[1. 被动去库黄金点]**：营业收入增速领先存货见底，企业毛利与自由现金流暴增，股票胜率最高。
+  - **[2. 主动补库繁荣]**：企业开足马力扩产，资本开支加速，上游大宗商品与周期股迎来主升浪。
+  - **[3. 主动去库出清]**：全行业降价甩卖资产，宽松政策推动长久期利率债迎来波澜壮阔大牛市。
+
+::: {.callout-warning}
+### 投决会风控红线与认知陷阱
+- **[美林电风扇陷阱]**：中国政策逆周期干预果断，象限跳跃频繁。严禁按海外静态周期进行机械长线轮动，必须按月度跟踪工业库存二阶导。
+- **[股债负相关失效]**：在滞胀期，股债相关性由负转正，经典 60/40 组合将遭受系统性双杀，必须强制配置大宗商品或高息现金对冲。
+:::
+
 【思考题】
-Q1: 为什么在 2010 年之后的中国宏观经济实战中，“美林时钟”经常被机构投资者调侃为“美林电风扇”？
-    请从逆周期宏观调控干预频率、金融去杠杆与供给侧结构性改革（行政化产能出清）的角度，
-    剖析中国宏观周期为何频繁发生象限跳跃与阶段压缩？
-Q2: 为什么在“被动去库存”阶段往往是股票权益资产夏普比率最高、赔率与胜率最确定性的黄金买点？
-    请从企业自由现金流（FCF）、净资产收益率（ROE）与估值修复的微观财务驱动力推导。
-Q3: 滞胀期（Stagflation）为什么是多资产配置的“百慕大三角”？请阐述为什么经典 60/40 股债平衡组合
-    在滞胀期会遭遇股债相关性由负转正（Positive Stock-Bond Correlation）的系统性失效？
+Q1: 为什么在 2010 年之后的中国宏观经济实战中，“美林时钟”经常被机构投资者调侃为“美林电风扇”？请从逆周期宏观调控干预频率、金融去杠杆与供给侧结构性改革（行政化产能出清）的角度，剖析中国宏观周期为何频繁发生象限跳跃与阶段压缩？
+Q2: 为什么在“被动去库存”阶段往往是股票权益资产夏普比率最高、赔率与胜率最确定性的黄金买点？请从企业自由现金流（FCF）、净资产收益率（ROE）与估值修复的微观财务驱动力推导。
+Q3: 滞胀期（Stagflation）为什么是多资产配置的“百慕大三角”？请阐述为什么经典 60/40 股债平衡组合在滞胀期会遭遇股债相关性由负转正（Positive Stock-Bond Correlation）的系统性失效？
 
 【评分与通过规则】
 - 代码 4 分：

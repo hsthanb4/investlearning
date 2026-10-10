@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 4.5.1：可见范围成交量分布 (VPVR)：POC 控制点与 70% 价值区 (VAH / VAL)</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">VOLUME PROFILE</text>
+
+  <g transform="translate(60, 50)">
+    <polyline points="20,130 60,110 100,140 140,80 180,95 220,50 260,70 300,40" fill="none" stroke="#1F1E1B" stroke-width="2"/>
+    <text x="140" y="170" font-family="Inter, sans-serif" font-size="10" fill="#7D786F">K线价格时序轨迹</text>
+  </g>
+
+  <g transform="translate(400, 45)">
+    <line x1="-60" y1="35" x2="300" y2="35" stroke="#CC5A36" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text x="310" y="39" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#CC5A36">VAH ($105.00)</text>
+
+    <line x1="-60" y1="85" x2="300" y2="85" stroke="#CC5A36" stroke-width="2.5"/>
+    <text x="310" y="89" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#CC5A36">POC 控制点 ($98.00)</text>
+
+    <line x1="-60" y1="135" x2="300" y2="135" stroke="#5F7355" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text x="310" y="139" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#5F7355">VAL ($91.00)</text>
+
+    <rect x="0" y="15" width="60" height="15" fill="rgba(72, 106, 125, 0.4)"/>
+    <rect x="0" y="35" width="130" height="15" fill="rgba(95, 115, 85, 0.6)"/>
+    <rect x="0" y="55" width="180" height="15" fill="rgba(95, 115, 85, 0.7)"/>
+    <rect x="0" y="75" width="260" height="18" fill="#CC5A36"/>
+    <text x="245" y="88" font-family="JetBrains Mono, monospace" font-size="9" fill="#FFFFFF" text-anchor="end">MAX VOL</text>
+    <rect x="0" y="98" width="190" height="15" fill="rgba(95, 115, 85, 0.7)"/>
+    <rect x="0" y="118" width="140" height="15" fill="rgba(95, 115, 85, 0.6)"/>
+    <rect x="0" y="138" width="50" height="15" fill="rgba(72, 106, 125, 0.4)"/>
+    <rect x="0" y="158" width="20" height="15" fill="rgba(72, 106, 125, 0.2)"/>
+
+    <line x1="-20" y1="35" x2="-20" y2="135" stroke="#486A7D" stroke-width="2"/>
+    <text x="-25" y="90" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="end">70% 价值区 (Value Area)</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">POC 是多空博弈的最核心筹码共识锚点，脱离价值区后将面临强力均值回归或真空加速</text>
+</svg>

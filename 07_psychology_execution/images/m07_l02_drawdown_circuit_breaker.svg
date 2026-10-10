@@ -1,0 +1,32 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">日内回撤分级阶梯与生理熔断阈值</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="210" x2="700" y2="210" stroke="#A6A095" stroke-width="1.5"/>
+  <line x1="80" y1="45" x2="80" y2="210" stroke="#A6A095" stroke-width="1.5"/>
+  <text x="700" y="225" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">时间 (交易日历进度)</text>
+  <text x="70" y="55" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">累计净值 PnL</text>
+
+  <!-- Zero baseline -->
+  <line x1="80" y1="80" x2="680" y2="80" stroke="#5F7355" stroke-width="1" stroke-dasharray="2 2"/>
+  <text x="75" y="84" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="end">开盘基准 $0</text>
+
+  <!-- Equity curve dipping -->
+  <path d="M 80 80 Q 180 60 250 110 T 420 160 T 560 195 L 680 195" fill="none" stroke="#CC5A36" stroke-width="2.5"/>
+
+  <!-- Warning Line 1: -1.5% Cooldown -->
+  <line x1="80" y1="120" x2="680" y2="120" stroke="#C08535" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="520" y="105" width="160" height="22" rx="3" fill="#FAF8F5" stroke="#C08535" stroke-width="1"/>
+  <text x="600" y="120" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#C08535" text-anchor="middle">一级警戒 -1.5%：强制冷静 30m</text>
+
+  <!-- Warning Line 2: -3.0% Half Size -->
+  <line x1="80" y1="155" x2="680" y2="155" stroke="#486A7D" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="520" y="140" width="160" height="22" rx="3" fill="#FAF8F5" stroke="#486A7D" stroke-width="1"/>
+  <text x="600" y="155" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#486A7D" text-anchor="middle">二级警戒 -3.0%：仓位上限腰斩</text>
+
+  <!-- Warning Line 3: -5.0% Kill Switch -->
+  <line x1="80" y1="195" x2="680" y2="195" stroke="#CC5A36" stroke-width="2"/>
+  <rect x="520" y="180" width="160" height="22" rx="3" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1"/>
+  <text x="600" y="195" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">三级硬熔断 -5.0%：全平并关机</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg viewBox="0 0 780 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="260" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  <!-- Cross Axis -->
+  <line x1="390" y1="20" x2="390" y2="240" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="40" y1="130" x2="740" y2="130" stroke="#7D786F" stroke-width="1.5"/>
+  
+  <text x="745" y="134" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#7D786F">经济增长 Growth ↑</text>
+  <text x="35" y="134" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#7D786F" text-anchor="end">经济增长 Growth ↓</text>
+  <text x="390" y="15" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#7D786F" text-anchor="middle">通胀膨胀 Inflation ↑</text>
+  <text x="390" y="255" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#7D786F" text-anchor="middle">通胀下行 Inflation ↓</text>
+
+  <!-- Q1 Overheat (Top Right) -->
+  <rect x="410" y="30" width="310" height="90" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="425" y="55" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#CC5A36">2. 过热期 (Overheat: G↑, I↑)</text>
+  <text x="425" y="75" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">首选资产：大宗商品 Commodities &gt; 股票</text>
+  <text x="425" y="95" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F">工业金属 / 原油暴涨，央行加息紧缩防通胀</text>
+
+  <!-- Q2 Stagflation (Top Left) -->
+  <rect x="60" y="30" width="310" height="90" rx="6" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="75" y="55" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#CC5A36">3. 滞胀期 (Stagflation: G↓, I↑)</text>
+  <text x="75" y="75" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">首选资产：现金 Cash &gt; 大宗商品 &gt; 股债双杀</text>
+  <text x="75" y="95" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">资产配置百慕大，生产成本高企吞噬利润</text>
+
+  <!-- Q3 Recession (Bottom Left) -->
+  <rect x="60" y="145" width="310" height="90" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <text x="75" y="170" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#486A7D">4. 衰退期 (Recession: G↓, I↓)</text>
+  <text x="75" y="190" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">首选资产：长久期债券 Bonds &gt; 现金</text>
+  <text x="75" y="210" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F">央行流动性大放水，无风险利率下行牛市</text>
+
+  <!-- Q4 Recovery (Bottom Right) -->
+  <rect x="410" y="145" width="310" height="90" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+  <text x="425" y="170" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#5F7355">1. 复苏期 (Recovery: G↑, I↓)</text>
+  <text x="425" y="190" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">首选资产：股票 Equities &gt; 债券</text>
+  <text x="425" y="210" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">盈利回升叠加充裕流动性，夏普比率最高窗口</text>
+</svg>

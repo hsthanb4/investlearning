@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.2.3：投资组合总风险方差分解：风格系统性风险 vs 股票特异风险</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">RISK ATTRIBUTION</text>
+
+  <!-- Left: Concentrated Portfolio (High Specific Risk) -->
+  <g transform="translate(80, 50)">
+    <rect x="0" y="0" width="260" height="145" rx="6" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="130" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">集中持仓组合 (持股 N = 10)</text>
+    
+    <!-- Stacked Bar -->
+    <rect x="30" y="45" width="200" height="35" fill="#486A7D"/>
+    <text x="130" y="67" font-family="JetBrains Mono, monospace" font-size="10" fill="#FFFFFF" text-anchor="middle">系统性因子风险 35%</text>
+
+    <rect x="30" y="80" width="200" height="45" fill="#CC5A36"/>
+    <text x="130" y="107" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">股票特异风险 65% (未分散)</text>
+
+    <text x="130" y="140" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">承受巨大黑天鹅暴雷脆弱性</text>
+  </g>
+
+  <!-- Right: Diversified Quant Portfolio (Pure Factor Alpha) -->
+  <g transform="translate(420, 50)">
+    <rect x="0" y="0" width="260" height="145" rx="6" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="130" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">量化全市场分散组合 (持股 N = 300)</text>
+
+    <!-- Stacked Bar -->
+    <rect x="30" y="45" width="200" height="65" fill="#486A7D"/>
+    <text x="130" y="82" font-family="JetBrains Mono, monospace" font-size="10" fill="#FFFFFF" text-anchor="middle">系统性因子风险 88%</text>
+
+    <rect x="30" y="110" width="200" height="15" fill="#5F7355"/>
+    <text x="130" y="122" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#FFFFFF" text-anchor="middle">特异风险 12% (大数定律分散)</text>
+
+    <text x="130" y="140" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">组合收益纯由因子选股 Alpha 决定</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">现代资产组合核心原则：市场绝不对单只股票的特异风险给予超额定价，必须通过多因子分散化消除</text>
+</svg>

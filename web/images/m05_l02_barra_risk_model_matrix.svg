@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.2.2：Barra 多因子结构化风险模型矩阵：风格因子与行业暴露拓扑</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">BARRA RISK MATRIX</text>
+
+  <!-- Left: Exposure Matrix X (N x K) -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="180" height="140" rx="4" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="90" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">暴露矩阵 X (N × K)</text>
+    <line x1="10" y1="32" x2="170" y2="32" stroke="#E5DFD5"/>
+    <text x="15" y="52" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 行业因子哑变量 (0/1)</text>
+    <text x="15" y="72" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 规模 Size (Log Market Cap)</text>
+    <text x="15" y="92" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 动量 Momentum (12-1M)</text>
+    <text x="15" y="112" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 波动率 Volatility / 价值</text>
+    <text x="15" y="130" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F">N只股票 × K个风险因子</text>
+  </g>
+
+  <!-- Multiplication Symbol -->
+  <text x="270" y="125" font-family="Inter, sans-serif" font-size="20" font-weight="bold" fill="#7D786F" text-anchor="middle">×</text>
+
+  <!-- Middle: Factor Covariance Matrix F (K x K) -->
+  <g transform="translate(300, 50)">
+    <rect x="0" y="0" width="170" height="140" rx="4" fill="#FAF8F5" stroke="#C08535" stroke-width="1.5"/>
+    <text x="85" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#C08535" text-anchor="middle">因子协方差 F (K × K)</text>
+    <line x1="10" y1="32" x2="160" y2="32" stroke="#E5DFD5"/>
+    <text x="15" y="55" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 因子时序收益协方差</text>
+    <text x="15" y="75" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 指数半衰期加权 (Half-life)</text>
+    <text x="15" y="95" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• Newey-West 滞后自相关调整</text>
+    <text x="15" y="125" font-family="JetBrains Mono, monospace" font-size="9" fill="#C08535">正定矩阵保证</text>
+  </g>
+
+  <!-- Plus Symbol -->
+  <text x="500" y="125" font-family="Inter, sans-serif" font-size="20" font-weight="bold" fill="#7D786F" text-anchor="middle">+</text>
+
+  <!-- Right: Specific Risk Matrix Delta (N x N Diagonal) -->
+  <g transform="translate(530, 50)">
+    <rect x="0" y="0" width="170" height="140" rx="4" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="85" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">特异风险 Δ (对角阵)</text>
+    <line x1="10" y1="32" x2="160" y2="32" stroke="#E5DFD5"/>
+    <text x="15" y="55" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 单股不可解释特异方差</text>
+    <text x="15" y="75" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 假定股票间残差不相关</text>
+    <text x="15" y="95" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 维数灾难缩减: O(N^2) ➔ O(K^2)</text>
+    <text x="15" y="125" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">Diag(σ_ε1^2, ..., σ_εN^2)</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">总协方差矩阵分解公式: Σ = X F X^T + Δ，彻底化解 5000 维资产全协方差估计的病态奇异性</text>
+</svg>

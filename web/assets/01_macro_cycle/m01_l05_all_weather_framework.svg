@@ -1,0 +1,24 @@
+<svg viewBox="0 0 780 240" width="100%" height="240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="240" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="390" y="28" font-family="Newsreader, serif" font-size="15" font-weight="bold" fill="#1F1E1B" text-anchor="middle">桥水全天候 (All Weather) 风险正交平价配置矩阵</text>
+  
+  <rect x="60" y="45" width="310" height="85" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+  <text x="80" y="70" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#5F7355">增长超预期 (Growth ↑) 25% 风险</text>
+  <text x="80" y="92" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 股票权益 (Equities)</text>
+  <text x="80" y="110" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 大宗商品 (Commodities) / 企业信用债</text>
+
+  <rect x="410" y="45" width="310" height="85" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="430" y="70" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#CC5A36">通胀超预期 (Inflation ↑) 25% 风险</text>
+  <text x="430" y="92" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 通胀保值国债 (TIPS)</text>
+  <text x="430" y="110" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 原油 / 黄金 / 工业品</text>
+
+  <rect x="60" y="140" width="310" height="85" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <text x="80" y="165" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#486A7D">增长低于预期 (Growth ↓) 25% 风险</text>
+  <text x="80" y="187" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 名义长期国债 (Nominal Treasury)</text>
+  <text x="80" y="205" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 现金等价物 (Cash Equivalents)</text>
+
+  <rect x="410" y="140" width="310" height="85" rx="6" fill="#FFFFFF" stroke="#7D786F" stroke-width="1.5"/>
+  <text x="430" y="165" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#1F1E1B">通胀低于预期 (Inflation ↓) 25% 风险</text>
+  <text x="430" y="187" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 股票权益 (估值折现降低利好)</text>
+  <text x="430" y="205" font-family="Inter, sans-serif" font-size="11" fill="#1F1E1B">• 投资级长期国债</text>
+</svg>

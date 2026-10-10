@@ -1,0 +1,32 @@
+<svg viewBox="0 0 780 240" width="100%" height="240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="240" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  <rect x="25" y="45" width="200" height="85" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="2"/>
+  <text x="125" y="75" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="600" fill="#1F1E1B" text-anchor="middle">美联储总资产 (Fed Assets)</text>
+  <text x="125" y="98" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D" text-anchor="middle">国债/MBS持有量 [+]</text>
+  <text x="125" y="116" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">扩表注入 / 缩表回收</text>
+
+  <text x="250" y="92" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#7D786F" text-anchor="middle">-</text>
+
+  <rect x="275" y="45" width="220" height="85" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="385" y="75" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="600" fill="#1F1E1B" text-anchor="middle">法定流动性抽水项</text>
+  <text x="385" y="98" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36" text-anchor="middle">TGA 账户 + ON RRP [-]</text>
+  <text x="385" y="116" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">财政国库留存与非银闲置资金</text>
+
+  <text x="520" y="92" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#7D786F" text-anchor="middle">=</text>
+
+  <rect x="545" y="45" width="210" height="85" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="2"/>
+  <text x="650" y="75" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="600" fill="#1F1E1B" text-anchor="middle">美联储实际净流动性</text>
+  <text x="650" y="98" font-family="JetBrains Mono, monospace" font-size="11" fill="#5F7355" text-anchor="middle">Net Liquidity (准备金池)</text>
+  <text x="650" y="116" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">驱动一级交易商杠杆与风险偏好</text>
+
+  <path d="M 650 135 L 650 170" stroke="#5F7355" stroke-width="2" marker-end="url(#arrow-green)" fill="none"/>
+  <rect x="535" y="175" width="230" height="48" rx="5" fill="#EFECE6" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="650" y="195" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1E1B" text-anchor="middle">标普500 / 纳斯达克 估值乘数传导</text>
+  <text x="650" y="212" font-family="JetBrains Mono, monospace" font-size="10" fill="#4D4B46" text-anchor="middle">Δ P/E ∝ Δ Net Liquidity (t-4周)</text>
+
+  <defs>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#5F7355"/>
+    </marker>
+  </defs>
+</svg>

@@ -15,8 +15,9 @@ def py_to_notebook(py_path: str, ipynb_path: str):
 
     cells = []
     # 拆分顶层 docstring (理论精讲) 与 Python 代码
-    if content.strip().startswith('"""'):
-        parts = content.strip().split('"""', 2)
+    stripped = content.strip()
+    if stripped.startswith('r"""') or stripped.startswith('"""'):
+        parts = stripped.split('"""', 2)
         if len(parts) >= 3:
             docstring = parts[1].strip()
             code_body = parts[2].strip()

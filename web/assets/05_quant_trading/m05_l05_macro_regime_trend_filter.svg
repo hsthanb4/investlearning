@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.5.3：宏观市场体制过滤器与动量策略动态波动率自适应杠杆控制</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">VOL TARGETING</text>
+
+  <!-- Left: Regime Switch Flowchart -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="300" height="145" rx="6" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="150" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">市场宏观体制与波动率状态机</text>
+
+    <!-- State 1: Low Vol Bull -->
+    <rect x="20" y="35" width="260" height="28" rx="4" fill="rgba(95, 115, 85, 0.15)" stroke="#5F7355"/>
+    <text x="30" y="52" font-family="Inter, sans-serif" font-size="9.5" fill="#1F1E1B">低波上行区 (VIX &lt; 20 且 P &gt; MA200):</text>
+    <text x="270" y="52" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="#5F7355" text-anchor="end">Leverage = 1.0 (全速)</text>
+
+    <!-- State 2: High Vol Choppy -->
+    <rect x="20" y="70" width="260" height="28" rx="4" fill="rgba(192, 133, 53, 0.15)" stroke="#C08535"/>
+    <text x="30" y="87" font-family="Inter, sans-serif" font-size="9.5" fill="#1F1E1B">高波震荡区 (20 &le; VIX &le; 30):</text>
+    <text x="270" y="87" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="#C08535" text-anchor="end">Leverage = 0.5 (半仓)</text>
+
+    <!-- State 3: Panic Regime -->
+    <rect x="20" y="105" width="260" height="28" rx="4" fill="rgba(204, 90, 54, 0.15)" stroke="#CC5A36"/>
+    <text x="30" y="122" font-family="Inter, sans-serif" font-size="9.5" fill="#1F1E1B">恐慌危机区 (VIX &gt; 30 或 崩盘后反弹):</text>
+    <text x="270" y="122" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="#CC5A36" text-anchor="end">Leverage = 0.0 (空仓防崩)</text>
+  </g>
+
+  <!-- Right: Volatility Targeting Formula -->
+  <g transform="translate(400, 50)">
+    <rect x="0" y="0" width="300" height="145" rx="6" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="150" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">目标波动率缩放 (Volatility Targeting)</text>
+
+    <text x="150" y="55" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">
+      w_t = \min\left(1.5, rac{\sigma_{	ext{target}}}{\hat{\sigma}_t}ight)
+    </text>
+
+    <text x="15" y="85" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F">• 波动率上升时系统自动降低名义仓位敞口</text>
+    <text x="15" y="105" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F">• 波动率平稳时放大仓位保持恒定风险预算</text>
+    <text x="15" y="125" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#5F7355">• 彻底消除动量因子的肥尾下行巨震</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">优秀的量化动量基金并非拥有更好的选股公式，而是拥有顶级的自适应波动率与崩盘避险断路器</text>
+</svg>

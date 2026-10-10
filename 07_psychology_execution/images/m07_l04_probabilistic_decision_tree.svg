@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="26" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">系统化概率入场与数学期望决策树</text>
+
+  <!-- Root: Trade Opportunity -->
+  <rect x="30" y="90" width="140" height="55" rx="6" fill="#FAF8F5" stroke="#486A7D" stroke-width="2"/>
+  <text x="100" y="114" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">候选交易信号</text>
+  <text x="100" y="132" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D" text-anchor="middle">评估胜率 p &amp; 盈亏比 b</text>
+
+  <!-- Branch 1: Expectancy Check -->
+  <line x1="170" y1="117" x2="250" y2="117" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="255,117 247,113 247,121" fill="#1F1E1B"/>
+  
+  <rect x="255" y="85" width="180" height="65" rx="6" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.5"/>
+  <text x="345" y="108" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1E1B" text-anchor="middle">期望效用公式校验</text>
+  <text x="345" y="126" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36" text-anchor="middle">E = p·b - (1 - p)</text>
+  <text x="345" y="142" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">门槛值: E ≥ 0.20</text>
+
+  <!-- Decision Fork -->
+  <!-- Top: Pass -> Execute -->
+  <path d="M 435 105 L 510 65" fill="none" stroke="#5F7355" stroke-width="2"/>
+  <polygon points="515,62 505,63 510,70" fill="#5F7355"/>
+  <rect x="520" y="35" width="190" height="60" rx="5" fill="#FAF8F5" stroke="#5F7355" stroke-width="2"/>
+  <text x="615" y="58" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">✔ 批准入场 (Execute)</text>
+  <text x="615" y="78" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="middle">正数学期望 / 机械挂硬止损</text>
+
+  <!-- Bottom: Reject -> Pass -->
+  <path d="M 435 130 L 510 170" fill="none" stroke="#CC5A36" stroke-width="2"/>
+  <polygon points="515,173 510,165 505,172" fill="#CC5A36"/>
+  <rect x="520" y="145" width="190" height="60" rx="5" fill="#FAF8F5" stroke="#CC5A36" stroke-width="2"/>
+  <text x="615" y="168" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">✖ 否决放弃 (Reject)</text>
+  <text x="615" y="188" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="middle">负期望或赔率不足 / 零容忍</text>
+
+  <!-- Bottom Banner -->
+  <text x="380" y="240" font-family="Newsreader, Georgia, serif" font-size="12" font-style="italic" fill="#7D786F" text-anchor="middle">“放弃单次预测执念，每一次交易只是大数定律下的离散抽样”</text>
+</svg>

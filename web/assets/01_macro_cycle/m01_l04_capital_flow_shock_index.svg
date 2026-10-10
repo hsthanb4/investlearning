@@ -1,0 +1,29 @@
+<svg viewBox="0 0 780 220" width="100%" height="220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="220" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="38" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">资本流动冲击指数 (CFSI) 三档状态量化监控</text>
+
+  <!-- Zone 1 Normal -->
+  <rect x="40" y="60" width="220" height="130" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="2"/>
+  <rect x="40" y="60" width="220" height="28" fill="#5F7355" rx="6 6 0 0"/>
+  <text x="150" y="79" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">CFSI ≤ 1.0 : 常态顺差</text>
+  <text x="55" y="110" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 跨境资金处于温和流入/双向平衡</text>
+  <text x="55" y="130" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 北向资金保持平稳净申购</text>
+  <text x="55" y="150" font-family="Inter, sans-serif" font-size="10" fill="#5F7355" font-weight="600">• 策略行动：核心白马正常超配</text>
+
+  <!-- Zone 2 Warning -->
+  <rect x="280" y="60" width="220" height="130" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="2"/>
+  <rect x="280" y="60" width="220" height="28" fill="#486A7D" rx="6 6 0 0"/>
+  <text x="390" y="79" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1.0 &lt; CFSI ≤ 2.0 : 预警状态</text>
+  <text x="295" y="110" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 美元指数飙升或离岸贬值加速</text>
+  <text x="295" y="130" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 外资风险偏好收缩，出现流出苗头</text>
+  <text x="295" y="150" font-family="Inter, sans-serif" font-size="10" fill="#486A7D" font-weight="600">• 策略行动：暂停加仓，收窄外资重仓股</text>
+
+  <!-- Zone 3 Extreme Shock -->
+  <rect x="520" y="60" width="220" height="130" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <rect x="520" y="60" width="220" height="28" fill="#CC5A36" rx="6 6 0 0"/>
+  <text x="630" y="79" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">CFSI &gt; 2.0 : 极度冲击</text>
+  <text x="535" y="110" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 汇率快速破位，北向单日流出超百亿</text>
+  <text x="535" y="130" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 估值折现杀跌引发两融被动平仓</text>
+  <text x="535" y="150" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36" font-weight="600">• 策略行动：启动外汇断路器对冲防御</text>
+</svg>

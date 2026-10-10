@@ -1,0 +1,32 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 4.4.2：怀尔德 RSI 动量振荡器、顶背离结构与超买超卖界限</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">WILDER RSI(14)</text>
+
+  <g transform="translate(60, 45)">
+    <text x="0" y="10" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1F1E1B">价格时序 P_t (创新高 HH)</text>
+    <polyline points="20,50 120,40 180,60 280,30 350,55 450,15 520,45 600,75" fill="none" stroke="#1F1E1B" stroke-width="2"/>
+    <circle cx="280" cy="30" r="4" fill="#1F1E1B"/>
+    <circle cx="450" cy="15" r="4" fill="#CC5A36"/>
+    <line x1="280" y1="30" x2="450" y2="15" stroke="#CC5A36" stroke-width="2"/>
+    <text x="365" y="16" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36">价格不断创出更高高点</text>
+  </g>
+
+  <line x1="60" y1="130" x2="700" y2="130" stroke="#E5DFD5" stroke-width="1"/>
+
+  <g transform="translate(60, 140)">
+    <line x1="0" y1="20" x2="640" y2="20" stroke="#CC5A36" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="645" y="24" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36">70 (超买)</text>
+    
+    <line x1="0" y1="65" x2="640" y2="65" stroke="#5F7355" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="645" y="69" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">30 (超卖)</text>
+
+    <polyline points="20,45 120,35 180,55 280,15 350,45 450,30 520,50 600,70" fill="none" stroke="#486A7D" stroke-width="2"/>
+    <circle cx="280" cy="15" r="4" fill="#CC5A36"/>
+    <circle cx="450" cy="30" r="4" fill="#CC5A36"/>
+    <line x1="280" y1="15" x2="450" y2="30" stroke="#CC5A36" stroke-width="2"/>
+    <text x="365" y="38" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36">RSI 顶背离 (动量衰减 Lower High)</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">单边强趋势中超买指标会长期钝化，唯有“价格创新高而动量无法创新高”的背离才具备胜率优势</text>
+</svg>

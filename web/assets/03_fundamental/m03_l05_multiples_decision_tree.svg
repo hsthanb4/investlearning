@@ -1,0 +1,48 @@
+<svg viewBox="0 0 780 240" width="100%" height="240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="240" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">相对估值乘数家族 (PE / PB / PS / EV-EBITDA / PEG) 行业适用性决策树</text>
+
+  <!-- 5 Cards -->
+  <g transform="translate(40, 50)">
+    <!-- PE -->
+    <rect x="0" y="0" width="130" height="160" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="65" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#486A7D" text-anchor="middle">P/E 市盈率</text>
+    <text x="15" y="50" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 适用：消费/蓝筹</text>
+    <text x="15" y="70" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 盈利平稳持续</text>
+    <text x="15" y="90" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 资本结构相似</text>
+    <text x="15" y="125" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36">⚠️ 禁忌：周期股顶峰</text>
+
+    <!-- PB -->
+    <rect x="145" y="0" width="130" height="160" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="210" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#486A7D" text-anchor="middle">P/B 市净率</text>
+    <text x="160" y="50" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 适用：银行/重工业</text>
+    <text x="160" y="70" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• PB-ROE 联动框架</text>
+    <text x="160" y="90" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 强周期品破净</text>
+    <text x="160" y="125" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36">⚠️ 禁忌：轻资产SaaS</text>
+
+    <!-- PS -->
+    <rect x="290" y="0" width="130" height="160" rx="5" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="355" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#5F7355" text-anchor="middle">P/S 市销率</text>
+    <text x="305" y="50" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 适用：SaaS/创新药</text>
+    <text x="305" y="70" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 高增长未盈利</text>
+    <text x="305" y="90" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 抢占市场份额期</text>
+    <text x="305" y="125" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36">⚠️ 禁忌：毛利过薄行业</text>
+
+    <!-- EV/EBITDA -->
+    <rect x="435" y="0" width="130" height="160" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="500" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#486A7D" text-anchor="middle">EV/EBITDA</text>
+    <text x="450" y="50" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 适用：跨国并购/基建</text>
+    <text x="450" y="70" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 剔除折旧与利息</text>
+    <text x="450" y="90" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 资本结构中性</text>
+    <text x="450" y="125" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">高杠杆重资产利器</text>
+
+    <!-- PEG -->
+    <rect x="580" y="0" width="120" height="160" rx="5" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="640" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#5F7355" text-anchor="middle">PEG</text>
+    <text x="595" y="50" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• GARP 策略</text>
+    <text x="595" y="70" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• PEG &lt; 1.0 低估</text>
+    <text x="595" y="90" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• PEG &gt; 2.0 透支</text>
+    <text x="595" y="125" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">彼得林奇经典准则</text>
+  </g>
+</svg>

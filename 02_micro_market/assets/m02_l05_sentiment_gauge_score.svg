@@ -1,0 +1,35 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">多维资金情绪综合打分仪 (0 ~ 100 分) 阈值决策区间</text>
+
+  <!-- Gauge Gradient Bar -->
+  <rect x="60" y="60" width="660" height="24" rx="12" fill="#EFECE6"/>
+  <rect x="60" y="60" width="220" height="24" rx="12 0 0 12" fill="#CC5A36"/>
+  <rect x="280" y="60" width="220" height="24" fill="#486A7D"/>
+  <rect x="500" y="60" width="220" height="24" rx="0 12 12 0" fill="#5F7355"/>
+
+  <!-- Markers -->
+  <text x="60" y="105" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36">0 分</text>
+  <text x="280" y="105" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D" text-anchor="middle">45 分 (风险线)</text>
+  <text x="500" y="105" font-family="JetBrains Mono, monospace" font-size="11" fill="#5F7355" text-anchor="middle">75 分 (主升线)</text>
+  <text x="720" y="105" font-family="JetBrains Mono, monospace" font-size="11" fill="#5F7355" text-anchor="end">100 分</text>
+
+  <!-- Card 1 -->
+  <rect x="60" y="125" width="200" height="80" rx="5" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1"/>
+  <text x="160" y="148" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36" text-anchor="middle">Score &lt; 45 分: 高危派发</text>
+  <text x="75" y="170" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 两融退潮 / 外资撤离</text>
+  <text x="75" y="188" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 散户接盘，坚决清仓规避</text>
+
+  <!-- Card 2 -->
+  <rect x="290" y="125" width="200" height="80" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1"/>
+  <text x="390" y="148" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#486A7D" text-anchor="middle">45 ~ 75 分: 震荡博弈</text>
+  <text x="305" y="170" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 资金多空拉锯 / 轮动较快</text>
+  <text x="305" y="188" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 控制杠杆，等待明确共振</text>
+
+  <!-- Card 3 -->
+  <rect x="520" y="125" width="200" height="80" rx="5" fill="#FFFFFF" stroke="#5F7355" stroke-width="1"/>
+  <text x="620" y="148" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#5F7355" text-anchor="middle">Score &gt; 75 分: 强力多头</text>
+  <text x="535" y="170" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 机构加仓 + 融资积极买入</text>
+  <text x="535" y="188" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">• 筹码高度集中，顺势做多</text>
+</svg>

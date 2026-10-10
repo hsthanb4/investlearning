@@ -1,0 +1,19 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">A 股一字跌停盘口流动性完全锁死（Liquidity Freeze）物理黑洞</text>
+
+  <!-- Left: Bids = 0 -->
+  <rect x="50" y="55" width="280" height="140" rx="6" fill="#FAF0ED" stroke="#CC5A36" stroke-width="2"/>
+  <text x="190" y="85" font-family="Inter, sans-serif" font-size="14" font-weight="bold" fill="#CC5A36" text-anchor="middle">买一队列：买量 = 0 股</text>
+  <text x="190" y="115" font-family="Inter, sans-serif" font-size="11" fill="#4D4B46" text-anchor="middle">流动性完全蒸发</text>
+  <text x="190" y="140" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">即使以跌停价折价甩卖，亦无撮合对手盘</text>
+  <text x="190" y="165" font-family="JetBrains Mono, monospace" font-size="10" font-weight="bold" fill="#CC5A36" text-anchor="middle">日内流动性选择权 = 0</text>
+
+  <!-- Right: Asks piled up -->
+  <rect x="390" y="55" width="340" height="140" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="560" y="85" font-family="Inter, sans-serif" font-size="14" font-weight="bold" fill="#1F1E1B" text-anchor="middle">卖一封单：巨额压单 (如 800,000 手)</text>
+  <text x="420" y="115" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 场内恐慌踩踏，所有持有者挂单抢跑</text>
+  <text x="420" y="135" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 交易所撮合队列遵循 FIFO，散户排在队尾绝无可能成交</text>
+  <text x="420" y="155" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 真实公允价值已在 -30%，现货遭遇关门打狗连环跌停</text>
+</svg>

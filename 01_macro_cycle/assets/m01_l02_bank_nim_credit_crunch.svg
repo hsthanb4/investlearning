@@ -1,0 +1,27 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <rect x="40" y="35" width="200" height="75" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="140" y="62" font-family="Newsreader, serif" font-size="13" font-weight="600" fill="#1F1E1B" text-anchor="middle">长短端倒挂 10Y-2Y &lt; 0</text>
+  <text x="140" y="82" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36" text-anchor="middle">短端借贷成本 &gt; 长期资产收益</text>
+  <text x="140" y="98" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">NIM (净息差) 遭受严重挤压</text>
+
+  <line x1="245" y1="72" x2="285" y2="72" stroke="#7D786F" stroke-width="1.5" marker-end="url(#arrow-generic)"/>
+
+  <rect x="290" y="35" width="200" height="75" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="390" y="62" font-family="Newsreader, serif" font-size="13" font-weight="600" fill="#1F1E1B" text-anchor="middle">商业银行信贷供给骤缩</text>
+  <text x="390" y="82" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46" text-anchor="middle">SLOOS 贷款审查标准大幅收紧</text>
+  <text x="390" y="98" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">中小企业信用授信额度冻结</text>
+
+  <line x1="495" y1="72" x2="535" y2="72" stroke="#7D786F" stroke-width="1.5" marker-end="url(#arrow-generic)"/>
+
+  <rect x="540" y="35" width="200" height="75" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="1.5"/>
+  <text x="640" y="62" font-family="Newsreader, serif" font-size="13" font-weight="600" fill="#1F1E1B" text-anchor="middle">实体违约与盈利衰退</text>
+  <text x="640" y="82" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36" text-anchor="middle">企业现金流断裂 / 裁员潮</text>
+  <text x="640" y="98" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">EPS 断崖式下修 ➔ 股市戴维斯双杀</text>
+
+  <!-- Bottom Un-inversion Alert -->
+  <rect x="40" y="145" width="700" height="60" rx="6" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1"/>
+  <text x="60" y="170" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36">⚠️ 关键转折陷阱：牛市陡峭化（Bull Steepening）踩踏</text>
+  <text x="60" y="190" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46">利差从负转正并非买入信号，而是央行因实体经济暴雷被迫紧急降息确诊衰退，股市真正的大底往往在此刻后 6~12 个月方才到来。</text>
+</svg>

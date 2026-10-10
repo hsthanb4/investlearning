@@ -1,0 +1,21 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">蒙特卡洛 10,000 次模拟内在价值概率密度分布与安全边际置信带</text>
+
+  <!-- Bell Curve -->
+  <path d="M 80 180 Q 250 180 340 90 T 400 45 T 460 90 Q 550 180 720 180" fill="none" stroke="#486A7D" stroke-width="2.5"/>
+
+  <!-- Shaded 90% confidence -->
+  <line x1="260" y1="50" x2="260" y2="180" stroke="#CC5A36" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="260" y="195" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36" text-anchor="middle">5%分位数: 39.5元</text>
+
+  <line x1="400" y1="45" x2="400" y2="180" stroke="#5F7355" stroke-width="2"/>
+  <text x="400" y="195" font-family="JetBrains Mono, monospace" font-size="10" font-weight="bold" fill="#5F7355" text-anchor="middle">50%中位数: 53.8元</text>
+
+  <line x1="540" y1="50" x2="540" y2="180" stroke="#486A7D" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="540" y="195" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D" text-anchor="middle">95%分位数: 69.2元</text>
+
+  <rect x="80" y="60" width="160" height="40" rx="4" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1"/>
+  <text x="160" y="84" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36" text-anchor="middle">买入安全边际 P &lt; 39.5元</text>
+</svg>

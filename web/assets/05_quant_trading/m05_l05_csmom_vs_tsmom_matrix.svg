@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.5.1：截面动量 (CSMOM) 与时间序列动量 (TSMOM) 机制拓扑对比</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">MOMENTUM DUALITY</text>
+
+  <!-- Left: Cross-Sectional Momentum (Relative) -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#486A7D" text-anchor="middle">截面动量 CSMOM (相对强弱)</text>
+
+    <!-- Comparison across assets at fixed t -->
+    <rect x="25" y="45" width="230" height="25" rx="3" fill="#5F7355"/>
+    <text x="140" y="62" font-family="JetBrains Mono, monospace" font-size="10" fill="#FFFFFF" text-anchor="middle">做多: 表现最优前 20% (相对赢家)</text>
+
+    <rect x="25" y="75" width="230" height="25" rx="3" fill="#FAF8F5" stroke="#7D786F"/>
+    <text x="140" y="92" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="middle">中间 60%: 不开仓 / 现金观望</text>
+
+    <rect x="25" y="105" width="230" height="25" rx="3" fill="#CC5A36"/>
+    <text x="140" y="122" font-family="JetBrains Mono, monospace" font-size="10" fill="#FFFFFF" text-anchor="middle">做空: 表现最差后 20% (相对输家)</text>
+
+    <text x="140" y="142" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B" text-anchor="middle">严格零净头寸 (Dollar Neutral)</text>
+  </g>
+
+  <!-- Right: Time-Series Momentum (Absolute Trend) -->
+  <g transform="translate(420, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">时间序列动量 TSMOM (绝对趋势)</text>
+
+    <!-- Trend filter rule -->
+    <rect x="25" y="45" width="230" height="35" rx="3" fill="#FAF8F5" stroke="#5F7355"/>
+    <text x="140" y="62" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">P_t &gt; P_{t-12M} (自身绝对上涨)</text>
+    <text x="140" y="76" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#5F7355" text-anchor="middle">➜ 100% 多头满仓</text>
+
+    <rect x="25" y="85" width="230" height="35" rx="3" fill="#FAF8F5" stroke="#CC5A36"/>
+    <text x="140" y="102" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36" text-anchor="middle">P_t &lt; P_{t-12M} (自身绝对下跌)</text>
+    <text x="140" y="116" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#CC5A36" text-anchor="middle">➜ 做空或清仓避险至现金</text>
+
+    <text x="140" y="142" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B" text-anchor="middle">头寸方向仅由资产自身历史时序决定</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">CSMOM 赚取截面异质选股溢价，TSMOM 赚取全市场长波趋势红利与危机 Alpha</text>
+</svg>

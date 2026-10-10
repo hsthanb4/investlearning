@@ -1,0 +1,29 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <rect x="40" y="40" width="210" height="150" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="2"/>
+  <text x="145" y="68" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#486A7D" text-anchor="middle">美联储收水 / 强势美元</text>
+  <text x="145" y="92" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">1. 美债收益率高企 (4.5%+)</text>
+  <text x="145" y="112" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">2. 美元指数 DXY 走强</text>
+  <text x="145" y="132" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">3. 跨国套息 Carry 交易逆转</text>
+  <rect x="55" y="150" width="180" height="26" rx="4" fill="#EFECE6"/>
+  <text x="145" y="167" font-family="JetBrains Mono, monospace" font-size="9" fill="#4D4B46" text-anchor="middle">全球资本回流美国无风险资产</text>
+
+  <!-- Flow Arrow -->
+  <path d="M 260 115 L 340 115" stroke="#CC5A36" stroke-width="3" marker-end="url(#arrow-red)" fill="none"/>
+  <text x="300" y="105" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36" text-anchor="middle">跨境虹吸</text>
+
+  <rect x="350" y="40" width="390" height="150" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="545" y="68" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#CC5A36" text-anchor="middle">新兴市场与 A 股传导链条</text>
+  
+  <text x="375" y="95" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 中美利差倒挂加深: US 10Y - CN 10Y &gt; 150 bps</text>
+  <text x="375" y="118" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 离岸人民币汇率承压: USD/CNH 向上突破贬值关键关口</text>
+  <text x="375" y="141" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 北向资金 (陆股通) 触发外币计价 VaR 止损阈值并系统性净流出</text>
+  <text x="375" y="164" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36">• 茅台/宁德等白马核心资产面临跨期折现估值压缩</text>
+
+  <defs>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#CC5A36"/>
+    </marker>
+  </defs>
+</svg>

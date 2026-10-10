@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 4.1.2：市场结构推进状态机：BOS 顺势延续与 CHoCH 趋势反转先兆</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">SMC STATE MACHINE</text>
+
+  <!-- Trend Polyline -->
+  <polyline points="50,180 120,100 170,140 250,70 310,120 390,50 470,150 530,120 610,210 680,180" 
+            fill="none" stroke="#486A7D" stroke-width="2.5" stroke-linejoin="round"/>
+  
+  <!-- Bullish BOS 1 -->
+  <line x1="120" y1="100" x2="260" y2="100" stroke="#5F7355" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="120" cy="100" r="4" fill="#5F7355"/>
+  <text x="120" y="90" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">HH1</text>
+  <rect x="180" y="88" width="65" height="18" rx="3" fill="#FAF8F5" stroke="#5F7355"/>
+  <text x="212" y="101" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355" text-anchor="middle">BOS [+]</text>
+
+  <!-- Bullish BOS 2 -->
+  <line x1="250" y1="70" x2="400" y2="70" stroke="#5F7355" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="250" cy="70" r="4" fill="#5F7355"/>
+  <text x="250" y="60" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">HH2</text>
+  <rect x="320" y="58" width="65" height="18" rx="3" fill="#FAF8F5" stroke="#5F7355"/>
+  <text x="352" y="71" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355" text-anchor="middle">BOS [+]</text>
+
+  <!-- Peak -->
+  <circle cx="390" cy="50" r="5" fill="#CC5A36"/>
+  <text x="390" y="40" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">Peak HH3</text>
+
+  <!-- Higher Low (Critical HL) -->
+  <circle cx="310" cy="120" r="5" fill="#C08535"/>
+  <text x="310" y="140" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#C08535" text-anchor="middle">关键 HL2 (防线)</text>
+  <line x1="310" y1="120" x2="500" y2="120" stroke="#CC5A36" stroke-width="2" stroke-dasharray="4 3"/>
+
+  <!-- CHoCH Break Point -->
+  <rect x="420" y="110" width="85" height="20" rx="3" fill="#CC5A36"/>
+  <text x="462" y="124" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">CHoCH [Bear]</text>
+  <text x="462" y="145" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">实体跌穿前HL反转</text>
+
+  <!-- Bearish BOS -->
+  <line x1="470" y1="150" x2="620" y2="150" stroke="#CC5A36" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="535" y="140" width="70" height="18" rx="3" fill="#FAF8F5" stroke="#CC5A36"/>
+  <text x="570" y="153" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36" text-anchor="middle">BOS [-]</text>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">BOS 确认同向趋势延续，CHoCH 标志结构破位，必须等待回调确认而非盲目反手</text>
+</svg>

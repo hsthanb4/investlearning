@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.1.2：截面 Rank IC 时序分布与 IR (信息比率) 稳定性检验</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">RANK IC &amp; IR STATS</text>
+
+  <!-- Left: Time Series Bar Chart -->
+  <g transform="translate(60, 50)">
+    <line x1="0" y1="80" x2="380" y2="80" stroke="#1F1E1B" stroke-width="1.5"/>
+    <text x="-10" y="84" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B" text-anchor="end">0.0</text>
+    <text x="-10" y="30" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="end">+0.10</text>
+    <text x="-10" y="130" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36" text-anchor="end">-0.10</text>
+
+    <!-- Monthly IC Bars -->
+    <!-- Positive bars -->
+    <rect x="15" y="45" width="12" height="35" fill="#5F7355"/>
+    <rect x="35" y="35" width="12" height="45" fill="#5F7355"/>
+    <rect x="55" y="50" width="12" height="30" fill="#5F7355"/>
+    <rect x="75" y="25" width="12" height="55" fill="#5F7355"/>
+    <!-- Negative bar -->
+    <rect x="95" y="80" width="12" height="20" fill="#CC5A36"/>
+    <rect x="115" y="40" width="12" height="40" fill="#5F7355"/>
+    <rect x="135" y="30" width="12" height="50" fill="#5F7355"/>
+    <rect x="155" y="55" width="12" height="25" fill="#5F7355"/>
+    <rect x="175" y="80" width="12" height="15" fill="#CC5A36"/>
+    <rect x="195" y="38" width="12" height="42" fill="#5F7355"/>
+    <rect x="215" y="48" width="12" height="32" fill="#5F7355"/>
+    <rect x="235" y="28" width="12" height="52" fill="#5F7355"/>
+    <rect x="255" y="35" width="12" height="45" fill="#5F7355"/>
+    <rect x="275" y="80" width="12" height="25" fill="#CC5A36"/>
+    <rect x="295" y="42" width="12" height="38" fill="#5F7355"/>
+    <rect x="315" y="30" width="12" height="50" fill="#5F7355"/>
+    <rect x="335" y="45" width="12" height="35" fill="#5F7355"/>
+    <rect x="355" y="50" width="12" height="30" fill="#5F7355"/>
+
+    <!-- Mean IC Line -->
+    <line x1="0" y1="48" x2="380" y2="48" stroke="#C08535" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="390" y="52" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#C08535">Mean Rank IC = 0.052</text>
+  </g>
+
+  <!-- Right: Metrics Scoreboard -->
+  <g transform="translate(520, 50)">
+    <rect x="0" y="0" width="200" height="145" rx="6" fill="#FAF8F5" stroke="#E5DFD5"/>
+    <text x="16" y="24" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1F1E1B">投决会核心评价硬指标：</text>
+    
+    <text x="16" y="50" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">IC Mean: <tspan font-weight="700" fill="#5F7355">+0.052 (&gt;0.03及格)</tspan></text>
+    <text x="16" y="72" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">IC Std:  <tspan font-weight="700">0.078</tspan></text>
+    <text x="16" y="94" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">IR (IC/Std): <tspan font-weight="700" fill="#CC5A36">0.67 (&gt;0.5优质)</tspan></text>
+    <text x="16" y="116" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">IC &gt; 0 胜率: <tspan font-weight="700" fill="#5F7355">83.3%</tspan></text>
+    <text x="16" y="136" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">半衰期: 约 18 个交易日</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">Rank IC 采用斯皮尔曼秩相关，完全克服了正态分布假设与非线性单调离群点扭曲</text>
+</svg>

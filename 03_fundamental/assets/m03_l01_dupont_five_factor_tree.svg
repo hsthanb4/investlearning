@@ -1,0 +1,49 @@
+<svg viewBox="0 0 780 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="250" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">现代杜邦五因子 (DuPont 5-Factor) 分解树与驱动力映射</text>
+
+  <!-- Top ROE -->
+  <rect x="290" y="45" width="200" height="40" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="390" y="70" font-family="Newsreader, serif" font-size="15" font-weight="bold" fill="#1F1E1B" text-anchor="middle">ROE 净资产收益率</text>
+
+  <!-- 5 Branch Lines -->
+  <line x1="390" y1="85" x2="390" y2="110" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="100" y1="110" x2="680" y2="110" stroke="#7D786F" stroke-width="1.5"/>
+  
+  <line x1="100" y1="110" x2="100" y2="135" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="245" y1="110" x2="245" y2="135" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="390" y1="110" x2="390" y2="135" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="535" y1="110" x2="535" y2="135" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="680" y1="110" x2="680" y2="135" stroke="#7D786F" stroke-width="1.5"/>
+
+  <!-- Box 1 -->
+  <rect x="40" y="135" width="120" height="85" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <text x="100" y="155" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B" text-anchor="middle">1. 税收负担</text>
+  <text x="100" y="172" font-family="JetBrains Mono, monospace" font-size="9" fill="#486A7D" text-anchor="middle">NI / EBT</text>
+  <text x="100" y="195" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">税收优惠与壁垒</text>
+
+  <!-- Box 2 -->
+  <rect x="185" y="135" width="120" height="85" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <text x="245" y="155" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B" text-anchor="middle">2. 利息负担</text>
+  <text x="245" y="172" font-family="JetBrains Mono, monospace" font-size="9" fill="#486A7D" text-anchor="middle">EBT / EBIT</text>
+  <text x="245" y="195" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">有息债务利息侵蚀</text>
+
+  <!-- Box 3 -->
+  <rect x="330" y="135" width="120" height="85" rx="5" fill="#FFFFFF" stroke="#5F7355" stroke-width="2"/>
+  <text x="390" y="155" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#5F7355" text-anchor="middle">3. 营业利润率</text>
+  <text x="390" y="172" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355" text-anchor="middle">EBIT / Rev</text>
+  <text x="390" y="195" font-family="Inter, sans-serif" font-size="9" font-weight="bold" fill="#5F7355" text-anchor="middle">核心护城河定价权</text>
+
+  <!-- Box 4 -->
+  <rect x="475" y="135" width="120" height="85" rx="5" fill="#FFFFFF" stroke="#5F7355" stroke-width="2"/>
+  <text x="535" y="155" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#5F7355" text-anchor="middle">4. 资产周转率</text>
+  <text x="535" y="172" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355" text-anchor="middle">Rev / Assets</text>
+  <text x="535" y="195" font-family="Inter, sans-serif" font-size="9" font-weight="bold" fill="#5F7355" text-anchor="middle">运营与供应链效率</text>
+
+  <!-- Box 5 -->
+  <rect x="620" y="135" width="120" height="85" rx="5" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="680" y="155" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36" text-anchor="middle">5. 权益乘数</text>
+  <text x="680" y="172" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36" text-anchor="middle">Assets / Equity</text>
+  <text x="680" y="195" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">财务杠杆双刃剑</text>
+</svg>

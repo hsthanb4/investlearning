@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 4.1.1：局部摆动极值点 (Swing High / Swing Low) 双向邻域识别几何结构</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">WINDOW k=2</text>
+  
+  <line x1="50" y1="210" x2="710" y2="210" stroke="#E5DFD5" stroke-width="1"/>
+  <line x1="50" y1="130" x2="710" y2="130" stroke="#E5DFD5" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="50" y1="60" x2="710" y2="60" stroke="#E5DFD5" stroke-width="1" stroke-dasharray="3 3"/>
+  
+  <!-- Swing Low Point (Valley) Left -->
+  <g transform="translate(130, 95)">
+    <line x1="20" y1="15" x2="20" y2="75" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="14" y="25" width="12" height="40" fill="#CC5A36" stroke="#CC5A36"/>
+    <text x="20" y="90" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t-2</text>
+
+    <line x1="60" y1="30" x2="60" y2="90" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="54" y="40" width="12" height="40" fill="#CC5A36" stroke="#CC5A36"/>
+    <text x="60" y="105" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t-1</text>
+
+    <!-- Swing Low Center -->
+    <line x1="100" y1="45" x2="100" y2="110" stroke="#1F1E1B" stroke-width="2"/>
+    <rect x="94" y="55" width="12" height="40" fill="#FAF8F5" stroke="#5F7355" stroke-width="2"/>
+    <circle cx="100" cy="110" r="4" fill="#5F7355"/>
+    <text x="100" y="128" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">Swing Low [t]</text>
+    <text x="100" y="142" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">Low[t] &lt; Low[t±1, t±2]</text>
+
+    <line x1="140" y1="25" x2="140" y2="85" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="134" y="30" width="12" height="40" fill="#5F7355" stroke="#5F7355"/>
+    <text x="140" y="100" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t+1</text>
+
+    <line x1="180" y1="10" x2="180" y2="70" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="174" y="15" width="12" height="40" fill="#5F7355" stroke="#5F7355"/>
+    <text x="180" y="85" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t+2</text>
+  </g>
+
+  <!-- Swing High Point (Peak) Right -->
+  <g transform="translate(420, 35)">
+    <line x1="20" y1="60" x2="20" y2="120" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="14" y="70" width="12" height="40" fill="#5F7355" stroke="#5F7355"/>
+    <text x="20" y="135" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t-2</text>
+
+    <line x1="60" y1="45" x2="60" y2="105" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="54" y="55" width="12" height="40" fill="#5F7355" stroke="#5F7355"/>
+    <text x="60" y="120" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t-1</text>
+
+    <!-- Swing High Center -->
+    <line x1="100" y1="20" x2="100" y2="85" stroke="#1F1E1B" stroke-width="2"/>
+    <rect x="94" y="30" width="12" height="40" fill="#FAF8F5" stroke="#CC5A36" stroke-width="2"/>
+    <circle cx="100" cy="20" r="4" fill="#CC5A36"/>
+    <text x="100" y="12" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">Swing High [t]</text>
+    <text x="100" y="105" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">High[t] &gt; High[t±1, t±2]</text>
+
+    <line x1="140" y1="50" x2="140" y2="110" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="134" y="60" width="12" height="40" fill="#CC5A36" stroke="#CC5A36"/>
+    <text x="140" y="125" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t+1</text>
+
+    <line x1="180" y1="65" x2="180" y2="125" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="174" y="75" width="12" height="40" fill="#CC5A36" stroke="#CC5A36"/>
+    <text x="180" y="140" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F" text-anchor="middle">t+2</text>
+  </g>
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">必须在 t+k 柱收盘后方可零前视确认极值，严格杜绝 Lookahead Bias</text>
+</svg>

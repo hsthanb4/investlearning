@@ -1,0 +1,22 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  <!-- Axis -->
+  <line x1="80" y1="180" x2="720" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="400" y1="30" x2="400" y2="180" stroke="#D8D3C8" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="80" y1="30" x2="80" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+  
+  <text x="400" y="198" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="middle">0 bps (利差倒挂分水岭)</text>
+  <text x="140" y="198" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36" text-anchor="middle">-150 bps</text>
+  <text x="660" y="198" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">+150 bps</text>
+  <text x="70" y="35" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">P(Recession)%</text>
+
+  <!-- Logistic S-Curve -->
+  <path d="M 100 45 C 250 50, 350 120, 680 175" fill="none" stroke="#CC5A36" stroke-width="3"/>
+  <circle cx="280" cy="80" r="5" fill="#CC5A36"/>
+  <text x="290" y="75" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36">倒挂 -100 bps: 衰退概率 &gt; 65%</text>
+
+  <rect x="440" y="55" width="260" height="70" rx="5" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="455" y="78" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D">P = 1 / (1 + exp(-(α + β*Spread)))</text>
+  <text x="455" y="98" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46">美联储 Estrella-Mishkin 模型</text>
+  <text x="455" y="114" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">当利差深度倒挂时，远期 12 个月衰退确定性极高</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 4.2.1：看涨机构订单块 (Bullish Order Block) 形成与未成交流动性回踩吸收</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">ORDER BLOCK (OB)</text>
+
+  <g transform="translate(70, 50)">
+    <line x1="40" y1="70" x2="40" y2="150" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="30" y="80" width="20" height="55" fill="#FAF8F5" stroke="#CC5A36" stroke-width="2"/>
+    <text x="40" y="170" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">主升浪前最后阴线</text>
+    
+    <rect x="30" y="80" width="460" height="55" fill="rgba(95, 115, 85, 0.12)" stroke="#5F7355" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="260" y="112" font-family="Newsreader, Georgia, serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">机构未成交买单残留区 (Bullish OB Zone: $94.00 ~ $97.50)</text>
+
+    <line x1="90" y1="40" x2="90" y2="110" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="82" y="45" width="16" height="55" fill="#5F7355"/>
+    
+    <line x1="140" y1="10" x2="140" y2="75" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="132" y="15" width="16" height="50" fill="#5F7355"/>
+    <text x="140" y="0" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#5F7355" text-anchor="middle">暴力拉升 BOS</text>
+
+    <line x1="220" y1="20" x2="220" y2="70" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="214" y="25" width="12" height="35" fill="#CC5A36"/>
+
+    <line x1="260" y1="40" x2="260" y2="90" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="254" y="45" width="12" height="35" fill="#CC5A36"/>
+
+    <line x1="300" y1="65" x2="300" y2="115" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="294" y="70" width="12" height="35" fill="#CC5A36"/>
+
+    <line x1="350" y1="70" x2="350" y2="125" stroke="#5F7355" stroke-width="2"/>
+    <rect x="342" y="75" width="16" height="30" fill="#5F7355"/>
+    <circle cx="350" cy="125" r="4" fill="#5F7355"/>
+    <text x="350" y="145" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#5F7355" text-anchor="middle">精准回踩测试 (Mitigation)</text>
+
+    <line x1="410" y1="35" x2="410" y2="95" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="402" y="40" width="16" height="45" fill="#5F7355"/>
+
+    <line x1="470" y1="0" x2="470" y2="60" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect x="462" y="5" width="16" height="45" fill="#5F7355"/>
+  </g>
+
+  <g transform="translate(580, 60)">
+    <rect x="0" y="0" width="150" height="130" rx="6" fill="#FAF8F5" stroke="#E5DFD5"/>
+    <text x="12" y="22" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1F1E1B">订单块本质法则：</text>
+    <text x="12" y="42" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">1. 必须引发结构BOS</text>
+    <text x="12" y="62" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">2. 伴随失衡缺口FVG</text>
+    <text x="12" y="82" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">3. 回踩为机构补单</text>
+    <text x="12" y="102" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">4. 止损设于阴线最低点</text>
+    <text x="12" y="120" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355">盈亏比 &gt; 1:3</text>
+  </g>
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">订单块是机构吸收对手盘流动性的真实留存凭证，而非普通技术指标的数学平滑</text>
+</svg>

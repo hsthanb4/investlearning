@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.3.3：配对交易标准化 Z-Score 动态通道与硬止损熔断风控架构</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">TRADING BANDS</text>
+
+  <!-- Bands Display Area -->
+  <g transform="translate(60, 45)">
+    <!-- Stop Loss High (+3.0) -->
+    <line x1="20" y1="15" x2="640" y2="15" stroke="#CC5A36" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="645" y="19" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36">+3.0σ (硬止损)</text>
+
+    <!-- Short Entry (+2.0) -->
+    <line x1="20" y1="45" x2="640" y2="45" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="645" y="49" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36">+2.0σ (做空价差)</text>
+
+    <!-- Take Profit (0.0 Mean) -->
+    <line x1="20" y1="85" x2="640" y2="85" stroke="#1F1E1B" stroke-width="1.5"/>
+    <text x="645" y="89" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1F1E1B">0.0 (平仓均值)</text>
+
+    <!-- Long Entry (-2.0) -->
+    <line x1="20" y1="125" x2="640" y2="125" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="645" y="129" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">-2.0σ (做多价差)</text>
+
+    <!-- Stop Loss Low (-3.0) -->
+    <line x1="20" y1="155" x2="640" y2="155" stroke="#CC5A36" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="645" y="159" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36">-3.0σ (硬止损)</text>
+
+    <!-- Z-score trajectory -->
+    <polyline points="40,85 100,55 140,40 180,50 220,85 280,110 320,130 360,115 410,85 470,35 510,12" 
+              fill="none" stroke="#486A7D" stroke-width="2.5"/>
+
+    <!-- Event 1: Normal Profit Trade -->
+    <circle cx="140" cy="40" r="5" fill="#CC5A36"/>
+    <text x="140" y="32" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#CC5A36" text-anchor="middle">卖A买B</text>
+    <circle cx="220" cy="85" r="4" fill="#5F7355"/>
+    <text x="220" y="100" font-family="Inter, sans-serif" font-size="9" fill="#5F7355" text-anchor="middle">止盈出场</text>
+
+    <!-- Event 2: Stop Loss Triggered -->
+    <circle cx="510" cy="12" r="5" fill="#CC5A36"/>
+    <text x="510" y="4" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#CC5A36" text-anchor="middle">突破+3σ 协整断裂止损</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">价差突破 3 倍标准差往往意味着基本面发生了不可逆重组（如并购/破产），坚决止损不可死扛</text>
+</svg>
