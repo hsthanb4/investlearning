@@ -14,8 +14,7 @@ class InvestLearningApp {
     // Persistent state
     this.theme = localStorage.getItem("investlearning_theme") || "dark";
     this.completedLessons = new Set(JSON.parse(localStorage.getItem("investlearning_completed") || '["m01_l01", "m01_l02", "m01_l03", "m02_l01", "m02_l02", "m03_l01", "m03_l02", "m04_l01", "m04_l02", "m05_l01", "m05_l02", "m06_l01", "m06_l02", "m07_l01", "m07_l02", "m08_l01", "m08_l02", "m09_l01", "m09_l02", "m10_l01", "m10_l02"]'));
-    this.checkinStreak = parseInt(localStorage.getItem("investlearning_streak") || "7", 10);
-    this.lastCheckin = localStorage.getItem("investlearning_last_checkin") || "";
+    
 
     // Visualizer instances
     this.vKline = null;
@@ -33,7 +32,6 @@ class InvestLearningApp {
     this.renderCurrentLesson();
     this.initVisualizers();
     this.renderBooks();
-    this.updateGlobalProgress();
     this.bindEvents();
     this.switchMainView('curriculum');
   }
@@ -231,18 +229,13 @@ class InvestLearningApp {
 
       filteredLessons.forEach((lesson, lIdx) => {
         let isCurrent = isCurrentMod && lIdx === this.currentLessonIndex;
-        let isCompleted = this.completedLessons.has(lesson.id);
-        let statusDotClass = isCompleted ? "completed" : (lesson.status === "completed" ? "in_progress" : "not_started");
-        let badgeClass = lesson.difficulty === "入门" ? "badge-easy" : (lesson.difficulty === "进阶" ? "badge-medium" : "badge-hard");
-
         html += `
           <div class="lesson-item ${isCurrent ? 'active' : ''}" onclick="app.selectLesson(${modIdx}, ${lIdx})">
             <div class="lesson-left-meta">
-              <span class="lesson-status-dot ${statusDotClass}"></span>
               <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted)">L${lesson.num}</span>
               <span style="overflow:hidden; text-overflow:ellipsis;" title="${lesson.title}">${lesson.title}</span>
             </div>
-            <span class="lesson-badge ${badgeClass}">${lesson.difficulty}</span>
+            <span class="lesson-badge">${lesson.difficulty}</span>
           </div>
         `;
       });
@@ -282,12 +275,7 @@ class InvestLearningApp {
     // 1. Breadcrumbs & Header
     document.getElementById("lessonBreadcrumbMod").innerText = `${mod.num} ${mod.title}`;
     document.getElementById("lessonBreadcrumbLesson").innerText = `第 ${lesson.num} 课`;
-    document.getElementById("lessonMainTitle").innerHTML = `
-      ${lesson.title}
-      <button class="checkin-btn" onclick="app.toggleLessonCompleted('${lesson.id}')" style="margin-left:auto; font-size:0.75rem;">
-        ${isCompleted ? '✓ 已通过' : '标记完成'}
-      </button>
-    `;
+    document.getElementById("lessonMainTitle").innerText = lesson.title;
 
     document.getElementById("lessonMetaModule").innerText = mod.title;
     document.getElementById("lessonMetaTime").innerText = lesson.time;
@@ -395,49 +383,11 @@ class InvestLearningApp {
   // ==========================================
   // Progress & Daily Check-in Tracking
   // ==========================================
-  toggleLessonCompleted(lessonId) {
-    if (this.completedLessons.has(lessonId)) {
-      this.completedLessons.delete(lessonId);
-      this.showToast("已取消课程完成标记", "info");
-    } else {
-      this.completedLessons.add(lessonId);
-      this.showToast("🎉 恭喜！课程已通过考核！", "success");
-    }
-    localStorage.setItem("investlearning_completed", JSON.stringify([...this.completedLessons]));
-    this.updateGlobalProgress();
-    this.renderSidebar();
-    this.renderCurrentLesson();
-  }
+  
 
-  updateGlobalProgress() {
-    const total = 84;
-    const completed = this.completedLessons.size;
-    const pct = ((completed / total) * 100).toFixed(1);
+  
 
-    const bar = document.getElementById("progressBarFill");
-    const text = document.getElementById("progressText");
-    if (bar) bar.style.width = `${pct}%`;
-    if (text) text.innerText = `${completed}/${total} (${pct}%)`;
-
-    const streakBtn = document.getElementById("checkinStreakBtn");
-    if (streakBtn) {
-      streakBtn.innerHTML = `🔥 ${this.checkinStreak} 天打卡`;
-    }
-  }
-
-  handleDailyCheckin() {
-    const today = new Date().toISOString().split('T')[0];
-    if (this.lastCheckin === today) {
-      this.showToast(`今日已完成打卡！当前连胜 ${this.checkinStreak} 天`, "info");
-      return;
-    }
-    this.checkinStreak += 1;
-    this.lastCheckin = today;
-    localStorage.setItem("investlearning_streak", this.checkinStreak.toString());
-    localStorage.setItem("investlearning_last_checkin", today);
-    this.updateGlobalProgress();
-    this.showToast(`🔥 签到成功！连续打卡达成 ${this.checkinStreak} 天！`, "success");
-  }
+  
 
   showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
@@ -652,8 +602,7 @@ class InvestLearningApp {
         const lesson = mod.lessons[this.currentLessonIndex];
         this.completedLessons.add(lesson.id);
         localStorage.setItem("investlearning_completed", JSON.stringify([...this.completedLessons]));
-        this.updateGlobalProgress();
-        this.renderSidebar();
+            this.renderSidebar();
         this.showToast(`🎯 恭喜！当前课程斩获 ${totalScore.toFixed(1)} 分，顺利通过！`, "success");
       }
     }, 400);
@@ -667,8 +616,7 @@ class InvestLearningApp {
     document.getElementById("themeToggleBtn")?.addEventListener("click", () => this.toggleTheme());
 
     // Daily check-in
-    document.getElementById("checkinStreakBtn")?.addEventListener("click", () => this.handleDailyCheckin());
-
+    
     // Mobile sidebar toggle
     document.getElementById("sidebarToggleBtn")?.addEventListener("click", () => {
       document.getElementById("courseSidebar")?.classList.toggle("mobile-open");
