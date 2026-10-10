@@ -178,6 +178,37 @@ class InvestLearningApp {
   }
 
   // ==========================================
+  // Mermaid Flowchart Renderer
+  // ==========================================
+  renderMermaid(el) {
+    if (!el) return;
+    const mermaidNodes = el.querySelectorAll('.mermaid');
+    if (mermaidNodes.length === 0) return;
+
+    if (typeof mermaid !== 'undefined') {
+      try {
+        const isDark = (document.documentElement && typeof document.documentElement.getAttribute === 'function') ? (document.documentElement.getAttribute('data-theme') === 'dark') : (this.theme === 'dark');
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: isDark ? 'dark' : 'neutral',
+          themeVariables: {
+            fontFamily: 'Inter, sans-serif',
+            primaryColor: isDark ? '#1C2028' : '#FAF8F5',
+            primaryTextColor: isDark ? '#F3F1EC' : '#1F1E1B',
+            primaryBorderColor: '#CC5A36',
+            lineColor: isDark ? '#928C81' : '#7D786F',
+            secondaryColor: isDark ? '#222732' : '#F5F2EB',
+            tertiaryColor: isDark ? '#15181E' : '#FFFFFF'
+          }
+        });
+        mermaid.run({ nodes: Array.from(mermaidNodes) });
+      } catch (err) {
+        console.warn("Mermaid execution warning:", err);
+      }
+    }
+  }
+
+  // ==========================================
   // Theme Management
   // ==========================================
   applyTheme(theme) {
@@ -194,6 +225,16 @@ class InvestLearningApp {
 
   toggleTheme() {
     this.applyTheme(this.theme === "dark" ? "light" : "dark");
+    // Re-render Mermaid diagrams in the new theme
+    const theoryBody = document.getElementById("lessonTheoryBody");
+    if (theoryBody && this.currentView === 'curriculum') {
+      const currentLesson = CURRICULUM_DATA[this.currentModuleIdx]?.lessons[this.currentLessonIdx];
+      if (currentLesson) {
+        theoryBody.innerHTML = currentLesson.theory;
+        this.renderMath(theoryBody);
+        this.renderMermaid(theoryBody);
+      }
+    }
   }
 
   // ==========================================
@@ -353,7 +394,10 @@ class InvestLearningApp {
     }
 
     // 6. Trigger Math Formatting
-    if (theoryBody) this.renderMath(theoryBody);
+    if (theoryBody) {
+      this.renderMath(theoryBody);
+      this.renderMermaid(theoryBody);
+    }
     this.initLessonSimulator();
     if (qaContainer) this.renderMath(qaContainer);
 
