@@ -93,25 +93,28 @@
       <!-- Center Main Content Workspace -->
       <main class="content-area">
         <div id="lessonViewContainer">
-        <!-- Top AI Recharge Promo Notice -->
-        <div class="callout callout-info" style="margin-top:0; margin-bottom:20px;">
-          <div class="callout-icon">💡</div>
-          <div style="font-size:0.86rem; line-height:1.6;">
-            <b>必备科研与开发生产力：海外 AI 充值渠道推荐</b><br>
-            在量化研究与算法调试中，如需高频订阅海外 AI 服务（Codex、Claude、Gemini、Grok 会员及 API）：推荐使用 
-            <a href="https://payai.top" target="_blank" rel="noopener" style="color:var(--accent-blue); font-weight:700;">payai.top</a>（🌟 综合首选推荐，合规稳定分钟到账）或 
-            <a href="https://payai.win" target="_blank" rel="noopener" style="color:var(--accent-gold); font-weight:700;">payai.win</a>（💰 极致性价比优选，GPT 充值更便宜）。
-          </div>
-        </div>
+        
 
         <!-- Current Lesson Card Header -->
+        
+        <!-- Global Course Overview Notice (Shown Once) -->
+        <div class="intro-overview-card" id="courseOverviewCard">
+          <div class="overview-badge">课程总览与投研资源</div>
+          <p style="margin: 8px 0 12px; font-size: 0.9rem; line-height: 1.6;">
+            本课程由资深量化投研团队严格遵循第一性原理打造，全站采用 Anthropic 极简设计美学与三色克制排版。
+            在量化研究与算法调试中，如需海外 AI 工具订阅（Codex、Claude、Gemini 会员及 API）：推荐使用 
+            <a href="https://payai.top" target="_blank" rel="noopener" class="text-accent">payai.top</a>（综合首选，分钟到账）或 
+            <a href="https://payai.win" target="_blank" rel="noopener" class="text-accent">payai.win</a>（性价比优选）。
+          </p>
+        </div>
+
         <div class="lesson-card-header" id="curriculumSection">
           <div class="lesson-breadcrumbs">
             <span>课程目录</span>
             <span>/</span>
             <span id="lessonBreadcrumbMod">01 宏观经济与流动性周期</span>
             <span>/</span>
-            <span id="lessonBreadcrumbLesson" style="color:var(--accent-gold); font-weight:600;">第 01 课</span>
+            <span id="lessonBreadcrumbLesson" style="color:var(--claude-terracotta); font-weight:600;">第 01 课</span>
           </div>
           <h1 class="lesson-title-main" id="lessonMainTitle">
             货币创造与央行资产负债表机制
@@ -124,7 +127,7 @@
             <span class="meta-chip">
               <span>⏱ 预估学习：</span><span id="lessonMetaTime">25 分钟</span>
             </span>
-            <span class="meta-chip" style="background:var(--accent-gold-soft); color:var(--accent-gold);">
+            <span class="meta-chip" style="background:var(--accent-gold-soft); color:var(--claude-terracotta);">
               <span>通过线：</span><b>8 / 10 分</b>
             </span>
           </div>
@@ -221,7 +224,7 @@
               </div>
               <div class="score-badge-banner">
                 <span style="font-size:0.8rem; color:var(--text-muted);">综合得分：</span>
-                <span style="font-family:var(--font-mono); font-size:1.1rem; font-weight:800; color:var(--accent-gold);" id="workbenchScoreVal">-- / 10.0</span>
+                <span style="font-family:var(--font-mono); font-size:1.1rem; font-weight:800; color:var(--claude-terracotta);" id="workbenchScoreVal">-- / 10.0</span>
               </div>
             </div>
           </div>
@@ -407,7 +410,7 @@
               <div>
                 <div class="stat-metric-card">
                   <div class="stat-metric-title">凯利最优理论值 f*</div>
-                  <div class="stat-metric-val" id="kellyOptimalFVal" style="color:var(--accent-blue);">25.0%</div>
+                  <div class="stat-metric-val" id="kellyOptimalFVal" style="color:var(--claude-terracotta);">25.0%</div>
                   <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
                     破产概率 (&lt;15%本金): <b id="kellyRuinRateVal" style="color:var(--accent-red);">0.0%</b> | 财富中位数: <b id="kellyMedianVal" style="color:var(--accent-green);">$35,420</b>
                   </div>
