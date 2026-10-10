@@ -8,7 +8,7 @@ class InvestLearningApp {
   constructor() {
     this.currentModuleIndex = 0;
     this.currentLessonIndex = 0;
-    this.currentTab = "theory"; // 'theory', 'code', 'qa', 'workbench'
+    this.currentTab = "theory"; // 'theory', 'guide', 'code', 'qa'
     this.activeVisualizer = "kline"; // 'kline', 'lob', 'markowitz', 'kelly', 'dcf'
 
     // Persistent state
@@ -127,7 +127,7 @@ class InvestLearningApp {
     const overviewSec = document.getElementById('overviewSection');
     const lessonView = document.getElementById('lessonViewContainer');
     const libSec = document.getElementById('librarySection');
-    const workSec = document.getElementById('workbenchSection');
+    
     const sidebar = document.getElementById('courseSidebar');
 
     // Update nav buttons
@@ -136,8 +136,7 @@ class InvestLearningApp {
       const href = btn.getAttribute('href') || '';
       if ((viewName === 'overview' && href.includes('overviewSection')) ||
           (viewName === 'curriculum' && href.includes('curriculumSection')) ||
-          (viewName === 'library' && href.includes('librarySection')) ||
-          (viewName === 'workbench' && href.includes('workbenchSection'))) {
+          (viewName === 'library' && href.includes('librarySection'))) {
         btn.classList.add('active');
       } else {
         btn.classList.remove('active');
@@ -148,7 +147,7 @@ class InvestLearningApp {
       if (overviewSec) overviewSec.style.display = 'block';
       if (lessonView) lessonView.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
-      if (workSec) workSec.style.display = 'none';
+      
       if (sidebar) sidebar.style.display = 'none';
       if (overviewSec) this.renderMath(overviewSec);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -156,7 +155,7 @@ class InvestLearningApp {
       if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'block';
       if (libSec) libSec.style.display = 'none';
-      if (workSec) workSec.style.display = 'none';
+      
       if (sidebar) sidebar.style.display = 'flex';
       this.switchTab(this.currentTab || 'theory');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -164,15 +163,7 @@ class InvestLearningApp {
       if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'none';
       if (libSec) libSec.style.display = 'block';
-      if (workSec) workSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (viewName === 'workbench') {
-      if (overviewSec) overviewSec.style.display = 'none';
-      if (lessonView) lessonView.style.display = 'block';
-      if (libSec) libSec.style.display = 'none';
-      if (sidebar) sidebar.style.display = 'flex';
-      this.switchTab('workbench');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
@@ -406,19 +397,16 @@ class InvestLearningApp {
 
     const btnGuide = document.getElementById("tabBtn_guide");
     const btnCode = document.getElementById("tabBtn_code");
-    const btnBench = document.getElementById("tabBtn_workbench");
     const guideBody = document.getElementById("lessonGuideBody");
 
     if (isQuant) {
       if (btnGuide) btnGuide.style.display = "none";
       if (btnCode) btnCode.style.display = "inline-flex";
-      if (btnBench) btnBench.style.display = "inline-flex";
       if (this.currentTab === "guide") this.switchTab("theory");
     } else {
       if (btnGuide) btnGuide.style.display = "inline-flex";
       if (btnCode) btnCode.style.display = "none";
-      if (btnBench) btnBench.style.display = "none";
-      if (this.currentTab === "code" || this.currentTab === "workbench") {
+      if (this.currentTab === "code") {
         this.switchTab("theory");
       }
       if (guideBody) {
@@ -427,16 +415,6 @@ class InvestLearningApp {
       }
     }
     if (qaContainer) this.renderMath(qaContainer);
-
-    // 7. Workbench Preset Code
-    const editor = document.getElementById("workbenchEditor");
-    if (editor) {
-      if (lesson.exercise) {
-        editor.value = lesson.exercise.starter;
-      } else {
-        editor.value = `# 自测工作台: ${lesson.title}\ndef evaluate_strategy():\n    # TODO: 实现策略计算与断言校验\n    return True\n`;
-      }
-    }
   }
 
   toggleQA(idx) {

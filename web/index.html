@@ -133,7 +133,7 @@
             <div class="diagram-card" style="margin:16px 0;">
               <ul class="label-list" style="margin:0;">
                 <li><strong>[循序渐进原则]</strong>：按模块内编号逐课推进，一次专注一课；先独立思考练习，再核对参考答案。</li>
-                <li><strong>[统一 10 分制及格线]</strong>：每课提交唯一代码实现（4分）与 Q1~Q3 深度思考题回答（各2分）；达到 <b>8 / 10 分</b>且无关键误解视为考核通过。</li>
+                <li><strong>[学思结合研习模式]</strong>：结合理论机制与实战决策清单进行情景模拟，深入研读投决会问答；量化模块直出参考算法实现。</li>
                 <li><strong>[答案分支与题目分支规范]</strong>：代码库主分支保留完整题目版；<code>answers/</code> 目录包含 100% 验证通过的工业级参考实现与投决会标准答案解析。</li>
                 <li><strong>[离线双轨支持]</strong>：全站支持通过浏览器直接打开本地 <code>web/index.html</code> 离线使用；支持通过 <code>jupyter lab</code> 交互运行全量 92 个 Notebook 课件。</li>
               </ul>
@@ -240,9 +240,6 @@
           <button class="tab-btn" data-tab="qa" onclick="app.switchTab('qa')" id="tabBtn_qa">
             <span>❓</span> 核心思考与问答
           </button>
-          <button class="tab-btn" data-tab="workbench" onclick="app.switchTab('workbench')" id="tabBtn_workbench" style="display:none;">
-            <span>💻</span> 代码自测工作台
-          </button>
         </div>
 
         <!-- Tab 1: Theory -->
@@ -278,48 +275,6 @@
         <div class="tab-panel" id="tabPanel_qa">
           <div class="qa-accordion" id="lessonQAContainer">
             <!-- Dynamically populated -->
-          </div>
-        </div>
-
-        <!-- Tab 4: Interactive Workbench -->
-        <div class="tab-panel" id="tabPanel_workbench">
-          <div class="callout callout-warning" style="margin-top:0;">
-            <div class="callout-icon">⚖️</div>
-            <div>
-              <b>严格评分契约</b>：代码填空题满分 4 分（需通过严格数值边界与无前视偏差检验）；Q1~Q3 问答各 2 分（共 6 分）；总分达到 <b>8.0 / 10.0 分</b> 即可自动标记本课通关晋级！
-            </div>
-          </div>
-          <div class="workbench-container">
-            <!-- Left Editor -->
-            <div class="editor-box">
-              <div class="editor-toolbar">
-                <div class="editor-title">
-                  <span>⌨</span> 核心代码填空实操
-                </div>
-                <button class="run-test-btn" onclick="app.runCodeTest()">
-                  <span>▶</span> 运行测试与判分
-                </button>
-              </div>
-              <textarea class="code-textarea" id="workbenchEditor" spellcheck="false"></textarea>
-            </div>
-
-            <!-- Right Terminal Output -->
-            <div class="output-box">
-              <div class="output-header">
-                <span style="font-size:0.8rem; font-weight:600; color:var(--text-secondary); display:flex; align-items:center; gap:6px;">
-                  <span>💻</span> 沙盒测试断言输出
-                </span>
-                <span class="lesson-badge badge-easy" id="workbenchScoreBadge">准备就绪</span>
-              </div>
-              <div class="output-console" id="workbenchConsole">
-// 点击【运行测试与判分】按钮执行沙盒断言测试...
-// 系统将自动评估算法边界条件、数值精度与时间因果约束。
-              </div>
-              <div class="score-badge-banner">
-                <span style="font-size:0.8rem; color:var(--text-muted);">综合得分：</span>
-                <span style="font-family:var(--font-mono); font-size:1.1rem; font-weight:800; color:var(--claude-terracotta);" id="workbenchScoreVal">-- / 10.0</span>
-              </div>
-            </div>
           </div>
         </div>
         </div><!-- End lessonViewContainer -->
