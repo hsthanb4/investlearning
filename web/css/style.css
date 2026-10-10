@@ -679,6 +679,30 @@ a:hover {
   color: var(--claude-terracotta);
 }
 
+
+.callout-body {
+  font-size: 0.90rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.callout-body p {
+  margin: 0 0 8px 0;
+}
+
+.callout-body p:last-child {
+  margin-bottom: 0;
+}
+
+.callout-body ul.label-list {
+  margin: 6px 0 0 0;
+}
+
+.mermaid-wrap svg {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 /* 三位一体就近图文卡片 */
 .diagram-card {
   background: var(--bg-secondary);
@@ -1204,4 +1228,25 @@ canvas {
 @keyframes slideIn {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+
+/* Mermaid Diagram Flowchart Wrappers */
+.mermaid-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  padding: 16px 0;
+}
+
+.mermaid-wrap pre.mermaid {
+  font-family: var(--font-sans);
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
