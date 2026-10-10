@@ -1,0 +1,216 @@
+r"""
+================================================================================
+模块 05：量化投资、多因子模型与统计套利 · 第 2/5 课
+第 2 课：Fama-French 多因子模型与 Barra 风格风险归因 (参考答案版)
+================================================================================
+
+【Q1 深度参考答案】
+为什么过去十几年全球股票市场中 HML（传统价值因子）长期跑输成长与动量，而在 2021~2022 年全球通胀加息周期中又大幅均值回归？请从无风险折现率与股票久期（Duration of Equity）的金融经济学第一性原理剖析：
+- **现金流久期与折现率定价机制**：
+  股票内在价值是未来现金流的贴现总和：$P = \sum_{t=1}^{\infty} \frac{CF_t}{(1 + r)^t}$。
+  1. **价值股（High B/M）属于短久期资产（Short Duration Equity）**：其盈利与自由现金流集中在即期和近端，分红率较高，远期增长预期平缓；
+  2. **成长股（Low B/M，科技创新类）属于长久期资产（Long Duration Equity）**：当前盈利较薄甚至亏损，主要价值依赖于 5~10 年甚至更远未来的指数级现金流增长。
+- **低利率 QE 时代的估值倍数扩张**：
+  在 2008 年金融危机至 2020 年疫情期间，全球主要央行长期维持零利率/负利率政策并进行数万亿美元量化宽松（QE），无风险折现率 $r$ 被压缩至历史极低位。
+  根据久期弹性理论 $\frac{\Delta P}{P} \approx -D^* \Delta r$，折现率每下降 1%，久期越长的成长资产其估值扩张倍数越大。这导致长达十余年成长科技股大幅跑赢传统价值股，HML 因子遭遇持续回撤。
+- **高通胀暴力加息周期的价值均值回归**：
+  2021~2022 年欧美爆发四十年不遇的高通胀，美联储暴力加息超 500 个基点，10 年期美债收益率从 1% 飙升至 5%。
+  高折现率使得远期未来现金流的现值发生雪崩式缩水，高估值成长股遭遇惨烈估值杀跌；而近端现金流充沛、估值倍数极低的传统能源、金融与公用事业等价值股展现出极强防御性，驱动 HML 因子出现历史级别的强劲均值回归。
+
+【Q2 深度参考答案】
+Barra 风险模型与 Fama-French 时间序列回归模型在工业界落地时有何本质哲学差异？（横截面 WLS 回归估算因子收益率 vs 时间序列 OLS 回归估算因子暴露 Beta）：
+- **Fama-French 时间序列回归范式**：
+  1. 因子收益率（MKT, SMB, HML 等）是预先通过双重或三重排序（Sorting）构建的多空对冲投资组合的时间序列；
+  2. 对每一只个股，固定使用过去 36~60 个月的历史收益率序列对因子组合序列做时序 OLS 回归，估算个股的因子载荷 $\beta_i$；
+  3. **缺陷**：假定 $\beta_i$ 在过去数年内恒定，存在严重时滞；无法对刚上市缺乏长历史数据的次新股做归因；若企业发生重组转型（如传统制造转型芯片），历史回归 $\beta$ 完全失真。
+- **Barra 横截面多因子风险模型范式**：
+  1. 在每个时间截面 $t$，资产对风格因子的暴露度矩阵 $X_t$（如市值、市净率、历史动量、特质波动率）直接通过个股最新基本面财报与行情数据标准化得到，是**已知输入**；
+  2. 在截面上，以所有股票的下期收益率为因变量，以暴露度矩阵 $X_t$ 为自变量，利用加权最小二乘法（WLS，以平方根流通市值加权以消除异方差）进行全市场横截面回归：
+     $$r_t = X_t f_t + u_t$$
+     从而求解出该截面当期的纯因子收益率向量 $f_t$；
+  3. **工业价值**：完美适应资产特征的动态时变性，即便没有历史回归数据的股票也能根据最新截面特征即时计算风险敞口，直接输出结构化协方差矩阵 $V = X \Sigma_F X^T + \Delta$，是全球量化对冲基金进行组合优化与风险归因的事实标准。
+
+【Q3 深度参考答案】
+怎样理解“很多声称有稳定 Alpha 的量化或公募基金经理，实质上只是长期单向暴露在小市值（SMB）与高贝塔风险敞口上的‘贝塔搬运工’”？在多因子归因体系下如何用 t 统计量剥离出真正的特质 Alpha？
+- **伪 Alpha 的风险搬运本质**：
+  在 A 股等以散户交易为主的市场中，小盘微盘股因壳价值、流动性溢价与炒作溢价，在较长周期内呈现出显著的小市值超额收益。
+  许多基金经理通过将组合市值大幅下沉至中证 1000 甚至微盘股区间，同时长期维持 95% 以上高仓位（高 $\beta_{\text{MKT}}$），便可在小盘成长行情中展现出 20%~30% 的惊人“超额收益”，并向投资者收取高额业绩报酬。
+  然而，这本质上并非高超的选股技能（Stock-picking Alpha），而是承担了小市值流动性挤兑风险与大盘系统性波动的特定风格 Beta。一旦市场遭遇流动性收缩或退市监管趋严，微盘股踩踏崩盘，这类基金便会遭遇灾难性回撤。
+- **多因子 OLS 剥离与统计检验判据**：
+  将基金超额收益对 Fama-French 5 因子做时序回归：$R_p - R_f = \alpha_p + \sum \beta_k F_k + \epsilon$。
+  1. 若回归显示 $\beta_{\text{SMB}} \approx 1.2 \sim 1.8$ 且显著性 $t > 5.0$，说明其超额主要由小市值因子驱动；
+  2. 考察截距项 $\alpha_p$ 及其双尾检验 t 统计量：$t_{\alpha} = \frac{\alpha}{\text{SE}(\alpha)}$；
+  3. 若 $t_{\alpha} < 2.0$（p 值 > 0.05），在统计学上无法拒绝“真实选股 Alpha 为零”的原假设，即证明该基金经理本质上只是“伪装成 Alpha 猎手的 Beta 搬运工”；只有当 $t_{\alpha} > 2.0$ 甚至 $> 3.0$ 时，其剥离风格后的特质超额才具备统计置信度。
+"""
+
+from typing import Dict, Any, List
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+
+def fama_french_multi_factor_regression(
+    asset_returns: pd.Series,
+    factor_returns: pd.DataFrame,
+    risk_free_rate: float = 0.0,
+    annual_periods: int = 252,
+) -> Dict[str, Any]:
+    """
+    多元时间序列 OLS 回归与 Fama-French 因子收益剥离
+    """
+    # 对齐数据并剔除缺失值
+    df = pd.concat([asset_returns.rename("y"), factor_returns], axis=1).dropna()
+    y = (df["y"] - risk_free_rate).values
+    factor_names = list(factor_returns.columns)
+    F = df[factor_names].values
+    n_samples, n_factors = F.shape
+
+    # 构造设计矩阵 [1, F_1, F_2, ..., F_K]
+    X = np.column_stack([np.ones(n_samples), F])
+
+    # OLS 求解
+    beta_hat, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+    y_pred = X @ beta_hat
+    residuals = y - y_pred
+
+    # 自由度与方差估计
+    dof = n_samples - X.shape[1]
+    sse = float(np.sum(residuals**2))
+    mse = sse / dof if dof > 0 else 0.0
+
+    inv_XtX = np.linalg.inv(X.T @ X)
+    se_beta = np.sqrt(np.maximum(0.0, mse * np.diag(inv_XtX)))
+    t_stats = beta_hat / np.where(se_beta == 0, 1e-12, se_beta)
+    p_values = 2.0 * (1.0 - stats.t.cdf(np.abs(t_stats), df=dof))
+
+    sst = float(np.sum((y - np.mean(y))**2))
+    r2 = float(1.0 - sse / sst) if sst > 1e-12 else 0.0
+    adj_r2 = float(1.0 - (1.0 - r2) * (n_samples - 1) / dof) if dof > 0 else r2
+
+    alpha = float(beta_hat[0])
+    annualized_alpha = alpha * annual_periods
+    alpha_t_stat = float(t_stats[0])
+    alpha_p_value = float(p_values[0])
+
+    betas = {f_name: float(beta_hat[i + 1]) for i, f_name in enumerate(factor_names)}
+    beta_t_stats = {f_name: float(t_stats[i + 1]) for i, f_name in enumerate(factor_names)}
+
+    specific_volatility = float(np.std(residuals, ddof=1) * np.sqrt(annual_periods))
+    systematic_risk_ratio = float(r2)
+    specific_risk_ratio = float(1.0 - r2)
+
+    return {
+        "alpha": alpha,
+        "annualized_alpha": annualized_alpha,
+        "alpha_t_stat": alpha_t_stat,
+        "alpha_p_value": alpha_p_value,
+        "betas": betas,
+        "beta_t_stats": beta_t_stats,
+        "r_squared": r2,
+        "adj_r_squared": adj_r2,
+        "residuals": pd.Series(residuals, index=df.index),
+        "specific_volatility": specific_volatility,
+        "systematic_risk_ratio": systematic_risk_ratio,
+        "specific_risk_ratio": specific_risk_ratio,
+    }
+
+
+def barra_style_attribution(
+    portfolio_weights: np.ndarray,
+    factor_exposures: np.ndarray,
+    factor_cov_matrix: np.ndarray,
+    specific_vars: np.ndarray,
+    annual_periods: int = 252,
+) -> Dict[str, Any]:
+    """
+    Barra 结构化多因子风险归因
+    """
+    w = portfolio_weights.reshape(-1, 1)
+    X = factor_exposures  # N x K
+
+    # 组合因子暴露度向量 x_p = X^T * w (K x 1)
+    x_p = (X.T @ w).flatten()
+
+    # 组合单期因子方差 = x_p^T * Sigma_F * x_p
+    factor_variance_daily = float(x_p.T @ factor_cov_matrix @ x_p)
+    factor_variance_annual = factor_variance_daily * annual_periods
+
+    # 组合单期特质方差 = sum(w_i^2 * delta_i)
+    specific_variance_daily = float(np.sum((portfolio_weights**2) * specific_vars))
+    specific_variance_annual = specific_variance_daily * annual_periods
+
+    total_variance_annual = factor_variance_annual + specific_variance_annual
+    total_volatility = float(np.sqrt(total_variance_annual))
+
+    factor_risk_pct = float(factor_variance_annual / total_variance_annual) if total_variance_annual > 0 else 0.0
+    specific_risk_pct = float(specific_variance_annual / total_variance_annual) if total_variance_annual > 0 else 0.0
+
+    return {
+        "portfolio_factor_exposures": x_p,
+        "factor_variance": factor_variance_annual,
+        "specific_variance": specific_variance_annual,
+        "total_variance": total_variance_annual,
+        "total_volatility": total_volatility,
+        "factor_risk_pct": factor_risk_pct,
+        "specific_risk_pct": specific_risk_pct,
+    }
+
+
+if __name__ == "__main__":
+    print("=" * 70)
+    print("运行 Lesson 02: Fama-French 多因子与 Barra 归因单元测试 (参考答案版)")
+    print("=" * 70)
+
+    np.random.seed(42)
+    n_samples = 504
+    factor_names = ["MKT", "SMB", "HML", "RMW", "CMA"]
+    n_factors = len(factor_names)
+
+    f_returns = np.random.normal(loc=[0.0004, 0.0002, 0.0001, 0.0002, 0.0001], scale=0.01, size=(n_samples, n_factors))
+    dates = pd.date_range("2023-01-01", periods=n_samples, freq="B")
+    factor_df = pd.DataFrame(f_returns, index=dates, columns=factor_names)
+
+    true_alpha_daily = 0.0003
+    true_betas = np.array([1.05, 0.60, -0.25, 0.40, 0.15])
+    noise = np.random.normal(loc=0.0, scale=0.006, size=n_samples)
+
+    asset_ret_series = pd.Series(
+        true_alpha_daily + np.dot(f_returns, true_betas) + noise,
+        index=dates,
+    )
+
+    reg_res = fama_french_multi_factor_regression(asset_ret_series, factor_df, annual_periods=252)
+
+    print(f"年化 Alpha: {reg_res['annualized_alpha']*100:.2f}% (t-stat: {reg_res['alpha_t_stat']:.3f}, p-val: {reg_res['alpha_p_value']:.4e})")
+    print(f"拟合优度 R^2: {reg_res['r_squared']:.4f}, 调整后 R^2: {reg_res['adj_r_squared']:.4f}")
+    print(f"年化特质波动率: {reg_res['specific_volatility']*100:.2f}%")
+    print(f"系统性风险占比: {reg_res['systematic_risk_ratio']*100:.2f}%, 特质风险占比: {reg_res['specific_risk_ratio']*100:.2f}%")
+    for f_name in factor_names:
+        print(f"  因子 {f_name} 暴露 Beta: {reg_res['betas'][f_name]:.4f} (t-stat: {reg_res['beta_t_stats'][f_name]:.3f})")
+
+    assert abs(reg_res["annualized_alpha"] - true_alpha_daily * 252) < 0.05, "Alpha 估算偏差过大"
+    assert reg_res["alpha_t_stat"] > 1.0, "构造的正向 Alpha 应具备正 t 统计量"
+    assert abs(reg_res["betas"]["MKT"] - 1.05) < 0.08, "MKT Beta 估计偏差过大"
+    assert abs(reg_res["betas"]["SMB"] - 0.60) < 0.08, "SMB Beta 估计偏差过大"
+    assert abs(reg_res["betas"]["HML"] - (-0.25)) < 0.08, "HML Beta 估计偏差过大"
+    assert reg_res["r_squared"] > 0.70, "多因子回归解释度 R^2 应大于 70%"
+    assert abs(reg_res["systematic_risk_ratio"] + reg_res["specific_risk_ratio"] - 1.0) < 1e-4, "方差分解之和应为 100%"
+
+    n_assets = 10
+    w = np.ones(n_assets) / n_assets
+    np.random.seed(101)
+    X = np.random.uniform(-1.0, 1.0, size=(n_assets, n_factors))
+    cov_F = factor_df.cov().values
+    spec_vars = np.random.uniform(0.0001, 0.0003, size=n_assets)
+
+    barra_res = barra_style_attribution(w, X, cov_F, spec_vars, annual_periods=252)
+
+    print(f"\nBarra 年化总波动率: {barra_res['total_volatility']*100:.2f}%")
+    print(f"公因子风险占比: {barra_res['factor_risk_pct']*100:.2f}%")
+    print(f"特质风险占比: {barra_res['specific_risk_pct']*100:.2f}%")
+
+    assert barra_res["total_variance"] > 0.0, "总方差必须为正"
+    assert abs(barra_res["factor_risk_pct"] + barra_res["specific_risk_pct"] - 1.0) < 1e-5, "Barra 风险占比之和必须为 100%"
+    assert len(barra_res["portfolio_factor_exposures"]) == n_factors, "组合因子暴露维度必须与因子数一致"
+
+    print("Lesson 02 参考答案全部通过 (Exit Code 0)！")

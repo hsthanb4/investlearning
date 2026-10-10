@@ -1,0 +1,210 @@
+r"""
+================================================================================
+模块 06：现代投资组合理论与仓位风控算法 · 第 1/5 课
+第 1 课：马科维茨均值-方差模型、有效前沿与最大夏普组合 (Markowitz MVO)
+================================================================================
+
+【课程定位与第一性原理】
+Harry Markowitz 在 1952 年发表的《Portfolio Selection》奠定了现代投资组合理论（MPT）的数理基石。
+在此之前，投资者仅关注单项资产的预期收益，而忽视了资产之间的联动结构。
+MPT 的第一性原理：
+1. 单个资产的风险无法在孤立中评估，组合的整体风险取决于资产两两之间的**协方差（Covariance）**；
+2. 只要资产之间的相关系数 $\rho < 1.0$，非完全相关的分散化配置就能消灭个股特质方差，
+   实现在不牺牲组合预期收益的前提下大幅压降总波动率；
+3. **有效前沿（Efficient Frontier）**：在给定期望收益水平下使得方差最小化（或在给定风险下最大化收益）
+   的所有最优权重组合在“风险-收益”平面构成的凸双曲线轨迹；
+4. **切线组合（Tangency Portfolio / 最大夏普组合）**：在引入无风险利率 $r_f$ 后，从 $(0, r_f)$ 点出发
+   与有效前沿相切的切线（资本资产配置线 CAL）的切点组合，拥有全市场最高的夏普比率（Sharpe Ratio）。
+
+【核心数理模型】
+设资产池包含 $N$ 项资产，预期收益率向量为 $\mu \in \mathbb{R}^N$，单期协方差矩阵为 $\Sigma \in \mathbb{R}^{N \times N}$。
+投资组合权重向量 $w \in \mathbb{R}^N$，满足非负无做空约束 $w_i \ge 0$ 及资金全仓约束 $\sum_{i=1}^N w_i = 1$。
+- 组合预期收益率：
+  $$\mathbb{E}[R_p] = w^T \mu = \sum_{i=1}^N w_i \mu_i$$
+- 组合方差与波动率：
+  $$\sigma_p^2 = w^T \Sigma w = \sum_{i=1}^N \sum_{j=1}^N w_i w_j \sigma_{ij}, \quad \sigma_p = \sqrt{w^T \Sigma w}$$
+- 最大夏普比率二次规划问题：
+  $$\max_{w} \frac{w^T \mu - r_f}{\sqrt{w^T \Sigma w}} \quad \text{s.t.} \quad \sum_{i=1}^N w_i = 1, \; w_i \ge 0$$
+- 全球最小方差组合（Global Minimum Variance, GMV）：
+  $$\min_{w} \frac{1}{2} w^T \Sigma w \quad \text{s.t.} \quad \sum_{i=1}^N w_i = 1, \; w_i \ge 0$$
+
+【核心流程与心智模型】
+```mermaid
+flowchart TD
+    AssetData["大类资产历史收益序列 [Equity, Bond, Commodity, Gold]"] --> CovMatrix["计算历史收益协方差矩阵 Sigma 与期望收益向量 mu"]
+    CovMatrix --> GMV_Solve["二次规划求解全球最小方差组合 GMV: min w^T Sigma w"]
+    CovMatrix --> MaxSharpe_Solve["二次规划求解最大夏普切线组合: max (w^T mu - rf) / sigma_p"]
+    GMV_Solve --> FrontierGen["在收益区间 [R_min, R_max] 内线性插值生成 N 个目标收益率"]
+    FrontierGen --> TargetVar["约束规划: min w^T Sigma w  s.t.  w^T mu = R_target"]
+    TargetVar --> Curve["绘制风险-收益有效前沿 (Efficient Frontier) 上半支双曲线"]
+```
+
+【工业界实战场景与风控陷阱】
+1. “错误放大器（Error Maximizer）”陷阱：
+   Richard Michaud (1989) 证明，传统 MVO 会将绝大多数资金分配给历史样本中因随机游走而收益高估、方差低估的资产，
+   导致样本外实际表现灾难性溃败。工业界通常对协方差矩阵使用 Ledoit-Wolf 收缩估计，对收益率引入 Black-Litterman 贝叶斯先验。
+2. 协方差矩阵病态条件数与奇异性（Ill-conditioned Matrix）：
+   当资产数量接近或大于样本期数时（$N \approx T$），样本协方差矩阵极易接近奇异，导致求逆或优化震荡。
+3. 索提诺比率（Sortino Ratio）与下行风险：
+   夏普比率假设正态分布，对向上的暴涨波动同样施加惩罚；在非对称期权或趋势跟踪资产配置中，应结合下行波动率进行优化。
+
+【思考题】
+Q1: 为什么实践中对历史协方差矩阵直接求逆（Markowitz 纯数学优化）会导致“极端畸变权重”（Error Maximizer）？如何用 Ledoit-Wolf 收缩估计进行修正？
+Q2: 什么是夏普比率（Sharpe Ratio）与索提诺比率（Sortino Ratio）的区别？为什么下行波动率（Downside Volatility）比总波动率更符合机构投资者的真实效用偏好？
+Q3: 为什么负相关的两项资产组合（$\rho < 0$）可以实现在预期收益不降的前提下大幅压低总方差？请从方差展开式推导证明“完全负相关下构建零方差组合”的数学条件。
+
+【评分与通过规则】
+- 代码 4 分：
+  1. 准确实现投资组合预期收益与波动率计算函数 (1分)；
+  2. 准确实现全球最小方差组合（GMV）与最大夏普组合（Tangency）二次规划求解 (1.5分)；
+  3. 准确计算并生成有效前沿离散轨迹点集 (1.5分)；
+- Q1~Q3 问答题各 2 分（共 6 分）：必须从计量矩阵病态条件数、下行非对称效用与方差代数展开严格推导；
+- 通过线：8/10 分。一票否决：权重之和不为 1、出现未授权做空负权重、删除断言校验。
+"""
+
+from typing import Tuple, Dict, Any, List
+import numpy as np
+from scipy.optimize import minimize
+
+
+def calculate_portfolio_performance(
+    weights: np.ndarray,
+    expected_returns: np.ndarray,
+    cov_matrix: np.ndarray,
+) -> Tuple[float, float]:
+    """
+    计算投资组合的年化预期收益率与年化波动率：
+        R_p = w^T * mu
+        sigma_p = sqrt(w^T * Sigma * w)
+
+    参数:
+        weights: 资产配置权重向量 w (N 维, sum(w) = 1)
+        expected_returns: 资产预期收益率向量 mu (N 维)
+        cov_matrix: 资产收益协方差矩阵 Sigma (N x N)
+
+    返回:
+        Tuple[float, float]: (组合预期收益率, 组合波动率)
+    """
+    # TODO: 实现组合期望收益率与波动率计算
+    pass
+
+
+def solve_global_minimum_variance(
+    cov_matrix: np.ndarray,
+) -> np.ndarray:
+    """
+    求解全球最小方差组合 (GMV Portfolio)：
+        min_w  w^T * Sigma * w
+        s.t.   sum(w) = 1,  w_i >= 0
+
+    参数:
+        cov_matrix: 资产收益协方差矩阵 Sigma (N x N)
+
+    返回:
+        np.ndarray: GMV 最优权重向量 w_gmv (N 维)
+    """
+    # TODO: 实现 GMV 二次规划求解器
+    pass
+
+
+def solve_max_sharpe_portfolio(
+    expected_returns: np.ndarray,
+    cov_matrix: np.ndarray,
+    risk_free_rate: float = 0.02,
+) -> np.ndarray:
+    """
+    求解最大夏普比率组合 (Tangency / Maximum Sharpe Portfolio)：
+        max_w  (w^T * mu - rf) / sqrt(w^T * Sigma * w)
+        s.t.   sum(w) = 1,  w_i >= 0
+
+    参数:
+        expected_returns: 资产预期收益率向量 mu (N 维)
+        cov_matrix: 资产收益协方差矩阵 Sigma (N x N)
+        risk_free_rate: 年化无风险利率 rf
+
+    返回:
+        np.ndarray: 最大夏普最优权重向量 w_ms (N 维)
+    """
+    # TODO: 实现最大夏普比率优化求解器
+    pass
+
+
+def generate_efficient_frontier(
+    expected_returns: np.ndarray,
+    cov_matrix: np.ndarray,
+    num_points: int = 15,
+) -> Dict[str, Any]:
+    """
+    生成马科维茨有效前沿 (Efficient Frontier) 离散曲线点集：
+    1. 求解 GMV 组合，获得前沿最低收益边界 R_min 与对应最小方差 sigma_min；
+    2. 找到单资产最高收益 R_max；
+    3. 在 [R_min, R_max] 区间内均匀采样 num_points 个目标收益率 R_target；
+    4. 对每个目标收益率求解带等式收益约束的方差最小化二次规划：
+           min_w  w^T * Sigma * w
+           s.t.   w^T * mu = R_target,  sum(w) = 1,  w_i >= 0
+
+    返回字典包含:
+        - "target_returns": 目标收益率列表
+        - "frontier_volatilities": 对应的有效前沿最优最小波动率列表
+        - "frontier_weights": 对应的各点资产权重矩阵 (num_points x N)
+    """
+    # TODO: 实现有效前沿离散采样与二次规划求解
+    pass
+
+
+if __name__ == "__main__":
+    print("=" * 70)
+    print("运行 Lesson 01: 马科维茨均值-方差模型与有效前沿单元测试")
+    print("=" * 70)
+
+    # 1. 基础性能计算验证 (2 资产基准)
+    w_base = np.array([0.5, 0.5])
+    mu_base = np.array([0.10, 0.20])
+    cov_base = np.array([[0.04, 0.0], [0.0, 0.09]])  # 独立资产
+    p_ret, p_vol = calculate_portfolio_performance(w_base, mu_base, cov_base)
+    assert abs(p_ret - 0.15) < 1e-4, f"组合预期收益应为 0.15, 实际: {p_ret}"
+    assert abs(p_vol - 0.180277) < 1e-4, f"组合波动率应为 0.180277, 实际: {p_vol}"
+
+    # 2. 四资产真实配置优化验证 [美股, 美债, 黄金, 大宗商品]
+    mu_4 = np.array([0.10, 0.04, 0.07, 0.06])
+    cov_4 = np.array([
+        [0.040, 0.002, 0.005, 0.012],
+        [0.002, 0.008, 0.001, 0.003],
+        [0.005, 0.001, 0.025, 0.008],
+        [0.012, 0.003, 0.008, 0.035],
+    ])
+    rf = 0.02
+
+    # 求解全球最小方差组合 GMV
+    w_gmv = solve_global_minimum_variance(cov_4)
+    r_gmv, vol_gmv = calculate_portfolio_performance(w_gmv, mu_4, cov_4)
+    print(f"GMV 权重: {np.round(w_gmv, 4)}, 收益: {r_gmv*100:.2f}%, 波动率: {vol_gmv*100:.2f}%")
+
+    assert abs(np.sum(w_gmv) - 1.0) < 1e-4, "GMV 权重之和必须等于 1.0"
+    assert np.all(w_gmv >= -1e-6), "GMV 权重不能存在负值做空"
+    # 低波动的债券资产应分配最高权重
+    assert w_gmv[1] > 0.50, f"低波动债券在 GMV 中应占主要比重, 实际: {w_gmv[1]:.4f}"
+
+    # 求解最大夏普比率组合 Tangency
+    w_ms = solve_max_sharpe_portfolio(mu_4, cov_4, risk_free_rate=rf)
+    r_ms, vol_ms = calculate_portfolio_performance(w_ms, mu_4, cov_4)
+    sharpe_ms = (r_ms - rf) / vol_ms
+    print(f"最大夏普权重: {np.round(w_ms, 4)}, 收益: {r_ms*100:.2f}%, 波动率: {vol_ms*100:.2f}%, 夏普: {sharpe_ms:.4f}")
+
+    assert abs(np.sum(w_ms) - 1.0) < 1e-4, "最大夏普权重之和必须等于 1.0"
+    assert np.all(w_ms >= -1e-6), "最大夏普权重不能存在负值做空"
+    sharpe_gmv = (r_gmv - rf) / vol_gmv
+    assert sharpe_ms >= sharpe_gmv, "切线组合的夏普比率必须高于 GMV 组合"
+
+    # 生成有效前沿
+    frontier = generate_efficient_frontier(mu_4, cov_4, num_points=10)
+    print(f"有效前沿收益区间: {np.round(frontier['target_returns'], 4)}")
+    print(f"有效前沿波动区间: {np.round(frontier['frontier_volatilities'], 4)}")
+
+    assert len(frontier["target_returns"]) == 10, "前沿采样点数量不符"
+    assert len(frontier["frontier_volatilities"]) == 10, "前沿波动率数量不符"
+    # 有效前沿上半支必须满足：随着目标收益率上升，最小波动率单调递增
+    vols = frontier["frontier_volatilities"]
+    assert all(vols[i] <= vols[i + 1] + 1e-4 for i in range(len(vols) - 1)), "有效前沿上半支波动率应随收益递增"
+
+    print("Lesson 01 马科维茨均值-方差模型单元测试全部通过！")

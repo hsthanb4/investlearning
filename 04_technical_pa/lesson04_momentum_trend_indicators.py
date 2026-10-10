@@ -1,0 +1,166 @@
+"""
+================================================================================
+模块 04：价格行为学、趋势跟踪与技术形态论 · 第 4/5 课
+第 4 课：动量指标向量化推导、自适应波动率通道与无前视偏差信号生成
+================================================================================
+
+【考核标准】
+- 代码填空并通过所有自动化断言：4 分
+- Q1~Q3 深度思考题回答完整、逻辑严谨（各 2 分）：共 6 分
+- 合格线：8/10 分
+
+【理论精讲】
+1. 技术指标的数理统计本质：
+   技术指标绝非预测未来的水晶球，而是对价格一阶导数（速度/动量）、二阶导数（加速度）以及方差（波动率）在时域上的滤波转换。
+   核心两大派系：
+   - 动量/趋势跟踪指标：捕捉价格持续单向奔跑的惯性（如 MACD、均线系统）；
+   - 均值回归指标：捕捉价格偏离公允中枢后的物理拉回弹性（如 RSI、布林带）。
+
+2. 相对强弱指标 RSI（Wilder 1978 递归平滑版）：
+   标准公式：
+   - 价格变动 ΔP_t = Close_t - Close_{t-1}
+   - 上涨幅度 U_t = max(ΔP_t, 0), 下跌幅度 D_t = max(-ΔP_t, 0)
+   - 怀尔德递归指数平滑（Wilder's Smoothing, 等价于 α = 1/N 的 EMA）：
+     Avg_Gain_t = (Avg_Gain_{t-1} × (N - 1) + U_t) / N
+     Avg_Loss_t = (Avg_Loss_{t-1} × (N - 1) + D_t) / N
+   - 相对强弱 RS_t = Avg_Gain_t / Avg_Loss_t
+   - RSI_t = 100 - (100 / (1 + RS_t))
+   RSI 在 [0, 100] 区间振荡。传统定义：RSI < 30 超卖（潜在反弹买点），RSI > 70 超买（潜在冲高回落）。
+
+3. 自适应波动率通道：布林带（Bollinger Bands, John Bollinger）：
+   - 中轨 (Middle Band): MA_t = SMA(Close, N) (通常 N=20)
+   - 滚动样本标准差: σ_t = Rolling_Std(Close, N)
+   - 上轨 (Upper Band): Middle_t + k × σ_t (通常 k=2)
+   - 下轨 (Lower Band): Middle_t - k × σ_t
+   - 带宽 (BandWidth): (Upper_t - Lower_t) / Middle_t = 2k × σ_t / Middle_t
+     带宽压缩至极值低位（Squeeze）预示着波动率即将均值爆发，孕育单边大行情。
+   - %B 位置指标: %B_t = (Close_t - Lower_t) / (Upper_t - Lower_t)
+     量度价格处于通道内的百分比相对位置。
+
+4. 绝对禁忌：前视偏差（Look-Ahead Bias / 未来函数）：
+   量化回测中最隐蔽也最致命的陷阱是在 t 时刻使用了只有 t+1 或未来的数据。
+   在 K 线物理时间戳上：
+   - t 时刻的 Close 只有在 t 根 K 线彻底走完收盘那一瞬间才能确定；
+   - 根据 t 时刻 Close 计算出的指标和交易信号（Signal_t），在物理现实中**最早只能在 t+1 根 K 线的 Open 或盘中撮合成交**！
+   - 任何用当日 Close 直接成交当日信号的算法均属于严重偷价（Same-bar Look-Ahead Bias），在实盘中完全无法复现。
+   - 必须通过 `.shift(1)` 将信号严格平移一个周期，建立无前视偏差的因果回测契约。
+
+【三个思考题 (Q1~Q3)】
+Q1: 震荡市中的“摩擦损耗”（Whipsaw / 锯齿效应）：为什么传统双均线交叉（如 MA5/MA20）策略在趋势市中表现优异，而在长达数月的无趋势震荡市中会导致灾难性的连续假信号与本金大幅回撤？量化基金如何结合 ADX（平均趋向指数）或布林带宽度（BandWidth）设置“震荡市过滤器”？
+Q2: 波动率挤压（Volatility Squeeze）与波动率聚集（Volatility Clustering）：曼德博（Mandelbrot）指出金融时间序列具有强烈的波动率聚集特征。布林带的带宽（BandWidth = (Upper - Lower)/Middle）压缩至历史极值低分位数（如 5% 分位）时，为何往往预示着爆发性的单边大趋势即将来临？交易员应如何避免在挤压区内被假突破洗出？
+Q3: 严格因果契约与前视偏差防范：在向量化回测（Vectorized Backtest）与事件驱动回测（Event-Driven Backtest）中，如果不小心用当日收盘价直接撮合当日根据收盘价生成的买卖信号（Same-bar Close Execution），在实盘中会遇到什么致命问题？在代码架构上如何通过 `.shift(1)` 机制彻底杜绝未来函数？
+"""
+
+import numpy as np
+import pandas as pd
+from typing import Dict, Any
+
+
+def calculate_wilder_rsi(series: pd.Series, period: int = 14) -> pd.Series:
+    """
+    向量化计算经典怀尔德 (Wilder) 平滑相对强弱指标 RSI (0 ~ 100)
+    
+    参数:
+    series: 价格序列 (通常为收盘价 close)
+    period: RSI 周期 N (默认 14)
+    
+    返回:
+    pd.Series: 对应各时间点的 RSI 序列
+    """
+    # TODO: 请实现怀尔德平滑版本的 RSI 算法
+    pass
+
+
+def calculate_adaptive_bollinger_bands(
+    df: pd.DataFrame,
+    period: int = 20,
+    num_std: float = 2.0
+) -> pd.DataFrame:
+    """
+    计算布林带 (Bollinger Bands) 轨道与自适应波动率特征指标
+    
+    参数:
+    df: 包含 'close' 列的 DataFrame
+    period: 移动平均周期 (默认 20)
+    num_std: 标准差倍数 k (默认 2.0)
+    
+    返回添加以下列的 DataFrame:
+    - 'bb_middle': 中轨
+    - 'bb_upper': 上轨
+    - 'bb_lower': 下轨
+    - 'bb_bandwidth': 带宽 (upper - lower) / middle
+    - 'bb_pct_b': %B 指标 (close - lower) / (upper - lower)
+    """
+    # TODO: 请实现布林带及其衍生波动率指标计算
+    pass
+
+
+def generate_signals_no_lookahead(
+    df: pd.DataFrame,
+    rsi_oversold: float = 30.0,
+    rsi_overbought: float = 70.0
+) -> pd.DataFrame:
+    """
+    构建均值回归交易信号，并实施严格的无前视偏差因果对齐 (Shift-1)
+    
+    交易规则:
+    1. 当日信号 (raw_signal):
+       - 若 rsi < rsi_oversold 且 pct_b < 0.0 (跌破布林下轨且超卖): 产生买入做多信号 raw_signal = 1
+       - 若 rsi > rsi_overbought 且 pct_b > 1.0 (冲破布林上轨且超买): 产生卖出做空/平仓信号 raw_signal = -1
+       - 否则 raw_signal = 0
+    2. 无前视偏差执行仓位 (position):
+       position = raw_signal.shift(1).fillna(0)  # 严格将信号滞后一期撮合，杜绝当日收盘前视偏差
+    """
+    # TODO: 请实现无前视偏差信号生成与执行对齐
+    pass
+
+
+if __name__ == "__main__":
+    print("=" * 60)
+    print("运行 Lesson 04: 动量指标、自适应布林带与无未来函数信号测试")
+    print("=" * 60)
+
+    # 1. 验证 RSI 计算
+    # 构造标准价格波动序列 (30个周期)
+    np.random.seed(42)
+    sample_prices = pd.Series([
+        100.0, 102.0, 101.5, 103.0, 105.0, 104.2, 106.5, 108.0, 107.5, 109.0,
+        111.0, 110.5, 112.0, 114.0, 113.5, 115.0, 117.0, 116.5, 118.0, 120.0,
+        119.0, 117.5, 115.0, 113.0, 111.5, 108.0, 105.0, 103.0, 101.0, 99.0
+    ])
+
+    rsi_series = calculate_wilder_rsi(sample_prices, period=14)
+    print("前20期 RSI 计算样本:\n", rsi_series.tail(10))
+
+    assert rsi_series is not None, "RSI 结果不能为 None"
+    assert len(rsi_series) == len(sample_prices), "RSI 序列长度必须与输入序列一致"
+    # 前期持续单边上涨时 RSI 应处于高位 (>60)
+    assert rsi_series.iloc[19] > 60.0
+    # 后期单边连续暴跌后 RSI 应显著回落 (<40)
+    assert rsi_series.iloc[-1] < 40.0
+
+    # 2. 验证布林带与自适应波动率计算
+    df_sample = pd.DataFrame({"close": sample_prices})
+    bb_df = calculate_adaptive_bollinger_bands(df_sample, period=10, num_std=2.0)
+    print("布林带计算样本 (最后5行):\n", bb_df[["close", "bb_middle", "bb_upper", "bb_lower", "bb_bandwidth", "bb_pct_b"]].tail())
+
+    assert "bb_middle" in bb_df.columns
+    assert "bb_bandwidth" in bb_df.columns
+    assert "bb_pct_b" in bb_df.columns
+    # 检验布林上下轨关于中轨对称
+    valid_idx = bb_df["bb_middle"].dropna().index[-1]
+    assert abs((bb_df.loc[valid_idx, "bb_upper"] - bb_df.loc[valid_idx, "bb_middle"]) -
+               (bb_df.loc[valid_idx, "bb_middle"] - bb_df.loc[valid_idx, "bb_lower"])) < 1e-5
+
+    # 3. 验证无前视偏差信号生成
+    bb_df["rsi"] = rsi_series
+    sig_df = generate_signals_no_lookahead(bb_df, rsi_oversold=35.0, rsi_overbought=65.0)
+    print("信号生成结果 (末尾行):\n", sig_df[["close", "rsi", "bb_pct_b", "raw_signal", "position"]].tail())
+
+    assert "raw_signal" in sig_df.columns
+    assert "position" in sig_df.columns
+    # 核心因果契约断言: position[t] 必须严格等于 raw_signal[t-1]!
+    for t in range(1, len(sig_df)):
+        assert sig_df.loc[t, "position"] == sig_df.loc[t - 1, "raw_signal"], f"t={t} 处前视偏差违规！"
+
+    print("Lesson 04 练习题测试全部通过！")

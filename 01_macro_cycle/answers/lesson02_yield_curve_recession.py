@@ -1,0 +1,214 @@
+r"""
+================================================================================
+模块 01：宏观经济学、货币周期与流动性传导 · 第 2/5 课
+第 2 课：利率期限结构与利差倒挂衰退预警模型 (参考答案版)
+================================================================================
+
+【Q1 深度参考答案】
+为什么在历史统计中，利差刚发生倒挂的时刻（First Inversion），股票市场往往还在继续创出新高；
+而在倒挂结束、“曲线重新变陡”（Un-inversion / Bull Steepening）时，美股反而会迎来最惨烈的暴跌？
+- **因果链与政策转向时滞**：
+  1. **初次倒挂时实体经济仍处繁荣惯性**：当利差首次转负（如 2000年、2006年、2022年），通常对应美联储
+     加息周期的深水区。此时名义 GDP 增速、企业当季财报与居民就业依旧强劲，市场情绪处于非理性亢奋或惯性冲顶，
+     投资者普遍抱有“经济软着陆”幻想。
+  2. **货币政策向实体传导存在 12~18 个月长时滞**：加息通过银行净息差收缩、商业地产再融资困难、企业资本开支削减
+     传导至实体经济需要相当长的时间，违约潮与失业率上升尚未在微观数据中显现。
+  3. **倒挂解除的两种形态与“牛陡”（Bull Steepening）杀伤力**：
+     - 若曲线通过长端利率上升恢复平整（熊陡 Bear Steepening），往往代表经济重新扩张，股市可承受；
+     - 但在历史经济衰退前夕，倒挂解除几乎全部表现为**“牛市陡峭化”（Bull Steepening）**：
+       突发流动性危机（如 2008年雷曼破产、2000年科网泡沫破裂、2020年疫情暴发），
+       美联储被迫紧急降息 50~100 bps 救市，短端利率崩跌，利差从负值迅速拉升至正值。
+  4. **戴维斯双杀时刻**：曲线重新变陡的瞬间，恰好是实体衰退被官方确诊、企业盈利断崖式下修（Earnings Recession）、
+     金融机构杠杆踩踏强制平仓的集中引爆期，因此成为历史上美股回撤最惨烈的交易窗口。
+
+【Q2 深度参考答案】
+为什么在量化估值（DCF 模型）中，实际利率（TIPS 收益率）对长久期资产（如纳斯达克科技股、生物医药）
+估值的压制弹性，远大于名义利率？高通胀环境如何扭曲这一折现机制？
+- **数学折现与分子分母对冲机制**：
+  1. **名义利率 vs 实际利率的通胀分拆**：名义利率 = 实际利率 + 通胀预期 ($i = r + \pi$)。
+     在 DCF 现值模型中：
+     $$P = \sum_{t=1}^{\infty} \frac{CF_t^{\text{nominal}}}{(1 + i)^t} = \sum_{t=1}^{\infty} \frac{CF_t^{\text{real}} (1 + \pi)^t}{(1 + r + \pi)^t}$$
+  2. **名义利率上升的分子端对冲**：若名义利率上行由通胀预期 $\pi$ 主导，具有较强转嫁能力的企业（如能源、消费），
+     其名义现金流 $CF_t^{\text{nominal}}$ 也会跟随物价上涨，分子端在一定程度上抵消了分母端折现率的增加。
+  3. **实际利率上升的纯粹杀估值效应**：若实际利率 $r$ 飙升（如美联储激进紧缩导致 10Y TIPS 从 -1% 升至 +2.5%），
+     意味着所有无风险投资的真实净回报率上升。对于成长股，其核心现金流集中在 5~15 年后的远期，
+     时间久期 $D$ 极长，折现因子 $(1 + r)^{-t}$ 发生剧烈几何级衰减。
+  4. **再融资管道被阻断**：长久期未盈利科技股极度依赖外部股权/债券融资。高实际利率大幅提升一级市场资金门槛，
+     重创投融资流动性，导致高估值成长股遭受估值倍数（P/E, P/S）最严重的非线性挤压。
+
+【Q3 深度参考答案】
+为什么中国国债收益率曲线发生利差倒挂的频率与持续时间远低于美债？
+- **中微观制度结构与宏观调控差异**：
+  1. **配置型力量的压舱石作用**：中国债券市场主要持仓主体是国有商业银行、保险公司与农商行。
+     受资本占用（国债风险权重为 0）、免征所得税与增值税的制度红利驱动，机构对 10Y/30Y 长债具有刚性免税配置需求，
+     长端资产荒使得长端利率具备较强粘性。
+  2. **央行调控模式与基准利率弹性**：美联储采用单一目标制或双重目标制，在通胀失控时会采取脉冲式、跨越式的暴力加息；
+     而 PBOC 强调“跨周期调节”与多目标平衡（稳增长、防通胀、稳汇率、防金融风险），
+     极少出现短期内将逆回购利率上调 300~500 bps 的极端紧缩情景，短端政策利率波动区间显著窄于美债短端。
+  3. **做空机制与跨境套利限制**：中国国债期货仅有 2Y/5Y/10Y/30Y，做空融券门槛较高；同时中国存在资本账户宏观审慎管理，
+     离岸对冲基金无法利用大规模杠杆无摩擦套利短长端利差，减弱了由投机交易引发的深幅倒挂持续性。
+"""
+
+from typing import List, Tuple
+import numpy as np
+import pandas as pd
+
+
+def calculate_yield_spread(yield_10y: pd.Series, yield_2y: pd.Series) -> pd.Series:
+    """
+    计算 10Y - 2Y 国债利差 (单位: 基点 bps, 1% = 100 bps)
+    """
+    return (yield_10y - yield_2y) * 100.0
+
+
+def detect_inversion_regime(spread_bps: pd.Series) -> pd.Series:
+    """
+    返回布尔序列: True 表示处于倒挂体制 (spread < 0)
+    """
+    return spread_bps < 0.0
+
+
+class CubicSplineCurve:
+    """
+    无套利自然三次样条插值收益率曲线 (Natural Cubic Spline)
+    自主实现三对角线性方程求解 (Thomas 算法)，不依赖外部 scipy
+    """
+
+    def __init__(self, tenors: List[float], yields: List[float]):
+        self.tenors = np.array(tenors, dtype=float)
+        self.yields = np.array(yields, dtype=float)
+        assert len(self.tenors) == len(self.yields), "期限与收益率数据长度必须一致"
+        assert len(self.tenors) >= 3, "样条插值至少需要3个不同节点"
+        assert np.all(np.diff(self.tenors) > 0), "期限必须严格递增"
+
+        self.n = len(self.tenors) - 1
+        self.h = np.diff(self.tenors)
+        self._fit_spline()
+
+    def _fit_spline(self):
+        """
+        求解自然样条二阶导数 M_0, M_1, ..., M_n:
+        满足 M_0 = 0, M_n = 0
+        对于 i = 1, ..., n-1:
+            h_{i-1}*M_{i-1} + 2*(h_{i-1} + h_i)*M_i + h_i*M_{i+1} = 6 * ((y_{i+1} - y_i)/h_i - (y_i - y_{i-1})/h_{i-1})
+        """
+        n = self.n
+        h = self.h
+        y = self.yields
+
+        if n == 1:
+            self.M = np.zeros(2)
+            return
+
+        A = np.zeros((n - 1, n - 1))
+        b = np.zeros(n - 1)
+
+        for i in range(1, n):
+            row = i - 1
+            if row > 0:
+                A[row, row - 1] = h[i - 1]
+            A[row, row] = 2.0 * (h[i - 1] + h[i])
+            if row < n - 2:
+                A[row, row + 1] = h[i]
+
+            diff1 = (y[i + 1] - y[i]) / h[i]
+            diff0 = (y[i] - y[i - 1]) / h[i - 1]
+            b[row] = 6.0 * (diff1 - diff0)
+
+        m_inner = np.linalg.solve(A, b)
+        self.M = np.zeros(n + 1)
+        self.M[1:n] = m_inner
+        self.M[0] = 0.0
+        self.M[n] = 0.0
+
+    def interpolate(self, t: float) -> float:
+        """
+        在任意期限 t (年) 处估算平滑收益率 y(t)
+        """
+        if t <= self.tenors[0]:
+            return float(self.yields[0])
+        if t >= self.tenors[-1]:
+            return float(self.yields[-1])
+
+        idx = int(np.searchsorted(self.tenors, t) - 1)
+        idx = max(0, min(idx, self.n - 1))
+
+        t_i = self.tenors[idx]
+        t_next = self.tenors[idx + 1]
+        h_i = self.h[idx]
+        y_i = self.yields[idx]
+        y_next = self.yields[idx + 1]
+        m_i = self.M[idx]
+        m_next = self.M[idx + 1]
+
+        term1 = (m_next * ((t - t_i) ** 3) + m_i * ((t_next - t) ** 3)) / (6.0 * h_i)
+        term2 = (y_next / h_i - m_next * h_i / 6.0) * (t - t_i)
+        term3 = (y_i / h_i - m_i * h_i / 6.0) * (t_next - t)
+
+        return float(term1 + term2 + term3)
+
+    def get_forward_rate(self, t: float, dt: float = 1e-4) -> float:
+        """
+        计算瞬时远期利率 (Instantaneous Forward Rate):
+            f(t) = y(t) + t * y'(t)
+        """
+        y_t = self.interpolate(t)
+        y_plus = self.interpolate(t + dt)
+        y_minus = self.interpolate(max(1e-5, t - dt))
+        dy_dt = (y_plus - y_minus) / (2.0 * dt)
+        return float(y_t + t * dy_dt)
+
+
+def calculate_recession_probability(
+    spread_bps: float,
+    alpha: float = -0.5,
+    beta: float = -0.015,
+) -> float:
+    """
+    Estrella-Mishkin 衰退概率预测模型 (Logistic 形式):
+        P(Recession) = 1.0 / (1.0 + exp(-(alpha + beta * spread_bps)))
+    """
+    z = alpha + beta * spread_bps
+    z = np.clip(z, -30.0, 30.0)
+    return float(1.0 / (1.0 + np.exp(-z)))
+
+
+if __name__ == "__main__":
+    # ---------------- 基础测试 1: 利差与倒挂状态 ----------------
+    y10 = pd.Series([4.2, 4.0, 3.8, 3.7, 3.9])
+    y2 = pd.Series([4.0, 4.2, 4.1, 3.6, 3.5])
+    spread = calculate_yield_spread(y10, y2)
+    assert abs(spread.iloc[0] - 20.0) < 1e-4, f"Expected 20.0 bps, got {spread.iloc[0]}"
+    assert abs(spread.iloc[1] - (-20.0)) < 1e-4, f"Expected -20.0 bps, got {spread.iloc[1]}"
+
+    inv = detect_inversion_regime(spread)
+    assert inv.iloc[0] is False or inv.iloc[0] == False
+    assert inv.iloc[1] is True or inv.iloc[1] == True
+
+    # ---------------- 基础测试 2: 自然三次样条插值 ----------------
+    tenors = [0.25, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0]
+    yields = [5.40, 5.30, 5.00, 4.60, 4.20, 4.10, 4.30]
+
+    curve = CubicSplineCurve(tenors, yields)
+
+    # 验证插值精确穿过原始已知节点
+    for t_node, y_node in zip(tenors, yields):
+        interp_val = curve.interpolate(t_node)
+        assert abs(interp_val - y_node) < 1e-5, f"节点 {t_node}Y 插值误差过大: {interp_val} vs {y_node}"
+
+    # 验证非标准期限插值的平滑性与单调合理性
+    y_3y = curve.interpolate(3.0)
+    assert 4.20 < y_3y < 4.60, f"3Y 收益率应介于 5Y 与 2Y 之间, 实际为: {y_3y}"
+
+    # 验证瞬时远期利率计算
+    f_2y = curve.get_forward_rate(2.0)
+    assert isinstance(f_2y, float) and not np.isnan(f_2y)
+
+    # ---------------- 基础测试 3: 衰退概率计算 ----------------
+    prob_normal = calculate_recession_probability(150.0)
+    assert prob_normal < 0.15, f"正常利差下衰退概率过高: {prob_normal}"
+
+    prob_inverted = calculate_recession_probability(-100.0)
+    assert prob_inverted > 0.60, f"深度倒挂下衰退概率偏低: {prob_inverted}"
+
+    print("Lesson 02 Answer Verified!")

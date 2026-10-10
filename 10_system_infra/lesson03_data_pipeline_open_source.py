@@ -1,0 +1,234 @@
+"""
+================================================================================
+模块 10：量化回测引擎避坑指南与实盘系统工程 · 第 3/4 课
+第 3 课：现代量化数据管道：复权算法与 Point-in-Time 时序对齐校验
+================================================================================
+
+【考核标准】
+- 代码填空并通过所有自动化断言：4 分
+- Q1~Q3 思考题深入分析并达到工业级认知线：各 2 分（共 6 分）
+- 综合及格线：8/10 分
+
+【理论精讲】
+“垃圾进，垃圾出 (Garbage In, Garbage Out)”。量化策略的生与死，70% 决定于底层数据管道的纯净度与严谨性。
+本课聚焦量化数据工程的两大核心支柱：**价格除权除息（前复权/后复权）** 与 **Point-in-Time (PIT) 财报时序对齐防前视**。
+
+1. 除权除息与复权因子数学模型：
+   上市公司进行现金分红（Dividend）或送股转增（Stock Split）时，股价会在除权除息日（Ex-Dividend / Ex-Rights Date）发生机械性跳空低开。
+   若直接使用原始未复权价格（Raw Price），均线、波动率与动量指标将误以为发生暴跌。
+   
+   - 除权参考价公式：
+     $$P_{ex, t} = \\frac{P_{close, t-1} - D_t + P_{rights} \\cdot R_{rights}}{1 + R_{split} + R_{rights}}$$
+     其中 $D_t$ 为每股现金分红，$R_{split}$ 为每股送转股比例。
+   - 单期除权折算因子：
+     $$f_t = \\frac{P_{ex, t}}{P_{close, t-1}}$$
+   - 累计前复权因子法（Backward Adjustment / 前复权）：
+     以当前最新交易日 $T$ 的价格为真实基准不变，将历史上第 $\\tau$ 天的价格乘以累计前复权因子折算：
+     $$AdjFactor_{\\tau}^{backward} = \\prod_{k=\\tau+1}^{T} f_k$$
+     $$P_{adj, \\tau} = P_{raw, \\tau} \\times AdjFactor_{\\tau}^{backward}$$
+     前复权的巨大优势是：最新一天的复权价格与实盘真实市价完全一致，便于计算当前仓位与止损线。
+
+2. Point-in-Time (PIT) 财报时序架构：
+   传统财务数据表只记录 `report_date`（报告所属期，如 2023-12-31）。但上市公司通常在次年 3 月或 4 月底才正式披露年报。
+   - 致命错误：如果直接按 `market_date == report_date` 关联财报，相当于在 2023 年 12 月底就偷看了次年 4 月才公开的净利润！
+   - 工业级方案：Point-in-Time (PIT) 管道必须严格依赖 `publish_date`（实际法定披露公告日），采用非等值时序关联（`merge_asof(direction='backward')`）。
+   - 在任意交易日 $T$，系统仅可见满足 $\\text{publish\\_date} \\le T$ 的最新财报版本。若有多期财报更正（Revision），必须按披露时间戳实现版本不可变追加（Immutability & Snapshot）。
+
+【三个思考题 (Q1~Q3)】
+Q1: 为什么在做量化多因子回测与技术指标计算时必须使用“前复权（Backward Adjustment）”，而在统计长期投资组合资产净值（NAV）与复合年化收益率（CAGR）时更推荐使用“后复权（Forward Adjustment）”？
+Q2: 很多开源量化库从通用财经网站爬取财务报表时，直接以“报告期（如 06-30、12-31）”作为时序主键。请说明这种做法会给中低频基本面量化策略带来几个月的“幽灵超额（Ghost Alpha）”，并在系统架构层面给出设计工业级 PIT 数据湖的元数据表结构方案。
+Q3: 在高频 L2 Tick 行情数据管道中，深交所逐笔成交（Trade）与逐笔委托（Order）均带有严格单调递增的 `ApplSeqNum`（业务消息序列号），而上交所历史数据曾存在乱序广播与合并分包。面对跨交易所的网络抖动与乱序数据流，如何设计滑动窗口（Sliding Window）与水位线（Watermark）重排算法保证因果确定性？
+"""
+
+from typing import List, Dict, Any
+import numpy as np
+import pandas as pd
+
+
+# ==============================================================================
+# 算法 1：工业级累计前复权因子算法 (Backward Adjustment)
+# ==============================================================================
+
+def compute_backward_adjusted_prices(
+    raw_market_df: pd.DataFrame,
+    dividend_df: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    计算日线行情的精准累计前复权价格 (保持最新一天价格不变，历史价格向下折算):
+    
+    计算步骤:
+    1. 将原始日线 market_df 与分红送转 dividend_df 按照 ['date', 'symbol'] 关联。
+       缺失的分红和送股填 0.0。
+    2. 按交易日期升序排序。
+    3. 逐日计算单期除权因子 f_t:
+       若当日无分红送转: f_t = 1.0
+       若当日有分红送转:
+           prev_close = P_{close, t-1}
+           P_{ex, t} = (prev_close - cash_dividend) / (1.0 + split_ratio)
+           f_t = P_{ex, t} / prev_close
+    4. 计算累计前复权乘数 adj_factor_t:
+       最后一天 T 的 adj_factor_T = 1.0
+       历史任一天 t 的 adj_factor_t = f_{t+1} * f_{t+2} * ... * f_{T}
+    5. 计算复权价:
+       open_adj = open * adj_factor
+       high_adj = high * adj_factor
+       low_adj = low * adj_factor
+       close_adj = close * adj_factor
+       
+    参数:
+        raw_market_df: pd.DataFrame，列: ['date', 'symbol', 'open', 'high', 'low', 'close', 'volume']
+        dividend_df: pd.DataFrame，列: ['date', 'symbol', 'cash_dividend', 'split_ratio']
+        
+    返回:
+        pd.DataFrame: 包含原字段及新增 ['adj_factor', 'open_adj', 'high_adj', 'low_adj', 'close_adj']
+    """
+    # TODO: 实现完整前复权算法
+    pass
+
+
+# ==============================================================================
+# 算法 2：Point-in-Time (PIT) 财报时序对齐管道
+# ==============================================================================
+
+def align_point_in_time_data(
+    market_df: pd.DataFrame,
+    fundamental_pit_df: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    将日线市场行情与 Point-in-Time 基本面财务数据严格对齐，杜绝因财报披露滞后导致的前视偏差。
+    
+    核心规则:
+    1. 每一交易日 date，只能匹配到 publish_date <= date 的最新一份财报。
+    2. 即使一份财报的 report_date 早于当前交易日，若其 publish_date > date，当日绝对不可见 (应为 NaN 或前一期已披露值)。
+    3. 保证 market_df 的每一行交易日均被保留，按日期和标的有序输出。
+    
+    参数:
+        market_df: pd.DataFrame，列: ['date', 'symbol', 'close']
+        fundamental_pit_df: pd.DataFrame，列: ['symbol', 'report_date', 'publish_date', 'eps', 'net_profit_cr']
+        
+    返回:
+        pd.DataFrame: 对齐后的数据集，包含行情与当时已知有效财报特征
+    """
+    # TODO: 使用 merge_asof 或时序有序滚动合并，实现 Point-in-Time 真实有效对齐
+    pass
+
+
+# ==============================================================================
+# 算法 3：时序数据管道完整性与时间戳防篡改校验器
+# ==============================================================================
+
+def validate_pipeline_integrity(df: pd.DataFrame) -> List[str]:
+    """
+    静态校验清洗对齐后的量化数据集，排查 3 类致命时序数据污染:
+    1. 未来披露泄露: 若某行存在 publish_date > date (使用了尚未公开的未来财报)，记录 "LEAK_FUTURE_PUBLISH_DATE"
+    2. 时间戳乱序: 标的内部交易日 date 未严格单调递增，记录 "OUT_OF_ORDER_TIMESTAMP"
+    3. 负值异常: 价格、成交量或复权因子出现 <= 0 的非法负值，记录 "INVALID_NEGATIVE_DATA"
+    
+    返回:
+        List[str]: 发现的所有异常类型名称列表 (若无异常返回空列表 [])
+    """
+    # TODO: 逐项校验并返回异常列表
+    pass
+
+
+# ==============================================================================
+# 自动化测试断言
+# ==============================================================================
+
+if __name__ == "__main__":
+    print("正在运行 10_system_infra / Lesson 03 单元测试...")
+
+    # -------------------------------------------------------------------------
+    # 测试 1: 累计前复权因子法与价格连续性校验
+    # -------------------------------------------------------------------------
+    dates = pd.date_range("2024-01-01", periods=5, freq="D")
+    market_raw = pd.DataFrame({
+        "date": dates,
+        "symbol": "600000.SH",
+        "open": [10.0, 10.2, 5.2, 5.3, 5.5],
+        "high": [10.5, 10.6, 5.5, 5.6, 5.8],
+        "low": [9.8, 10.0, 5.0, 5.1, 5.3],
+        "close": [10.2, 10.4, 5.3, 5.4, 5.6],
+        "volume": [1000, 1200, 2400, 2200, 2500]
+    })
+
+    # 在第 3 天 (2024-01-03) 实施除权除息: 每股派现 0.40 元，每股送 1.0 股 (10 送 10)
+    # 前一日 (01-02) 收盘价 = 10.40 元
+    # 除权除息价 = (10.40 - 0.40) / (1 + 1.0) = 10.00 / 2.0 = 5.00 元
+    # 单期除权因子 f_2 = 5.00 / 10.40 = 0.48076923...
+    div_records = pd.DataFrame({
+        "date": [pd.Timestamp("2024-01-03")],
+        "symbol": ["600000.SH"],
+        "cash_dividend": [0.40],
+        "split_ratio": [1.0]
+    })
+
+    adj_df = compute_backward_adjusted_prices(market_raw, div_records)
+    assert adj_df is not None, "复权计算返回不能为 None"
+    assert len(adj_df) == 5, "复权数据行数必须保持一致"
+    
+    # 校验最新一天的复权价必须等于原始价格 (前复权核心特征)
+    assert abs(adj_df.iloc[-1]["close_adj"] - 5.6) < 1e-4, "最新一天前复权收盘价必须等于原始收盘价 5.6"
+    assert abs(adj_df.iloc[-1]["adj_factor"] - 1.0) < 1e-4, "最新一天前复权因子必须为 1.0"
+
+    # 校验除权除息前一天 (01-02) 的复权价格:
+    # 10.40 * (5.00 / 10.40) = 5.00 元
+    assert abs(adj_df.iloc[1]["close_adj"] - 5.00) < 1e-4, f"除权日前一日复权价预期 5.00，实际 {adj_df.iloc[1]['close_adj']}"
+    
+    # 校验真实持有收益率连续性:
+    # 真实除权除息收益率 = 5.30 / 5.00 - 1.0 = +6.00%
+    adj_ret = adj_df.iloc[2]["close_adj"] / adj_df.iloc[1]["close_adj"] - 1.0
+    assert abs(adj_ret - 0.06) < 1e-4, f"复权后除权日收益率应平滑反映 +6%，实际 {adj_ret:.4f}"
+    print("✅ 测试 1 (累计前复权因子法与除权除息跳空消除) 通过！")
+
+    # -------------------------------------------------------------------------
+    # 测试 2: Point-in-Time (PIT) 财报非等值时序对齐
+    # -------------------------------------------------------------------------
+    m_dates = pd.date_range("2024-03-25", periods=8, freq="D")
+    market_sample = pd.DataFrame({
+        "date": m_dates,
+        "symbol": "600000.SH",
+        "close": [10.0 + i * 0.1 for i in range(8)]
+    })
+
+    # 2023 年年报: 报告期 2023-12-31, 实际披露日 2024-03-29
+    pit_sample = pd.DataFrame({
+        "symbol": ["600000.SH"],
+        "report_date": [pd.Timestamp("2023-12-31")],
+        "publish_date": [pd.Timestamp("2024-03-29")],
+        "eps": [1.25],
+        "net_profit_cr": [280.0]
+    })
+
+    aligned_df = align_point_in_time_data(market_sample, pit_sample)
+    assert aligned_df is not None, "PIT 对齐结果不能为 None"
+    assert len(aligned_df) == 8, "对齐后行情条数必须完整保留"
+
+    # 3月25日至3月28日: 财报尚未公布，eps 必须为 NaN
+    pre_publish = aligned_df[aligned_df["date"] < pd.Timestamp("2024-03-29")]
+    assert pre_publish["eps"].isna().all(), "公告日之前财报指标必须为 NaN，严禁前视窥探"
+
+    # 3月29日及之后: 财报公布，eps 变为 1.25
+    post_publish = aligned_df[aligned_df["date"] >= pd.Timestamp("2024-03-29")]
+    assert (post_publish["eps"] == 1.25).all(), "公告日当天及之后必须准确生效公布的财务数据"
+    print("✅ 测试 2 (Point-in-Time 财报披露日精准对齐防前视) 通过！")
+
+    # -------------------------------------------------------------------------
+    # 测试 3: 时序数据管道完整性与时间戳防篡改校验
+    # -------------------------------------------------------------------------
+    # 构造含违规时间戳的脏数据
+    dirty_pipeline_data = pd.DataFrame({
+        "date": [pd.Timestamp("2024-01-01"), pd.Timestamp("2024-01-02"), pd.Timestamp("2024-01-01")], # 存在乱序
+        "symbol": ["600000.SH", "600000.SH", "600000.SH"],
+        "close": [10.0, -9.5, 10.2], # 存在非法负价格
+        "publish_date": [pd.Timestamp("2024-01-05"), pd.Timestamp("2024-01-01"), pd.Timestamp("2024-01-01")] # 存在未来披露泄露 (01-01 看到 01-05)
+    })
+
+    issues = validate_pipeline_integrity(dirty_pipeline_data)
+    assert "LEAK_FUTURE_PUBLISH_DATE" in issues, "未检测出未来披露日泄露问题"
+    assert "OUT_OF_ORDER_TIMESTAMP" in issues, "未检测出时间戳倒挂乱序问题"
+    assert "INVALID_NEGATIVE_DATA" in issues, "未检测出非法负价格异常"
+    print("✅ 测试 3 (时序管道数据污染与因果倒挂校验) 通过！")
+
+    print("\n🎉 Lesson 03 全部单元测试顺利通过！")
+"""

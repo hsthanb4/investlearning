@@ -1,0 +1,184 @@
+r"""
+================================================================================
+模块 06：现代投资组合理论与仓位风控算法 · 第 3/5 课
+第 3 课：凯利公式数学推导、破产概率与分数凯利 (参考答案版)
+================================================================================
+
+【Q1 深度参考答案】
+为什么胜率高达 80% 的策略，如果单次满仓或过度加杠杆下注，只要遇到一次小概率黑天鹅事件（如极端跳空暴跌），总财富就会彻底归零？请用几何平均数与对数效用函数推导说明：
+- **算术期望与几何复利的维度断层**：
+  在传统线性期望中，若某策略胜率 $p = 80\%$，盈利时获得 $+20\%$，亏损时发生 $-100\%$（极端穿仓黑天鹅）。
+  其单次算术平均期望收益率看似依然为正：$\mathbb{E}[R] = 0.8 \times 0.20 + 0.2 \times (-1.0) = -0.04$；即便亏损设为 $-50\%$，算术期望高达 $+6\%$。
+  然而，现实中资金的连续滚存是**乘法几何复利过程**：
+  $$W_T = W_0 \prod_{t=1}^T (1 + f R_t)$$
+  其长期的几何平均复合收益率由几何平均值决定：$G = \left(\prod_{t=1}^T (1 + f R_t)\right)^{1/T} - 1$。
+- **零吸收壁（Absorbing Barrier）的不可逆性**：
+  在连乘积中，只要在第 $k$ 期发生了一次单笔 $-100\%$ 的穿仓亏损（即 $1 + f R_k = 0$）：
+  $$W_T = W_{k-1} \times 0 \times \prod_{t=k+1}^T (1 + f R_t) \equiv 0$$
+  无论之前连续成功了 100 次还是 1000 次，财富在归零那一瞬间博弈即刻终结。交易者彻底丧失了留在牌桌上的本金，这在随机过程理论中被称为“吸收壁”。
+- **对数效用函数的数学约束**：
+  凯利公式最大化的是对数财富期望 $\mathbb{E}[\ln W]$。
+  由于自然对数函数在零点处的极限为负无穷大：$\lim_{W \to 0^+} \ln W = -\infty$，因此对数效用函数赋予了“破产归零”绝对不可承受的负无穷惩罚。
+  凯利准则在数学推导上天然强制约束最优仓位 $f^* < 1.0$，永远保留安全底仓，从第一性原理上根除了单次暴跌清零的毁灭性风险。
+
+【Q2 深度参考答案】
+请推导连续几何布朗运动下的多资产凯利公式 $f^* = \Sigma^{-1}(\mu - r)$，并从二次函数顶点解释为什么过度杠杆（$f > 2 f^*$）必然导致几何财富增长率转负？
+- **连续时间伊藤引理推导**：
+  假设标的风险资产价格遵循几何布朗运动（GBM）：
+  $$\frac{dS_t}{S_t} = \mu dt + \sigma dW_t$$
+  投资者以资金杠杆比率 $f$ 投资该风险资产，剩余资金 $(1-f)$ 存入无风险资产（利率 $r$）。总财富演化过程为：
+  $$\frac{dW_t}{W_t} = (1 - f) r dt + f \frac{dS_t}{S_t} = (r + f(\mu - r)) dt + f \sigma dW_t$$
+  定义对数财富过程 $Y_t = \ln W_t$。根据伊藤引理（Itô's Lemma）：
+  $$d \ln W_t = \frac{dW_t}{W_t} - \frac{1}{2} \left(\frac{dW_t}{W_t}\right)^2 = \left[ r + f(\mu - r) - \frac{1}{2} f^2 \sigma^2 \right] dt + f \sigma dW_t$$
+  对数财富的期望长期瞬时几何增长率漂移项为二次函数：
+  $$g(f) = \lim_{t \to \infty} \frac{\mathbb{E}[\ln(W_t / W_0)]}{t} = r + f(\mu - r) - \frac{1}{2} f^2 \sigma^2$$
+- **一阶最优条件与多资产推广**：
+  对杠杆 $f$ 求一阶导数并令其为 0：
+  $$\frac{dg}{df} = (\mu - r) - f \sigma^2 = 0 \implies f^* = \frac{\mu - r}{\sigma^2}$$
+  推广至 $N$ 项资产构成的协方差矩阵 $\Sigma$ 与超额收益向量 $(\mu - r \mathbf{1})$，其矩阵解析解为：
+  $$f^* = \Sigma^{-1} (\mu - r \mathbf{1})$$
+- **过度杠杆（$f > 2 f^*$）几何毁灭机制**：
+  考察抛物线 $g(f) = r + f(\mu - r) - \frac{1}{2} f^2 \sigma^2$ 的几何特征：
+  1. 当不加杠杆时，$g(0) = r$（获得基础无风险收益）；
+  2. 抛物线对称轴顶点位于 $f = f^*$，此时增长率达到理论峰值 $g_{\max} = r + \frac{(\mu - r)^2}{2 \sigma^2}$；
+  3. 由抛物线对称性，当杠杆翻倍至 $f = 2 f^*$ 时，二次方差拖累项 $-\frac{1}{2}(2 f^*)^2 \sigma^2 = -2 (f^*)^2 \sigma^2$ 完全抵消了新增杠杆带来的线性超额收益，增长率降回无风险利率：$g(2 f^*) = r$；
+  4. 一旦杠杆突破 $f > 2 f^*$，高阶方差拖累项占绝对统治地位，长期复合增长率急剧暴跌并迅速转为负数（$g(f) < 0$）。这意味着虽然交易者名义上拥有正期望的 Alpha，但由于过度负债加杠杆，其长期财富必然以指数级速度走向破产。
+
+【Q3 深度参考答案】
+为什么华尔街顶级量化机构（如 Renaissance Technologies, Citadel）在实盘中从不使用全凯利（Full Kelly），而是严格执行分数凯利（如 0.3~0.5 凯利）？请从参数估计误差与回撤效用损失两个维度进行量化论证：
+- **参数估计误差的不对称毁灭性（Estimation Risk）**：
+  在实际投资中，真实超额收益 $\mu$ 和协方差 $\Sigma$ 永远是基于有限历史样本带噪声的估计值，且市场宏观体制不断漂移。
+  若量化回测因过拟合将真实超额高估了 1 倍（$\hat{\mu} = 2 \mu_{\text{true}}$），交易员若按估计值满格执行全凯利：
+  $$\hat{f}^* = \frac{\hat{\mu}}{\sigma^2} = \frac{2 \mu_{\text{true}}}{\sigma^2} = 2 f^*_{\text{true}}$$
+  在现实中，这相当于系统在以 $2 f^*$ 的极端危险边缘运行，几何增长率已降至 0。一旦真实超额略低于预期，系统立即滑入 $f > 2 f^*$ 的必死区间。
+- **回撤概率与效用损失的“黄金性价比”**：
+  1. **极小收益折损**：采用半凯利（$0.5 f^*$）时，其几何增长率为：
+     $$g(0.5 f^*) = r + 0.5 f^* (\mu - r) - \frac{1}{2} (0.25) (f^*)^2 \sigma^2 = r + \frac{3}{8} \frac{(\mu - r)^2}{\sigma^2} = \frac{3}{4} g_{\max}$$
+     仅牺牲了 $25\%$ 的理论增长极限速度；
+  2. **回撤概率断崖式暴跌**：根据连续布朗运动首达时间概率公式，全凯利在长期博弈中遭遇 $50\%$ 以上本金腰斩回撤的理论概率高达 $\frac{1}{3} \approx 33.3\%$（即每 3 位全凯利交易员中必有 1 位经历资产腰斩）；
+     而半凯利（Half-Kelly）遭遇 $50\%$ 回撤的理论概率骤降至 $1.5\%$，遭遇 $20\%$ 回撤的概率仅为 $11\%$。
+- **商业现实约束**：
+  对冲基金面临着严苛的高水位线（High Water Mark）要求、主经纪商保证金警戒线以及机构 LP 赎回条款。承受 50% 回撤会导致基金触发清盘条款直接死亡。分数凯利是机构量化在“复利最大化”与“生存繁衍”之间做出的唯一理性工程解。
+"""
+
+from typing import List, Dict, Any, Tuple
+import numpy as np
+
+
+def calculate_discrete_kelly(win_rate: float, win_loss_ratio: float) -> float:
+    """
+    计算经典离散二项博弈的凯利最优下注比例
+    """
+    if win_loss_ratio <= 1e-12:
+        return 0.0
+    val = (win_rate * win_loss_ratio - (1.0 - win_rate)) / win_loss_ratio
+    return max(0.0, float(val))
+
+
+def calculate_continuous_multi_asset_kelly(
+    expected_returns: np.ndarray,
+    cov_matrix: np.ndarray,
+    risk_free_rate: float = 0.02,
+) -> np.ndarray:
+    """
+    计算连续时间多资产凯利最优杠杆向量
+    """
+    inv_cov = np.linalg.inv(cov_matrix)
+    excess_returns = expected_returns - risk_free_rate
+    f_star = inv_cov @ excess_returns
+    return f_star
+
+
+def simulate_kelly_risk_of_ruin(
+    mu: float,
+    sigma: float,
+    risk_free_rate: float = 0.02,
+    kelly_multipliers: List[float] = [0.5, 1.0, 2.5],
+    ruin_threshold: float = 0.20,
+    n_simulations: int = 1000,
+    n_steps: int = 252,
+    random_seed: int = 42,
+) -> Dict[str, Any]:
+    """
+    蒙特卡洛破产概率与财富复利模拟引擎
+    """
+    f_opt = (mu - risk_free_rate) / (sigma ** 2)
+    dt = 1.0 / float(n_steps)
+    rng = np.random.default_rng(random_seed)
+    results = {}
+
+    for m in kelly_multipliers:
+        lev = m * f_opt
+        drift = (risk_free_rate + lev * (mu - risk_free_rate) - 0.5 * (lev ** 2) * (sigma ** 2)) * dt
+        diffusion = lev * sigma * np.sqrt(dt)
+
+        shocks = rng.normal(0.0, 1.0, size=(n_simulations, n_steps))
+        log_rets = drift + diffusion * shocks
+        log_wealth = np.zeros((n_simulations, n_steps + 1))
+        log_wealth[:, 1:] = np.cumsum(log_rets, axis=1)
+        wealth = np.exp(log_wealth)
+
+        min_w = np.min(wealth, axis=1)
+        ruin_count = np.sum(min_w <= ruin_threshold)
+        ruin_prob = float(ruin_count / n_simulations)
+        median_wealth = float(np.median(wealth[:, -1]))
+
+        results[m] = {
+            "ruin_prob": ruin_prob,
+            "median_wealth": median_wealth,
+        }
+
+    return {
+        "f_optimal": float(f_opt),
+        "results": results,
+    }
+
+
+if __name__ == "__main__":
+    print("=" * 70)
+    print("运行 Lesson 03: 凯利公式推导与破产概率单元测试 (参考答案版)")
+    print("=" * 70)
+
+    # 1. 验证离散凯利公式
+    f_d1 = calculate_discrete_kelly(0.60, 1.5)
+    assert abs(f_d1 - 0.333333) < 1e-4, f"离散凯利计算偏差: {f_d1}"
+
+    f_d2 = calculate_discrete_kelly(0.40, 1.0)
+    assert f_d2 == 0.0, "负期望博弈最优凯利仓位必须为 0.0"
+
+    # 2. 验证多资产连续凯利矩阵求解
+    mu_assets = np.array([0.10, 0.05])
+    cov_assets = np.array([[0.04, 0.005], [0.005, 0.01]])
+    rf = 0.02
+
+    f_vec = calculate_continuous_multi_asset_kelly(mu_assets, cov_assets, risk_free_rate=rf)
+    print(f"多资产连续最优凯利杠杆向量: {np.round(f_vec, 4)}")
+    assert len(f_vec) == 2, "杠杆向量维度不符"
+    assert abs(f_vec[0] - 1.7333) < 1e-2, f"资产 1 最优杠杆应约为 1.73, 实际: {f_vec[0]:.4f}"
+    assert abs(f_vec[1] - 2.1333) < 1e-2, f"资产 2 最优杠杆应约为 2.13, 实际: {f_vec[1]:.4f}"
+
+    # 3. 验证蒙特卡洛破产概率与复利模拟
+    mc_res = simulate_kelly_risk_of_ruin(
+        mu=0.12,
+        sigma=0.20,
+        risk_free_rate=0.02,
+        kelly_multipliers=[0.5, 1.0, 2.5],
+        ruin_threshold=0.20,
+        n_simulations=1000,
+        n_steps=252,
+        random_seed=42,
+    )
+
+    f_opt = mc_res["f_optimal"]
+    print(f"\n单资产理论全凯利杠杆 f*: {f_opt:.2f}")
+    assert abs(f_opt - 2.50) < 1e-4, f"全凯利杠杆应为 (0.12 - 0.02) / 0.04 = 2.50, 实际: {f_opt}"
+
+    for mult, stats_dict in mc_res["results"].items():
+        print(f"乘数 {mult:3.1f}x (杠杆: {mult*f_opt:4.2f}) ➔ 破产率: {stats_dict['ruin_prob']*100:5.2f}%, 期末财富中位数: {stats_dict['median_wealth']:.4f}")
+
+    assert mc_res["results"][0.5]["ruin_prob"] < 0.01, "半凯利破产率应接近 0"
+    assert mc_res["results"][1.0]["ruin_prob"] < 0.05, "全凯利 1 年破产率应受控"
+    assert mc_res["results"][2.5]["ruin_prob"] > 0.10, "过度杠杆破产率应显著激增 (>10%)"
+    assert mc_res["results"][2.5]["median_wealth"] < mc_res["results"][0.5]["median_wealth"], "过度杠杆财富中位数必然因波动率拖累劣于半凯利"
+
+    print("Lesson 03 参考答案测试全部通过 (Exit Code 0)！")
