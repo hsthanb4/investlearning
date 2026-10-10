@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20261010_v12">
+  <link rel="stylesheet" href="css/style.css?v=20261010_v13">
   
   <!-- KaTeX High-Performance Math Engine (Vendored Local + Cloudflare Fast CDN Fallback) -->
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css';">
@@ -681,6 +681,26 @@
       </div>
     </div>
 
+    <!-- Fullscreen Scientific Diagram Lightbox Zoom Modal -->
+    <div class="modal-overlay" id="diagramLightboxModal" style="z-index:500;">
+      <div class="diagram-lightbox-card" onclick="event.stopPropagation();">
+        <div class="diagram-lightbox-toolbar">
+          <div class="diagram-lightbox-title" id="diagramLightboxTitle">科学图解全屏高清视图</div>
+          <div class="diagram-lightbox-controls">
+            <button class="code-btn" onclick="app.zoomDiagram(-0.25)">➖ 缩小</button>
+            <span class="zoom-level-badge" id="diagramZoomBadge">130%</span>
+            <button class="code-btn" onclick="app.zoomDiagram(0.25)">➕ 放大</button>
+            <button class="code-btn" onclick="app.setDiagramZoom(1.0)">100%</button>
+            <button class="code-btn" onclick="app.setDiagramZoom(1.6)">160%</button>
+            <button class="code-btn" style="background:var(--claude-terracotta); color:#fff; border-color:var(--claude-terracotta);" onclick="app.closeDiagramLightbox()">✕ 关闭 (ESC)</button>
+          </div>
+        </div>
+        <div class="diagram-lightbox-viewport" id="diagramLightboxViewport">
+          <div class="diagram-lightbox-stage" id="diagramLightboxStage"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast Notifications Container -->
     <div class="toast-container" id="toastContainer"></div>
 
@@ -701,9 +721,9 @@
 
 
   <!-- Scripts -->
-  <script src="js/data-curriculum.js?v=20261010_v12"></script>
-  <script src="js/data-books.js?v=20261010_v12"></script>
-  <script src="js/charts.js?v=20261010_v12"></script>
-  <script src="js/app.js?v=20261010_v12"></script>
+  <script src="js/data-curriculum.js?v=20261010_v13"></script>
+  <script src="js/data-books.js?v=20261010_v13"></script>
+  <script src="js/charts.js?v=20261010_v13"></script>
+  <script src="js/app.js?v=20261010_v13"></script>
 </body>
 </html>

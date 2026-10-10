@@ -156,7 +156,10 @@ class InvestLearningApp {
         sidebar.style.display = '';
         sidebar.classList.remove('collapsed');
       }
-      if (overviewSec) this.renderMath(overviewSec);
+      if (overviewSec) {
+        this.renderMath(overviewSec);
+        this.bindDiagramZoom(overviewSec);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'curriculum') {
       if (overviewSec) overviewSec.style.display = 'none';
@@ -183,6 +186,104 @@ class InvestLearningApp {
   // ==========================================
   // Mermaid Flowchart Renderer
   // ==========================================
+  // ==========================================
+  // Scientific Diagram Lightbox & Zoom Engine
+  // ==========================================
+  bindDiagramZoom(el) {
+    if (!el) return;
+    const cards = el.querySelectorAll('.diagram-card');
+    cards.forEach((card) => {
+      const svgEl = card.querySelector('svg');
+      if (!svgEl) return;
+
+      // Ensure SVG scales to full container width crisply
+      svgEl.removeAttribute('height');
+      svgEl.style.width = '100%';
+      svgEl.style.height = 'auto';
+      svgEl.style.display = 'block';
+
+      const titleEl = card.querySelector('.diagram-title');
+      const titleText = titleEl ? titleEl.textContent.trim() : '科学图解高清放大视图';
+
+      // Add "🔍 点击放大图表" button in header if not already added
+      const header = card.querySelector('.diagram-header');
+      if (header && !header.querySelector('.diagram-zoom-btn')) {
+        const zoomBtn = document.createElement('button');
+        zoomBtn.className = 'code-btn diagram-zoom-btn';
+        zoomBtn.style.cssText = 'padding:3px 10px; font-size:0.74rem; color:var(--claude-terracotta); border-color:var(--claude-terracotta); cursor:pointer; margin-left:auto; margin-right:8px;';
+        zoomBtn.innerHTML = '🔍 点击全屏放大';
+        zoomBtn.onclick = (e) => {
+          e.stopPropagation();
+          this.openDiagramLightbox(svgEl.outerHTML, titleText);
+        };
+        const tag = header.querySelector('.diagram-tag');
+        if (tag) {
+          header.insertBefore(zoomBtn, tag);
+        } else {
+          header.appendChild(zoomBtn);
+        }
+      }
+
+      // Also allow clicking directly on the SVG container to open lightbox
+      const svgContainer = card.querySelector('.diagram-svg-container');
+      if (svgContainer && !svgContainer.getAttribute('data-zoom-bound')) {
+        svgContainer.setAttribute('data-zoom-bound', '1');
+        svgContainer.style.cursor = 'zoom-in';
+        svgContainer.title = '点击全屏放大查看科学图解（支持滚轮无级缩放）';
+        svgContainer.addEventListener('click', () => {
+          this.openDiagramLightbox(svgEl.outerHTML, titleText);
+        });
+      }
+    });
+  }
+
+  openDiagramLightbox(svgHtml, titleText = '科学图解全屏高清视图') {
+    const modal = document.getElementById('diagramLightboxModal');
+    const stage = document.getElementById('diagramLightboxStage');
+    const titleEl = document.getElementById('diagramLightboxTitle');
+    if (!modal || !stage) return;
+
+    if (titleEl) titleEl.textContent = titleText;
+    stage.innerHTML = svgHtml;
+    this.currentDiagramZoom = 1.3;
+    this.applyDiagramZoom();
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+  }
+
+  closeDiagramLightbox() {
+    const modal = document.getElementById('diagramLightboxModal');
+    if (modal) {
+      modal.classList.remove('open');
+      modal.style.display = 'none';
+    }
+  }
+
+  zoomDiagram(delta) {
+    this.currentDiagramZoom = Math.min(3.5, Math.max(0.6, (this.currentDiagramZoom || 1.3) + delta));
+    this.applyDiagramZoom();
+  }
+
+  setDiagramZoom(val) {
+    this.currentDiagramZoom = val;
+    this.applyDiagramZoom();
+  }
+
+  applyDiagramZoom() {
+    const stage = document.getElementById('diagramLightboxStage');
+    const badge = document.getElementById('diagramZoomBadge');
+    const z = this.currentDiagramZoom || 1.3;
+    if (badge) badge.textContent = Math.round(z * 100) + '%';
+    if (stage) {
+      const svg = stage.querySelector('svg');
+      if (svg) {
+        svg.style.width = Math.round(860 * z) + 'px';
+        svg.style.maxWidth = 'none';
+        svg.style.height = 'auto';
+      }
+    }
+  }
+
   renderMermaid(el) {
     if (!el) return;
     const mermaidNodes = el.querySelectorAll('.mermaid');
@@ -236,6 +337,7 @@ class InvestLearningApp {
         theoryBody.innerHTML = currentLesson.theory;
         this.renderMath(theoryBody);
         this.renderMermaid(theoryBody);
+      this.bindDiagramZoom(theoryBody);
       }
     }
   }
@@ -452,6 +554,7 @@ class InvestLearningApp {
     if (theoryBody) {
       this.renderMath(theoryBody);
       this.renderMermaid(theoryBody);
+      this.bindDiagramZoom(theoryBody);
     }
     this.initLessonSimulator();
 

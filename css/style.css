@@ -1309,3 +1309,91 @@ ol.step-guide-list ul li {
 .katex-mathml {
   display: none !important;
 }
+
+
+/* Enlarged Scientific Diagram Container & Fullscreen Lightbox */
+.diagram-svg-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 8px 0;
+  border-radius: var(--radius-sm);
+  transition: box-shadow 0.15s ease;
+}
+
+.diagram-svg-container:hover {
+  box-shadow: 0 0 0 2px var(--claude-terracotta-border);
+}
+
+.diagram-svg-container svg {
+  width: 100% !important;
+  min-width: 680px;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+}
+
+.diagram-lightbox-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  width: 94vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.diagram-lightbox-toolbar {
+  padding: 12px 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.diagram-lightbox-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.diagram-lightbox-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zoom-level-badge {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--claude-terracotta);
+  padding: 4px 10px;
+  background: var(--claude-terracotta-light);
+  border-radius: var(--radius-sm);
+  min-width: 58px;
+  text-align: center;
+}
+
+.diagram-lightbox-viewport {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px;
+  background: var(--bg-primary);
+}
+
+.diagram-lightbox-stage {
+  display: inline-block;
+  background: #FAF8F5;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
