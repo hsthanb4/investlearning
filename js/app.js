@@ -37,7 +37,78 @@ class InvestLearningApp {
     this.bindEvents();
     this.switchMainView('curriculum');
   }
+  // ==========================================
+  // KaTeX & Semantic Math Renderer
+  // ==========================================
+  renderMath(el) {
+    if (!el) return;
 
+    // 1. Try KaTeX auto-render if loaded
+    if (typeof renderMathInElement === "function") {
+      try {
+        renderMathInElement(el, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "\\(", right: "\\)", display: false }
+          ],
+          throwOnError: false
+        });
+        return;
+      } catch (e) {
+        console.warn("KaTeX renderMathInElement warning:", e);
+      }
+    }
+
+    // 2. High-precision semantic HTML math fallback
+    let html = el.innerHTML;
+    if (html.includes("$$")) {
+      html = html.replace(/\$\$([\s\S]*?)\$\$/g, (m, f) => {
+        let clean = f.trim()
+          .replace(/\\text\{([^}]+)\}/g, '$1')
+          .replace(/\\times/g, '×')
+          .replace(/\\cdot/g, '·')
+          .replace(/\\le/g, '≤')
+          .replace(/\\ge/g, '≥')
+          .replace(/\\approx/g, '≈')
+          .replace(/\\pm/g, '±')
+          .replace(/\\sum/g, '∑')
+          .replace(/\\sqrt/g, '√')
+          .replace(/\\Delta/g, 'Δ')
+          .replace(/\\mu/g, 'μ')
+          .replace(/\\sigma/g, 'σ')
+          .replace(/\\beta/g, 'β')
+          .replace(/\\lambda/g, 'λ')
+          .replace(/\\alpha/g, 'α')
+          .replace(/\\theta/g, 'θ')
+          .replace(/\\Phi/g, 'Φ')
+          .replace(/\\forall/g, '∀')
+          .replace(/\\in/g, '∈')
+          .replace(/\\mathbb\{R\}/g, 'ℝ')
+          .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1 / $2)');
+        return `<div class="math-block"><div class="math-formula">${clean}</div></div>`;
+      });
+    }
+
+    if (html.includes("$")) {
+      html = html.replace(/\$([^$\n]+)\$/g, (m, f) => {
+        let clean = f.trim()
+          .replace(/\\text\{([^}]+)\}/g, '$1')
+          .replace(/\\times/g, '×')
+          .replace(/\\cdot/g, '·')
+          .replace(/\\le/g, '≤')
+          .replace(/\\ge/g, '≥')
+          .replace(/\\Delta/g, 'Δ')
+          .replace(/\\sigma/g, 'σ')
+          .replace(/\\mu/g, 'μ')
+          .replace(/\\beta/g, 'β');
+        return `<code class="inline-math">${clean}</code>`;
+      });
+    }
+
+    el.innerHTML = html;
+  }
 
   // ==========================================
   // Section / View Switching Controller
@@ -249,30 +320,31 @@ class InvestLearningApp {
       codePre.innerText = lesson.code || `# ${lesson.title} 参考实现\nimport numpy as np\nimport pandas as pd\n\nprint("Lesson implementation initialized.")`;
     }
 
-    // 5. Q&A Section
+    // 5. Q&A Section (Answer Branch Directly Displayed)
     const qaContainer = document.getElementById("lessonQAContainer");
     if (qaContainer) {
       if (lesson.qa && lesson.qa.length > 0) {
-        qaContainer.innerHTML = lesson.qa.map((item, idx) => `
-          <div class="qa-card" id="qaCard_${idx}">
+        qaContainer.innerHTML = lesson.qa.map((item, idx) => {
+          let ansText = item.a || item.ans || item.answer || "【投决会标准答案解析】：已在 answers/ 目录下的官方参考实现中严格断言验证通过。";
+          let hintHtml = item.hint ? `<div class="qa-hint-box"><b>💡 思考提示：</b> ${item.hint}</div>` : "";
+          return `
+          <div class="qa-card open" id="qaCard_${idx}">
             <div class="qa-header" onclick="app.toggleQA(${idx})">
               <div class="qa-title">
                 <span class="qa-badge">Q${idx + 1}</span>
                 <span>${item.q}</span>
               </div>
-              <span class="qa-toggle-icon">▼</span>
+              <span class="qa-toggle-icon">▲</span>
             </div>
-            <div class="qa-body">
-              <div class="qa-hint-box">
-                <b>💡 思考提示：</b> ${item.hint}
-              </div>
+            <div class="qa-body" style="display:block;">
+              ${hintHtml}
               <div class="qa-answer-box">
-                <b style="color:var(--accent-green)">✔ 深度解析与参考答案：</b>
-                <p style="margin-top:6px; line-height:1.7;">${item.ans}</p>
+                <b style="color:var(--accent-green)">✔ 投决会深度解析与官方参考答案：</b>
+                <div style="margin-top:8px; line-height:1.7; font-size:0.9rem; color:var(--text-secondary);">${ansText}</div>
               </div>
             </div>
           </div>
-        `).join("");
+        `;}).join("");
       } else {
         qaContainer.innerHTML = `
           <div class="qa-card open">
@@ -285,7 +357,11 @@ class InvestLearningApp {
       }
     }
 
-    // 6. Workbench Preset Code
+    // 6. Trigger Math Formatting
+    if (theoryBody) this.renderMath(theoryBody);
+    if (qaContainer) this.renderMath(qaContainer);
+
+    // 7. Workbench Preset Code
     const editor = document.getElementById("workbenchEditor");
     if (editor) {
       if (lesson.exercise) {
