@@ -493,7 +493,6 @@ class InvestLearningApp {
 
             ctxBox.innerHTML = `
         <div class="callout-body" style="font-size:0.86rem; line-height:1.65;">
-          <div style="margin-bottom:6px;"><strong style="color:var(--text-primary);">模块定位：</strong>${mod.system_role || mod.desc}</div>
           <div style="margin-bottom:8px;"><strong style="color:var(--claude-terracotta);">本课脉络：</strong>${lesson.chapter_bridge || ''}</div>
           <div class="chapter-stepper-bar">
             <span class="chapter-stepper-label">章节路径</span>
@@ -535,14 +534,7 @@ class InvestLearningApp {
               <p class="feynman-analogy-text">${lesson.feynman_analogy}</p>
             </div>
 
-            <div class="feynman-section">
-              <div class="feynman-sub-label">核心概念</div>
-              <div class="feynman-jargon-grid">
-                ${jargonRows}
-              </div>
-            </div>
-
-            <div class="feynman-section" style="margin-bottom:0;">
+<div class="feynman-section" style="margin-bottom:0;">
               <div class="feynman-sub-label">算例演示</div>
               <div class="feynman-calc-box">${lesson.feynman_calc}</div>
             </div>
