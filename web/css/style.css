@@ -1280,3 +1280,7 @@ ol.step-guide-list ul li {
   font-size: 0.88rem;
   color: var(--text-secondary);
 }
+
+.course-sidebar.collapsed {
+  display: none !important;
+}

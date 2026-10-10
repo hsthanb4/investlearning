@@ -63,7 +63,7 @@
           <!-- Search box -->
           <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" id="sidebarSearchInput" placeholder="检索 10 大模块与 84 节课...">
+            <input type="text" id="sidebarSearchInput" placeholder="检索 10 大模块与 46 门系统课...">
           </div>
 
         </div>
@@ -221,10 +221,38 @@
         </section>
 
 
-        <div id="lessonViewContainer">
-        
+                <div id="lessonViewContainer" style="display:none;">
+          <!-- Current Lesson Card Header -->
+          <div class="lesson-card-header" id="curriculumSection">
+            <div class="lesson-breadcrumbs">
+              <a href="#overviewSection" onclick="app.switchMainView('overview'); return false;" style="color:var(--text-muted); text-decoration:none;">课程总览</a>
+              <span>/</span>
+              <span id="lessonBreadcrumbMod">01 宏观经济与流动性传导</span>
+              <span>/</span>
+              <span id="lessonBreadcrumbLesson" style="color:var(--claude-terracotta); font-weight:600;">第 01 课</span>
+            </div>
+            <h1 class="lesson-title-main" id="lessonMainTitle">
+              央行资产负债表与法币流动性净额传导模型
+            </h1>
+            <div class="lesson-tags">
+              <span class="meta-chip">
+                <span>所属模块：</span><b id="lessonMetaModule">宏观经济与流动性传导</b>
+              </span>
+              <span class="meta-chip">
+                <span>⏱ 预估研习：</span><span id="lessonMetaTime">35 分钟</span>
+              </span>
+            </div>
 
-        <!-- Current Lesson Card Header -->
+            <div class="learning-objectives-box">
+              <div class="learning-objectives-title">
+                <span>🎯</span>
+                <span>本课核心认知与实战目标</span>
+              </div>
+              <ul class="objectives-list" id="lessonObjectivesList">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+          </div>
 
         <!-- Content Tabs (Dynamic: Practical Guide for Non-Quant, Code for Quant) -->
         <div class="content-tabs">
