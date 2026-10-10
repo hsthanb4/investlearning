@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20261010_v10">
+  <link rel="stylesheet" href="css/style.css?v=20261010_v11">
   
   <!-- KaTeX High-Performance Math Engine (Vendored Local + Cloudflare Fast CDN Fallback) -->
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css';">
@@ -140,84 +140,394 @@
             </div>
           </div>
 
-          <!-- Section 3: 10 Core Modules Matrix -->
-          <div class="overview-block" style="margin-bottom:36px;">
-            <h2 class="overview-h2" style="font-family:var(--font-serif); font-size:1.45rem; margin-bottom:12px; color:var(--text-primary);">三、 十大核心模块全景大纲 (全 46 门系统课)</h2>
-            <div style="overflow-x:auto; margin:16px 0;">
-              <table class="overview-table" style="width:100%; border-collapse:collapse; font-size:0.86rem; background:var(--bg-secondary); border:1px solid var(--border-primary); border-radius:var(--radius-md);">
-                <thead>
-                  <tr style="border-bottom:2px solid var(--border-primary); text-align:left; background:var(--bg-tertiary);">
-                    <th style="padding:10px 14px;">模块编号与名称</th>
-                    <th style="padding:10px 14px; text-align:center;">课数</th>
-                    <th style="padding:10px 14px;">核心产出与算法</th>
-                    <th style="padding:10px 14px;">前置要求</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(0, 0); app.switchMainView('curriculum'); return false;">01. 宏观经济与流动性传导</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
-                    <td style="padding:10px 14px;">央行资产负债表与净流动性方程、收益率曲线倒挂预警、美林时钟库存周期、全天候对冲状态机</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">宏观经济学基础</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(1, 0); app.switchMainView('curriculum'); return false;">02. 市场微观结构与订单流</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
-                    <td style="padding:10px 14px;">限价订单簿 (LOB) 撮合引擎、跌停流动性枯竭对冲、OFI 订单流不平衡、Almgren-Chriss 最优拆单</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">微积分、数据结构</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(2, 0); app.switchMainView('curriculum'); return false;">03. 现代基本面财务建模</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
-                    <td style="padding:10px 14px;">三表动态勾稽平衡校验、Penman RNOA 杜邦拆解、Beneish M-Score 8维排雷、两阶段 DCF 估值引擎</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">财务会计原理</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(3, 0); app.switchMainView('curriculum'); return false;">04. 价格行为学与技术分析</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
-                    <td style="padding:10px 14px;">局部摆动极值几何拓扑、BOS/CHoCH 结构突破状态机、订单块 (OB) 与流动性扫荡、锚定 VWAP (AVWAP)</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">K线基础、概率统计</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(4, 0); app.switchMainView('curriculum'); return false;">05. 量化多因子与统计套利</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
-                    <td style="padding:10px 14px;">单因子 IC/Rank IC/ICIR 检验、Barra 风险模型协方差分解、Engle-Granger 协整配对、Purged Walk-Forward CV</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">线性代数、计量经济学</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(5, 0); app.switchMainView('curriculum'); return false;">06. 投资组合与仓位风控</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
-                    <td style="padding:10px 14px;">马科维茨有效前沿二次规划、风险平价等风险贡献优化、连续凯利公式推导与破产峭壁、VaR/CVaR 阶梯熔断</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">凸优化、多元统计</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(6, 0); app.switchMainView('curriculum'); return false;">07. 交易心理学与执行纪律</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
-                    <td style="padding:10px 14px;">前景理论 S 型价值函数与处置效应度量 (PGR/PLR)、交易执行清单革命、风控守门员状态机 (FSM)</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">行为经济学</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(7, 0); app.switchMainView('curriculum'); return false;">08. 衍生品定价与波动率对冲</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
-                    <td style="padding:10px 14px;">BSM 偏微分方程无套利复制、Greeks 希腊字母动态 Delta 对冲、多腿策略 Payoff 矩阵、隐含波动率与 VIX 交易</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">随机微积分导论</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(8, 0); app.switchMainView('curriculum'); return false;">09. 特殊事件驱动与套利</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
-                    <td style="padding:10px 14px;">现金要约并购套利利差与破裂概率、中国可转债纯债底与双低轮动、被动指数调整冲击套利、格雷厄姆 Net-Net</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">公司金融、证券法规</td>
-                  </tr>
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(9, 0); app.switchMainView('curriculum'); return false;">10. 量化系统架构与实盘工程</a></td>
-                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
-                    <td style="padding:10px 14px;">Point-in-Time 真实披露日对齐、AST 静态代码未来函数扫描器、撮合滑点排队仿真、前置硬风控网关与 Kill Switch</td>
-                    <td style="padding:10px 14px; color:var(--text-muted);">事件驱动架构</td>
-                  </tr>
-                </tbody>
-              </table>
+          
+          <!-- Section 3: 4-Layer Systemic Architecture & Inter-Module Causal Loop -->
+          <div class="overview-block" style="margin-bottom:38px;">
+            <h2 class="overview-h2" style="font-family:var(--font-serif); font-size:1.45rem; margin-bottom:12px; color:var(--text-primary);">三、 十大模块全局联系与四大战略层级闭环</h2>
+            <p style="margin-bottom:16px; font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+              投资不是孤立知识点的堆砌，而是一套严密咬合的系统工程。很散户懂看财报却死于宏观抽水或高位接盘，懂技术形态却死于重仓爆仓或情绪失控。本课程将 10 大模块、46 门课划分为<strong>四大战略层级</strong>，环环相扣构成从“看懂水源”到“实盘复利”的完整因果链：
+            </p>
+
+            <!-- SVG 4-Layer Architecture Diagram -->
+            <div class="diagram-card" style="margin:18px 0 24px;">
+              <div class="diagram-header">
+                <span class="diagram-title">图 0.1：InvestLearning 四大战略层级与十大模块因果传导总图谱</span>
+                <span class="diagram-tag">SYSTEM ARCHITECTURE</span>
+              </div>
+              <div class="diagram-svg-container" style="overflow-x:auto;">
+                <svg viewBox="0 0 860 390" width="100%" height="390" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="860" height="390" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+                  
+                  <!-- Layer 1 -->
+                  <rect x="24" y="20" width="812" height="72" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="1.5"/>
+                  <rect x="24" y="20" width="175" height="72" rx="6" fill="#1F1E1B"/>
+                  <text x="111" y="51" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#FAF8F5" text-anchor="middle">第一层：认知底盘层</text>
+                  <text x="111" y="70" font-family="JetBrains Mono, monospace" font-size="10" fill="#E5DFD5" text-anchor="middle">宏观水源 × 微观撮合</text>
+                  
+                  <rect x="218" y="31" width="280" height="50" rx="4" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+                  <text x="358" y="52" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">01 宏观经济与流动性周期 (5课)</text>
+                  <text x="358" y="69" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">决定总水位与估值分母折现率 (水从哪来)</text>
+                  
+                  <text x="516" y="60" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#CC5A36" text-anchor="middle">➔</text>
+                  
+                  <rect x="536" y="31" width="280" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="676" y="52" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">02 市场微观结构与订单流 (5课)</text>
+                  <text x="676" y="69" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">LOB盘口深度、滑点冲击与席位底牌 (怎么成交)</text>
+
+                  <!-- Arrow 1 to 2 -->
+                  <text x="430" y="108" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">▼ 宏观定水位、微观懂规则后，进入标的筛选与择时进攻 ▼</text>
+
+                  <!-- Layer 2 -->
+                  <rect x="24" y="116" width="812" height="72" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="1.5"/>
+                  <rect x="24" y="116" width="175" height="72" rx="6" fill="#CC5A36"/>
+                  <text x="111" y="147" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">第二层：选股与择时层</text>
+                  <text x="111" y="166" font-family="JetBrains Mono, monospace" font-size="10" fill="#FAF8F5" text-anchor="middle">基本面 × 技术 × 量化</text>
+
+                  <rect x="214" y="127" width="188" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="308" y="148" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#1F1E1B" text-anchor="middle">03 基本面财务建模 (5课)</text>
+                  <text x="308" y="165" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F" text-anchor="middle">排雷/ROIC/DCF安全边际(买什么)</text>
+
+                  <text x="413" y="156" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#CC5A36" text-anchor="middle">➔</text>
+
+                  <rect x="424" y="127" width="188" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="518" y="148" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#1F1E1B" text-anchor="middle">04 价格行为学择时 (5课)</text>
+                  <text x="518" y="165" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F" text-anchor="middle">结构突破/假突破/筹码峰(何时买)</text>
+
+                  <text x="623" y="156" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#CC5A36" text-anchor="middle">➔</text>
+
+                  <rect x="634" y="127" width="188" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="728" y="148" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#1F1E1B" text-anchor="middle">05 量化多因子套利 (5课)</text>
+                  <text x="728" y="165" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F" text-anchor="middle">全市场广度统计提取纯Alpha</text>
+
+                  <!-- Arrow 2 to 3 -->
+                  <text x="430" y="204" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">▼ 有了正期望进攻信号不等于能变富，必须用仓位风控与心理自律锁住生存底线 ▼</text>
+
+                  <!-- Layer 3 -->
+                  <rect x="24" y="212" width="812" height="72" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="1.5"/>
+                  <rect x="24" y="212" width="175" height="72" rx="6" fill="#1F1E1B"/>
+                  <text x="111" y="243" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#FAF8F5" text-anchor="middle">第三层：风控与执行层</text>
+                  <text x="111" y="262" font-family="JetBrains Mono, monospace" font-size="10" fill="#E5DFD5" text-anchor="middle">数学控仓 × 心理自律</text>
+
+                  <rect x="218" y="223" width="280" height="50" rx="4" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+                  <text x="358" y="244" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">06 投资组合与仓位风控 (5课)</text>
+                  <text x="358" y="261" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">有效前沿、风险平价、半凯利防破产与CVaR熔断</text>
+
+                  <text x="516" y="252" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#CC5A36" text-anchor="middle">➔</text>
+
+                  <rect x="536" y="223" width="280" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="676" y="244" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">07 交易心理学与执行纪律 (4课)</text>
+                  <text x="676" y="261" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">条件单克服处置效应、五问清单与贝叶斯复盘</text>
+
+                  <!-- Arrow 3 to 4 -->
+                  <text x="430" y="300" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">▼ 攻防体系成型后，装备高维非线性衍生品、特殊事件套利与实盘工程终局闭环 ▼</text>
+
+                  <!-- Layer 4 -->
+                  <rect x="24" y="308" width="812" height="68" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="1.5"/>
+                  <rect x="24" y="308" width="175" height="68" rx="6" fill="#CC5A36"/>
+                  <text x="111" y="338" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">第四层：高维与终局层</text>
+                  <text x="111" y="357" font-family="JetBrains Mono, monospace" font-size="10" fill="#FAF8F5" text-anchor="middle">衍生品 × 套利 × 实盘</text>
+
+                  <rect x="214" y="317" width="188" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="308" y="338" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#1F1E1B" text-anchor="middle">08 衍生品与波动率对冲 (4课)</text>
+                  <text x="308" y="355" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F" text-anchor="middle">股票买保险/备兑收租/VIX逃顶</text>
+
+                  <text x="413" y="346" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#CC5A36" text-anchor="middle">➔</text>
+
+                  <rect x="424" y="317" width="188" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="518" y="338" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#1F1E1B" text-anchor="middle">09 特殊事件驱动套利 (4课)</text>
+                  <text x="518" y="355" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F" text-anchor="middle">可转债双低轮动/要约/烟蒂股</text>
+
+                  <text x="623" y="346" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#CC5A36" text-anchor="middle">➔</text>
+
+                  <rect x="634" y="317" width="188" height="50" rx="4" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="1.2"/>
+                  <text x="728" y="338" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#1F1E1B" text-anchor="middle">10 量化系统与实盘工程 (4课)</text>
+                  <text x="728" y="355" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F" text-anchor="middle">防前视偏差/真实滑点/实盘风控</text>
+                </svg>
+              </div>
             </div>
           </div>
+
+          <!-- Section 4: Detailed Breakdown of All 10 Modules' Roles & Intra-Module Chapter Progression -->
+          <div class="overview-block" style="margin-bottom:38px;">
+            <h2 class="overview-h2" style="font-family:var(--font-serif); font-size:1.45rem; margin-bottom:14px; color:var(--text-primary);">四、 十大模块体系角色与模块内章节递进详解 (全 46 课脉络)</h2>
+            <p style="margin-bottom:18px; font-size:0.92rem; color:var(--text-secondary); line-height:1.7;">
+              以下详细阐明每一个模块在整个投资体系中的<strong>战略角色</strong>、<strong>跨模块上下游联系</strong>，以及<strong>模块内部各章节（L01 ➔ L05）为什么按此顺序层层推进</strong>。点击任意章节即可直接进入该课研习：
+            </p>
+            <div style="display:flex; flex-direction:column; gap:18px;">
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">🌐</span>
+                    <a href="#" onclick="app.selectLesson(0, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 01：宏观经济与流动性传导 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Macroeconomics & Liquidity Cycles)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第一层：认知底盘与定价基准层 · 共 5 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【全局总阀门 · 决定估值分母端】</b>在投资体系中扮演“气象台与总水库”角色。股票价格等于分子端企业盈利除以分母端折现率（无风险利率 + 风险溢价）。任何脱离宏观流动性水位的个股基本面分析或技术形态，在央行大举抽水时都会遭遇估值杀跌。本模块为后续所有资产配置（模块06）、基本面折现（模块03）与多空择时（模块04）提供顶层水位锚点。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：承接全局第一性原理 ➔ 向下传导至【模块 02 微观订单流】（宏观活水如何进入交易所盘口）与【模块 03 基本面估值】（决定 DCF 估值模型的分母折现率 WACC）。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 央行扩表/缩表源头（水从哪来） ➔ L02 国债收益率曲线定价（水价贵不贵/衰退预警） ➔ L03 实体库存周期传导（水流入实体产生何种景气轮动） ➔ L04 跨国汇率与北向资金（全球水流的跨境虹吸） ➔ L05 宏观全天候状态机（合成顶层大类资产仓位总开关）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(0, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>央行资产负债表与法币流动性净额传导模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(0, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>利率期限结构与利差倒挂衰退预警模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(0, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>经济周期、美林投资时钟与基钦库存周期轮动</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(0, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>美元指数、汇率弹性与资本流动冲击指数</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(0, 4); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L05</span><span>宏观体制切换与全天候对冲配置</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">⚡</span>
+                    <a href="#" onclick="app.selectLesson(1, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 02：市场微观结构与订单流 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Market Microstructure & Order Flow)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第一层：认知底盘与定价基准层 · 共 5 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【物理摩擦底盘 · 决定交易执行损耗】</b>在投资体系中扮演“显微镜与物理场”角色。宏观流动性（模块01）最终必须通过交易所的限价订单簿（LOB）挂单与吃单才能转化为真实股价。不懂微观结构的投资者，哪怕看对了宏观与基本面，也会在市价扫盘滑点、涨跌停锁死与主力盘口托单骗局中白白损耗巨额本金。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：承接【模块 01 宏观流动性】的资金活水 ➔ 为【模块 04 价格行为学】（K线背后的真实订单流推手）与【模块 10 实盘撮合工程】（滑点与冲击成本建模）奠定微观物理基础。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 限价订单簿 LOB 静态结构与撮合 ➔ L02 交易制度（T+1/涨跌停）流动性边界 ➔ L03 订单流不平衡（OFI）动态高频预测 ➔ L04 大资金冲击成本与最优分批拆单 ➔ L05 龙虎榜与两融资金席位穿透</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(1, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>限价订单簿撮合机制与盘口深度动力学</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(1, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>交易制度差异、涨跌停流动性枯竭与隔夜风险对冲</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(1, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>订单流不平衡</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(1, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>交易冲击成本、滑点与 Almgren-Chriss 最优拆单模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(1, 4); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L05</span><span>资金流向、两融杠杆与龙虎榜席位多维博弈打分模型</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">💎</span>
+                    <a href="#" onclick="app.selectLesson(2, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 03：现代基本面财务建模 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Fundamental Analysis & Valuation)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第二层：资产筛选与择时攻击层 · 共 5 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【价值锚点核心 · 决定资产分子端与安全边际】</b>在投资体系中扮演“资产体检仪与估值锚”角色。无论宏观水流如何波动（模块01）、盘口如何博弈（模块02），长期复利的根本源泉永远是优质企业内生创造的自由现金流与高投入资本回报率（ROIC）。本模块解决“买什么标的、排什么雷、什么价格买才具有安全边际”的核心问题。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：结合【模块 01】的无风险利率作为贴现分母 ➔ 输出高质量白马股票池与公允价值锚点，直接供给【模块 04 价格行为学】进行右侧择时，并为【模块 05 多因子量化】提供基本面 Alpha 因子源。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 三大报表闭环勾稽与杜邦拆解（看懂财报） ➔ L02 Beneish M-Score 财务造假排雷（剔除骗子） ➔ L03 护城河与 ROIC-WACC 价值创造（选出皇冠明珠） ➔ L04 两阶段 DCF 现金流折现（测算绝对内在价值） ➔ L05 相对估值乘数 PE/PB/PEG 与周期反人性博弈（横向比价落地）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(2, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>财务三表勾稽关系与五因子杜邦拆解引擎</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(2, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>真实盈利质量审查与 Beneish M-Score 排雷模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(2, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>商业护城河量化、ROIC-WACC 价值创造与竞争优势衰减模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(2, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>自由现金流折现</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(2, 4); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L05</span><span>相对估值模型矩阵与倍数法评估</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">📈</span>
+                    <a href="#" onclick="app.selectLesson(3, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 04：价格行为学与技术分析 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Price Action & Quantitative Technicals)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第二层：资产筛选与择时攻击层 · 共 5 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【精准狙击准星 · 决定右侧择时与盈亏比】</b>在投资体系中扮演“战术狙击镜”角色。基本面分析（模块03）告诉你“什么股票好”，但无法告诉你主力资金何时吸筹完毕、何时启动主升浪。左侧过早买入低估股可能面临长达两年的阴跌折磨。本模块通过纯粹的量价结构，锁定高胜率、高盈亏比的右侧入场扳机点与刚性止损位。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：将【模块 02 订单流博弈】投射到日线/分时图表上 ➔ 对【模块 03 基本面选出的优质标的】实施精准右侧择时狙击 ➔ 为【模块 05 量化动量】提供技术面趋势因子。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 裸K波峰波谷与 BOS/CHoCH 趋势状态机（定大势方向） ➔ L02 机构订单块 OB 与流动性扫荡假突破（找主力脚印与防诱多） ➔ L03 经典反转形态双底/弹簧效应几何量化（抓底部反转） ➔ L04 动量指标 RSI 与布林带波动率挤压（抓单边主升爆发） ➔ L05 筹码分布 Volume Profile 与锚定 VWAP（看透三维量价成本中枢）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(3, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>价格行为学与市场结构识别状态机</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(3, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>供需区</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(3, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>经典价格形态量化识别与几何拓扑</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(3, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>动量与趋势指标数学本质：自适应滤波与时滞消除</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(3, 4); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L05</span><span>订单流成交量分布</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">🧬</span>
+                    <a href="#" onclick="app.selectLesson(4, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 05：量化多因子与统计套利 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Quantitative Multi-Factor & StatArb)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第二层：资产筛选与择时攻击层（工业化扩展） · 共 5 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【统计广度放大器 · 跨越单股主观认知局限】</b>在投资体系中扮演“工业化雷达阵列”角色。根据主动管理基本定律 $IR = IC 	imes \sqrt{Breadth}$，单凭人工研究几十只股票（模块03-04），哪怕判断较准，也极易受个股黑天鹅冲击；而量化多因子将基本面逻辑与量价规律转化为数学因子，在全市场数千只股票上分散博弈，用统计大数定律榨取高确定性的超额 Alpha。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：将【模块 03 基本面指标】与【模块 04 量价动量】工程化、算法化 ➔ 输出全市场股票预期收益率向量与 Barra 风险协方差矩阵，直接输入给【模块 06 投资组合优化器】。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 单因子清洗与 IC/Rank IC 分层回测（怎么造一个有效因子） ➔ L02 Fama-French 与 Barra 风险归因（怎么剥离风格 Beta 提纯真 Alpha） ➔ L03 协整检验与 OU 过程统计套利（双资产相对价值均值回归） ➔ L04 机器学习多因子合成与防时序泄露（多因子非线性组合） ➔ L05 横截面动量与时序趋势双动量轮动（经典实战复合策略落地）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(4, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>单因子检验评价框架与 IC / Rank IC / 分层回测</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(4, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>经典 Fama-French 多因子资产定价模型与 Barra 结构化风险分解</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(4, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>统计套利与配对交易：协整检验与 OU 均值回归过程</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(4, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>机器学习多因子组合与非线性特征挖掘</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(4, 4); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L05</span><span>截面动量</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">⚖️</span>
+                    <a href="#" onclick="app.selectLesson(5, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 06：投资组合与仓位风控 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Portfolio Theory & Risk Sizing)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第三层：生存风控与人性执行层 · 共 5 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【复利生存护盾 · 决定本金存亡与长期几何增速】</b>在投资体系中扮演“刹车系统与压舱石”角色。华尔街有句名言：“有大胆的交易员，有老交易员，但没有大胆的老交易员。”前五个模块都在教你如何寻找正期望进攻机会（Alpha），而本模块从数学上证明：哪怕你的胜率高达 80%，只要单次下注超过凯利破产边界（$2f^*$），长期必然归零！风控不是为了少赚钱，而是为了活到复利爆发的那一天。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：接收【模块 01-05】输出的资产预期收益、胜率赔率与协方差矩阵 ➔ 计算最优权重与单笔风险上限 ➔ 为【模块 07 交易心理自律】设定刚性数学红线。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 马科维茨均值-方差有效前沿（多资产如何分散降波动） ➔ L02 风险平价模型与全天候等风险贡献（如何避免单一高波资产绑架组合） ➔ L03 凯利公式与蒙特卡洛破产峭壁（单笔交易到底该下多少注） ➔ L04 肥尾分布 VaR/CVaR 与高水位回撤熔断（极端行情如何阶梯减仓保命） ➔ L05 尾部黑天鹅与塔勒布反脆弱杠铃配置（如何化危机为暴利）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(5, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>马科维茨均值-方差理论</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(5, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>风险平价</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(5, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>凯利公式数学推导、破产风险与动态杠杆约束</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(5, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>风险价值</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(5, 4); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L05</span><span>尾部风险度量与反脆弱杠铃配置</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">🧠</span>
+                    <a href="#" onclick="app.selectLesson(6, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 07：交易心理学与执行纪律 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Behavioral Finance & Psychology)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第三层：生存风控与人性执行层 · 共 4 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【心智与纪律防线 · 弥合知行合一鸿沟】</b>在投资体系中扮演“自动驾驶仪与情绪断路器”角色。人类大脑是在非洲草原为躲避猛兽演化而来的，杏仁核的本能反应在金融市场中表现为致命的“处置效应（赚一点就跑、亏了死扛装死）”与“报复性重仓（Tilt）”。本模块将行为金融学转化为可机械执行的清单、条件单与交易日志，剥夺人性弱点对投资系统的破坏权。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：将【模块 06 的风控数学红线】转化为不可违背的生理与机械执行契约 ➔ 保障【模块 01-05 的策略逻辑】在实盘中不变形。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 前景理论 S 型价值曲线与处置效应（解剖大脑为什么天生会亏钱） ➔ L02 飞行员开仓清单与自律有限状态机（开仓前与连亏后如何物理阻断冲动） ➔ L03 数字化交易日志与贝叶斯过程归因（盘后如何剔除有毒运气、迭代认知） ➔ L04 概率思维决策树与赌场大数定律心法（建立长期终极复利心智）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(6, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>前景理论、处置效应与损失厌恶量化模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(6, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>交易执行清单机制与风控守门员有限状态机</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(6, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>数字化交易日志与贝叶斯复盘归因模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(6, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>系统化规则与概率思维决策树</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">🛡️</span>
+                    <a href="#" onclick="app.selectLesson(7, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 08：衍生品定价与波动率对冲 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Derivatives & Volatility Hedging)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第四层：高维非线性工具与系统终局层 · 共 4 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【四维非线性武器库 · 精准剪裁风险与收益曲面】</b>在投资体系中扮演“特种战术武器与资产保险箱”角色。股票现货只是二维世界里的一维线性工具（涨就赚、跌就亏），而期权衍生品同时跨越多空方向（Delta）、曲率加速度（Gamma）、波动率（Vega）与时间流逝（Theta）四个维度。无论是为重仓股买低成本暴跌车险，还是在漫长震荡市中每月备兑收租增厚 10% 收益，期权都是实现立体化复利的利器。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：为【模块 03 的长期重仓蓝筹】提供备兑增厚与下跌保险 ➔ 为【模块 06 的反脆弱杠铃】提供尾部看跌期权工具 ➔ 为【模块 09 的可转债定价】提供内嵌看涨期权拆解基础。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 BSM 定价原理与看涨看跌平价公式（期权怎么定价/如何给股票买保险） ➔ L02 希腊字母矩阵 Delta/Gamma/Theta/Vega 与备兑收租（四个维度如何赚钱与动态对冲） ➔ L03 经典多腿期权组合与财报 IV Crush 防坑（如何用组合拳表达任意市场观点） ➔ L04 隐含波动率微笑偏度与恐慌指数 VIX 交易（如何从期权盘口读懂全市场恐慌底牌）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(7, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>BSM 连续时间期权定价与平价公式无套利校验</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(7, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>期权希腊字母矩阵与动态 Delta 对冲</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(7, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>经典多腿期权组合策略与 Payoff 收益矩阵引擎</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(7, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>隐含波动率曲面、微笑偏度与 CBOE VIX 指数无模型复制</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">🎯</span>
+                    <a href="#" onclick="app.selectLesson(8, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 09：特殊事件驱动与套利 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(Special Situations & Arbitrage)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第四层：高维非线性工具与系统终局层 · 共 4 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【全天候低风险阿尔法矿山 · 赚取制度与事件错配的确定性利差】</b>在投资体系中扮演“特种工兵与绝对收益捕手”角色。当大盘处于漫长熊市或垃圾时间时，单纯做多股票极难赚钱；而并购要约、可转债双低轮动、指数定期调仓与企业分拆（Spinoff）是由公司契约条款和基金刚性规则驱动的特殊事件，其收益与大盘牛熊脱敏，是普通人积小胜为大胜、实现下有保底上不封顶的绝佳赛道。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：综合运用【模块 03 的清算估值】与【模块 08 的内嵌期权定价】 ➔ 提供与【模块 01-05 传统股债相关性极低】的独立绝对收益源。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 现金并购要约套利与隐含破裂率（赚取要约收购价差） ➔ L02 可转债纯债底/下修博弈与双低轮动（A股下有保底上不封顶的第一神策） ➔ L03 指数成分股定期调整与被动基金冲击套利（提前埋伏千亿 ETF 刚性抬轿） ➔ L04 企业分拆错杀与格雷厄姆 Net-Net 烟蒂清算（熊市深水区绝对安全边际捡金子）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(8, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>现金并购套利、年化利差与交易破裂概率模型</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(8, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>可转债定价、纯债底与双低轮动策略</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(8, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>指数成分股定期调整与被动资金流动性冲击套利</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(8, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>困境反转、企业分拆与格雷厄姆 Net-Net 深度价值</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram-card" style="margin:0; padding:20px 24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-subtle);">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">⚙️</span>
+                    <a href="#" onclick="app.selectLesson(9, 0); return false;" style="font-family:var(--font-serif); font-size:1.15rem; font-weight:700; color:var(--text-primary); text-decoration:none;">
+                      模块 10：量化系统架构与实盘工程 <span style="font-size:0.85rem; color:var(--text-muted); font-weight:400;">(System Architecture & Execution Engineering)</span>
+                    </a>
+                  </div>
+                  <span style="font-family:var(--font-mono); font-size:0.75rem; padding:3px 10px; background:var(--claude-terracotta-light); color:var(--claude-terracotta); border-radius:var(--radius-sm); font-weight:600;">
+                    第四层：高维非线性工具与系统终局层 · 共 4 课
+                  </span>
+                </div>
+
+                <ul class="label-list" style="margin:0 0 14px 0;">
+                  <li style="margin-bottom:8px;"><strong>[在体系中的角色]</strong>：<b>【工业级工程底座 · 守护真实复利落地的终极装甲】</b>在投资体系中扮演“质检审计局与实盘中枢网关”角色。任何华丽的量化或系统化策略，如果回测中混入了未来函数（前视偏差）、忽略了分红复权跳空、低估了盘口排队滑点，或者在实盘中缺乏前置物理风控拦截（如光大乌龙指事件），都会在上线瞬间灰飞烟灭。本模块为整个知识体系打造坚不可摧的工程闭环。</li>
+                  <li style="margin-bottom:8px;"><strong>[跨模块咬合关系]</strong>：对【模块 05-09 的所有策略回测】执行严苛的无前视偏差与真实税费滑点审计 ➔ 将【模块 06-07 的风控熔断规则】固化为实盘前置物理网关。</li>
+                  <li style="margin-bottom:4px;"><strong>[模块内章节递进逻辑]</strong>：L01 回测前视偏差/幸存者偏差与 AST 静态审计（确保历史回测不自欺欺人） ➔ L02 微观排队撮合仿真与 A 股全息税费滑点（确保回测摩擦贴近残酷现实） ➔ L03 前复权算法与 Point-in-Time 双时间戳数据湖（确保底层数据干净对齐） ➔ L04 实盘订单状态机、心跳断线撤单与前置四层硬风控哨兵（确保实盘资金绝对安全）</li>
+                </ul>
+
+                <div style="background:var(--bg-tertiary); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                  <div style="font-size:0.76rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">👇 点击直达本模块递进章节：</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <a href="#" onclick="app.selectLesson(9, 0); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L01</span><span>回测致命陷阱：前视偏差、幸存者偏差与未来函数静态审计</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(9, 1); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L02</span><span>真实微观撮合仿真：滑点、排队模型与交易摩擦成本</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(9, 2); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L03</span><span>现代量化数据管道：复权算法与 Point-in-Time 时序对齐校验</span></a> <span style="color:var(--claude-terracotta); font-weight:700; align-self:center;">➔</span> <a href="#" onclick="app.selectLesson(9, 3); return false;" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:var(--bg-primary); border:1px solid var(--border-primary); border-radius:var(--radius-sm); font-size:0.82rem; color:var(--text-primary); text-decoration:none; font-weight:500; transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--claude-terracotta)'" onmouseout="this.style.borderColor='var(--border-primary)'"><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--claude-terracotta); font-weight:700;">L04</span><span>实盘交易架构：订单有限状态机、网络心跳与风控熔断哨兵</span></a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </section>
 
 
@@ -241,6 +551,12 @@
               <span class="meta-chip">
                 <span>⏱ 预估研习：</span><span id="lessonMetaTime">35 分钟</span>
               </span>
+            </div>
+
+            
+            <!-- Module Role & Intra-Module Chapter Progression Context -->
+            <div class="callout callout-note" id="lessonSystemContextBox" style="margin:16px 0; padding:14px 18px; background:var(--bg-tertiary);">
+              <!-- Dynamically populated by app.js -->
             </div>
 
             <div class="learning-objectives-box">
@@ -385,9 +701,9 @@
 
 
   <!-- Scripts -->
-  <script src="js/data-curriculum.js?v=20261010_v10"></script>
-  <script src="js/data-books.js?v=20261010_v10"></script>
-  <script src="js/charts.js?v=20261010_v10"></script>
-  <script src="js/app.js?v=20261010_v10"></script>
+  <script src="js/data-curriculum.js?v=20261010_v11"></script>
+  <script src="js/data-books.js?v=20261010_v11"></script>
+  <script src="js/charts.js?v=20261010_v11"></script>
+  <script src="js/app.js?v=20261010_v11"></script>
 </body>
 </html>
