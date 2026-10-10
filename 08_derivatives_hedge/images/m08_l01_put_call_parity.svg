@@ -1,0 +1,32 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">看涨看跌期权平价天平 (Put-Call Parity Balance & Arbitrage)</text>
+
+  <!-- Left Scale Pan: C + K*exp(-rT) -->
+  <rect x="70" y="65" width="270" height="120" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <rect x="70" y="65" width="270" height="26" rx="6" fill="#486A7D"/>
+  <text x="205" y="83" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">资产组合 A：看涨期权 + 贴现现金</text>
+  <text x="205" y="115" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700" fill="#1F1E1B" text-anchor="middle">C + K · e^(-rT)</text>
+  <text x="205" y="140" font-family="Inter, sans-serif" font-size="11" fill="#5F7355" text-anchor="middle">到期现金流: max(S_T - K, 0) + K</text>
+  <text x="205" y="162" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#486A7D" text-anchor="middle">≡ max(S_T, K)</text>
+
+  <!-- Equal Sign -->
+  <circle cx="380" cy="125" r="20" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="2"/>
+  <text x="380" y="132" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700" fill="#1F1E1B" text-anchor="middle">≡</text>
+  <text x="380" y="160" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">无套利恒等</text>
+
+  <!-- Right Scale Pan: P + S -->
+  <rect x="420" y="65" width="270" height="120" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+  <rect x="420" y="65" width="270" height="26" rx="6" fill="#5F7355"/>
+  <text x="555" y="83" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">资产组合 B：看跌期权 + 标的现货</text>
+  <text x="555" y="115" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700" fill="#1F1E1B" text-anchor="middle">P + S</text>
+  <text x="555" y="140" font-family="Inter, sans-serif" font-size="11" fill="#5F7355" text-anchor="middle">到期现金流: max(K - S_T, 0) + S_T</text>
+  <text x="555" y="162" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">≡ max(S_T, K)</text>
+
+  <!-- Bottom Arbitrage Bounds -->
+  <rect x="70" y="200" width="620" height="45" rx="5" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1"/>
+  <text x="210" y="218" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#CC5A36">转换套利 (Conversion)：C 相对高估</text>
+  <text x="210" y="233" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F">Short Call + Long Put + Long Stock</text>
+  <text x="530" y="218" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#486A7D">反转套利 (Reversal)：P 相对高估</text>
+  <text x="530" y="233" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F">Long Call + Short Put + Short Stock</text>
+</svg>

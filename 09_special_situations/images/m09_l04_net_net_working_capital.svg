@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">本杰明·格雷厄姆净营运流动资产 (Net-Net / NCAV) 清算安全边际漏斗</text>
+
+  <!-- Funnel Asset Blocks -->
+  <g transform="translate(60, 60)">
+    <rect x="0" y="0" width="280" height="35" rx="4" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="15" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355">1. 现金与等价物 (Cash &amp; Equiv)</text>
+    <text x="265" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#5F7355" text-anchor="end">折算率 100%</text>
+
+    <rect x="0" y="45" width="280" height="35" rx="4" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="15" y="67" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D">2. 应收账款 (Receivables)</text>
+    <text x="265" y="67" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#486A7D" text-anchor="end">折算率 75% (计提坏账)</text>
+
+    <rect x="0" y="90" width="280" height="35" rx="4" fill="#FFFFFF" stroke="#C08535" stroke-width="1.5"/>
+    <text x="15" y="112" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#C08535">3. 存货资产 (Inventory)</text>
+    <text x="265" y="112" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#C08535" text-anchor="end">折算率 50% (滞销大打折)</text>
+  </g>
+
+  <!-- Minus Total Liabilities -->
+  <g transform="translate(380, 60)">
+    <rect x="0" y="0" width="320" height="55" rx="5" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="15" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#CC5A36">扣除：全部负债 (Total Liabilities)</text>
+    <text x="15" y="45" font-family="Inter, sans-serif" font-size="10" fill="#7D786F">刚性扣除 100% 全部负债，不论长短期或利息！</text>
+    <text x="305" y="32" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#CC5A36" text-anchor="end">- 100%</text>
+
+    <!-- Equals Net-Net Value -->
+    <rect x="0" y="70" width="320" height="65" rx="5" fill="#FAF8F5" stroke="#1F1E1B" stroke-width="2"/>
+    <text x="15" y="95" font-family="Newsreader, Georgia, serif" font-size="13" font-weight="700" fill="#1F1E1B">= 净营运安全清算价值 (Net-Net Value)</text>
+    <text x="15" y="118" font-family="JetBrains Mono, monospace" font-size="11" fill="#5F7355">清算价值 = 1.0·Cash + 0.75·Rec + 0.50·Inv - Liab</text>
+  </g>
+
+  <!-- Bottom Principle -->
+  <rect x="60" y="195" width="640" height="45" rx="6" fill="#FAF8F5" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="215" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">买入准则：市值 P &lt; ⅔ × Net-Net Value</text>
+  <text x="380" y="230" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">完全无视厂房设备等固定资产，即便公司明天立即申请破产清算，股东所分得真金白银现金依然高于买入市值！</text>
+</svg>

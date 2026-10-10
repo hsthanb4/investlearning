@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="26" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">可转债双低轮动空间 (Double-Low = Price + Premium) 与选券象限</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="205" x2="680" y2="205" stroke="#A6A095" stroke-width="1.5"/>
+  <line x1="80" y1="45" x2="80" y2="205" stroke="#A6A095" stroke-width="1.5"/>
+  <text x="680" y="220" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">转债价格 P_bond (元)</text>
+  <text x="70" y="55" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">转股溢价率 CPR (%)</text>
+
+  <!-- Quadrant Division Lines -->
+  <line x1="380" y1="45" x2="380" y2="205" stroke="#E5DFD5" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <line x1="80" y1="125" x2="680" y2="125" stroke="#E5DFD5" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="380" y="220" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="middle">120 元价格分界线</text>
+
+  <!-- Quadrant 1: Bottom-Left: Double Low (Golden Zone) -->
+  <rect x="90" y="135" width="280" height="65" rx="5" fill="rgba(95, 115, 85, 0.15)" stroke="#5F7355" stroke-width="1.5"/>
+  <text x="230" y="158" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">★ 核心目标区：双低黄金区</text>
+  <text x="230" y="176" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">低价格 (&lt;115) + 低溢价 (&lt;20%) ➔ 双低得分 &lt; 140</text>
+  <text x="230" y="192" font-family="Inter, sans-serif" font-size="9" fill="#5F7355" text-anchor="middle">纯债底防守抗跌 + 正股上涨高弹性跟涨 (夏普最高)</text>
+
+  <!-- Quadrant 2: Top-Left: Pure Debt (High Premium Low Price) -->
+  <rect x="90" y="55" width="280" height="65" rx="5" fill="#FAF8F5" stroke="#486A7D" stroke-width="1"/>
+  <text x="230" y="78" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#486A7D" text-anchor="middle">偏债型防守区 (高溢价低价格)</text>
+  <text x="230" y="96" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">正股跌无可跌 / 纯吃票息博下修条款催化</text>
+
+  <!-- Quadrant 3: Bottom-Right: Pure Equity (High Price Low Premium) -->
+  <rect x="390" y="135" width="280" height="65" rx="5" fill="#FAF8F5" stroke="#C08535" stroke-width="1"/>
+  <text x="530" y="158" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#C08535" text-anchor="middle">偏股进攻区 (高价格低溢价)</text>
+  <text x="530" y="176" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">正股牛市飞天 / 类似直接持股，丧失债底防守</text>
+
+  <!-- Quadrant 4: Top-Right: High-Risk Bubble -->
+  <rect x="390" y="55" width="280" height="65" rx="5" fill="rgba(204, 90, 54, 0.1)" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="530" y="78" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">⛔ 禁忌雷区：双高妖债泡沫区</text>
+  <text x="530" y="96" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">游资炒作溢价泡沫 / 一旦触发强赎暴跌 50% 踩踏</text>
+
+  <!-- Bottom Tip -->
+  <text x="380" y="245" font-family="Newsreader, serif" font-size="10" font-style="italic" fill="#7D786F" text-anchor="middle">轮动纪律：持有双低池前 20 只，涨超 130 元或双低分大幅恶化时定期机械卖出换仓</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">铁秃鹰 (Iron Condor) 结构希腊字母空间对冲特征</text>
+
+  <!-- 4 Legs Layout -->
+  <g transform="translate(80, 60)">
+    <!-- Leg 1: Long Put K1 -->
+    <rect x="0" y="0" width="130" height="60" rx="4" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="65" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">Buy Put (K1)</text>
+    <text x="65" y="42" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">外侧深虚防灾</text>
+
+    <!-- Leg 2: Short Put K2 -->
+    <rect x="150" y="0" width="130" height="60" rx="4" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="215" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">Sell Put (K2)</text>
+    <text x="215" y="42" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">内侧做空波动率</text>
+
+    <!-- Leg 3: Short Call K3 -->
+    <rect x="310" y="0" width="130" height="60" rx="4" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="375" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">Sell Call (K3)</text>
+    <text x="375" y="42" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">内侧收权利金</text>
+
+    <!-- Leg 4: Long Call K4 -->
+    <rect x="460" y="0" width="130" height="60" rx="4" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="525" y="22" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">Buy Call (K4)</text>
+    <text x="525" y="42" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">外侧封顶上行风险</text>
+  </g>
+
+  <!-- Greek Summary Badges -->
+  <g transform="translate(80, 145)">
+    <rect x="0" y="0" width="135" height="50" rx="5" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="67" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">Delta ≈ 0</text>
+    <text x="67" y="38" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">中心区域方向中性</text>
+
+    <rect x="150" y="0" width="135" height="50" rx="5" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="217" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">Theta &gt; 0</text>
+    <text x="217" y="38" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">每日赚取时间流逝损耗</text>
+
+    <rect x="300" y="0" width="135" height="50" rx="5" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="367" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">Vega &lt; 0</text>
+    <text x="367" y="38" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">做空隐含波动率 (怕暴涨)</text>
+
+    <rect x="450" y="0" width="140" height="50" rx="5" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="520" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">Max Loss 有界</text>
+    <text x="520" y="38" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">价差宽度 - 净权利金</text>
+  </g>
+
+  <!-- Bottom Tip -->
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">适用于财报公布后波动率崩塌（IV Crush）或标的长周期横盘区间震荡环境</text>
+</svg>

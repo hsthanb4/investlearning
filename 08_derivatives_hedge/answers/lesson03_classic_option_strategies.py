@@ -1,56 +1,102 @@
 r"""
-# 模块 08：期权衍生品、希腊字母与波动率对冲 · 第 3 课：经典多腿期权组合策略与 Payoff 收益矩阵
+================================================================================
+模块 08：期权衍生品与波动率对冲 · 第 3/4 课
+第 3 课：经典多腿期权组合策略与 Payoff 收益矩阵引擎 (Multi-Leg Option Strategies) - 参考答案版
+================================================================================
 
-> 状态：**参考答案版** (Reference Answer)
-> 包含完整代码实现与问答题深度参考解析。独立思考后再核对答案。
+【课程定位与投决会核心心智模型】
+::: callout-note
+### 📌 投决会核心心智模型：多腿期权是分段线性函数在希腊字母维度的空间矢量对消
+单腿期权是对标的资产非线性凸性的基础表达；而多腿期权组合（Multi-Leg Structuring）则是机构投资者通过不同行权价（Strike）、不同到期日（Tenor）以及不同买卖方向（Long / Short）的代数叠加，在四维希腊字母空间中精确雕刻组合损益曲面（Payoff Profile）的高级工程。通过空间矢量互相对消，专业机构能够创造出‘Delta 中性且持续赚取时间租金（Theta > 0）’或‘下行损失绝对有界且上行爆发力充沛’的定制化资本结构。
+:::
 
----
-## 本课目标与完成标准
+- **[到期分段线性的基底函数本质]**：任何复杂的到期损益函数，本质上都是标的现货 $S_T$、Call 基底 $\max(S_T - K, 0)$ 与 Put 基底 $\max(K - S_T, 0)$ 的线性组合。
+- **[备兑看涨与保护性看跌的资本利差]**：Covered Call（持有股票 + 卖出 OTM Call）出让上方超额收益换取当期现金增厚（Yield Enhancement）；Protective Put（持有股票 + 买入 OTM Put）支付有限权利金为底仓资产购买刚性防灾保险。
+- **[铁秃鹰的信用价差拓扑]**：Iron Condor 是对称的牛市看跌信用价差（Bull Put Spread）与熊市看涨信用价差（Bear Call Spread）的四腿闭环，在标的资产横盘震荡时最大化吞噬时间价值衰减。
 
-学完后你应能：
-1. 掌握四大经典期权组合策略（Covered Call、Protective Put、Long Straddle、Iron Condor）的结构构造与适用场景；
-2. 深刻理解多腿期权头寸到期损益（Payoff Diagram）的几何分段线性叠加原理；
-3. 掌握希腊字母在多腿组合中的空间对冲效果（如铁秃鹰的 Delta 中性、正 Theta 与负 Vega）；
-4. 编写通用多腿期权收益矩阵引擎，自动求解任意组合的到期损益曲线、盈亏平衡点（Breakeven Points）与最大风险收益比。
+【微观机理与三位一体就近图文剖析】
 
-通过标准：
-- 独立补齐实战代码中的 TODO 填空，并通过全部 assert 单元测试；
-- 深入回答 Q1~Q3 思考题，因果链完整，阐述财报前后波动率崩塌（IV Crush）对多腿头寸的损益冲击。
+锚点指引：下图展示了四大经典期权组合（Covered Call / Protective Put / Straddle / Iron Condor）的几何到期收益拓扑对比。
 
----
-## 核心心智模型与策略拓扑
-
-### 1. 四大经典策略构造解析
-
-```
- 1. 备兑看涨 (Covered Call)           2. 保护性看跌 (Protective Put)
-        收益 Payoff                           收益 Payoff
-             |        ------- (封顶)               |          / (无限上涨)
-             |       /                             |        /
-             |      /                              |       /
-   ----------+-----+--------- S_T        ----------+------+---------- S_T
-            /|                                     |保底---|
-           / |                                     |
- 
- 3. 买入跨式 (Long Straddle)           4. 铁秃鹰 (Iron Condor)
-        收益 Payoff                           收益 Payoff
-          \  |  / (做多波动率)                      |  +Credit  (收敛赚权利金)
-           \ | /                                   |   ------
-   ---------+-V-+------------ S_T        ----+-----+--+------+---+--- S_T
-              | -Premium                           | /        \  |
-              |                                 ---|            |--- (双边锁损)
+```mermaid
+flowchart TD
+    subgraph 现货叠加型组合
+        CC["备兑看涨 (Covered Call)<br/>现货 + Short Call ➔ 上行收益封顶 / 增厚分红"]
+        PP["保护性看跌 (Protective Put)<br/>现货 + Long Put ➔ 下行刚性保底 / 上行无限"]
+    end
+    subgraph 纯衍生品多腿组合
+        STR["买入跨式 (Long Straddle)<br/>Long ATM Call + Long ATM Put ➔ 纯做多波动率"]
+        IC["铁秃鹰 (Iron Condor)<br/>四腿虚值牛熊组合 ➔ Delta中性 / 做空波动率收租"]
+    end
 ```
 
-- **备兑看涨（Covered Call）**：持有标的股票现货 + 卖出虚值 Call。
-  - 核心目的：在温和上涨或震荡行情中，通过出让上方超额暴利空间，换取确定性的权利金增厚（Yield Enhancement）。
-- **保护性看跌（Protective Put）**：持有标的股票现货 + 买入虚值/平值 Put。
-  - 核心目的：相当于为股票资产购买下行财产保险，锁定最大回撤，保留上方无限收益潜力。
-- **买入跨式（Long Straddle）**：同时买入相同到期日、相同行权价的平值 Call 和 Put。
-  - 核心目的：纯粹做多波动率（Long Vega / Long Gamma），预期发生重大单边突破（无论暴涨或暴跌），只要价格跳出两侧盈亏平衡点即可获利。
-- **铁秃鹰（Iron Condor）**：由四腿虚值期权构成的卖方组合：
-  - 牛市看跌差价（Bull Put Spread）：买入深度虚值 Put ($K_1$) + 卖出虚值 Put ($K_2$)
-  - 熊市看涨差价（Bear Call Spread）：卖出虚值 Call ($K_3$) + 买入深度虚值 Call ($K_4$)
-  - 核心目的：在标的资产窄幅横盘时，两端收取净权利金（Net Credit），同时两端买入外挂保护，将极端暴涨暴跌的最大亏损严格锁定。
+- **[要点 1：备兑看涨的收益封顶代价]**：在牛市主升浪中，Covered Call 的股票将被动以行权价交割抛售，无法享受肥尾暴涨红利，长期复利跑输指数。
+- **[要点 2：买入跨式的双刃剑属性]**：Long Straddle 两头通吃但必须支付双倍 Theta 租金，若标的价格未跳出双侧盈亏平衡点，组合将遭受时间价值与波动率崩塌（IV Crush）的惨烈双杀。
+- **[要点 3：铁秃鹰的双边安全锁]**：相较于传统宽跨式空头（Short Strangle），铁秃鹰在最外侧配置了两腿深度虚值多头保护，将黑天鹅极端暴走的理论无限亏损严格限制为固定有界常数。
+
+锚点指引：下图拆解了铁秃鹰（Iron Condor）四腿结构在中间平原区域的希腊字母空间对冲特征。
+
+```mermaid
+flowchart LR
+    L1["Buy Put K1 (外侧深虚防灾)"] --> SpreadP["Bull Put Spread (净收权利金)"]
+    L2["Sell Put K2 (内侧做空波动率)"] --> SpreadP
+    L3["Sell Call K3 (内侧做空波动率)"] --> SpreadC["Bear Call Spread (净收权利金)"]
+    L4["Buy Call K4 (外侧深虚防灾)"] --> SpreadC
+    SpreadP & SpreadC --> Condor["铁秃鹰组合: Delta ≈ 0 | Theta > 0 | Vega < 0 | Max Loss 有界"]
+```
+
+- **[要点 1：中央平台的 Delta 抵消]**：做空 Put 的正 Delta 与做空 Call 的负 Delta 在行权价区间 $[K_2, K_3]$ 内相互抵消，组合对微小方向波动近乎免疫。
+- **[要点 2：Theta 与 Vega 的卖方红利]**：内侧期权时间价值丰厚，外侧期权时间价值极薄，整个组合每日稳定收割时间价值损耗（Positive Theta）。
+- **[要点 3：最大亏损精确可测]**：最大亏损严格等于翼宽（Wing Width, $K_2 - K_1$）减去期初净收取的权利金，保证金占用可控。
+
+【数学与估值模型】
+通用多腿组合到期净损益函数（Piecewise Linear Payoff）：
+$$
+\text{PnL}(S_T) = \sum_{i=1}^{M} w_i \cdot \text{Payoff}_i(S_T)
+$$
+单腿收益定义式：
+- 标的股票：$\text{Payoff}_{\text{stock}}(S_T) = \text{side} \times (S_T - P_{\text{entry}})$
+- 看涨期权：$\text{Payoff}_{\text{call}}(S_T) = \text{side} \times [\max(S_T - K, 0) - C_0]$
+- 看跌期权：$\text{Payoff}_{\text{put}}(S_T) = \text{side} \times [\max(K - S_T, 0) - P_0]$
+其中 $\text{side} \in \{+1, -1\}$（买入为 $+1$，卖出为 $-1$），$w_i \in \mathbb{N}^+$ 为合约张数。
+
+铁秃鹰关键特征指标方程（$K_1 < K_2 < K_3 < K_4$）：
+$$
+\text{Net Credit} = (P_2 - P_1) + (C_3 - C_4), \quad \text{Max Profit} = \text{Net Credit}
+$$
+$$
+\text{Max Loss} = (K_2 - K_1) - \text{Net Credit}, \quad \text{Breakevens} = \{K_2 - \text{Net Credit}, \; K_3 + \text{Net Credit}\}
+$$
+变量定义域：$0 < K_1 < K_2 < K_3 < K_4$，$\text{Net Credit} > 0$。
+
+::: callout-warning
+### ⚠️ 投决会风控红线与认知陷阱防范
+1. **波动率崩塌（IV Crush）对买跨式的致命打击**：财报公布前夕买入 Straddle 成本极高（IV 处于 90% 极端分位）；财报落地后不确定性消除，IV 瞬间暴跌至 30%，Vega 巨亏直接淹没方向收益。
+2. **铁秃鹰腿部被穿透时的流动性滑点**：当标的价格突破内侧行权价 $K_3$ 时，Gamma 激增使得亏损加速累积；若强平外侧保护腿，容易在流动性枯竭时遭遇恶劣滑点。
+3. **备兑看涨误当无风险理财**：Covered Call 的权利金仅能提供 2%~3% 的下行缓冲；若遭遇个股基本面暴雷腰斩，底仓股票巨额浮亏将彻底吞噬多年的微薄权利金。
+:::
+
+【思考题】
+Q1: 为什么在长周期回测中，长期机械性执行备兑看涨（Covered Call）策略在牛市主升浪中会严重跑输单纯持有股票指数（Buy-and-Hold）？
+Q2: 铁秃鹰（Iron Condor）策略四腿组合在居中平值附近的希腊字母特征（Delta, Gamma, Vega, Theta）是什么？应在何种市场环境中部署？
+Q3: 什么是“波动率崩塌（IV Crush）”？为什么很多散户在重大财报或大选公布前买入跨式（Long Straddle），即便标的股票剧烈波动依然遭遇严重亏损？
+
+【Q1 深度参考答案】
+- **[非对称收益分布的肥尾截断机制]**：备兑看涨策略的收益结构具有严重的负偏斜属性：它完整保留了标的资产全部下行风险（除微弱的权利金缓冲外），却将上方收益严格截断在行权价 $K$。
+- **[牛市单边暴涨的复利缺口]**：标普500等指数历史上的长期复利绝大部分由极少数几个月或几周的极端暴涨贡献。机械执行 Covered Call 的基金在主升浪中被动交割出局，错失 30%~50% 的指数β收益；而在随后的熊市深跌中依然承受腰斩回撤，最终在几何复利累积上显著落后于被动持有策略。
+- **[投决会动态增强方案]**：专业机构仅在隐含波动率极度高估（IV Rank > 80%）或宏观技术面确认严重超买阻力位时阶段性卖出虚值 Call，严禁进行全天候机械备兑。
+
+【Q2 深度参考答案】
+- **[居中平台希腊字母全景解析]**：
+  1. **Delta 接近 0（Delta-Neutral）**：多腿虚值 Call 与 Put 在中间平台相互中和，对现货微小波动保持方向免疫。
+  2. **Theta 显著为正（Positive Theta）**：内侧卖出的期权时间价值远比外侧买入的深虚期权丰厚，组合每天稳定吞噬时间价值租金。
+  3. **Gamma 与 Vega 显著为负（Negative Gamma & Negative Vega）**：组合痛恨大单边跳空暴走与波动率突发膨胀。
+- **[最佳部署环境约束]**：市场处于隐含波动率经历恐慌脉冲后的高位均值回归期（IV Percentile > 75%），且标的基本面进入催化剂真空期、预期价格在箱体内窄幅横盘。此时能够最大化收割膨胀的波动率风险溢价（VRP）与时间价值。
+
+【Q3 深度参考答案】
+- **[事件驱动型波动率风险溢价的物理本质]**：重大催化剂前夕（如英伟达财报发布前夜、美联储议息会议），全市场对冲需求使得双边期权隐含波动率被买盘推高至极端非理性高位（IV 从日常 35% 狂飙至 110%）。
+- **[方差不确定性的瞬时清零与 IV Crush]**：业绩公告一旦公布，不论业绩是利好还是暴雷，悬顶的不确定性瞬间落地，市场避险买盘瞬间撤单，做市商光速下调期权报价，IV 发生垂直断崖式坍塌（如从 110% 断崖跌回 40%）。
+- **[Vega 巨额亏损淹没 Delta 微利]**：Long Straddle 持有巨大的正 Vega（$\nu > 0$）。虽然股价发生了一定程度的跳空变动，但 IV 暴跌引发的 Vega 账面损耗（$-\nu \times \Delta \sigma$）以及跨式原本支付的高额时间损耗，往往远超跳空产生的内在收益，导致买方在波动发生时依然两头挨打、损失惨重。
 """
 
 from typing import List, Dict, Any, Tuple
@@ -72,32 +118,32 @@ class MultiLegOptionEngine:
         - PUT:   {"type": "PUT", "side": "BUY"|"SELL", "quantity": 1, "strike": 95.0, "premium": 2.0}
         """
         leg_type = leg["type"].upper()
-        side_mult = 1.0 if leg["side"].upper() == "BUY" else -1.0
-        qty = leg.get("quantity", 1.0)
+        side_mult = 1.0 if leg.get("side", "BUY").upper() == "BUY" else -1.0
+        qty = float(leg.get("quantity", 1))
 
         if leg_type == "STOCK":
-            entry_price = leg["price"]
-            return side_mult * qty * (spot_price - entry_price)
+            cost = float(leg.get("price", 0.0))
+            return side_mult * (spot_price - cost) * qty
 
         elif leg_type == "CALL":
-            strike = leg["strike"]
-            premium = leg["premium"]
+            strike = float(leg.get("strike", 0.0))
+            premium = float(leg.get("premium", 0.0))
             intrinsic = max(0.0, spot_price - strike)
-            return side_mult * qty * (intrinsic - premium)
+            return side_mult * (intrinsic - premium) * qty
 
         elif leg_type == "PUT":
-            strike = leg["strike"]
-            premium = leg["premium"]
+            strike = float(leg.get("strike", 0.0))
+            premium = float(leg.get("premium", 0.0))
             intrinsic = max(0.0, strike - spot_price)
-            return side_mult * qty * (intrinsic - premium)
+            return side_mult * (intrinsic - premium) * qty
 
         return 0.0
 
     @classmethod
     def calculate_portfolio_payoff(cls, legs: List[Dict[str, Any]], spot_price: float) -> float:
         """计算整个多腿组合在到期价格 spot_price 下的总净收益。"""
-        total_pnl = sum(cls.calculate_single_leg_payoff(leg, spot_price) for leg in legs)
-        return round(total_pnl, 4)
+        total = sum(cls.calculate_single_leg_payoff(leg, spot_price) for leg in legs)
+        return round(total, 4)
 
     @classmethod
     def analyze_payoff_profile(
@@ -126,12 +172,9 @@ class MultiLegOptionEngine:
             if abs(p1) < 1e-4:
                 breakevens.append(round(s1, 2))
             elif p1 * p2 < 0:
-                # 符号相异，线性插值寻找根
-                # p(s) = p1 + (s - s1) / (s2 - s1) * (p2 - p1) = 0
                 root_s = s1 - p1 * (s2 - s1) / (p2 - p1)
                 breakevens.append(round(root_s, 2))
 
-        # 去重并排序
         unique_bes = sorted(list(set(breakevens)))
 
         return {
@@ -144,126 +187,68 @@ class MultiLegOptionEngine:
 
 
 # ==============================================================================
-# Q1~Q3 深度思考题参考解析
-# ==============================================================================
-r"""
-### Q1：为什么在长周期回测中，长期机械性执行备兑看涨（Covered Call）策略在牛市主升浪中会严重跑输单纯持有股票指数（Buy-and-Hold）？
-
-参考答案：
-1. 收益分布的严重截断与非对称性（Asymmetric Upside Truncation）：
-   - Covered Call 的收益结构本质上是：全盘承担标的股票的下行风险（仅有极薄的权利金安全垫缓冲），同时将上行暴利彻底截断封顶在行权价 $K$。
-   - 在股票市场的长期复合收益中，极大部分指数涨幅由极少数几天或几周的极端单边暴涨贡献（肥尾正收益）。
-   - 机械执行 Covered Call 的基金在暴涨行情中被动以行权价交割抛出了筹码，错失了指数 30%、50% 的主升浪；
-     而在随后的熊市崩盘中，由于权利金不足以抵御腰斩式下跌，净值依然承受沉重回撤。这种“截断利润、承受亏损”的非对称结构导致长周期复利跑输指数。
-
-### Q2：铁秃鹰（Iron Condor）策略四腿组合在居中平值附近的希腊字母特征（Delta, Gamma, Vega, Theta）是什么？应在何种市场环境中部署？
-
-参考答案：
-1. 居中区域的希腊字母全景：
-   - **Delta 接近 0（Delta-Neutral）**：组合兼具 Bull Put 与 Bear Call，在中间平台区域，做空 Put 产生的正 Delta 与做空 Call 产生的负 Delta 完美相消，对现货微小波动不敏感。
-   - **Theta 显著为正（Positive Theta）**：四腿中期权空头处于内侧（更靠近平值，时间价值更厚），多头处于外侧深度虚值（时间价值极薄），因此组合整体净赚取丰厚的时间衰减收益（天天收租）。
-   - **Gamma 显著为负（Negative Gamma）**与 **Vega 显著为负（Negative Vega）**：组合惧怕大幅单边暴走与隐含波动率骤升。
-2. 最佳部署环境：
-   - 市场处于高隐含波动率后的均值回归期（IV Percentile > 70%~80%），但宏观基本面预期进入箱体震荡、缺乏强单边催化剂的真空期。此时卖出膨胀的高估波动率，收割波动率溢价与时间价值。
-
-### Q3：什么是“波动率崩塌（IV Crush）”？为什么很多散户在重大财报或大选公布前买入跨式（Long Straddle），即便标的股票剧烈波动依然遭遇严重亏损？
-
-参考答案：
-1. 隐含波动率的事件驱动定价结构：
-   在重大不确定性事件（如英伟达财报发布、FDA 新药审批、总统大选）前夕，市场避险与对冲情绪极度高涨，双向买入期权推升隐含波动率到极端高位（如 IV 从平时 30% 暴拉至 120%）。
-   期权权利金中包含了极其昂贵的波动率风险溢价（VRP）。
-2. 事件落地的方差不确定性消除（Variance Realization）：
-   一旦财报公布，无论业绩超预期还是不及预期，“靴子落地”，未来的不确定性瞬间归零。
-   做市商立刻调低报价，IV 发生垂直断崖式暴跌（例如从 120% 瞬间腰斩回 40%）。
-3. Vega 暴跌掩盖了 Delta 盈利：
-   Long Straddle 持有巨大的正 Vega（$\nu > 0$）。虽然股票跳空产生了一定程度的 Delta 收益，
-   但由于 IV 断崖式暴跌引发的 Vega 账面亏损（$-\nu \times \Delta \sigma$）以及跨式期权原本支付的极高时间价值损耗，
-   往往远大于现货跳空产生的内在价值收益，导致多头两头挨打，整体头寸严重亏损。
-"""
-
-
-# ==============================================================================
 # 单元测试与断言校验
 # ==============================================================================
 if __name__ == "__main__":
     engine = MultiLegOptionEngine()
 
     print("[Testing] Covered Call Payoff Profile...")
-    # 买入现货成本 100, 卖出 105 Call 收取权利金 3.0
     covered_call_legs = [
         {"type": "STOCK", "side": "BUY", "quantity": 1, "price": 100.0},
         {"type": "CALL", "side": "SELL", "quantity": 1, "strike": 105.0, "premium": 3.0}
     ]
-    # S_T = 110 -> 现货盈利 10 + 权利金 3 - 赔付 5 = 8.0 (封顶盈利)
     pnl_110 = engine.calculate_portfolio_payoff(covered_call_legs, 110.0)
     assert pnl_110 == 8.0, f"Expected 8.0, got {pnl_110}"
 
-    # S_T = 90 -> 现货亏损 -10 + 权利金 3 = -7.0
     pnl_90 = engine.calculate_portfolio_payoff(covered_call_legs, 90.0)
     assert pnl_90 == -7.0, f"Expected -7.0, got {pnl_90}"
 
-    # 盈亏平衡点: 100 - 3 = 97.0
     spot_range_cc = [float(x) for x in range(80, 130)]
     cc_profile = engine.analyze_payoff_profile(covered_call_legs, spot_range_cc)
     assert cc_profile["max_profit"] == 8.0
     assert 97.0 in cc_profile["breakeven_points"]
 
     print("[Testing] Protective Put Payoff Profile...")
-    # 买入现货 100, 买入 95 Put 支付权利金 2.0
     protective_put_legs = [
         {"type": "STOCK", "side": "BUY", "quantity": 1, "price": 100.0},
         {"type": "PUT", "side": "BUY", "quantity": 1, "strike": 95.0, "premium": 2.0}
     ]
-    # S_T = 80 -> 现货亏损 -20 + 行权收益 (95-80 - 2) 13 = -7.0 (锁定最大亏损: 100-95 + 2 = 7)
     pnl_pp_80 = engine.calculate_portfolio_payoff(protective_put_legs, 80.0)
     assert pnl_pp_80 == -7.0
 
-    # S_T = 120 -> 现货盈利 20 - 权利金 2 = 18.0 (上方无封顶)
     pnl_pp_120 = engine.calculate_portfolio_payoff(protective_put_legs, 120.0)
     assert pnl_pp_120 == 18.0
 
-    # 盈亏平衡点: 100 + 2 = 102.0
     pp_profile = engine.analyze_payoff_profile(protective_put_legs, spot_range_cc)
     assert 102.0 in pp_profile["breakeven_points"]
 
     print("[Testing] Long Straddle Payoff Profile...")
-    # 买入 100 Call (权利金 4.0) + 买入 100 Put (权利金 3.0), 总成本 7.0
     straddle_legs = [
         {"type": "CALL", "side": "BUY", "quantity": 1, "strike": 100.0, "premium": 4.0},
         {"type": "PUT", "side": "BUY", "quantity": 1, "strike": 100.0, "premium": 3.0}
     ]
-    # S_T = 100 -> 最大亏损 -7.0
     pnl_straddle_100 = engine.calculate_portfolio_payoff(straddle_legs, 100.0)
     assert pnl_straddle_100 == -7.0
 
-    # S_T = 115 -> Call 盈利 (15 - 4) 11 - Put 亏损 3 = 8.0
     pnl_straddle_115 = engine.calculate_portfolio_payoff(straddle_legs, 115.0)
     assert pnl_straddle_115 == 8.0
 
-    # 盈亏平衡点: 100 - 7 = 93.0 和 100 + 7 = 107.0
     straddle_profile = engine.analyze_payoff_profile(straddle_legs, spot_range_cc)
     assert straddle_profile["max_loss"] == -7.0
     assert 93.0 in straddle_profile["breakeven_points"]
     assert 107.0 in straddle_profile["breakeven_points"]
 
     print("[Testing] Iron Condor Payoff Profile...")
-    # 铁秃鹰: 买 85P (1.0), 卖 90P (2.5), 卖 110C (2.5), 买 115C (1.0)
-    # 净收取权利金 = (2.5 - 1.0) + (2.5 - 1.0) = 3.0
-    # 最大亏损 = 翼宽 5.0 - 3.0 = 2.0
     iron_condor_legs = [
         {"type": "PUT", "side": "BUY", "quantity": 1, "strike": 85.0, "premium": 1.0},
         {"type": "PUT", "side": "SELL", "quantity": 1, "strike": 90.0, "premium": 2.5},
         {"type": "CALL", "side": "SELL", "quantity": 1, "strike": 110.0, "premium": 2.5},
         {"type": "CALL", "side": "BUY", "quantity": 1, "strike": 115.0, "premium": 1.0}
     ]
-    # 中间平原 S_T = 100 -> 最大收益 3.0
     assert engine.calculate_portfolio_payoff(iron_condor_legs, 100.0) == 3.0
-    # 左侧极端暴跌 S_T = 75 -> 最大亏损 -2.0
     assert engine.calculate_portfolio_payoff(iron_condor_legs, 75.0) == -2.0
-    # 右侧极端暴涨 S_T = 125 -> 最大亏损 -2.0
     assert engine.calculate_portfolio_payoff(iron_condor_legs, 125.0) == -2.0
 
-    # 盈亏平衡点: 90 - 3 = 87.0 与 110 + 3 = 113.0
     spot_range_ic = [float(x) for x in range(70, 130)]
     ic_profile = engine.analyze_payoff_profile(iron_condor_legs, spot_range_ic)
     assert ic_profile["max_profit"] == 3.0

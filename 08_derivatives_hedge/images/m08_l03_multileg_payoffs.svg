@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="24" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B" text-anchor="middle">四大经典期权组合到期损益 (Payoff) 矩阵几何特征</text>
+
+  <!-- 1. Covered Call -->
+  <g transform="translate(30, 45)">
+    <rect width="160" height="185" rx="5" fill="#FFFFFF" stroke="#E5DFD5"/>
+    <text x="80" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">备兑看涨 Covered Call</text>
+    <line x1="15" y1="110" x2="145" y2="110" stroke="#A6A095" stroke-width="1"/>
+    <!-- Line: slanted up then horizontal -->
+    <path d="M 20 160 L 95 65 L 145 65" fill="none" stroke="#486A7D" stroke-width="2"/>
+    <text x="80" y="55" font-family="Inter, sans-serif" font-size="9" fill="#5F7355" text-anchor="middle">收益封顶 (权利金补贴)</text>
+    <text x="80" y="172" font-family="JetBrains Mono, monospace" font-size="8" fill="#7D786F" text-anchor="middle">现货 Long + 卖出 OTM Call</text>
+  </g>
+
+  <!-- 2. Protective Put -->
+  <g transform="translate(210, 45)">
+    <rect width="160" height="185" rx="5" fill="#FFFFFF" stroke="#E5DFD5"/>
+    <text x="80" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">保护性看跌 Protective Put</text>
+    <line x1="15" y1="110" x2="145" y2="110" stroke="#A6A095" stroke-width="1"/>
+    <!-- Line: horizontal floor then slanted up -->
+    <path d="M 20 130 L 75 130 L 145 60" fill="none" stroke="#5F7355" stroke-width="2"/>
+    <text x="80" y="145" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">下行保底 / 上行无限</text>
+    <text x="80" y="172" font-family="JetBrains Mono, monospace" font-size="8" fill="#7D786F" text-anchor="middle">现货 Long + 买入 OTM Put</text>
+  </g>
+
+  <!-- 3. Long Straddle -->
+  <g transform="translate(390, 45)">
+    <rect width="160" height="185" rx="5" fill="#FFFFFF" stroke="#E5DFD5"/>
+    <text x="80" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">买入跨式 Long Straddle</text>
+    <line x1="15" y1="100" x2="145" y2="100" stroke="#A6A095" stroke-width="1"/>
+    <!-- V-shape curve -->
+    <path d="M 20 50 L 80 140 L 140 50" fill="none" stroke="#CC5A36" stroke-width="2"/>
+    <text x="80" y="155" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">做多波动率 / 两头通吃</text>
+    <text x="80" y="172" font-family="JetBrains Mono, monospace" font-size="8" fill="#7D786F" text-anchor="middle">买入 ATM Call + 买入 ATM Put</text>
+  </g>
+
+  <!-- 4. Iron Condor -->
+  <g transform="translate(570, 45)">
+    <rect width="160" height="185" rx="5" fill="#FFFFFF" stroke="#E5DFD5"/>
+    <text x="80" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#C08535" text-anchor="middle">铁秃鹰 Iron Condor</text>
+    <line x1="15" y1="110" x2="145" y2="110" stroke="#A6A095" stroke-width="1"/>
+    <!-- Trapezoid curve -->
+    <path d="M 20 145 L 45 145 L 65 80 L 95 80 L 115 145 L 140 145" fill="none" stroke="#C08535" stroke-width="2"/>
+    <text x="80" y="70" font-family="Inter, sans-serif" font-size="9" fill="#5F7355" text-anchor="middle">震荡收敛赚时间价值</text>
+    <text x="80" y="172" font-family="JetBrains Mono, monospace" font-size="8" fill="#7D786F" text-anchor="middle">四腿牛熊信用价差复合</text>
+  </g>
+</svg>

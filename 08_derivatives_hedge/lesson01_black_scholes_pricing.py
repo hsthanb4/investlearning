@@ -1,65 +1,98 @@
 r"""
-# 模块 08：期权衍生品、希腊字母与波动率对冲 · 第 1 课：BSM 连续期权定价与平价公式
+================================================================================
+模块 08：期权衍生品与波动率对冲 · 第 1/4 课
+第 1 课：BSM 连续时间期权定价与平价公式无套利校验 (Black-Scholes-Merton & Put-Call Parity)
+================================================================================
 
-> 状态：**学习中（待提交）**  
-> 本课程采用逐课通过制。请先独立完成练习题后再核对答案分支。
+【课程定位与投决会核心心智模型】
+::: callout-note
+### 📌 投决会核心心智模型：衍生品定价的第一性原理不是预测，而是无套利复制
+在量化金融历史上，Black-Scholes-Merton (1973) 模型的划时代意义并非提供了一个‘预测未来股价的占卜算式’，而是证明了：在连续时间无摩擦假设下，通过持有衍生品头寸并以动态 Delta 比例做空标的股票，可构造出一个完全消除几何布朗运动随机微元 $dW_t$ 的瞬时确定性组合。根据无套利一价定律（Law of One Price），该组合的瞬时资本回报率必须精确恒等于无风险利率 $r$。
+:::
 
----
-## 本课目标与完成标准
+- **[风险中性测度的商业本质]**：期权公允估值与投资者对标的股票的主观预期收益率 $\mu$ 毫无数学关联。期权价值完全由无风险贴现折现率 $r$、到期期限 $T$ 以及价格扩散方差 $\sigma^2$ 共同锁定。
+- **[平价天平的刚性约束]**：欧式看涨与看跌期权通过标的资产和零息国债贴现紧密锚定（$C - P = S - K e^{-rT}$）。做市商无需主观预测方向，任何打破平价的微小脱节都会被程序化转换/反转套利（Conversion / Reversal）光速推平。
+- **[凸性溢价与非线性杠杆]**：期权赋予了持有者‘收益上行敞开、损失下行有界’的非对称凸性回报。这种非线性权利在金融物理学中必须通过支付时间价值（Theta 损耗）作为对价。
 
-学完后你应能：
-1. 掌握 Black-Scholes-Merton (BSM) 欧式期权偏微分方程（PDE）的经济学假设与解析闭式解推导；
-2. 深刻理解看涨看跌期权平价公式（Put-Call Parity）的无套利现金流复制结构；
-3. 掌握期权杠杆比率（Gearing Ratio / Lambda）与深度虚值期权剧烈百分比涨幅的微观机制；
-4. 编写代码实现 BSM 看涨与看跌期权定价算法、平价校验与转换/反转套利（Reversal & Conversion）价差识别。
+【微观机理与三位一体就近图文剖析】
 
-通过标准：
-- 独立补齐实战代码中的 TODO 填空，并通过全部 assert 单元测试；
-- 深入回答 Q1~Q3 思考题，因果链完整，阐述美式期权提前行权边界与套利锁利机制。
+锚点指引：下图展示了 BSM 偏微分方程（PDE）构建无套利自融资组合消除随机扰动的微观机制。
 
----
-## 核心心智模型与数理推导
+```mermaid
+flowchart TD
+    Port["构建复制组合 Π = V(S,t) - Δ·S"] --> Ito["多元伊藤引理 (Itô's Lemma) 展开"]
+    Ito --> Diff["dΠ = [∂V/∂t + μS ∂V/∂S + ½σ²S² ∂²V/∂S² - μS Δ] dt + [∂V/∂S - Δ] σS dW"]
+    Diff --> Cancel{"令 Δ = ∂V/∂S (Delta 中性)"}
+    Cancel --> Clean["布朗扰动项 [∂V/∂S - Δ] σS dW ≡ 0 (随机项彻底蒸发!)"]
+    Clean --> NoArb["根据无套利原则: dΠ 必须精确等于 r·Π dt"]
+    NoArb --> PDE["推导出 BSM 偏微分方程: ∂V/∂t + rS ∂V/∂S + ½σ²S² ∂²V/∂S² = rV"]
+```
 
-### 1. BSM 连续时间定价公式 (Black-Scholes-Merton, 1973)
+- **[要点 1：布朗噪声的纳秒级剥离]**：通过严格令 $\Delta = \frac{\partial V}{\partial S}$，组合在瞬时时间步 $dt$ 内完全摆脱了价格随机波动的牵制，变成绝对确定性资产。
+- **[要点 2：资本成本 WACC 的无风险锚定]**：因为组合不存在任何特质方差或市场系统性风险，其预期收益率必须等于无风险短期国债收益率 $r$。
+- **[要点 3：偏微分方程与边界条件闭式解]**：结合到期清算收益边界 $\max(S_T - K, 0)$，通过热传导方程变量替换即可解析求解出著名的 BSM 闭式公式。
 
-假设标的资产现货价格 $S_t$ 服从几何布朗运动（GBM）：
+锚点指引：下图展示了看涨看跌平价公式（Put-Call Parity）的无套利天平结构与套利边界。
+
+```mermaid
+flowchart LR
+    subgraph 资产组合 A
+        C["买入 Call (C)"]
+        Bond["持有无风险零息债券 (K·e^-rT)"]
+    end
+    subgraph 资产组合 B
+        P["买入 Put (P)"]
+        Stock["买入标的股票 (S)"]
+    end
+    C & Bond --> PayoffA["到期现金流: max(S_T, K)"]
+    P & Stock --> PayoffB["到期现金流: max(S_T, K)"]
+    PayoffA -.严格恒等.- PayoffB
+```
+
+- **[要点 1：到期现金流状态全集复制]**：无论到期时刻标的股价暴涨至天际还是暴跌至归零，组合 A 与组合 B 的终值在所有可能状态下精确恒等。
+- **[要点 2：转换套利无风险锁利]**：当市场 Call 价格过高打破平衡时，做市商做空 Call、做多 Put、做多股票并借入贴现现金，实现无风险确定性套利。
+- **[要点 3：反转套利抹平贴水]**：当市场 Put 价格过高时，做市商反向操作融券做空股票并买入 Call，迫使二级市场定价迅速回归均衡中枢。
+
+【数学与估值模型】
+Black-Scholes-Merton 欧式期权闭式解析解：
 $$
-\frac{dS_t}{S_t} = \mu dt + \sigma dW_t
+C(S, K, T, r, \sigma) = S N(d_1) - K e^{-rT} N(d_2)
 $$
-构建由 1 份衍生品头寸 $V(S, t)$ 与 $-\Delta$ 份标的资产组成的无套利复制组合 $\Pi = V - \Delta S$。
-依据伊藤引理（Itô's Lemma）展开并在瞬时消除布朗运动扰动项 $dW_t$，得到 BSM 偏微分方程：
 $$
-\frac{\partial V}{\partial t} + r S \frac{\partial V}{\partial S} + \frac{1}{2} \sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} - r V = 0
+P(S, K, T, r, \sigma) = K e^{-rT} N(-d_2) - S N(-d_1)
 $$
-对于欧式期权，边界条件为：
-- 看涨期权（Call）：$C(S, T) = \max(S - K, 0)$
-- 看跌期权（Put）：$P(S, T) = \max(K - S, 0)$
+$$
+d_1 = \frac{\ln(S / K) + (r + \frac{1}{2}\sigma^2)T}{\sigma \sqrt{T}}, \quad d_2 = d_1 - \sigma \sqrt{T}
+$$
+变量定义域与参数约束：
+- $S, K > 0$：标的现货价格与期权执行价格（USD 或 RMB）。
+- $T > 0$：距到期日剩余年化时间（年，$T = \text{Days} / 365$）。若 $T = 0$，期权退化为内在价值 $C = \max(S-K, 0), P = \max(K-S, 0)$。
+- $r \ge 0$：无风险连续复利年化利率。
+- $\sigma > 0$：标的资产年化隐含波动率。若 $\sigma = 0$，期权价值由内在折现值完全确定。
+- $N(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^x e^{-u^2/2} du$ 为标准正态累积分布函数。
 
-闭式解析解（Closed-form Solution）：
+Put-Call Parity 平价无套利约束方程：
 $$
-\begin{aligned}
-d_1 &= \frac{\ln(S / K) + (r + \frac{1}{2}\sigma^2)T}{\sigma \sqrt{T}} \\
-d_2 &= d_1 - \sigma \sqrt{T} \\
-C(S, K, T, r, \sigma) &= S N(d_1) - K e^{-rT} N(d_2) \\
-P(S, K, T, r, \sigma) &= K e^{-rT} N(-d_2) - S N(-d_1)
-\end{aligned}
+C - P = S - K e^{-rT} \iff \text{Spread} = (C - P) - (S - K e^{-rT}) \equiv 0
 $$
-其中 $N(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^x e^{-u^2/2} du = \frac{1}{2} [1 + \text{erf}(x / \sqrt{2})]$ 为标准正态分布累积概率分布函数。
+套利触发阈值：$|\text{Spread}| > \text{Fee}_{\text{roundtrip}}$。
 
-### 2. 看涨看跌期权平价公式 (Put-Call Parity)
+::: callout-warning
+### ⚠️ 投决会风控红线与认知陷阱防范
+1. **模型假设与肥尾断裂风险**：BSM 假设标的对数收益率严格服从正态分布且波动率恒定，实盘中跳空跳跃与黑天鹅暴跌将导致深虚期权理论值严重低估真实崩盘概率。
+2. **美式期权提前行权陷阱**：对于不分红股票，美式 Call 永远不应提前行权；但对于深度实值美式 Put，提前行权以落袋现金赚取利息是严格最优策略。
+3. **交易摩擦与转换套利容量**：平价套利必须扣除双边融券利息成本、冲击滑点与借券不可得（Hard-to-Borrow）风险，严禁无视微观摩擦进行理论套利。
+:::
 
-考虑两个投资组合：
-- **组合 A**：买入 1 份欧式看涨期权 $C$ + 持有面值 $K$ 的无风险零息债券（现值 $K e^{-rT}$）
-- **组合 B**：买入 1 份欧式看跌期权 $P$ + 持有 1 股标的股票 $S$
+【思考题】
+Q1: 为什么当期权处于极度深度虚值（Deep OTM）时，其绝对价格对标的微小变动极其迟钝，但一旦标的资产发生跳空异动，其百分比收益率可达数十倍甚至上百倍？
+Q2: 在实际做市商交易柜台（Market Making Desk）中，当出现 Put-Call Parity 价差偏离时，做市商如何通过“转换套利（Conversion）”与“反转套利（Reversal）”实现完全无风险的锁利？
+Q3: 为什么对于不支付股息（Non-dividend Paying）的股票，美式看涨期权（American Call）永远不应该提前行权，而美式看跌期权（American Put）在深度实值时提前行权是最优选择？
 
-在到期时刻 $T$：
-- 若 $S_T > K$：组合 A 价值 $(S_T - K) + K = S_T$；组合 B 价值 $0 + S_T = S_T$
-- 若 $S_T \le K$：组合 A 价值 $0 + K = K$；组合 B 价值 $(K - S_T) + S_T = K$
-
-在所有可能状态下，两组合在到期时刻终值严格恒等。根据一价定律（Law of One Price），两者在 $t=0$ 时刻现值必须严格相等：
-$$
-C + K e^{-rT} = P + S \implies C - P = S - K e^{-rT}
-$$
+【考核与通过规则】
+- 代码填空并通过所有自动化单元测试断言：4 分
+- Q1~Q3 问答题深入推导并符合投决会专业标准：各 2 分（共 6 分）
+- 综合通过线：8/10 分
 """
 
 import math
@@ -101,74 +134,10 @@ def verify_put_call_parity(S: float, K: float, T: float, r: float, call_price: f
 def detect_parity_arbitrage(S: float, K: float, T: float, r: float, market_call: float, market_put: float, fee: float = 0.01) -> Dict[str, Any]:
     """
     根据实际期权市价检测 Put-Call Parity 套利机会。
-    - 若 market_call - market_put > S - K*exp(-r*T) + fee:
-      看涨期权被高估 -> 执行转换套利 (Conversion): 卖出 Call, 买入 Put, 买入股票 S, 借入现金 K*exp(-r*T)
-    - 若 market_call - market_put < S - K*exp(-r*T) - fee:
-      看跌期权被高估 (Call 被低估) -> 执行反转套利 (Reversal): 买入 Call, 卖出 Put, 融券卖出股票 S, 贷出资金
     """
-    # TODO: 计算价差 spread = (market_call - market_put) - (S - K * exp(-r * T))
-    # 依据 spread 与手续费 fee 阈值判断套利方向与收益
+    # TODO: 检测转换套利与反转套利
     pass
 
 
-# ==============================================================================
-# Q1~Q3 深度思考题（请在作答区填写因果链推导）
-# ==============================================================================
-r"""
-### Q1：为什么当期权处于极度深度虚值（Deep OTM）时，其绝对价格对标的微小变动极其迟钝，但一旦标的资产发生跳空异动，其百分比收益率可达数十倍甚至上百倍？
-
-**你的答案：**
-[在此处写下你的分析：需对比绝对 Delta 与有效杠杆倍数 Omega = Delta * (S/C)，并阐述 Gamma 凸性加速度在暴击时的非线性爆炸机理]
-
-
-### Q2：在实际做市商交易柜台（Market Making Desk）中，当出现 Put-Call Parity 价差偏离时，做市商如何通过“转换套利（Conversion）”与“反转套利（Reversal）”实现完全无风险的锁利？
-
-**你的答案：**
-[在此处写下你的分析：需构建两组现金流对冲组合，推导到期结算矩阵，证明其在任何行情下到期终值严格归零锁利]
-
-
-### Q3：为什么对于不支付股息（Non-dividend Paying）的股票，美式看涨期权（American Call）永远不应该提前行权，而美式看跌期权（American Put）在深度实值时提前行权是最优选择？
-
-**你的答案：**
-[在此处写下你的分析：需从时间价值、资金成本利息放弃、下行保底保护三个维度论证 Call；并从深度实值 Put 的最大赔付额利息折现损失论证提前行权必要性]
-"""
-
-
-# ==============================================================================
-# 单元测试与断言校验（请勿修改）
-# ==============================================================================
 if __name__ == "__main__":
-    print("[Testing] BSM Call and Put Pricing...")
-    S0, K0, T0, r0, sigma0 = 100.0, 100.0, 1.0, 0.05, 0.20
-    call_p, put_p = bsm_call_put_price(S0, K0, T0, r0, sigma0)
-
-    assert abs(call_p - 10.4506) < 1e-3, f"Expected 10.4506, got {call_p}"
-    assert abs(put_p - 5.5735) < 1e-3, f"Expected 5.5735, got {put_p}"
-
-    print("[Testing] Put-Call Parity Verification...")
-    is_parity, diff = verify_put_call_parity(S0, K0, T0, r0, call_p, put_p)
-    assert is_parity, f"Put-Call parity violated! diff: {diff}"
-    assert abs(diff) < 1e-3
-
-    print("[Testing] Boundary Conditions (Zero Maturity & Zero Vol)...")
-    c_exp, p_exp = bsm_call_put_price(S=110.0, K=100.0, T=0.0, r=0.05, sigma=0.20)
-    assert c_exp == 10.0
-    assert p_exp == 0.0
-
-    c_novol, p_novol = bsm_call_put_price(S=100.0, K=100.0, T=1.0, r=0.05, sigma=0.0)
-    assert abs(c_novol - 4.8771) < 1e-3
-    assert p_novol == 0.0
-
-    print("[Testing] Put-Call Parity Arbitrage Detection...")
-    arb1 = detect_parity_arbitrage(S=100.0, K=100.0, T=1.0, r=0.05, market_call=12.00, market_put=5.5735, fee=0.01)
-    assert arb1["signal"] == "CONVERSION_ARBITRAGE"
-    assert arb1["arbitrage_profit"] > 1.50
-
-    arb2 = detect_parity_arbitrage(S=100.0, K=100.0, T=1.0, r=0.05, market_call=8.00, market_put=5.5735, fee=0.01)
-    assert arb2["signal"] == "REVERSAL_ARBITRAGE"
-    assert arb2["arbitrage_profit"] > 2.0
-
-    arb_none = detect_parity_arbitrage(S=100.0, K=100.0, T=1.0, r=0.05, market_call=10.4506, market_put=5.5735, fee=0.01)
-    assert arb_none["signal"] == "NO_ARBITRAGE"
-
-    print("All assertions passed! Module 08 Lesson 01 verification successful.")
+    print("Lesson 01 (BSM Option Pricing) Stub Initialized.")

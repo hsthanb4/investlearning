@@ -1,0 +1,41 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">现金并购套利生命周期时间轴与利差收敛/破裂路径</text>
+
+  <!-- Timeline Axis -->
+  <line x1="60" y1="140" x2="700" y2="140" stroke="#A6A095" stroke-width="1.5"/>
+  <polygon points="700,140 690,135 690,145" fill="#A6A095"/>
+  <text x="700" y="158" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">时间进程 t</text>
+
+  <!-- Offer Price Horizontal Line (Top) -->
+  <line x1="200" y1="70" x2="650" y2="70" stroke="#5F7355" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="655" y="74" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#5F7355">P_offer = $105 (收购要约价)</text>
+
+  <!-- Unaffected Baseline (Bottom) -->
+  <line x1="60" y1="210" x2="650" y2="210" stroke="#CC5A36" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="655" y="214" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36">P_unaffected = $80 (未受干扰底价)</text>
+
+  <!-- Stage 1: Pre-announcement -->
+  <circle cx="100" cy="210" r="4" fill="#7D786F"/>
+  <text x="100" y="195" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">未受干扰基准</text>
+
+  <!-- Jump at Announcement -->
+  <path d="M 100 210 L 200 210 L 210 100" fill="none" stroke="#1F1E1B" stroke-width="2"/>
+  <circle cx="210" cy="100" r="5" fill="#486A7D"/>
+  <text x="210" y="55" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#486A7D" text-anchor="middle">并购公告日</text>
+  <text x="210" y="118" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D" text-anchor="middle">跳涨至 $100</text>
+
+  <!-- Spread indicator -->
+  <line x1="240" y1="70" x2="240" y2="100" stroke="#C08535" stroke-width="2"/>
+  <text x="250" y="88" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#C08535">利差 Spread = $5.0 (5%)</text>
+
+  <!-- Path A: Deal Closes Successfully (Green) -->
+  <path d="M 210 100 Q 420 95 620 70" fill="none" stroke="#5F7355" stroke-width="2.5"/>
+  <circle cx="620" cy="70" r="5" fill="#5F7355"/>
+  <text x="615" y="55" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#5F7355" text-anchor="end">反垄断/股东批准：利差收敛交割 (+5%)</text>
+
+  <!-- Path B: Deal Breaks (Terracotta Drop) -->
+  <path d="M 400 95 L 430 210 L 620 210" fill="none" stroke="#CC5A36" stroke-width="2.5" stroke-dasharray="4 2"/>
+  <circle cx="430" cy="210" r="5" fill="#CC5A36"/>
+  <text x="435" y="180" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#CC5A36">监管否决/交易破裂 (暴跌至 $80, -20%)</text>
+</svg>

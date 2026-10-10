@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">BSM 连续时间无套利复制组合与伊藤引理消除漂移拓扑</text>
+
+  <!-- Left: Portfolio Construction -->
+  <rect x="40" y="60" width="200" height="135" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <rect x="40" y="60" width="200" height="26" rx="6" fill="#486A7D"/>
+  <text x="140" y="78" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">自融资复制组合 Π</text>
+  <text x="140" y="105" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">Π = V - Δ · S</text>
+  <text x="140" y="125" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">+1 份衍生品 V(S,t)</text>
+  <text x="140" y="142" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36" text-anchor="middle">-Δ 份标的现货 (对冲空头)</text>
+  <text x="140" y="165" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">令 Δ = ∂V/∂S 锁定中性</text>
+
+  <!-- Arrow -->
+  <line x1="240" y1="125" x2="295" y2="125" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="300,125 292,121 292,129" fill="#1F1E1B"/>
+  <text x="270" y="117" font-family="Newsreader, serif" font-size="11" font-style="italic" fill="#7D786F" text-anchor="middle">伊藤展开</text>
+
+  <!-- Middle: Brownian Noise Elimination -->
+  <rect x="305" y="60" width="205" height="135" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+  <rect x="305" y="60" width="205" height="26" rx="6" fill="#5F7355"/>
+  <text x="407" y="78" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">布朗运动项 dW 瞬时消除</text>
+  <text x="407" y="105" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36" text-anchor="middle">[∂V/∂S - Δ] · σS dW ≡ 0</text>
+  <text x="407" y="130" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">随机微元被完全吸收！</text>
+  <text x="407" y="150" font-family="Inter, sans-serif" font-size="10" fill="#5F7355" text-anchor="middle">组合在 dt 内变为无风险确定性</text>
+  <text x="407" y="172" font-family="JetBrains Mono, monospace" font-size="11" fill="#1F1E1B" text-anchor="middle">dΠ = r · Π dt</text>
+
+  <!-- Arrow -->
+  <line x1="510" y1="125" x2="550" y2="125" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="555,125 547,121 547,129" fill="#1F1E1B"/>
+  <text x="532" y="117" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">均衡</text>
+
+  <!-- Right: BSM PDE -->
+  <rect x="560" y="60" width="165" height="135" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <rect x="560" y="60" width="165" height="26" rx="6" fill="#CC5A36"/>
+  <text x="642" y="78" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">BSM 偏微分方程</text>
+  <text x="642" y="105" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B" text-anchor="middle">∂V/∂t + rS ∂V/∂S</text>
+  <text x="642" y="125" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B" text-anchor="middle">+ ½σ²S² ∂²V/∂S²</text>
+  <text x="642" y="145" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">= r · V</text>
+  <text x="642" y="172" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">闭式解析解 d1 / d2</text>
+
+  <!-- Bottom Callout -->
+  <rect x="40" y="210" width="685" height="35" rx="5" fill="#FAF8F5" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="382" y="232" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">第一性原理：期权价格不依赖标的实际预期收益率 μ，仅由无风险利率 r 与波动率 σ 唯一内生定价</text>
+</svg>

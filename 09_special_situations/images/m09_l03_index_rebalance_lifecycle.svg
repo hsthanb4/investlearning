@@ -1,0 +1,64 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">指数成分股定期调整四阶段套利拓扑与流动性挤兑</text>
+
+  <!-- 4 Step Boxes -->
+  <!-- Step 1 -->
+  <g transform="translate(40, 60)">
+    <rect width="150" height="120" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <rect width="150" height="24" rx="6" fill="#486A7D"/>
+    <text x="75" y="17" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">阶段 1: 规则预测</text>
+    <text x="75" y="45" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1F1E1B" text-anchor="middle">提前 1~2 个月</text>
+    <text x="75" y="65" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">量化追踪市值与成交排名</text>
+    <text x="75" y="82" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">推算调入/调出名单候选</text>
+    <text x="75" y="105" font-family="JetBrains Mono, monospace" font-size="9" fill="#486A7D" text-anchor="middle">【低位抢跑建仓】</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="195" y1="120" x2="215" y2="120" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="220,120 212,116 212,124" fill="#1F1E1B"/>
+
+  <!-- Step 2 -->
+  <g transform="translate(225, 60)">
+    <rect width="150" height="120" rx="6" fill="#FFFFFF" stroke="#C08535" stroke-width="1.5"/>
+    <rect width="150" height="24" rx="6" fill="#C08535"/>
+    <text x="75" y="17" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">阶段 2: 官方公告</text>
+    <text x="75" y="45" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1F1E1B" text-anchor="middle">生效前约 2 周</text>
+    <text x="75" y="65" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">中证/标普正式发布名单</text>
+    <text x="75" y="82" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">主观资金与散户跟风买入</text>
+    <text x="75" y="105" font-family="JetBrains Mono, monospace" font-size="9" fill="#C08535" text-anchor="middle">【抬升调入股超额】</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="380" y1="120" x2="400" y2="120" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="405,120 397,116 397,124" fill="#1F1E1B"/>
+
+  <!-- Step 3 -->
+  <g transform="translate(410, 60)">
+    <rect width="150" height="120" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+    <rect width="150" height="24" rx="6" fill="#CC5A36"/>
+    <text x="75" y="17" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">阶段 3: 生效日交割</text>
+    <text x="75" y="45" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">T_eff 尾盘集合竞价</text>
+    <text x="75" y="65" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">被动 ETF 必须顶格完成配置</text>
+    <text x="75" y="82" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">不计成本以 MOC 买齐</text>
+    <text x="75" y="105" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355" text-anchor="middle">【套利者高位倒手平仓】</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="565" y1="120" x2="585" y2="120" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="590,120 582,116 582,124" fill="#1F1E1B"/>
+
+  <!-- Step 4 -->
+  <g transform="translate(595, 60)">
+    <rect width="130" height="120" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+    <rect width="130" height="24" rx="6" fill="#5F7355"/>
+    <text x="65" y="17" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">阶段 4: 均值反转</text>
+    <text x="65" y="45" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1F1E1B" text-anchor="middle">生效次日开盘</text>
+    <text x="65" y="65" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">人工买盘瞬间消失</text>
+    <text x="65" y="82" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">流动性供给真空回落</text>
+    <text x="65" y="105" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36" text-anchor="middle">【超额脉冲消除】</text>
+  </g>
+
+  <!-- Bottom Tip -->
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">被动指数基金跟踪误差最小化的制度刚性，为流动性套利者提供了确定性的‘买家兜底契约’</text>
+</svg>

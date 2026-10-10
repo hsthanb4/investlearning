@@ -1,62 +1,101 @@
 r"""
-# 模块 08：期权衍生品、希腊字母与波动率对冲 · 第 2 课：期权希腊字母矩阵与动态 Delta 对冲
+================================================================================
+模块 08：期权衍生品与波动率对冲 · 第 2/4 课
+第 2 课：期权希腊字母矩阵与动态 Delta 对冲 (Option Greeks & Dynamic Delta Hedging) - 参考答案版
+================================================================================
 
-> 状态：**参考答案版** (Reference Answer)
-> 包含完整代码实现与问答题深度参考解析。独立思考后再核对答案。
+【课程定位与投决会核心心智模型】
+::: callout-note
+### 📌 投决会核心心智模型：从一维线性方向赌博升维至多维曲面希腊字母博弈
+在股票或期货等一维线性资产中，投资组合的盈亏仅取决于方向（$\Delta S$）；而在衍生品空间中，期权赋予了专业机构对“方向（Delta）、曲率加速度（Gamma）、时间损耗速度（Theta）与波动率定价权（Vega）”四个正交维度同时剥离、定价与对冲的统治级能力。做市商的核心商业模式并非押注行情涨跌，而是通过动态 Delta 对冲剥离方向风险，赚取已实现波动率（Realized Vol）与隐含波动率（Implied Vol）的非线性价差方差。
+:::
 
----
-## 本课目标与完成标准
+- **[泰勒展开与损益全息解构]**：期权组合瞬时损益满足多元泰勒展开 $\Delta \Pi \approx \Delta \cdot \Delta S + \frac{1}{2} \Gamma (\Delta S)^2 + \Theta \Delta t + \nu \Delta \sigma$。对冲的本质是人为令 $\Delta_{\text{net}} \equiv 0$，将组合暴露纯化为 Gamma-Theta 权衡。
+- **[Gamma 与 Theta 的零和枷锁]**：BSM 偏微分方程决定了 $\Theta \approx -\frac{1}{2} \sigma^2 S^2 \Gamma$。期权买方坐拥正 Gamma（收益加速器），其代价是必须每日支付负 Theta（时间流逝租金）；卖方每日稳赚正 Theta，但必须承担极端行情下负 Gamma 带来的二次方亏损爆炸。
+- **[做市商的方差套利本质]**：当且仅当市场实际波动率 $\sigma_{\text{realized}} > \sigma_{\text{implied}}$ 时，持有正 Gamma 的 Delta 中性组合才能实现正收益。
 
-学完后你应能：
-1. 掌握期权一阶与二阶希腊字母（Delta, Gamma, Vega, Theta, Rho）的偏导数推导与几何物理内涵；
-2. 深刻理解做市商“买入低估波动率、做空高估波动率”并通过动态 Delta 中性剥离方向风险的机制；
-3. 掌握离散对冲误差（Discrete Hedging Error）的数学成因：Gamma 与已实现波动率（Realized Vol）的交互作用；
-4. 编写代码实现五大希腊字母全套解析计算，并构建做空看涨期权与标的现货的动态 Delta 中性对冲仿真引擎。
+【微观机理与三位一体就近图文剖析】
 
-通过标准：
-- 独立补齐实战代码中的 TODO 填空，并通过全部 assert 单元测试；
-- 深入回答 Q1~Q3 思考题，因果链完整，阐述 Gamma 挤压（Gamma Squeeze）与 Short Gamma 尾部暴仓机制。
+锚点指引：下图展示了期权一阶敏感度 Delta S 型曲线与二阶加速度 Gamma 钟形极值分布。
 
----
-## 核心心智模型与数理推导
+```mermaid
+flowchart TD
+    subgraph 标的现货价格 S 转移过程
+        OTM["深度虚值 (S << K)"]
+        ATM["平值临界 (S ≈ K)"]
+        ITM["深度实值 (S >> K)"]
+    end
+    subgraph 希腊字母响应
+        D_OTM["Delta ≈ 0.05 / 迟钝"] --> D_ATM["Delta ≈ 0.50 / 最灵敏"] --> D_ITM["Delta ≈ 0.95 / 逼近现货"]
+        G_OTM["Gamma ≈ 0 / 扁平"] --> G_ATM["Gamma 达钟形峰值 (极高凸性)"] --> G_ITM["Gamma ≈ 0 / 扁平"]
+    end
+```
 
-### 1. 泰勒展开与希腊字母全息矩阵
+- **[要点 1：平值期权 ATM 的最高曲率]**：平值附近标的价格的微小跳动会引发 Delta 的剧烈重估，做市商在此区域面临最密集的再平衡换手需求。
+- **[要点 2：实值期权的现货化退化]**：当期权深入实值时，$\Delta \to 1.0, \Gamma \to 0$，期权完全退化为带有一点贴现保护的普通股票。
+- **[要点 3：虚值期权的彩票杠杆属性]**：虚值期权绝对 Delta 极小，但其弹性杠杆 $\Omega = \Delta \cdot \frac{S}{C}$ 极高，在突发剧烈波动中具备最迅猛的凸性爆发力。
 
-对于任意期权组合价值 $\Pi(S, \sigma, t, r)$，其在时间微元 $\Delta t$ 内的损益变化可通过多元泰勒展开表示为：
+锚点指引：下图揭示了做市商离散动态 Delta 中性对冲再平衡闭环与对冲误差演化。
+
+```mermaid
+flowchart LR
+    A["现货价格跳动 S_t ➔ S_{t+1}"] --> B["Delta 漂移: Δ_new = Δ_old + Γ·ΔS"]
+    B --> C["执行现货调仓: 买/卖 (Δ_new - Δ_old) 股"]
+    C --> D["借贷账户结算资金利息 r·dt"]
+    D --> E["期末损益收敛: PnL ≈ ½ Γ S² (σ_real² - σ_imp²) Δt - 摩擦成本"]
+```
+
+- **[要点 1：离散调仓的方差残差]**：现实中对冲不可能连续发生（$dt \to 0$），离散时间步 $\Delta t$ 使得做市商必然承担未对冲的二阶凸性跳跃方差。
+- **[要点 2：交易成本与对冲频次的纳什均衡]**：提高对冲频率可降低跟踪误差，但会使印花税与买卖价差摩擦呈线性爆炸；做市商采用容忍带（Whalley-Wilmott Band）进行非线性触发。
+- **[要点 3：波动率套利的物理终局]**：动态对冲将方向性赌徒转变为波动率水务局，组合终值取决于实际水流速度（已实现波动率）是否高于期权票面计价速度。
+
+【数学与估值模型】
+五大希腊字母偏导数解析公式矩阵：
 $$
-\Delta \Pi \approx \underbrace{\frac{\partial \Pi}{\partial S} \Delta S}_{\text{Delta 收益}} + \underbrace{\frac{1}{2} \frac{\partial^2 \Pi}{\partial S^2} (\Delta S)^2}_{\text{Gamma 凸性收益}} + \underbrace{\frac{\partial \Pi}{\partial \sigma} \Delta \sigma}_{\text{Vega 波动率收益}} + \underbrace{\frac{\partial \Pi}{\partial t} \Delta t}_{\text{Theta 时间流逝}} + \underbrace{\frac{\partial \Pi}{\partial r} \Delta r}_{\text{Rho 利率收益}}
+\Delta_{\text{call}} = N(d_1), \quad \Delta_{\text{put}} = N(d_1) - 1, \quad \Gamma = \frac{\phi(d_1)}{S \sigma \sqrt{T}}
 $$
-
-| 希腊字母 | 数学定义 | 经济学物理含义 | Call / Put 正负性 |
-|---|---|---|---|
-| **Delta ($\Delta$)** | $\frac{\partial V}{\partial S}$ | 标的价格每变动 1 单位，期权价值变动量（对冲比率） | Call: $(0, 1)$；Put: $(-1, 0)$ |
-| **Gamma ($\Gamma$)** | $\frac{\partial^2 V}{\partial S^2} = \frac{\partial \Delta}{\partial S}$ | 标的价格变动对 Delta 的敏感度（期权的加速度 / 凸性） | 买方恒为正 ($\Gamma > 0$)；卖方恒为负 |
-| **Vega ($\nu$)** | $\frac{\partial V}{\partial \sigma}$ | 隐含波动率每上升 1 个百分点，期权价值的变动量 | 买方恒为正 ($\nu > 0$)；卖方恒为负 |
-| **Theta ($\Theta$)** | $\frac{\partial V}{\partial t} = -\frac{\partial V}{\partial \tau}$ | 时间流逝一单位，期权时间价值的衰减损耗速度 | 买方通常为负 ($\Theta < 0$)；卖方为正 |
-| **Rho ($\rho$)** | $\frac{\partial V}{\partial r}$ | 无风险利率每变动 1 个基点/百分点，期权价值变动量 | Call 为正；Put 为负 |
-
-解析公式推导（标准正态 PDF 为 $\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$）：
 $$
-\begin{aligned}
-d_1 &= \frac{\ln(S / K) + (r + \frac{1}{2}\sigma^2)T}{\sigma \sqrt{T}}, \quad d_2 = d_1 - \sigma \sqrt{T} \\
-\Delta_{\text{call}} &= N(d_1), \quad \Delta_{\text{put}} = N(d_1) - 1 \\
-\Gamma &= \frac{\phi(d_1)}{S \sigma \sqrt{T}} \quad (\text{Call 与 Put 完全相同}) \\
-\nu &= S \phi(d_1) \sqrt{T} \quad (\text{Call 与 Put 完全相同}) \\
-\Theta_{\text{call}} &= -\frac{S \phi(d_1) \sigma}{2 \sqrt{T}} - r K e^{-rT} N(d_2) \\
-\Theta_{\text{put}} &= -\frac{S \phi(d_1) \sigma}{2 \sqrt{T}} + r K e^{-rT} N(-d_2) \\
-\rho_{\text{call}} &= K T e^{-rT} N(d_2), \quad \rho_{\text{put}} = -K T e^{-rT} N(-d_2)
-\end{aligned}
+\nu = S \phi(d_1) \sqrt{T}, \quad \Theta_{\text{call}} = -\frac{S \phi(d_1) \sigma}{2 \sqrt{T}} - r K e^{-rT} N(d_2), \quad \rho_{\text{call}} = K T e^{-rT} N(d_2)
 $$
+变量定义域与参数约束：
+- $\Delta \in (-1, 1)$：看涨期权 $\Delta \in (0, 1)$，看跌期权 $\Delta \in (-1, 0)$。
+- $\Gamma > 0$：对于期权买方恒大于 0；卖方恒小于 0。
+- $\nu > 0$：Vega 对于期权买方恒大于 0（USD / 100% 波动率）。
+- $\Theta$：以每年或每日（$\Theta / 365$）为单位的时间损耗。
+- $\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$ 为标准正态概率密度函数（PDF）。
 
-### 2. 动态 Delta 中性对冲仿真 (Dynamic Delta Hedging)
+做市商离散动态对冲损益归因方程（Leland & Wilmott）：
+$$
+\Delta \Pi_{\text{hedged}} \approx \frac{1}{2} \Gamma_t S_t^2 \left[ \left(\frac{\Delta S_t}{S_t}\right)^2 - \sigma_{\text{implied}}^2 \Delta t \right] - \text{Cost}_{\text{trade}}
+$$
+定义域：$\Delta t$ 为离散调仓间隔，$\text{Cost}_{\text{trade}} = \frac{1}{2} \text{Spread} \cdot |\Delta_{t} - \Delta_{t-1}| \cdot S_t$。
 
-当做市商卖出 1 份看涨期权（获取权利金 $C_0$），其头寸面临正的股价上行风险（$\Delta_{\text{short}} = -\Delta_{\text{call}} < 0$）。
-为了达到 Delta 中性（组合总 Delta = 0），做市商在现货市场买入 $\Delta_{\text{call}}$ 股股票。
-随着标的资产价格波动与时间推移，在离散时间步 $t_1, t_2, \dots, t_N$：
-- Delta 不断漂移变化；
-- 做市商按新 Delta 动态调仓：$\Delta \text{shares} = \Delta_{t} - \Delta_{t-1}$；
-- 股票调仓资金从现金借贷账户中划拨并按无风险利率计息；
-- 理论上，在连续对冲极限下，最终组合总盈亏恒等于 0（完全复制）。
+::: callout-warning
+### ⚠️ 投决会风控红线与认知陷阱防范
+1. **Short Gamma 尾部暴仓死穴**：做空虚值期权赚取 Theta 时，Gamma 恒为负。一旦遭遇单日 5% 以上黑天鹅跳空，负 Gamma 导致的亏损呈二次方暴增，瞬间击穿保证金账户。
+2. **伽马挤压（Gamma Squeeze）流动性踩踏**：当散户大量买入短期虚值 Call 时，做市商持有巨额负 Gamma；标的上涨迫使做市商在现货市场不计成本追高爆买对冲，引发正反馈火上浇油。
+3. **过夜跳空对冲真空**：交易所休市期间无法进行连续 Delta 对冲。周末或突发地缘政治消息导致的开盘跳空缺口（Jump Risk）将彻底击穿离散对冲防线。
+:::
+
+【思考题】
+Q1: 为什么期权卖方（Short Gamma / Short Vega）在平稳温和市场中每天稳收 Theta 时间价值，但在突发黑天鹅暴跌时可能瞬间爆仓破产？
+Q2: 什么是“伽马挤压（Gamma Squeeze）”？2021 年美股 GameStop (GME) 散户轧空事件中，做市商的动态 Delta 对冲如何沦为火上浇油的暴涨推手？
+Q3: 离散对冲频率（如每日对冲 vs 每小时对冲）与交易摩擦成本之间存在怎样的权衡？为什么“完美无误差对冲”在物理世界中不存在？
+
+【Q1 深度参考答案】
+- **[PDE 无套利等式的刚性权衡]**：BSM 偏微分方程确立了 $\Theta \approx -\frac{1}{2} \sigma^2 S^2 \Gamma$ 的物理平衡。做空期权以获取正 Theta（时间流逝确定性入账）为诱饵，其代价是必须将自身资产负债表暴露于深度的负 Gamma（$\Gamma < 0$）与负 Vega（$\nu < 0$）之下。
+- **[二次方非线性亏损与恐慌膨胀]**：在平静窄幅震荡市中，$(\Delta S)^2 \approx 0$，负 Gamma 损耗微弱，卖方产生“高夏普比率稳健理财”的认知幻觉；但在突发黑天鹅断崖暴跌时，$(\Delta S)^2$ 剧烈放大，二次方损失呈指数级失控，同时市场恐慌情绪引发隐含波动率 $\sigma$ 从 15% 垂直拉升至 80%，负 Vega 敞口产生毁灭性账面浮亏。
+- **[不对称肥尾的破产惩罚]**：卖方“胜率 98%、但每次只赚 2 块钱，败率 2%、但一次亏掉 200 块”的非对称肥尾特征，决定了裸卖期权策略在长期不可逆遍历中必将在吸收壁归零。
+
+【Q2 深度参考答案】
+- **[做市商被动成为期权净空头]**：在 GME 事件中，海量散户集中买入超短期（Weekly）极度深度虚值看涨期权（OTM Call）。做市商作为流动性提供方被迫成为对手盘，被动卖出巨量 Call，账面上沉淀了极度危险的负 Delta 和负 Gamma 敞口。
+- **[动态 Delta 对冲的正反馈螺旋]**：初时虚值 Call 的 Delta 极小（如 0.05），做市商仅需配置少量现货；当散户资金稍稍推高股价时，由于做市商负 Gamma 极大，其 Delta 绝对值迅速激增（从 0.05 跳升至 0.30、0.70）。做市商为了规避裸空穿仓，必须在现货市场上不计成本以市价追高扫荡股票完成 Delta 中性对冲。
+- **[流动性挤兑引发股价垂直发射]**：做市商被动追买数千万股现货的机械性指令，进一步推高现货价格，导致更多深虚期权变为实值、Delta 逼近 1.0，逼迫做市商买入更多股票。这种由做市商机械对冲机制构成的正反馈死亡螺旋，正是伽马挤压（Gamma Squeeze）的微观物理实体。
+
+【Q3 深度参考答案】
+- **[对冲频率与跟踪方差的平方根权衡]**：连续对冲在现实物理世界中并不存在。离散时间调仓步长 $\Delta t$ 使得做市商在两次调仓之间必然暴露于二次方凸性误差中，其跟踪方差与持仓 Gamma 紧密相关（$\text{Var} \propto \frac{1}{N} \int_0^T S_t^4 \Gamma_t^2 dt$）。缩小 $\Delta t$ 能够平滑对冲误差。
+- **[Leland (1985) 交易摩擦无限发散定理]**：每一次调整现货持仓都需要承担买卖点差（Spread）、交易所规费和冲击滑点。Leland 证明，在存在比例交易成本的市场中，若对冲频率 $N \to \infty$，累计交易成本将趋于无穷大，完全吞噬期权全部内在价值。
+- **[带宽容忍（Band Hedging）的最佳实践]**：工程实践中，衍生品交易台采用 Whalley-Wilmott 算法或非线性优化容忍带：只有当标的价格波动使得 Delta 偏离度超出设定的置信区间 $[-\epsilon, +\epsilon]$ 时才触发调仓，在对冲跟踪方差与执行摩擦成本之间取得工业级帕累托最优。
 """
 
 import math
@@ -77,9 +116,9 @@ def calculate_bsm_greeks(S: float, K: float, T: float, r: float, sigma: float) -
     """
     计算 BSM 欧式期权全部一阶与二阶希腊字母。
     """
-    if T <= 0.0 or sigma <= 0.0:
+    if T <= 0.0:
         call_delta = 1.0 if S > K else 0.0
-        put_delta = call_delta - 1.0
+        put_delta = 0.0 if S > K else -1.0
         return {
             "call_delta": round(call_delta, 4),
             "put_delta": round(put_delta, 4),
@@ -91,24 +130,42 @@ def calculate_bsm_greeks(S: float, K: float, T: float, r: float, sigma: float) -
             "put_rho": 0.0
         }
 
-    d1 = (math.log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * math.sqrt(T))
-    d2 = d1 - sigma * math.sqrt(T)
+    if sigma <= 0.0:
+        disc_k = K * math.exp(-r * T)
+        call_delta = 1.0 if S > disc_k else 0.0
+        put_delta = 0.0 if S > disc_k else -1.0
+        return {
+            "call_delta": round(call_delta, 4),
+            "put_delta": round(put_delta, 4),
+            "gamma": 0.0,
+            "vega": 0.0,
+            "call_theta": 0.0,
+            "put_theta": 0.0,
+            "call_rho": 0.0,
+            "put_rho": 0.0
+        }
 
-    pdf_d1 = standard_normal_pdf(d1)
-    cdf_d1 = standard_normal_cdf(d1)
-    cdf_d2 = standard_normal_cdf(d2)
+    sqrt_t = math.sqrt(T)
+    d1 = (math.log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * sqrt_t)
+    d2 = d1 - sigma * sqrt_t
 
-    call_delta = cdf_d1
-    put_delta = cdf_d1 - 1.0
-    gamma = pdf_d1 / (S * sigma * math.sqrt(T))
-    vega = S * pdf_d1 * math.sqrt(T)
+    phi_d1 = standard_normal_pdf(d1)
+    nd1 = standard_normal_cdf(d1)
+    nd2 = standard_normal_cdf(d2)
+    n_neg_d1 = standard_normal_cdf(-d1)
+    n_neg_d2 = standard_normal_cdf(-d2)
 
-    term1 = - (S * pdf_d1 * sigma) / (2.0 * math.sqrt(T))
-    call_theta = term1 - r * K * math.exp(-r * T) * cdf_d2
-    put_theta = term1 + r * K * math.exp(-r * T) * standard_normal_cdf(-d2)
+    call_delta = nd1
+    put_delta = nd1 - 1.0
 
-    call_rho = K * T * math.exp(-r * T) * cdf_d2
-    put_rho = -K * T * math.exp(-r * T) * standard_normal_cdf(-d2)
+    gamma = phi_d1 / (S * sigma * sqrt_t)
+    vega = S * phi_d1 * sqrt_t
+
+    call_theta = -(S * phi_d1 * sigma) / (2.0 * sqrt_t) - r * K * math.exp(-r * T) * nd2
+    put_theta = -(S * phi_d1 * sigma) / (2.0 * sqrt_t) + r * K * math.exp(-r * T) * n_neg_d2
+
+    call_rho = K * T * math.exp(-r * T) * nd2
+    put_rho = -K * T * math.exp(-r * T) * n_neg_d2
 
     return {
         "call_delta": round(call_delta, 4),
@@ -131,53 +188,39 @@ def simulate_dynamic_delta_hedging(
 ) -> Dict[str, float]:
     """
     做空 1 份欧式看涨期权，并使用标的股票进行离散动态 Delta 中性对冲仿真。
-    
-    :param price_path: 模拟的价格时间序列 [S_0, S_1, ..., S_N]
-    :param K: 行权价
-    :param T: 总到期年限
-    :param r: 无风险利率
-    :param sigma: 定价与对冲使用的波动率
-    :return: 包含对冲终值、各步骤开销与对冲误差的字典
     """
     N = len(price_path) - 1
     dt = T / N
+
     S0 = price_path[0]
-
-    # 计算期初 Call 理论价格并收取权利金
-    d1_0 = (math.log(S0 / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * math.sqrt(T))
-    d2_0 = d1_0 - sigma * math.sqrt(T)
+    sqrt_t0 = math.sqrt(T)
+    d1_0 = (math.log(S0 / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * sqrt_t0)
+    d2_0 = d1_0 - sigma * sqrt_t0
     c0 = S0 * standard_normal_cdf(d1_0) - K * math.exp(-r * T) * standard_normal_cdf(d2_0)
-
-    # 期初对冲：买入 delta_0 股股票
     delta_0 = standard_normal_cdf(d1_0)
+
     cash = c0 - delta_0 * S0
     shares = delta_0
 
-    # 沿价格路径进行动态离散再平衡
-    for i in range(1, N):
-        tau = T - i * dt
-        Si = price_path[i]
+    for step in range(1, N):
+        St = price_path[step]
+        cash *= math.exp(r * dt)
+        tau = max(0.0, T - step * dt)
 
-        # 现金账户按无风险利率计息
-        cash = cash * math.exp(r * dt)
+        if tau > 1e-6 and sigma > 1e-6:
+            sqrt_tau = math.sqrt(tau)
+            d1_t = (math.log(St / K) + (r + 0.5 * sigma * sigma) * tau) / (sigma * sqrt_tau)
+            new_delta = standard_normal_cdf(d1_t)
+        else:
+            new_delta = 1.0 if St > K else 0.0
 
-        # 计算当前时点的新 Delta
-        d1_i = (math.log(Si / K) + (r + 0.5 * sigma * sigma) * tau) / (sigma * math.sqrt(tau))
-        new_delta = standard_normal_cdf(d1_i)
-
-        # 调仓买入/卖出股票以维持 Delta 中性
-        trade_shares = new_delta - shares
-        cash -= trade_shares * Si
+        d_shares = new_delta - shares
+        cash -= d_shares * St
         shares = new_delta
 
-    # 到期结算时点 N
     SN = price_path[-1]
-    cash = cash * math.exp(r * dt)
-
-    # 期权履约现金流（卖出方支出赔付）
+    cash *= math.exp(r * dt)
     option_payoff = max(0.0, SN - K)
-
-    # 抛售持仓股票清算为现金
     stock_liquidation = shares * SN
 
     final_hedged_portfolio_value = cash + stock_liquidation - option_payoff
@@ -192,49 +235,6 @@ def simulate_dynamic_delta_hedging(
 
 
 # ==============================================================================
-# Q1~Q3 深度思考题参考解析
-# ==============================================================================
-r"""
-### Q1：为什么期权卖方（Short Gamma / Short Vega）在平稳温和市场中每天稳收 Theta 时间价值，但在突发黑天鹅暴跌时可能瞬间爆仓破产？
-
-参考答案：
-1. Theta 与 Gamma 的永恒权衡（No-Free-Lunch PDE 约束）：
-   根据 BSM 偏微分方程：$\Theta + r S \Delta + \frac{1}{2} \sigma^2 S^2 \Gamma = r V$。
-   在 Delta 中性状态下，$\Theta \approx -\frac{1}{2} \sigma^2 S^2 \Gamma$。
-   - 做空期权赚取正 Theta（$\Theta > 0$ 时间流逝赚钱），其数学代价是必须承担负 Gamma（$\Gamma < 0$）。
-   - 在平静市场中，标的资产微小波动（$(\Delta S)^2 \approx 0$），负 Gamma 损耗很小，每日正 Theta 稳稳落袋，给人以“稳健高胜率理财”的幻觉。
-2. 极端暴跌下的双重暴击（Gamma 倒戈与 Vega 膨胀）：
-   - 当黑天鹅突发暴跌时，$(\Delta S)^2$ 剧烈放大，由 $\frac{1}{2} \Gamma (\Delta S)^2$ 带来的非线性亏损呈二次方爆炸；
-   - 伴随市场恐慌，隐含波动率 $\sigma$ 暴涨（例如从 15% 飙升至 80%），卖方承担的负 Vega（$-\nu \Delta \sigma$）产生天文数字般的亏损；
-   - 这种“平时赚小钱，一次亏到底”的非对称收益分布，正是长期资本管理公司（LTCM）等期权空头基金覆灭的数学本质。
-
-### Q2：什么是“伽马挤压（Gamma Squeeze）”？2021 年美股 GameStop (GME) 散户轧空事件中，做市商的动态 Delta 对冲如何沦为火上浇油的暴涨推手？
-
-参考答案：
-1. 做市商被动成为期权净空头（Short Call）：
-   散户在 Robinhood 等券商平台上集中疯狂买入 GME 的短期极度深度虚值看涨期权（OTM Call）。
-   做市商（Market Makers）为了赚取买卖价差与流动性溢价，作为对手方被动卖出了海量 Call，从而持有巨额的负 Delta 和负 Gamma。
-2. 动态 Delta 追高正反馈死循环：
-   - 初始时虚值期权 Delta 极小（如 0.05），做市商只需买入少量现货股票对冲；
-   - 当散户合力将股价推高哪怕一点点时，由于做市商持有负 Gamma，其 Delta 绝对值迅速激增（从 0.05 跃升至 0.30、0.70）；
-   - 为了维持 Delta 中性以避免暴露巨大的裸空风险，做市商必须在现货市场上以市价强行买入数以百万计的 GME 现货股票进行机械性对冲；
-   - 做市商的巨额买单进一步推高了股票现货价格，导致期权 Delta 更加接近 1.0，迫使做市商买入更多股票！这种机械化对冲引发的正反馈闭环直接导致股价出现垂直火箭式暴涨。
-
-### Q3：离散对冲频率（如每日对冲 vs 每小时对冲）与交易摩擦成本之间存在怎样的权衡？为什么“完美无误差对冲”在物理世界中不存在？
-
-参考答案：
-1. 离散误差与跟踪方差（Discrete Tracking Error）：
-   连续时间 BSM 模型假设对冲频率 $dt \to 0$。但在现实中，离散调仓间隔 $\Delta t$ 使得做市商在两次调仓之间必然暴露于未对冲的凸性风险中。
-   每一步的对冲残差均值约为 0，但其方差与持仓 Gamma 及跳跃方差成正比：$\text{Var}(\text{Hedging Error}) \propto \frac{1}{N} \int_0^T S_t^4 \Gamma_t^2 dt$。
-   要想降低对冲误差，就必须提高对冲频率 $N$。
-2. 交易摩擦成本（Transaction Costs & Bid-Ask Spread）：
-   每一次调仓都需要支付买卖价差、交易所规费以及对市场造成的冲击成本（Market Impact）。
-   Leland (1985) 定理证明：在存在固定买卖佣金比例 $k$ 的市场中，若连续对冲，累计交易成本将趋于无穷大！
-   因此，实际衍生品交易台必须使用带宽对冲（Band Hedging / Whalley-Wilmott 算法）：仅当标的价格波动超出某个容忍阈值区间时才触发调仓，在对冲误差方差与摩擦佣金之间寻求最优平衡。
-"""
-
-
-# ==============================================================================
 # 单元测试与断言校验
 # ==============================================================================
 if __name__ == "__main__":
@@ -243,22 +243,16 @@ if __name__ == "__main__":
     greeks = calculate_bsm_greeks(S, K, T, r, sigma)
 
     # 验证平值期权基准希腊字母
-    # Call Delta ~ 0.6368, Put Delta ~ -0.3632
     assert abs(greeks["call_delta"] - 0.6368) < 1e-3, f"Call Delta error: {greeks['call_delta']}"
     assert abs(greeks["put_delta"] - (-0.3632)) < 1e-3, f"Put Delta error: {greeks['put_delta']}"
     assert abs((greeks["call_delta"] - greeks["put_delta"]) - 1.0) < 1e-4
 
-    # Gamma ~ 0.0188
     assert abs(greeks["gamma"] - 0.0188) < 1e-3, f"Gamma error: {greeks['gamma']}"
-
-    # Vega ~ 37.5240
     assert abs(greeks["vega"] - 37.5240) < 1e-1, f"Vega error: {greeks['vega']}"
 
-    # Theta: Call ~ -6.4140, Put ~ -1.6579
     assert abs(greeks["call_theta"] - (-6.4140)) < 1e-1, f"Call Theta error: {greeks['call_theta']}"
     assert abs(greeks["put_theta"] - (-1.6579)) < 1e-1, f"Put Theta error: {greeks['put_theta']}"
 
-    # Rho: Call ~ 53.2325, Put ~ -41.8905
     assert abs(greeks["call_rho"] - 53.2325) < 1e-1, f"Call Rho error: {greeks['call_rho']}"
     assert abs(greeks["put_rho"] - (-41.8905)) < 1e-1, f"Put Rho error: {greeks['put_rho']}"
 
@@ -269,7 +263,6 @@ if __name__ == "__main__":
     assert expired_greeks["gamma"] == 0.0
 
     print("[Testing] Dynamic Delta Neutral Hedging Simulation...")
-    # 构造一条可控的合成离散标的价格路径 (N=100 步)
     import numpy as np
     np.random.seed(42)
     N_steps = 100
@@ -281,12 +274,8 @@ if __name__ == "__main__":
         simulated_path.append(st)
 
     hedge_res = simulate_dynamic_delta_hedging(simulated_path, K=100.0, T=1.0, r=0.05, sigma=0.20)
-    # 验证期初权利金约 10.4506, Delta 约 0.6368
     assert abs(hedge_res["initial_call_premium"] - 10.4506) < 1e-3
     assert abs(hedge_res["initial_delta"] - 0.6368) < 1e-3
-
-    # 在离散 100 步动态对冲下，跟踪残差应非常微小 (|PnL| < 1.0)
-    print(f"Final Hedging PnL: {hedge_res['final_portfolio_pnl']}")
     assert abs(hedge_res["final_portfolio_pnl"]) < 1.0, f"Hedging tracking error too large: {hedge_res['final_portfolio_pnl']}"
 
     print("All assertions passed! Module 08 Lesson 02 verification successful.")
