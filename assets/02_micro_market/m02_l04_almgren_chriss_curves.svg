@@ -1,0 +1,21 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <!-- Axis -->
+  <line x1="70" y1="180" x2="710" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="70" y1="30" x2="70" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+  <text x="60" y="35" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">未执行持仓 x(t)</text>
+  <text x="710" y="198" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">时间 t (0 ➔ T)</text>
+
+  <!-- Curve 1: Risk Neutral TWAP (Blue, Linear) -->
+  <line x1="70" y1="40" x2="700" y2="180" stroke="#486A7D" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="400" y="100" font-family="Inter, sans-serif" font-size="11" fill="#486A7D">λ = 0 (风险中性: 线性 TWAP，临时冲击最小)</text>
+
+  <!-- Curve 2: Moderate Risk Aversion (Green) -->
+  <path d="M 70 40 Q 200 120 700 180" fill="none" stroke="#5F7355" stroke-width="2.5"/>
+  <text x="320" y="135" font-family="Inter, sans-serif" font-size="11" fill="#5F7355">λ = 1e-6 (中度风险厌恶: 双曲正弦前置)</text>
+
+  <!-- Curve 3: High Risk Aversion (Terracotta) -->
+  <path d="M 70 40 Q 120 160 700 180" fill="none" stroke="#CC5A36" stroke-width="2.5"/>
+  <text x="220" y="170" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36">λ = 1e-4 (极度规避价格方差: 激进前置快速甩卖)</text>
+</svg>

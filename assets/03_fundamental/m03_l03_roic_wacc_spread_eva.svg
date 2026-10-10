@@ -1,0 +1,25 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">商业护城河量化第一性原理：ROIC - WACC 超额利差与 EVA 财富创造</text>
+
+  <g transform="translate(60, 55)">
+    <!-- Wide Moat Company -->
+    <rect x="0" y="0" width="280" height="135" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="2"/>
+    <text x="140" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#5F7355" text-anchor="middle">宽护城河企业 (Wide Moat)</text>
+    <rect x="20" y="40" width="240" height="24" rx="4" fill="#EFECE6"/>
+    <text x="140" y="56" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">ROIC = 24.5% &gt;&gt; WACC = 8.5%</text>
+    <text x="30" y="85" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 超额利差 Spread = +16.0%</text>
+    <text x="30" y="105" font-family="Inter, sans-serif" font-size="10" fill="#5F7355" font-weight="bold">• 经济增加值 EVA &gt; 0 : 真实复利增值</text>
+    <text x="30" y="125" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">扩产追加投资 = 放大股东财富！</text>
+
+    <!-- Value Destroying Company -->
+    <rect x="360" y="0" width="280" height="135" rx="6" fill="#FAF0ED" stroke="#CC5A36" stroke-width="2"/>
+    <text x="500" y="25" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#CC5A36" text-anchor="middle">价值毁灭企业 (No Moat / 陷阱)</text>
+    <rect x="380" y="40" width="240" height="24" rx="4" fill="#FFFFFF"/>
+    <text x="500" y="56" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36" text-anchor="middle">ROIC = 5.2% &lt; WACC = 8.5%</text>
+    <text x="390" y="85" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 负利差 Spread = -3.3%</text>
+    <text x="390" y="105" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36" font-weight="bold">• 经济增加值 EVA &lt; 0 : 账面有利润实亏</text>
+    <text x="390" y="125" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36">盲目扩产投资 = 加速毁灭股东财富！</text>
+  </g>
+</svg>

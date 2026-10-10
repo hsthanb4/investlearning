@@ -1,0 +1,40 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">估值敏感性热力矩阵：WACC 与永续增长率 g 双变量网格</text>
+
+  <g transform="translate(60, 48)">
+    <rect x="0" y="0" width="660" height="30" fill="#EFECE6" rx="4"/>
+    <text x="40" y="20" font-family="JetBrains Mono, monospace" font-size="10" font-weight="bold" fill="#1F1E1B">每股内在价值(元)</text>
+    <text x="180" y="20" font-family="JetBrains Mono, monospace" font-size="10" fill="#4D4B46">g = 1.5%</text>
+    <text x="300" y="20" font-family="JetBrains Mono, monospace" font-size="10" fill="#4D4B46">g = 2.0%</text>
+    <text x="420" y="20" font-family="JetBrains Mono, monospace" font-size="10" font-weight="bold" fill="#486A7D">g = 2.5% (基准)</text>
+    <text x="540" y="20" font-family="JetBrains Mono, monospace" font-size="10" fill="#4D4B46">g = 3.0%</text>
+
+    <!-- Row 1 WACC 8.0% -->
+    <line x1="0" y1="60" x2="660" y2="60" stroke="#D8D3C8" stroke-width="1"/>
+    <text x="20" y="52" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">WACC 8.0%</text>
+    <text x="180" y="52" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">52.4 元</text>
+    <text x="300" y="52" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">58.1 元</text>
+    <text x="420" y="52" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">65.2 元</text>
+    <text x="540" y="52" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">74.6 元</text>
+
+    <!-- Row 2 WACC 9.0% Base -->
+    <line x1="0" y1="95" x2="660" y2="95" stroke="#D8D3C8" stroke-width="1"/>
+    <text x="20" y="87" font-family="JetBrains Mono, monospace" font-size="10" font-weight="bold" fill="#486A7D">WACC 9.0% (基准)</text>
+    <text x="180" y="87" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">44.8 元</text>
+    <text x="300" y="87" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">49.0 元</text>
+    <text x="420" y="87" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" fill="#486A7D">54.2 元 ★中枢</text>
+    <text x="540" y="87" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">60.6 元</text>
+
+    <!-- Row 3 WACC 10.0% -->
+    <line x1="0" y1="130" x2="660" y2="130" stroke="#D8D3C8" stroke-width="1"/>
+    <text x="20" y="122" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">WACC 10.0%</text>
+    <text x="180" y="122" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">38.9 元</text>
+    <text x="300" y="122" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">42.1 元</text>
+    <text x="420" y="122" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">46.0 元</text>
+    <text x="540" y="122" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">50.7 元</text>
+  </g>
+
+  <text x="60" y="210" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36">投决会结论：贴现率变动 ±1% 将引起每股内在价值 ±20% 的巨幅摇摆，必须进行概率区间定价。</text>
+</svg>

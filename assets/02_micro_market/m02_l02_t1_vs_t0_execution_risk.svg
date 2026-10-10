@@ -1,0 +1,21 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">交易制度微观摩擦：A 股 T+1 制度 vs 美/港股 T+0 风险敞口对比</text>
+
+  <!-- T+1 Flow -->
+  <rect x="40" y="55" width="330" height="145" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="60" y="82" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#CC5A36">A 股 T+1 制度（日内止损受限）</text>
+  <text x="60" y="105" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">09:35 买入后遭遇闪崩重大利空</text>
+  <text x="60" y="125" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36">❌ 当日物理禁止卖出平仓</text>
+  <text x="60" y="145" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46">被迫承担 4 小时日内暴跌 + 15 小时隔夜风险</text>
+  <text x="60" y="165" font-family="Inter, sans-serif" font-size="10" fill="#7D786F">次日开盘若低开甚至一字跌停，陷入亏损深渊</text>
+
+  <!-- T+0 Flow -->
+  <rect x="410" y="55" width="330" height="145" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+  <text x="430" y="82" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#5F7355">美港股 T+0 制度（连续回转止损）</text>
+  <text x="430" y="105" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">买入后若价格向不利方向波动触发阈值</text>
+  <text x="430" y="125" font-family="Inter, sans-serif" font-size="10" fill="#5F7355">✔ 毫秒级市价或限价单反向平仓出局</text>
+  <text x="430" y="145" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46">风险敞口立即收敛为零，锁死单笔最大损失</text>
+  <text x="430" y="165" font-family="Inter, sans-serif" font-size="10" fill="#7D786F">资金可同日循环利用于高夏普无套利机会</text>
+</svg>

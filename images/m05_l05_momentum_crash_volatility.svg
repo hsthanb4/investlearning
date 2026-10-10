@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.5.2：动量崩盘 (Momentum Crash) 物理机理：熊市触底剧烈反弹期的空头反噬</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">MOMENTUM CRASH</text>
+
+  <!-- Market V-shape Reversal Chart -->
+  <g transform="translate(60, 45)">
+    <!-- Market Bottom (Panic End) -->
+    <polyline points="20,40 100,110 180,160 240,110 320,50 400,20" fill="none" stroke="#1F1E1B" stroke-width="2"/>
+    <text x="180" y="180" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">熊市底部暴跌出清点</text>
+
+    <!-- Losers Basket (Short leg explodes up!) -->
+    <path d="M 180 160 Q 240 70 320 20 T 400 5" fill="none" stroke="#CC5A36" stroke-width="3" stroke-dasharray="4 3"/>
+    <text x="405" y="10" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#CC5A36">空头组合 (高Beta垃圾股) 暴涨 +150% 轧空</text>
+
+    <!-- Winners Basket (Long leg lags behind) -->
+    <path d="M 180 160 Q 240 130 320 80 T 400 45" fill="none" stroke="#5F7355" stroke-width="2"/>
+    <text x="405" y="50" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">多头组合 (前期防御避险股) 滞涨 +20%</text>
+
+    <line x1="320" y1="20" x2="320" y2="80" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="325" y="55" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#CC5A36">动量净值断崖式崩盘 -60%</text>
+  </g>
+
+  <!-- Right: Option Payoff Analogy -->
+  <g transform="translate(500, 75)">
+    <rect x="0" y="0" width="200" height="120" rx="6" fill="#FAF8F5" stroke="#CC5A36"/>
+    <text x="100" y="22" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">隐含空头看涨期权结构</text>
+    <text x="12" y="44" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F">• 平时稳定赚取小额正收益</text>
+    <text x="12" y="62" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F">• 熊市反转期呈现严重负偏度</text>
+    <text x="12" y="80" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F">• 高杠杆垃圾股反弹弹性巨大</text>
+    <text x="12" y="102" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36">必须配备波动率过滤器</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">历史上惨烈的动量崩盘（如 1932、2009）均发生在恐慌见底后的暴力反弹阶段，空头腿亏损击穿本金</text>
+</svg>

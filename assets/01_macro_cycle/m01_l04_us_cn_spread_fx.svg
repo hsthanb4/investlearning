@@ -1,0 +1,18 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  <!-- Dual axis chart illustration -->
+  <line x1="70" y1="180" x2="710" y2="180" stroke="#7D786F" stroke-width="1.5"/>
+  <line x1="70" y1="30" x2="70" y2="180" stroke="#CC5A36" stroke-width="1.5"/>
+  <line x1="710" y1="30" x2="710" y2="180" stroke="#486A7D" stroke-width="1.5"/>
+
+  <text x="60" y="35" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36" text-anchor="end">USD/CNH 汇率</text>
+  <text x="720" y="35" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D">中美利差 (US-CN 10Y bps)</text>
+
+  <!-- Spread Line (Blue) -->
+  <path d="M 80 160 Q 250 120 400 90 T 700 45" fill="none" stroke="#486A7D" stroke-width="2.5"/>
+  <!-- CNH Line (Terracotta) -->
+  <path d="M 80 150 Q 250 110 400 85 T 700 55" fill="none" stroke="#CC5A36" stroke-width="2.5" stroke-dasharray="4 2"/>
+
+  <rect x="180" y="45" width="340" height="40" rx="4" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="350" y="68" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1E1B" text-anchor="middle">利差倒挂幅度与离岸汇率贬值呈现高度协变正相关</text>
+</svg>

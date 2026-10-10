@@ -1,0 +1,24 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">A 股典型财务造假形态：“存贷双高”（大存大贷）资金体外循环拓扑</text>
+
+  <rect x="50" y="55" width="220" height="90" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="160" y="80" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#CC5A36" text-anchor="middle">账面资产：巨额货币资金</text>
+  <text x="160" y="100" font-family="JetBrains Mono, monospace" font-size="11" fill="#1F1E1B" text-anchor="middle">账面躺着 100 亿元现金</text>
+  <text x="160" y="120" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">年化利息收入却极低 (&lt; 0.5%)</text>
+
+  <rect x="510" y="55" width="220" height="90" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="620" y="80" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#CC5A36" text-anchor="middle">账面负债：巨额短期借款</text>
+  <text x="620" y="100" font-family="JetBrains Mono, monospace" font-size="11" fill="#1F1E1B" text-anchor="middle">同时借入 80 亿元高息短贷</text>
+  <text x="620" y="120" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">每年刚性支出数亿元利息费用</text>
+
+  <!-- Paradox Box -->
+  <rect x="290" y="70" width="200" height="60" rx="5" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="390" y="94" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#CC5A36" text-anchor="middle">反常逻辑悖论！</text>
+  <text x="390" y="112" font-family="Inter, sans-serif" font-size="9" fill="#4D4B46" text-anchor="middle">有钱不用却借高息贷款？</text>
+
+  <rect x="50" y="165" width="680" height="48" rx="4" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="70" y="185" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#1F1E1B">微观真实真相（康美/康得新案）：</text>
+  <text x="70" y="202" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">所谓“百亿存款”属于伪造虚假对账单，或早已被大股东私自质押担保受限，属于严重欺诈。</text>
+</svg>

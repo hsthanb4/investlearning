@@ -1,0 +1,25 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">Cont-Kukanov-Stoikov (2014) 订单流不平衡 (OFI) 三态物理判别</text>
+
+  <!-- Bid side flux -->
+  <rect x="40" y="50" width="330" height="155" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+  <text x="60" y="75" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#5F7355">买方订单流净驱动力 I_b(t)</text>
+  <text x="60" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">• Pb(t) &gt; Pb(t-1) ➔ I_b = +qb(t)</text>
+  <text x="75" y="118" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">(买一价上跳，激进买单建立新档位)</text>
+  <text x="60" y="138" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">• Pb(t) == Pb(t-1) ➔ I_b = qb(t) - qb(t-1)</text>
+  <text x="75" y="156" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">(价位未变，净挂单增加或撤单减少)</text>
+  <text x="60" y="176" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">• Pb(t) &lt; Pb(t-1) ➔ I_b = -qb(t-1)</text>
+  <text x="75" y="194" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">(买一价下破，原买档被卖单全部吃穿)</text>
+
+  <!-- Ask side flux -->
+  <rect x="410" y="50" width="330" height="155" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="430" y="75" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#CC5A36">卖方订单流净驱动力 I_a(t)</text>
+  <text x="430" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">• Pa(t) &lt; Pa(t-1) ➔ I_a = +qa(t)</text>
+  <text x="445" y="118" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">(卖一价下跳，激进卖单下压建立新档位)</text>
+  <text x="430" y="138" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">• Pa(t) == Pa(t-1) ➔ I_a = qa(t) - qa(t-1)</text>
+  <text x="445" y="156" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">(价位未变，卖方净挂单增加)</text>
+  <text x="430" y="176" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">• Pa(t) &gt; Pa(t-1) ➔ I_a = -qa(t-1)</text>
+  <text x="445" y="194" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">(卖一价抬升，原卖档被买单全部吃空)</text>
+</svg>

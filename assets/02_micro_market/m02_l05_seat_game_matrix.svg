@@ -1,0 +1,34 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">龙虎榜席位买卖结构与次日/次周超额胜率博弈矩阵</text>
+
+  <g transform="translate(40, 50)">
+    <rect x="0" y="0" width="700" height="30" fill="#EFECE6" rx="4"/>
+    <text x="20" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B">席位组合形态</text>
+    <text x="230" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B">资金本质属性</text>
+    <text x="450" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B">次日开盘溢价</text>
+    <text x="590" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B">T+5 胜率判定</text>
+
+    <!-- Row 1 -->
+    <line x1="0" y1="60" x2="700" y2="60" stroke="#D8D3C8" stroke-width="1"/>
+    <text x="20" y="50" font-family="Inter, sans-serif" font-size="11" fill="#5F7355" font-weight="600">3 家以上机构席位大买</text>
+    <text x="230" y="50" font-family="Inter, sans-serif" font-size="11" fill="#4D4B46">公募基本面集体建仓</text>
+    <text x="450" y="50" font-family="JetBrains Mono, monospace" font-size="11" fill="#5F7355">高开率 78%</text>
+    <text x="590" y="50" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" fill="#5F7355">68% (持续主升)</text>
+
+    <!-- Row 2 -->
+    <line x1="0" y1="95" x2="700" y2="95" stroke="#D8D3C8" stroke-width="1"/>
+    <text x="20" y="85" font-family="Inter, sans-serif" font-size="11" fill="#486A7D" font-weight="600">顶级游资买一 + 无散户</text>
+    <text x="230" y="85" font-family="Inter, sans-serif" font-size="11" fill="#4D4B46">超短热点情绪点火</text>
+    <text x="450" y="85" font-family="JetBrains Mono, monospace" font-size="11" fill="#486A7D">冲高率 85%</text>
+    <text x="590" y="85" font-family="JetBrains Mono, monospace" font-size="11" fill="#4D4B46">45% (高波动做T)</text>
+
+    <!-- Row 3 -->
+    <line x1="0" y1="130" x2="700" y2="130" stroke="#D8D3C8" stroke-width="1"/>
+    <text x="20" y="120" font-family="Inter, sans-serif" font-size="11" fill="#CC5A36" font-weight="600">拉萨席位霸榜买入前四</text>
+    <text x="230" y="120" font-family="Inter, sans-serif" font-size="11" fill="#CC5A36">主力出逃 / 散户接盘</text>
+    <text x="450" y="120" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36">低开核按钮 72%</text>
+    <text x="590" y="120" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" fill="#CC5A36">18% (筹码崩塌)</text>
+  </g>
+</svg>

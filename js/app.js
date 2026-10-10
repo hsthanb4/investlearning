@@ -231,6 +231,22 @@ class StockLearningApp {
         editor.value = `# 自测工作台: ${lesson.title}\ndef evaluate_strategy():\n    # TODO: 实现策略计算与断言校验\n    return True\n`;
       }
     }
+
+    // 7. Math Typesetting with KaTeX
+    if (window.renderMathInElement) {
+      try {
+        const stage = document.getElementById("content-stage") || document.body;
+        window.renderMathInElement(stage, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      } catch (e) {
+        console.warn("KaTeX render notice:", e);
+      }
+    }
   }
 
   toggleQA(idx) {

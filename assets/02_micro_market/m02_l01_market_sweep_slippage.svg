@@ -1,0 +1,30 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="35" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">大额市价买单深度扫盘 (Book Sweep) 与非线性滑点形成</text>
+
+  <!-- Visualizing Order eating through Asks -->
+  <g transform="translate(60, 55)">
+    <!-- Ask 1 eaten -->
+    <rect x="0" y="0" width="180" height="32" rx="4" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="15" y="21" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36">Ask 1: $10.00 (200手)</text>
+    <text x="170" y="21" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36" text-anchor="end">全部吃穿 ✔</text>
+
+    <!-- Ask 2 eaten -->
+    <rect x="0" y="42" width="260" height="32" rx="4" fill="#FAF0ED" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="15" y="63" font-family="JetBrains Mono, monospace" font-size="11" fill="#CC5A36">Ask 2: $10.05 (400手)</text>
+    <text x="250" y="63" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36" text-anchor="end">全部吃穿 ✔</text>
+
+    <!-- Ask 3 partially eaten -->
+    <rect x="0" y="84" width="340" height="32" rx="4" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <rect x="0" y="84" width="170" height="32" rx="4" fill="rgba(72, 106, 125, 0.2)"/>
+    <text x="15" y="105" font-family="JetBrains Mono, monospace" font-size="11" fill="#1F1E1B">Ask 3: $10.12 (800手)</text>
+    <text x="330" y="105" font-family="Inter, sans-serif" font-size="10" fill="#486A7D" text-anchor="end">部分吃单 400手</text>
+  </g>
+
+  <rect x="440" y="55" width="280" height="120" rx="6" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="460" y="82" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#1F1E1B">滑点代价 (Execution Shortfall)</text>
+  <text x="460" y="104" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F">无冲击基准价 P0 = $10.00</text>
+  <text x="460" y="124" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">实际撮合 VWAP = $10.068</text>
+  <text x="460" y="146" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36">穿仓滑点: +68 bps (直接抹杀 Alpha)</text>
+</svg>

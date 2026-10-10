@@ -1,0 +1,22 @@
+<svg viewBox="0 0 780 240" width="100%" height="240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="240" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  <!-- PBOC Rate Corridor -->
+  <line x1="60" y1="50" x2="720" y2="50" stroke="#CC5A36" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="725" y="54" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">SLF 利率上限 (常备借贷便利)</text>
+
+  <line x1="60" y1="110" x2="720" y2="110" stroke="#486A7D" stroke-width="2"/>
+  <text x="725" y="114" font-family="JetBrains Mono, monospace" font-size="10" font-weight="bold" fill="#486A7D">OMO 7天逆回购基准利率 (政策锚)</text>
+
+  <line x1="60" y1="180" x2="720" y2="180" stroke="#5F7355" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="725" y="184" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">超额准备金利率下限 (IOER)</text>
+
+  <!-- Market rate trajectory -->
+  <path d="M 80 140 Q 180 80 280 120 T 480 100 T 680 130" fill="none" stroke="#1F1E1B" stroke-width="2.5"/>
+  <text x="290" y="85" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1E1B">DR007 银行间真实质押回购利率</text>
+  
+  <rect x="75" y="195" width="280" height="32" rx="4" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="215" y="215" font-family="Inter, sans-serif" font-size="10" fill="#4D4B46" text-anchor="middle">DR007 &lt; OMO: 银行间流动性充裕淤积</text>
+
+  <rect x="420" y="195" width="280" height="32" rx="4" fill="#FFFFFF" stroke="#D8D3C8" stroke-width="1"/>
+  <text x="560" y="215" font-family="Inter, sans-serif" font-size="10" fill="#CC5A36" text-anchor="middle">R007 - DR007 剪刀差走阔: 非银流动性枯竭</text>
+</svg>

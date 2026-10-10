@@ -1,0 +1,21 @@
+<svg viewBox="0 0 780 230" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="230" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="14" font-weight="bold" fill="#1F1E1B">市场冲击成本正交物理分解：永久冲击 vs 临时冲击</text>
+
+  <!-- Left: Permanent -->
+  <rect x="40" y="50" width="330" height="155" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+  <text x="60" y="78" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#CC5A36">永久市场冲击 (Permanent Impact)</text>
+  <text x="60" y="102" font-family="JetBrains Mono, monospace" font-size="11" fill="#4D4B46">g(v) = γ · v</text>
+  <text x="60" y="125" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 成因：母单向全市场透露了知情交易者的信息</text>
+  <text x="60" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 性质：不可逆，价格中枢被永久性推高</text>
+  <text x="60" y="165" font-family="Inter, sans-serif" font-size="10" fill="#7D786F">• 影响：全周期拆单的所有后续子单均承受该沉没成本</text>
+
+  <!-- Right: Temporary -->
+  <rect x="410" y="50" width="330" height="155" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+  <text x="430" y="78" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#486A7D">临时市场冲击 (Temporary Impact)</text>
+  <text x="430" y="102" font-family="JetBrains Mono, monospace" font-size="11" fill="#4D4B46">h(v) = η · v  (或平方根法则 η √v)</text>
+  <text x="430" y="125" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 成因：子单在瞬时消耗了 LOB 盘口局部流动性深度</text>
+  <text x="430" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 性质：可逆，做市商回补挂单后价格迅速均值回归</text>
+  <text x="430" y="165" font-family="Inter, sans-serif" font-size="10" fill="#7D786F">• 影响：仅惩罚当期单笔成交价，均匀 TWAP 可使其极小化</text>
+</svg>

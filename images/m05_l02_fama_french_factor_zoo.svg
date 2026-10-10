@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 5.2.1：Fama-French 五因子资产定价模型正交分解与 Alpha 剥离</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">FAMA-FRENCH 5 FACTOR</text>
+
+  <!-- Formula Box -->
+  <rect x="50" y="50" width="660" height="45" rx="6" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+  <text x="380" y="78" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">
+    R_i - R_f = α_i + β_mkt(MKT) + β_smb(SMB) + β_hml(HML) + β_rmw(RMW) + β_cma(CMA) + ε_i
+  </text>
+
+  <!-- 5 Factors Grid -->
+  <g transform="translate(50, 110)">
+    <!-- Factor 1: MKT -->
+    <rect x="0" y="0" width="120" height="75" rx="4" fill="#FAF8F5" stroke="#486A7D"/>
+    <text x="60" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">MKT (市场溢价)</text>
+    <text x="60" y="42" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B" text-anchor="middle">R_m - R_f</text>
+    <text x="60" y="60" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F" text-anchor="middle">系统性宏观Beta</text>
+
+    <!-- Factor 2: SMB -->
+    <rect x="135" y="0" width="120" height="75" rx="4" fill="#FAF8F5" stroke="#5F7355"/>
+    <text x="195" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">SMB (规模溢价)</text>
+    <text x="195" y="42" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B" text-anchor="middle">Small Minus Big</text>
+    <text x="195" y="60" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F" text-anchor="middle">小市值非流动性溢价</text>
+
+    <!-- Factor 3: HML -->
+    <rect x="270" y="0" width="120" height="75" rx="4" fill="#FAF8F5" stroke="#C08535"/>
+    <text x="330" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#C08535" text-anchor="middle">HML (价值溢价)</text>
+    <text x="330" y="42" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B" text-anchor="middle">High Minus Low</text>
+    <text x="330" y="60" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F" text-anchor="middle">高账面市值比 (PB)</text>
+
+    <!-- Factor 4: RMW -->
+    <rect x="405" y="0" width="120" height="75" rx="4" fill="#FAF8F5" stroke="#5F7355"/>
+    <text x="465" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">RMW (盈利溢价)</text>
+    <text x="465" y="42" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B" text-anchor="middle">Robust Minus Weak</text>
+    <text x="465" y="60" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F" text-anchor="middle">高 ROE / ROIC 质量</text>
+
+    <!-- Factor 5: CMA -->
+    <rect x="540" y="0" width="120" height="75" rx="4" fill="#FAF8F5" stroke="#CC5A36"/>
+    <text x="600" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">CMA (投资风格)</text>
+    <text x="600" y="42" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B" text-anchor="middle">Conservative - Aggressive</text>
+    <text x="600" y="60" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F" text-anchor="middle">低资本开支再投资</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">若基金在扣除 5 因子后截距项 α 的 t 统计量未通过显著性检验，其超额收益纯属风格暴露运气</text>
+</svg>

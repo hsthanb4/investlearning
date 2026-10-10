@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 4.3.3：形态量化识别算法：局部极值点拓扑抽取与容差约束网</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">ALGO EXTRACTION</text>
+
+  <g transform="translate(40, 60)">
+    <rect x="0" y="0" width="150" height="130" rx="6" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+    <rect x="0" y="0" width="150" height="26" rx="6" fill="#486A7D"/>
+    <text x="75" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">1. 时序极值滤波</text>
+    <text x="12" y="48" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B">find_peaks(P)</text>
+    <text x="12" y="68" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">• 滚动窗口 k 邻域</text>
+    <text x="12" y="88" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">• 极值点序列提纯</text>
+    <text x="12" y="108" font-family="JetBrains Mono, monospace" font-size="9" fill="#486A7D">E = [e1, e2, e3, e4, e5]</text>
+  </g>
+
+  <path d="M 200 125 L 225 125" stroke="#7D786F" stroke-width="2"/>
+
+  <g transform="translate(235, 60)">
+    <rect x="0" y="0" width="150" height="130" rx="6" fill="#FAF8F5" stroke="#C08535" stroke-width="1.5"/>
+    <rect x="0" y="0" width="150" height="26" rx="6" fill="#C08535"/>
+    <text x="75" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">2. 几何拓扑校验</text>
+    <text x="12" y="48" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B">topology_check()</text>
+    <text x="12" y="68" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">• e1, e5 为肩峰</text>
+    <text x="12" y="88" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">• e3 为极值头峰</text>
+    <text x="12" y="108" font-family="JetBrains Mono, monospace" font-size="9" fill="#C08535">e3.h &gt; max(e1.h, e5.h)</text>
+  </g>
+
+  <path d="M 395 125 L 420 125" stroke="#7D786F" stroke-width="2"/>
+
+  <g transform="translate(430, 60)">
+    <rect x="0" y="0" width="150" height="130" rx="6" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <rect x="0" y="0" width="150" height="26" rx="6" fill="#5F7355"/>
+    <text x="75" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">3. 动态容差约束</text>
+    <text x="12" y="48" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B">tolerance_filter()</text>
+    <text x="12" y="68" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">• 双肩高度对称比</text>
+    <text x="12" y="88" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">• 颈线倾角 |θ| &lt; 15°</text>
+    <text x="12" y="108" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">|e1.h - e5.h| / e1.h &lt; ε</text>
+  </g>
+
+  <path d="M 590 125 L 615 125" stroke="#7D786F" stroke-width="2"/>
+
+  <g transform="translate(625, 60)">
+    <rect x="0" y="0" width="110" height="130" rx="6" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+    <rect x="0" y="0" width="110" height="26" rx="6" fill="#CC5A36"/>
+    <text x="55" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">4. 信号触发</text>
+    <text x="10" y="55" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B">Breakout?</text>
+    <text x="10" y="85" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">放量穿透颈线</text>
+    <text x="10" y="115" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36">Signal = ±1</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">通过严格数学拓扑定义形态，消灭主观“看图说话”，实现 100% 确定性回测检验</text>
+</svg>

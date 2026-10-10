@@ -1,0 +1,40 @@
+<svg viewBox="0 0 780 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="250" fill="#FAF9F5" rx="8" stroke="#D8D3C8" stroke-width="1"/>
+  
+  <text x="40" y="32" font-family="Newsreader, serif" font-size="15" font-weight="bold" fill="#1F1E1B">企业三张财务报表底层跨期动态勾稽平衡闭环图</text>
+
+  <!-- Balance Sheet -->
+  <rect x="40" y="55" width="210" height="170" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="2"/>
+  <text x="145" y="80" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#486A7D" text-anchor="middle">资产负债表 (Balance Sheet)</text>
+  <text x="55" y="105" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 资产 = 负债 + 所有者权益</text>
+  <text x="55" y="125" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 货币资金余额 (Cash)</text>
+  <text x="55" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 留存收益 (Retained Earnings)</text>
+  <text x="55" y="165" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 营运资本 (NWC = CA - CL)</text>
+  <text x="55" y="195" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F">静态资产价值底册</text>
+
+  <!-- Connect 1 -->
+  <path d="M 250 145 L 290 145" stroke="#7D786F" stroke-width="1.5" marker-end="url(#arrow-generic)"/>
+
+  <!-- Income Statement -->
+  <rect x="295" y="55" width="200" height="170" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="2"/>
+  <text x="395" y="80" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#CC5A36" text-anchor="middle">利润表 (Income Statement)</text>
+  <text x="310" y="105" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 营业收入 Revenue</text>
+  <text x="310" y="125" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 营业利润 EBIT</text>
+  <text x="310" y="145" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#CC5A36">• 净利润 Net Income</text>
+  <rect x="305" y="160" width="180" height="45" rx="4" fill="#FAF0ED"/>
+  <text x="395" y="178" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36" text-anchor="middle">ΔRE = 净利润 - 现金分红</text>
+  <text x="395" y="195" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">权益增量勾稽纽带</text>
+
+  <!-- Connect 2 -->
+  <path d="M 495 145 L 535 145" stroke="#7D786F" stroke-width="1.5" marker-end="url(#arrow-generic)"/>
+
+  <!-- Cash Flow -->
+  <rect x="540" y="55" width="200" height="170" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="2"/>
+  <text x="640" y="80" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#5F7355" text-anchor="middle">现金流量表 (Cash Flow)</text>
+  <text x="555" y="105" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 经营现金流 CFO</text>
+  <text x="555" y="125" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 投资现金流 CFI</text>
+  <text x="555" y="145" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B">• 筹资现金流 CFF</text>
+  <rect x="550" y="160" width="180" height="45" rx="4" fill="#EFECE6"/>
+  <text x="640" y="178" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355" text-anchor="middle">ΔCash = CFO + CFI + CFF</text>
+  <text x="640" y="195" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">直接配平资产负债表现金项</text>
+</svg>
