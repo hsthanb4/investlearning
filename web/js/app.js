@@ -40,8 +40,17 @@ class InvestLearningApp {
   // ==========================================
   // KaTeX & Semantic Math Renderer (Bulletproof)
   // ==========================================
+  sanitizeMath(str) {
+    if (!str) return str;
+    return str
+      .replace(/\t(ext|imes|au|heta|o)\b/g, '\\$1')
+      .replace(/\f(rac)\b/g, '\\$1')
+      .replace(/\u0007(pprox)\b/g, '\\$1')
+      .replace(/\\night\b/g, '\\right');
+  }
+
   formatSemanticMath(rawLatex) {
-    let clean = rawLatex.trim()
+    let clean = this.sanitizeMath(rawLatex).trim()
       .replace(/\\text\{([^}]+)\}/g, '$1')
       .replace(/\\times/g, ' × ')
       .replace(/\\cdot/g, ' · ')
@@ -84,6 +93,7 @@ class InvestLearningApp {
     const formulaBlocks = el.querySelectorAll('.math-formula');
     formulaBlocks.forEach(fEl => {
       let raw = fEl.getAttribute('data-raw') || fEl.textContent.trim();
+      raw = this.sanitizeMath(raw);
       if (!fEl.getAttribute('data-raw')) fEl.setAttribute('data-raw', raw);
       if (raw.startsWith('$$') && raw.endsWith('$$')) raw = raw.slice(2, -2).trim();
       if (raw.startsWith('$') && raw.endsWith('$')) raw = raw.slice(1, -1).trim();
