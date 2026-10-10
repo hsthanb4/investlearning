@@ -33,7 +33,7 @@ class InvestLearningApp {
     this.initVisualizers();
     this.renderBooks();
     this.bindEvents();
-    this.switchMainView('curriculum');
+    this.switchMainView('overview');
   }
   // ==========================================
   // KaTeX & Semantic Math Renderer (Bulletproof)
@@ -124,8 +124,8 @@ class InvestLearningApp {
   // Section / View Switching Controller
   // ==========================================
   switchMainView(viewName) {
+    const overviewSec = document.getElementById('overviewSection');
     const lessonView = document.getElementById('lessonViewContainer');
-    const vizSec = document.getElementById('visualizersSection');
     const libSec = document.getElementById('librarySection');
     const workSec = document.getElementById('workbenchSection');
     const sidebar = document.getElementById('courseSidebar');
@@ -134,8 +134,8 @@ class InvestLearningApp {
     const navBtns = document.querySelectorAll('.nav-center-menu a');
     navBtns.forEach(btn => {
       const href = btn.getAttribute('href') || '';
-      if ((viewName === 'curriculum' && href.includes('curriculumSection')) ||
-          (viewName === 'visualizers' && href.includes('visualizersSection')) ||
+      if ((viewName === 'overview' && href.includes('overviewSection')) ||
+          (viewName === 'curriculum' && href.includes('curriculumSection')) ||
           (viewName === 'library' && href.includes('librarySection')) ||
           (viewName === 'workbench' && href.includes('workbenchSection'))) {
         btn.classList.add('active');
@@ -144,36 +144,32 @@ class InvestLearningApp {
       }
     });
 
-    if (viewName === 'curriculum') {
+    if (viewName === 'overview') {
+      if (overviewSec) overviewSec.style.display = 'block';
+      if (lessonView) lessonView.style.display = 'none';
+      if (libSec) libSec.style.display = 'none';
+      if (workSec) workSec.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'none';
+      if (overviewSec) this.renderMath(overviewSec);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (viewName === 'curriculum') {
+      if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'block';
-      if (vizSec) vizSec.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
       if (workSec) workSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'flex';
       this.switchTab(this.currentTab || 'theory');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (viewName === 'visualizers') {
-      if (lessonView) lessonView.style.display = 'none';
-      if (vizSec) vizSec.style.display = 'block';
-      if (libSec) libSec.style.display = 'none';
-      if (workSec) workSec.style.display = 'none';
-      if (sidebar) sidebar.style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-        if (this.vKline) this.vKline.render();
-        if (this.vMarkowitz) this.vMarkowitz.render();
-        if (this.vKelly) this.vKelly.render();
-      }, 50);
     } else if (viewName === 'library') {
+      if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'none';
-      if (vizSec) vizSec.style.display = 'none';
       if (libSec) libSec.style.display = 'block';
       if (workSec) workSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'workbench') {
+      if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'block';
-      if (vizSec) vizSec.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
       if (sidebar) sidebar.style.display = 'flex';
       this.switchTab('workbench');

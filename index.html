@@ -34,7 +34,8 @@
       </div>
 
       <nav class="nav-center-menu">
-        <a href="#curriculumSection" class="nav-item-btn active" onclick="app.switchMainView('curriculum'); return false;">📚 课程体系</a>
+        <a href="#overviewSection" class="nav-item-btn active" onclick="app.switchMainView('overview'); return false;">📖 课程总览</a>
+        <a href="#curriculumSection" class="nav-item-btn" onclick="app.switchMainView('curriculum'); return false;">📚 课程研习</a>
         <a href="#librarySection" class="nav-item-btn" onclick="app.switchMainView('library'); return false;">🏛️ 经典文献文库</a>
         <a href="#workbenchSection" class="nav-item-btn" onclick="app.switchMainView('workbench'); return false;">💻 代码自测台</a>
       </nav>
@@ -75,55 +76,155 @@
 
       <!-- Center Main Content Workspace -->
       <main class="content-area">
+
+        <!-- =========================================================
+             DEDICATED COURSE OVERVIEW & SYLLABUS SECTION
+             ========================================================= -->
+        <section class="overview-section" id="overviewSection" style="display:block;">
+          <div class="overview-hero-header">
+            <div class="overview-eyebrow">INSTITUTIONAL QUANTITATIVE FINANCE CURRICULUM</div>
+            <h1 class="display-title" style="font-size:2.4rem; margin:10px 0 14px;">
+              投资与量化金融体系课程 <em>InvestLearning</em>
+            </h1>
+            <p style="font-size:1.02rem; line-height:1.75; color:var(--text-secondary); max-width:880px; margin-bottom:20px;">
+              本课程由资深量化投研与对冲基金风控团队打造，严格对标标杆开源课程 <code>hpclearning</code> 的工业级学术标准。
+              全站坚持<strong>冷静的第一性原理</strong>、<strong>视线即达三位一体就近排版</strong>与 <strong>Anthropic 极简素雅三色美学</strong>，
+              全面贯通从宏观流动性、微观订单簿、财报估值、价格行为学到多因子算法、凯利仓位风控与衍生品对冲的完整资本复利闭环。
+            </p>
+            <div style="display:flex; gap:12px; margin-bottom:28px;">
+              <button class="code-btn" style="padding:10px 22px; font-size:0.92rem; background:var(--claude-terracotta); color:#fff; border-color:var(--claude-terracotta); font-weight:600;" onclick="app.selectLesson(0, 0); app.switchMainView('curriculum');">
+                👉 进入课程研习 (从第 01 课开始)
+              </button>
+              <button class="code-btn" style="padding:10px 20px; font-size:0.92rem; background:var(--bg-secondary); border:1px solid var(--border-primary); color:var(--text-primary); font-weight:600;" onclick="app.switchMainView('library');">
+                🏛️ 查阅 50 本经典文献文库
+              </button>
+            </div>
+          </div>
+
+          <!-- AI Productivity Notice (Only Displayed Here) -->
+          <div class="callout callout-note" style="margin-bottom:32px;">
+            <div class="callout-title">💡 必备科研与量化开发生产力：海外 AI 充值渠道推荐</div>
+            <div class="callout-body">
+              在量化策略研发、高频回测编写与算法调试中，如需高频订阅海外 AI 服务（Codex、Claude、Gemini、Grok 会员及 API 接口）：推荐使用 
+              <a href="https://payai.top" target="_blank" rel="noopener" class="text-accent" style="font-weight:700;">payai.top</a>（🌟 综合首选推荐，合规稳定分钟到账）或 
+              <a href="https://payai.win" target="_blank" rel="noopener" class="text-accent" style="font-weight:700;">payai.win</a>（💰 极致性价比优选，GPT 充值更便宜）。
+              <br><i style="color:var(--text-muted); font-size:0.84rem;">（注：本推荐仅在课程总览页面集中展示，所有 46 门课程正文内杜绝任何推广干扰，保障沉浸式纯净学术研习体验。）</i>
+            </div>
+          </div>
+
+          <!-- Section 1: Philosophy & First Principles -->
+          <div class="overview-block" style="margin-bottom:36px;">
+            <h2 class="overview-h2" style="font-family:var(--font-serif); font-size:1.45rem; margin-bottom:12px; color:var(--text-primary);">一、 投资与量化金融的第一性原理</h2>
+            <p style="margin-bottom:14px; font-size:0.92rem; color:var(--text-secondary); line-height:1.7;">在二级市场中，长期资产复利增长服从严格的统计期望与几何平均规律：</p>
+            <div class="math-block">
+              <div class="math-formula">W_T = W_0 \prod_{t=1}^T (1 + r_t), \quad g = \mathbb{E}[\ln(1 + r_t)] \approx \mu - \frac{1}{2}\sigma^2</div>
+              <div class="math-domain">参数定义域：W_0 > 0 \text{ (初始本金)}, \quad \sigma^2 \text{ (收益方差/波动率拖累)}</div>
+            </div>
+            <ul class="label-list">
+              <li><strong>[波动率拖累定理]</strong>：资产方差 $\sigma^2$ 会持续惩罚长期几何复利。资产跌 50% 需涨 100% 回本；控制最大回撤（Drawdown）的重要性远超追逐短期暴利。</li>
+              <li><strong>[正期望值约束]</strong>：$\mathbb{E}[R] = p \cdot W - (1-p) \cdot L > \text{摩擦成本}$。长期能否盈利取决于系统在大数定律下是否具备持续为正的数学期望。</li>
+              <li><strong>[三大不可替代护城河]</strong>：超额收益（Alpha）必然来自信息优势（另类数据）、深度分析估值优势（财报穿透与 DCF）或系统化执行优势（量化规则与凯利风控）。</li>
+            </ul>
+          </div>
+
+          <!-- Section 2: Unified Standard & Usage Rules -->
+          <div class="overview-block" style="margin-bottom:36px;">
+            <h2 class="overview-h2" style="font-family:var(--font-serif); font-size:1.45rem; margin-bottom:12px; color:var(--text-primary);">二、 统一使用方法与考核标准</h2>
+            <div class="diagram-card" style="margin:16px 0;">
+              <ul class="label-list" style="margin:0;">
+                <li><strong>[循序渐进原则]</strong>：按模块内编号逐课推进，一次专注一课；先独立思考练习，再核对参考答案。</li>
+                <li><strong>[统一 10 分制及格线]</strong>：每课提交唯一代码实现（4分）与 Q1~Q3 深度思考题回答（各2分）；达到 <b>8 / 10 分</b>且无关键误解视为考核通过。</li>
+                <li><strong>[答案分支与题目分支规范]</strong>：代码库主分支保留完整题目版；<code>answers/</code> 目录包含 100% 验证通过的工业级参考实现与投决会标准答案解析。</li>
+                <li><strong>[离线双轨支持]</strong>：全站支持通过浏览器直接打开本地 <code>web/index.html</code> 离线使用；支持通过 <code>jupyter lab</code> 交互运行全量 92 个 Notebook 课件。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Section 3: 10 Core Modules Matrix -->
+          <div class="overview-block" style="margin-bottom:36px;">
+            <h2 class="overview-h2" style="font-family:var(--font-serif); font-size:1.45rem; margin-bottom:12px; color:var(--text-primary);">三、 十大核心模块全景大纲 (全 46 门系统课)</h2>
+            <div style="overflow-x:auto; margin:16px 0;">
+              <table class="overview-table" style="width:100%; border-collapse:collapse; font-size:0.86rem; background:var(--bg-secondary); border:1px solid var(--border-primary); border-radius:var(--radius-md);">
+                <thead>
+                  <tr style="border-bottom:2px solid var(--border-primary); text-align:left; background:var(--bg-tertiary);">
+                    <th style="padding:10px 14px;">模块编号与名称</th>
+                    <th style="padding:10px 14px; text-align:center;">课数</th>
+                    <th style="padding:10px 14px;">核心产出与算法</th>
+                    <th style="padding:10px 14px;">前置要求</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(0, 0); app.switchMainView('curriculum'); return false;">01. 宏观经济与流动性传导</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
+                    <td style="padding:10px 14px;">央行资产负债表与净流动性方程、收益率曲线倒挂预警、美林时钟库存周期、全天候对冲状态机</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">宏观经济学基础</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(1, 0); app.switchMainView('curriculum'); return false;">02. 市场微观结构与订单流</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
+                    <td style="padding:10px 14px;">限价订单簿 (LOB) 撮合引擎、跌停流动性枯竭对冲、OFI 订单流不平衡、Almgren-Chriss 最优拆单</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">微积分、数据结构</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(2, 0); app.switchMainView('curriculum'); return false;">03. 现代基本面财务建模</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
+                    <td style="padding:10px 14px;">三表动态勾稽平衡校验、Penman RNOA 杜邦拆解、Beneish M-Score 8维排雷、两阶段 DCF 估值引擎</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">财务会计原理</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(3, 0); app.switchMainView('curriculum'); return false;">04. 价格行为学与技术分析</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
+                    <td style="padding:10px 14px;">局部摆动极值几何拓扑、BOS/CHoCH 结构突破状态机、订单块 (OB) 与流动性扫荡、锚定 VWAP (AVWAP)</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">K线基础、概率统计</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(4, 0); app.switchMainView('curriculum'); return false;">05. 量化多因子与统计套利</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
+                    <td style="padding:10px 14px;">单因子 IC/Rank IC/ICIR 检验、Barra 风险模型协方差分解、Engle-Granger 协整配对、Purged Walk-Forward CV</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">线性代数、计量经济学</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(5, 0); app.switchMainView('curriculum'); return false;">06. 投资组合与仓位风控</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">5</td>
+                    <td style="padding:10px 14px;">马科维茨有效前沿二次规划、风险平价等风险贡献优化、连续凯利公式推导与破产峭壁、VaR/CVaR 阶梯熔断</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">凸优化、多元统计</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(6, 0); app.switchMainView('curriculum'); return false;">07. 交易心理学与执行纪律</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
+                    <td style="padding:10px 14px;">前景理论 S 型价值函数与处置效应度量 (PGR/PLR)、交易执行清单革命、风控守门员状态机 (FSM)</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">行为经济学</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(7, 0); app.switchMainView('curriculum'); return false;">08. 衍生品定价与波动率对冲</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
+                    <td style="padding:10px 14px;">BSM 偏微分方程无套利复制、Greeks 希腊字母动态 Delta 对冲、多腿策略 Payoff 矩阵、隐含波动率与 VIX 交易</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">随机微积分导论</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(8, 0); app.switchMainView('curriculum'); return false;">09. 特殊事件驱动与套利</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
+                    <td style="padding:10px 14px;">现金要约并购套利利差与破裂概率、中国可转债纯债底与双低轮动、被动指数调整冲击套利、格雷厄姆 Net-Net</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">公司金融、证券法规</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:10px 14px; font-weight:600;"><a href="#" onclick="app.selectLesson(9, 0); app.switchMainView('curriculum'); return false;">10. 量化系统架构与实盘工程</a></td>
+                    <td style="padding:10px 14px; text-align:center; font-family:var(--font-mono);">4</td>
+                    <td style="padding:10px 14px;">Point-in-Time 真实披露日对齐、AST 静态代码未来函数扫描器、撮合滑点排队仿真、前置硬风控网关与 Kill Switch</td>
+                    <td style="padding:10px 14px; color:var(--text-muted);">事件驱动架构</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
         <div id="lessonViewContainer">
         
 
         <!-- Current Lesson Card Header -->
-        
-        <!-- Global Course Overview Notice (Shown Once) -->
-        <div class="intro-overview-card" id="courseOverviewCard">
-          <div class="overview-badge">课程总览与投研资源</div>
-          <p style="margin: 8px 0 12px; font-size: 0.9rem; line-height: 1.6;">
-            本课程由资深量化投研团队严格遵循第一性原理打造，全站采用 Anthropic 极简设计美学与三色克制排版。
-            在量化研究与算法调试中，如需海外 AI 工具订阅（Codex、Claude、Gemini 会员及 API）：推荐使用 
-            <a href="https://payai.top" target="_blank" rel="noopener" class="text-accent">payai.top</a>（综合首选，分钟到账）或 
-            <a href="https://payai.win" target="_blank" rel="noopener" class="text-accent">payai.win</a>（性价比优选）。
-          </p>
-        </div>
-
-        <div class="lesson-card-header" id="curriculumSection">
-          <div class="lesson-breadcrumbs">
-            <span>课程目录</span>
-            <span>/</span>
-            <span id="lessonBreadcrumbMod">01 宏观经济与流动性周期</span>
-            <span>/</span>
-            <span id="lessonBreadcrumbLesson" style="color:var(--claude-terracotta); font-weight:600;">第 01 课</span>
-          </div>
-          <h1 class="lesson-title-main" id="lessonMainTitle">
-            货币创造与央行资产负债表机制
-          </h1>
-          <div class="lesson-tags">
-            <span class="meta-chip">
-              <span>模块：</span><b id="lessonMetaModule">宏观经济与流动性周期</b>
-            </span>
-            <span class="meta-chip">
-              <span>⏱ 预估学习：</span><span id="lessonMetaTime">25 分钟</span>
-            </span>
-            <span class="meta-chip" style="background:var(--accent-gold-soft); color:var(--claude-terracotta);">
-              <span>通过线：</span><b>8 / 10 分</b>
-            </span>
-          </div>
-
-          <div class="learning-objectives-box">
-            <div class="learning-objectives-title">
-              <span>🎯</span>
-              <span>本课核心交付与认知目标</span>
-            </div>
-            <ul class="objectives-list" id="lessonObjectivesList">
-              <!-- Dynamically populated -->
-            </ul>
-          </div>
-        </div>
 
         <!-- Content Tabs -->
         <div class="content-tabs">
