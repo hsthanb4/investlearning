@@ -6,6 +6,7 @@
 
 class InvestLearningApp {
   constructor() {
+    window.app = this;
     this.currentModuleIndex = 0;
     this.currentLessonIndex = 0;
     this.currentTab = "theory"; // 'theory', 'guide', 'code', 'qa'
@@ -143,12 +144,12 @@ class InvestLearningApp {
       }
     });
 
+    this.currentView = viewName;
     if (viewName === 'overview') {
       if (overviewSec) overviewSec.style.display = 'block';
       if (lessonView) lessonView.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
-      
-      if (sidebar) sidebar.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'flex';
       if (overviewSec) this.renderMath(overviewSec);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'curriculum') {
@@ -296,6 +297,7 @@ class InvestLearningApp {
   selectLesson(modIdx, lIdx) {
     this.currentModuleIndex = modIdx;
     this.currentLessonIndex = lIdx;
+    this.switchMainView('curriculum');
     this.renderSidebar();
     this.renderCurrentLesson();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -312,13 +314,18 @@ class InvestLearningApp {
 
     const isCompleted = this.completedLessons.has(lesson.id);
 
-    // 1. Breadcrumbs & Header
-    document.getElementById("lessonBreadcrumbMod").innerText = `${mod.num} ${mod.title}`;
-    document.getElementById("lessonBreadcrumbLesson").innerText = `第 ${lesson.num} 课`;
-    document.getElementById("lessonMainTitle").innerText = lesson.title;
+    // 1. Breadcrumbs & Header (Null-safe)
+    const bMod = document.getElementById("lessonBreadcrumbMod");
+    if (bMod) bMod.innerText = `${mod.num} ${mod.title}`;
+    const bLes = document.getElementById("lessonBreadcrumbLesson");
+    if (bLes) bLes.innerText = `第 ${lesson.num} 课`;
+    const mTitle = document.getElementById("lessonMainTitle");
+    if (mTitle) mTitle.innerText = lesson.title;
 
-    document.getElementById("lessonMetaModule").innerText = mod.title;
-    document.getElementById("lessonMetaTime").innerText = lesson.time;
+    const metaMod = document.getElementById("lessonMetaModule");
+    if (metaMod) metaMod.innerText = mod.title;
+    const metaTime = document.getElementById("lessonMetaTime");
+    if (metaTime) metaTime.innerText = lesson.time;
     const diffBadge = document.getElementById("lessonMetaDiff");
     if (diffBadge) diffBadge.style.display = "none";
 
@@ -716,9 +723,13 @@ class InvestLearningApp {
 
     // Daily check-in
     
-    // Mobile sidebar toggle
+    // Sidebar toggle (Desktop & Mobile)
     document.getElementById("sidebarToggleBtn")?.addEventListener("click", () => {
-      document.getElementById("courseSidebar")?.classList.toggle("mobile-open");
+      const sb = document.getElementById("courseSidebar");
+      if (sb) {
+        sb.classList.toggle("mobile-open");
+        sb.classList.toggle("collapsed");
+      }
     });
 
     // Sidebar search & filter
