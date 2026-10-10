@@ -36,13 +36,72 @@ class InvestLearningApp {
     this.switchMainView('curriculum');
   }
   // ==========================================
-  // KaTeX & Semantic Math Renderer
+  // KaTeX & Semantic Math Renderer (Bulletproof)
   // ==========================================
+  formatSemanticMath(rawLatex) {
+    let clean = rawLatex.trim()
+      .replace(/\\text\{([^}]+)\}/g, '$1')
+      .replace(/\\times/g, ' × ')
+      .replace(/\\cdot/g, ' · ')
+      .replace(/\\le/g, ' ≤ ')
+      .replace(/\\ge/g, ' ≥ ')
+      .replace(/\\approx/g, ' ≈ ')
+      .replace(/\\equiv/g, ' ≡ ')
+      .replace(/\\implies/g, ' ⟹ ')
+      .replace(/\\forall/g, '∀')
+      .replace(/\\in/g, ' ∈ ')
+      .replace(/\\notin/g, ' ∉ ')
+      .replace(/\\sum/g, '∑')
+      .replace(/\\sqrt/g, '√')
+      .replace(/\\Delta/g, 'Δ')
+      .replace(/\\Sigma/g, 'Σ')
+      .replace(/\\Phi/g, 'Φ')
+      .replace(/\\mu/g, 'μ')
+      .replace(/\\sigma/g, 'σ')
+      .replace(/\\beta/g, 'β')
+      .replace(/\\lambda/g, 'λ')
+      .replace(/\\alpha/g, 'α')
+      .replace(/\\theta/g, 'θ')
+      .replace(/\\eta/g, 'η')
+      .replace(/\\kappa/g, 'κ')
+      .replace(/\\rho/g, 'ρ')
+      .replace(/\\omega/g, 'ω')
+      .replace(/\\pi/g, 'π')
+      .replace(/\\quad/g, '  ')
+      .replace(/\\qquad/g, '    ')
+      .replace(/\\mathbb\{R\}/g, 'ℝ')
+      .replace(/\\%/g, '%')
+      .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1 / $2)');
+    return clean;
+  }
+
   renderMath(el) {
     if (!el) return;
 
-    // 1. Try KaTeX auto-render if loaded
-    if (typeof renderMathInElement === "function") {
+    // Phase 1: Explicitly render all dedicated block formulas (.math-formula)
+    const formulaBlocks = el.querySelectorAll('.math-formula');
+    formulaBlocks.forEach(fEl => {
+      let raw = fEl.getAttribute('data-raw') || fEl.textContent.trim();
+      if (!fEl.getAttribute('data-raw')) fEl.setAttribute('data-raw', raw);
+      if (raw.startsWith('$$') && raw.endsWith('$$')) raw = raw.slice(2, -2).trim();
+      if (raw.startsWith('$') && raw.endsWith('$')) raw = raw.slice(1, -1).trim();
+
+      let rendered = false;
+      if (typeof katex !== 'undefined' && typeof katex.renderToString === 'function') {
+        try {
+          fEl.innerHTML = katex.renderToString(raw, { displayMode: true, throwOnError: false });
+          rendered = true;
+        } catch (err) {
+          console.warn("KaTeX direct block render warning:", err);
+        }
+      }
+      if (!rendered) {
+        fEl.innerHTML = `<span class="fallback-math">${this.formatSemanticMath(raw)}</span>`;
+      }
+    });
+
+    // Phase 2: Render inline math ($...$) in paragraphs and list items
+    if (typeof renderMathInElement === 'function') {
       try {
         renderMathInElement(el, {
           delimiters: [
@@ -51,61 +110,14 @@ class InvestLearningApp {
             { left: "\\[", right: "\\]", display: true },
             { left: "\\(", right: "\\)", display: false }
           ],
-          throwOnError: false
+          throwOnError: false,
+          ignoredClasses: ["math-formula", "diagram-card"],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code", "svg", "annotation"]
         });
-        return;
       } catch (e) {
-        console.warn("KaTeX renderMathInElement warning:", e);
+        console.warn("KaTeX auto-render warning:", e);
       }
     }
-
-    // 2. High-precision semantic HTML math fallback
-    let html = el.innerHTML;
-    if (html.includes("$$")) {
-      html = html.replace(/\$\$([\s\S]*?)\$\$/g, (m, f) => {
-        let clean = f.trim()
-          .replace(/\\text\{([^}]+)\}/g, '$1')
-          .replace(/\\times/g, '×')
-          .replace(/\\cdot/g, '·')
-          .replace(/\\le/g, '≤')
-          .replace(/\\ge/g, '≥')
-          .replace(/\\approx/g, '≈')
-          .replace(/\\pm/g, '±')
-          .replace(/\\sum/g, '∑')
-          .replace(/\\sqrt/g, '√')
-          .replace(/\\Delta/g, 'Δ')
-          .replace(/\\mu/g, 'μ')
-          .replace(/\\sigma/g, 'σ')
-          .replace(/\\beta/g, 'β')
-          .replace(/\\lambda/g, 'λ')
-          .replace(/\\alpha/g, 'α')
-          .replace(/\\theta/g, 'θ')
-          .replace(/\\Phi/g, 'Φ')
-          .replace(/\\forall/g, '∀')
-          .replace(/\\in/g, '∈')
-          .replace(/\\mathbb\{R\}/g, 'ℝ')
-          .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1 / $2)');
-        return `<div class="math-block"><div class="math-formula">${clean}</div></div>`;
-      });
-    }
-
-    if (html.includes("$")) {
-      html = html.replace(/\$([^$\n]+)\$/g, (m, f) => {
-        let clean = f.trim()
-          .replace(/\\text\{([^}]+)\}/g, '$1')
-          .replace(/\\times/g, '×')
-          .replace(/\\cdot/g, '·')
-          .replace(/\\le/g, '≤')
-          .replace(/\\ge/g, '≥')
-          .replace(/\\Delta/g, 'Δ')
-          .replace(/\\sigma/g, 'σ')
-          .replace(/\\mu/g, 'μ')
-          .replace(/\\beta/g, 'β');
-        return `<code class="inline-math">${clean}</code>`;
-      });
-    }
-
-    el.innerHTML = html;
   }
 
   // ==========================================
