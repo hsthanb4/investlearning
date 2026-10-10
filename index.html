@@ -29,10 +29,10 @@
       </div>
 
       <nav class="nav-center-menu">
-        <a href="#curriculumSection" class="nav-item-btn active">📚 课程体系</a>
-        <a href="#visualizersSection" class="nav-item-btn">📊 5大交互组件</a>
-        <a href="#librarySection" class="nav-item-btn">🏛️ Anna's Archive 文库</a>
-        <a href="#workbenchSection" class="nav-item-btn">💻 代码工作台</a>
+        <a href="#curriculumSection" class="nav-item-btn active" onclick="app.switchMainView('curriculum'); return false;">📚 课程体系</a>
+        <a href="#visualizersSection" class="nav-item-btn" onclick="app.switchMainView('visualizers'); return false;">📊 仿真实验室</a>
+        <a href="#librarySection" class="nav-item-btn" onclick="app.switchMainView('library'); return false;">🏛️ 经典文献检索库</a>
+        <a href="#workbenchSection" class="nav-item-btn" onclick="app.switchMainView('workbench'); return false;">💻 代码自测台</a>
       </nav>
 
       <div class="nav-right-actions">
@@ -225,7 +225,7 @@
         <!-- =========================================================
              5 MAJOR INTERACTIVE FINANCIAL VISUALIZATION ENGINES
              ========================================================= -->
-        <section class="interactive-visualizer-section" id="visualizersSection">
+        <section class="interactive-visualizer-section" id="visualizersSection" style="display:none;">
           <div class="visualizer-top-header">
             <div class="visualizer-title">
               <span>📊</span>
@@ -492,7 +492,7 @@
         <!-- =========================================================
              ANNA'S ARCHIVE CLASSICAL FINANCE LIBRARY SECTION
              ========================================================= -->
-        <section class="library-section" id="librarySection">
+        <section class="library-section" id="librarySection" style="display:none;">
           <div class="library-header-bar">
             <div>
               <h2 style="font-size:1.35rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">

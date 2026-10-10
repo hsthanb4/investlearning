@@ -34,7 +34,74 @@ class StockLearningApp {
     this.initVisualizers();
     this.renderBooks();
     this.updateGlobalProgress();
-    this.bindEvents();
+    this.
+  // ==========================================
+  // Section / View Switching Controller
+  // ==========================================
+  switchMainView(viewName) {
+    const sections = {
+      'curriculum': document.getElementById('curriculumSection') ? document.getElementById('curriculumSection').closest('.lesson-article-card') : null,
+      'visualizers': document.getElementById('visualizersSection'),
+      'library': document.getElementById('librarySection'),
+      'workbench': document.getElementById('workbenchSection')
+    };
+
+    // Update nav buttons
+    const navBtns = document.querySelectorAll('.nav-center-menu a');
+    navBtns.forEach(btn => {
+      const href = btn.getAttribute('href') || '';
+      if (href.includes(viewName) || (viewName === 'curriculum' && href.includes('curriculumSection'))) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Toggle display
+    const currCard = document.querySelector('.lesson-article-card');
+    const vizSec = document.getElementById('visualizersSection');
+    const libSec = document.getElementById('librarySection');
+    const workSec = document.getElementById('workbenchSection');
+    const sidebar = document.getElementById('courseSidebar');
+
+    if (viewName === 'curriculum') {
+      if (currCard) currCard.style.display = 'block';
+      if (vizSec) vizSec.style.display = 'none';
+      if (libSec) libSec.style.display = 'none';
+      if (workSec) workSec.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (viewName === 'visualizers') {
+      if (currCard) currCard.style.display = 'none';
+      if (vizSec) vizSec.style.display = 'block';
+      if (libSec) libSec.style.display = 'none';
+      if (workSec) workSec.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Trigger canvas resizing
+      setTimeout(() => {
+        if (this.vKline) this.vKline.render();
+        if (this.vMarkowitz) this.vMarkowitz.render();
+        if (this.vKelly) this.vKelly.render();
+      }, 50);
+    } else if (viewName === 'library') {
+      if (currCard) currCard.style.display = 'none';
+      if (vizSec) vizSec.style.display = 'none';
+      if (libSec) libSec.style.display = 'block';
+      if (workSec) workSec.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (viewName === 'workbench') {
+      if (currCard) currCard.style.display = 'none';
+      if (vizSec) vizSec.style.display = 'none';
+      if (libSec) libSec.style.display = 'none';
+      if (workSec) workSec.style.display = 'block';
+      if (sidebar) sidebar.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  bindEvents();
   }
 
   // ==========================================
