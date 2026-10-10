@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 6.2.3：桥水全天候 (All Weather) 宏观经济环境四象限对冲架构</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">DALIO ALL WEATHER</text>
+
+  <!-- Quadrants Grid -->
+  <g transform="translate(100, 50)">
+    <!-- Dividing Cross Lines -->
+    <line x1="280" y1="10" x2="280" y2="150" stroke="#1F1E1B" stroke-width="1.5"/>
+    <line x1="20" y1="80" x2="540" y2="80" stroke="#1F1E1B" stroke-width="1.5"/>
+
+    <!-- Axis Labels -->
+    <text x="280" y="5" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">通胀高于预期 Inflation ↑</text>
+    <text x="280" y="165" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#5F7355" text-anchor="middle">通胀低于预期 Inflation ↓</text>
+    <text x="10" y="84" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#486A7D" text-anchor="end">增长衰退 Growth ↓</text>
+    <text x="550" y="84" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#5F7355">增长扩张 Growth ↑</text>
+
+    <!-- Quadrant 1: Growth UP + Inflation UP (Top Right) -->
+    <rect x="290" y="15" width="240" height="60" rx="4" fill="rgba(192, 133, 53, 0.12)"/>
+    <text x="410" y="35" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#C08535" text-anchor="middle">过热期 (Growth ↑ / Inf ↑)</text>
+    <text x="410" y="55" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1F1E1B" text-anchor="middle">优势资产: 大宗商品、黄金、TIPS</text>
+
+    <!-- Quadrant 2: Growth UP + Inflation DOWN (Bottom Right) -->
+    <rect x="290" y="85" width="240" height="60" rx="4" fill="rgba(95, 115, 85, 0.12)"/>
+    <text x="410" y="105" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">金发姑娘期 (Growth ↑ / Inf ↓)</text>
+    <text x="410" y="125" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1F1E1B" text-anchor="middle">优势资产: 股票、高收益信用债</text>
+
+    <!-- Quadrant 3: Growth DOWN + Inflation DOWN (Bottom Left) -->
+    <rect x="30" y="85" width="240" height="60" rx="4" fill="rgba(72, 106, 125, 0.12)"/>
+    <text x="150" y="105" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">衰退期 (Growth ↓ / Inf ↓)</text>
+    <text x="150" y="125" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1F1E1B" text-anchor="middle">优势资产: 长期名义国债、现金</text>
+
+    <!-- Quadrant 4: Growth DOWN + Inflation UP (Top Left) -->
+    <rect x="30" y="15" width="240" height="60" rx="4" fill="rgba(204, 90, 54, 0.12)"/>
+    <text x="150" y="35" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#CC5A36" text-anchor="middle">滞胀期 (Growth ↓ / Inf ↑)</text>
+    <text x="150" y="55" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1F1E1B" text-anchor="middle">优势资产: 原油、黄金、抗通胀债</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">任何一种经济环境下都有两组资产在产生正现金流，全天候的核心是让四大象限风险暴露完全中性化</text>
+</svg>

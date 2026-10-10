@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 6.1.1：马科维茨有效前沿 (Efficient Frontier) 与资本市场线 (CML) 切点模型</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">MARKOWITZ MVO</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="210" x2="700" y2="210" stroke="#1F1E1B" stroke-width="1.5"/>
+  <line x1="80" y1="40" x2="80" y2="210" stroke="#1F1E1B" stroke-width="1.5"/>
+  <text x="70" y="45" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B" text-anchor="end">预期回报 E[R]</text>
+  <text x="700" y="225" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B" text-anchor="end">组合波动率 σ_p</text>
+
+  <!-- Risk Free Rate Point -->
+  <circle cx="80" cy="180" r="4" fill="#486A7D"/>
+  <text x="70" y="184" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D" text-anchor="end">R_f = 2%</text>
+
+  <!-- Efficient Frontier Hyperbola Curve -->
+  <!-- GMV point: (220, 130) -->
+  <path d="M 450 200 Q 220 180 220 130 Q 220 70 480 50" fill="none" stroke="#CC5A36" stroke-width="2.5"/>
+
+  <!-- Inefficient Lower Part -->
+  <path d="M 450 200 Q 220 180 220 130" fill="none" stroke="#7D786F" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="360" y="195" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">无效前沿下半支</text>
+
+  <!-- Efficient Upper Part -->
+  <text x="490" y="52" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#CC5A36">马科维茨有效前沿</text>
+
+  <!-- Global Minimum Variance (GMV) Point -->
+  <circle cx="220" cy="130" r="5" fill="#C08535"/>
+  <text x="210" y="134" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#C08535" text-anchor="end">GMV (全局最小方差)</text>
+
+  <!-- Tangency Portfolio (Max Sharpe) -->
+  <!-- Tangency point: (350, 85) -->
+  <circle cx="350" cy="85" r="6" fill="#5F7355"/>
+  <text x="350" y="72" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#5F7355" text-anchor="middle">切点组合 (Max Sharpe)</text>
+
+  <!-- Capital Market Line (CML) from Rf through Tangency -->
+  <line x1="80" y1="180" x2="650" y2="40" stroke="#5F7355" stroke-width="2"/>
+  <text x="655" y="44" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#5F7355">资本市场线 CML</text>
+
+  <!-- Scatter points inside frontier (Feasible set) -->
+  <circle cx="320" cy="140" r="2.5" fill="rgba(72,106,125,0.4)"/>
+  <circle cx="380" cy="120" r="2.5" fill="rgba(72,106,125,0.4)"/>
+  <circle cx="420" cy="150" r="2.5" fill="rgba(72,106,125,0.4)"/>
+  <circle cx="300" cy="160" r="2.5" fill="rgba(72,106,125,0.4)"/>
+  <circle cx="480" cy="130" r="2.5" fill="rgba(72,106,125,0.4)"/>
+  <text x="390" y="145" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">可行投资组合集 (Feasible Set)</text>
+
+  <text x="380" y="238" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">托宾两基金分离定理：理性投资者只需配置无风险资产与切点切线组合，通过杠杆调节风险偏好</text>
+</svg>

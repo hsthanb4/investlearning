@@ -1,0 +1,33 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 6.5.2：高阶统计矩：偏度 (Skewness) 与超额峰度 (Excess Kurtosis) 非对称图谱</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">HIGHER MOMENTS</text>
+
+  <!-- Left: Negative Skew (Steamroller & Nickels) -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">负偏度 (Negative Skew: 压路机前捡硬币)</text>
+    
+    <!-- Left fat tail curve -->
+    <path d="M 20 120 Q 80 115 140 100 T 220 30 T 260 120" fill="none" stroke="#CC5A36" stroke-width="2.5"/>
+    <circle cx="50" cy="118" r="4" fill="#CC5A36"/>
+    <text x="50" y="105" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36">长左厚尾</text>
+
+    <text x="140" y="135" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B" text-anchor="middle">卖出深度虚值期权 / 套利资金的典型特征</text>
+  </g>
+
+  <!-- Right: Positive Skew (Convex Antifragile) -->
+  <g transform="translate(420, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">正偏度 (Positive Skew: 彩票型反脆弱收益)</text>
+
+    <!-- Right fat tail curve -->
+    <path d="M 20 120 Q 60 30 140 100 T 200 115 T 260 120" fill="none" stroke="#5F7355" stroke-width="2.5"/>
+    <circle cx="230" cy="118" r="4" fill="#5F7355"/>
+    <text x="230" y="105" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">长右厚尾</text>
+
+    <text x="140" y="135" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B" text-anchor="middle">买入虚值期权 / 早期创投 / 趋势跟踪的特征</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">高额算术夏普往往由严重的负偏度与肥尾峰度（Kurtosis &gt; 15）粉饰而成，暴雷只是时间问题</text>
+</svg>

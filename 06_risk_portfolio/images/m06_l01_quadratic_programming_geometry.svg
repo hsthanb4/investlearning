@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 6.1.2：二次规划 (QP) 求解几何拓扑：凸优化等高椭圆与单纯形约束面</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">CONVEX OPTIMIZATION</text>
+
+  <!-- Optimization Formulation on Left -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">二次规划数学标准型 (Standard QP)</text>
+    
+    <text x="140" y="55" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#1F1E1B" text-anchor="middle">
+      \min_{w} rac{1}{2} w^T \Sigma w - q \cdot \mu^T w
+    </text>
+
+    <text x="20" y="85" font-family="Inter, sans-serif" font-size="9.5" fill="#1F1E1B">受限于线性约束 (Linear Constraints):</text>
+    <text x="20" y="105" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#5F7355">• \sum w_i = 1.0 (全仓预算约束)</text>
+    <text x="20" y="125" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#CC5A36">• 0 \le w_i \le w_{max} (严禁做空与单票上限)</text>
+    <text x="20" y="140" font-family="Inter, sans-serif" font-size="8.5" fill="#7D786F">目标函数 Hessian 矩阵 Σ 必须半正定</text>
+  </g>
+
+  <!-- Geometric Visualization on Right -->
+  <g transform="translate(420, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#E5DFD5"/>
+    <text x="140" y="20" font-family="Newsreader, serif" font-size="11" font-weight="700" fill="#1F1E1B" text-anchor="middle">等风险方差椭圆等高线</text>
+
+    <!-- Concentric Ellipses (Variance Contours) -->
+    <ellipse cx="140" cy="85" rx="100" ry="45" fill="none" stroke="rgba(72,106,125,0.3)" stroke-width="1"/>
+    <ellipse cx="140" cy="85" rx="70" ry="32" fill="none" stroke="rgba(72,106,125,0.5)" stroke-width="1.5"/>
+    <ellipse cx="140" cy="85" rx="40" ry="18" fill="none" stroke="#486A7D" stroke-width="2"/>
+    <circle cx="140" cy="85" r="4" fill="#486A7D"/>
+    <text x="140" y="80" font-family="JetBrains Mono, monospace" font-size="9" fill="#486A7D" text-anchor="middle">GMV Center</text>
+
+    <!-- Simplex Linear Constraint Line -->
+    <line x1="40" y1="125" x2="240" y2="45" stroke="#5F7355" stroke-width="2"/>
+    <text x="245" y="48" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355">Σw=1</text>
+
+    <!-- Tangency Optimum Point -->
+    <circle cx="170" cy="73" r="5" fill="#CC5A36"/>
+    <text x="175" y="65" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#CC5A36">KKT 最优解 w*</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">二次规划的全局凸性保证了数值求解的绝对收敛，但若约束过少极易落入非物理角点极端权重</text>
+</svg>

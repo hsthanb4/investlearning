@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 6.1.3：马科维茨“误差放大器”(Error Maximizer) 效应与病态权重翻转</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">NUMERICAL INSTABILITY</text>
+
+  <!-- Left: True Inputs vs Perturbed Inputs -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">输入微小扰动 Δμ = 0.5%</text>
+
+    <!-- Asset Expected Return Bars -->
+    <text x="20" y="55" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">Asset A: μ = 10.0% ➔ 10.5%</text>
+    <rect x="20" y="60" width="210" height="12" fill="#486A7D"/>
+    
+    <text x="20" y="90" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B">Asset B: μ = 10.0% (不变)</text>
+    <rect x="20" y="95" width="200" height="12" fill="#7D786F"/>
+
+    <text x="140" y="130" font-family="Inter, sans-serif" font-size="9.5" fill="#CC5A36" text-anchor="middle">输入仅发生不可察觉的微小估计残差</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M 360 120 L 395 120" stroke="#CC5A36" stroke-width="2.5"/>
+  <text x="377" y="110" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#CC5A36" text-anchor="middle">Σ^-1</text>
+
+  <!-- Right: Catastrophic Output Weight Flip -->
+  <g transform="translate(420, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">输出最优权重灾难性翻转！</text>
+
+    <text x="20" y="55" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355">Weight A: 50% ➔ 92% (疯狂满仓)</text>
+    <rect x="20" y="60" width="230" height="14" fill="#5F7355"/>
+
+    <text x="20" y="95" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">Weight B: 50% ➔ 8% (几乎清空)</text>
+    <rect x="20" y="100" width="20" height="14" fill="#CC5A36"/>
+
+    <text x="140" y="132" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#CC5A36" text-anchor="middle">协方差求逆放大了最大的估计噪音</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">理查德·米肖（Michaud）名言：均值-方差优化本质是“误差放大器”，必须使用收缩估计或黑石-利特曼模型</text>
+</svg>
