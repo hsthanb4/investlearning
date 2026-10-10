@@ -491,36 +491,27 @@ class InvestLearningApp {
         return `<a href="#" onclick="app.selectLesson(${this.currentModuleIndex}, ${idx}); return false;" class="step-node ${isCurr ? 'current' : ''}" title="${item.title}"><span class="step-node-num">L${item.num}</span><span>${shortName}</span>${isCurr ? '<span class="step-node-curr-dot"></span>' : ''}</a>`;
       }).join('<span class="step-track-sep">›</span>');
 
-      ctxBox.innerHTML = `
-        <div class="callout-title" style="margin-bottom:8px; font-size:0.9rem;">
-          <span>🧭</span>
-          <span>体系定位与章节承上启下脉络（${mod.layer || '核心模块'}）</span>
-        </div>
+            ctxBox.innerHTML = `
         <div class="callout-body" style="font-size:0.86rem; line-height:1.65;">
-          <div style="margin-bottom:6px;"><strong style="color:var(--text-primary);">【模块在体系中的角色】</strong>：${mod.system_role || mod.desc}</div>
-          <div style="margin-bottom:8px;"><strong style="color:var(--claude-terracotta);">【本课承上启下定位】</strong>：${lesson.chapter_bridge || ''}</div>
-          <div class="chapter-stepper-box">
-            <div class="chapter-stepper-header">
-              <span class="chapter-stepper-label">本模块章节递进脉络</span>
-              <span class="chapter-stepper-counter">第 ${this.currentLessonIndex + 1} / ${mod.lessons.length} 课</span>
-            </div>
-            <div class="chapter-stepper-track">
-              ${chainSteps}
-            </div>
+          <div style="margin-bottom:6px;"><strong style="color:var(--text-primary);">模块定位：</strong>${mod.system_role || mod.desc}</div>
+          <div style="margin-bottom:8px;"><strong style="color:var(--claude-terracotta);">本课脉络：</strong>${lesson.chapter_bridge || ''}</div>
+          <div class="chapter-stepper-bar">
+            <span class="chapter-stepper-label">章节路径</span>
+            <div class="chapter-stepper-track">${chainSteps}</div>
           </div>
         </div>
       `;
       this.renderMath(ctxBox);
     }
 
-    // 2. Learning Objectives (Highlight Content, Skills & Mastery Level)
+    // 2. Learning Objectives
     const objContainer = document.getElementById("lessonObjectivesList");
     if (objContainer && lesson.objectives) {
       objContainer.innerHTML = lesson.objectives.map(o => {
         let formatted = o
-          .replace(/^【(核心内容|实战技能)】/, '<strong style="color:var(--text-primary); font-weight:700;">【$1】</strong>')
-          .replace(/^【(掌握程度)】/, '<strong style="color:var(--claude-terracotta); font-weight:700;">【$1与考核标准】</strong>');
-        return `<li style="margin-bottom:8px; line-height:1.65;">${formatted}</li>`;
+          .replace(/^(核心内容|实战方法)：/, '<strong style="color:var(--text-primary); font-weight:700;">$1：</strong>')
+          .replace(/^(掌握标准)：/, '<strong style="color:var(--claude-terracotta); font-weight:700;">$1：</strong>');
+        return `<li style="margin-bottom:6px; line-height:1.65;">${formatted}</li>`;
       }).join("");
       this.renderMath(objContainer);
     }
@@ -532,36 +523,27 @@ class InvestLearningApp {
       if (lesson.feynman_analogy) {
         const jargonRows = (lesson.feynman_jargon || []).map(([term, plain]) => `
           <div class="feynman-jargon-item">
-            <span class="feynman-jargon-term">${term}</span>
-            <span class="feynman-jargon-arrow">➔ 说人话：</span>
+            <span class="feynman-jargon-term">${term}：</span>
             <span class="feynman-jargon-plain">${plain}</span>
           </div>
         `).join("");
 
         feynmanHtml = `
           <div class="feynman-bridge-card">
-            <div class="feynman-bridge-header">
-              <div class="feynman-bridge-title">
-                <span>💡</span>
-                <span>零基础费曼降维导读：大白话直觉 × 黑话翻译 × 一分钟算术验算</span>
-              </div>
-              <span class="feynman-bridge-tag">INTUITION FIRST</span>
-            </div>
-
             <div class="feynman-section">
-              <div class="feynman-sub-label">🏠 1. 三十秒生活化直觉类比（先懂本质，再看公式）</div>
+              <div class="feynman-sub-label">直观类比</div>
               <p class="feynman-analogy-text">${lesson.feynman_analogy}</p>
             </div>
 
             <div class="feynman-section">
-              <div class="feynman-sub-label">📖 2. 本课核心金融黑话“说人话”速查</div>
+              <div class="feynman-sub-label">核心概念</div>
               <div class="feynman-jargon-grid">
                 ${jargonRows}
               </div>
             </div>
 
             <div class="feynman-section" style="margin-bottom:0;">
-              <div class="feynman-sub-label">🧮 3. 核心模型一分钟真实数字代入验算（小学生算术级拆解）</div>
+              <div class="feynman-sub-label">算例演示</div>
               <div class="feynman-calc-box">${lesson.feynman_calc}</div>
             </div>
           </div>
@@ -606,7 +588,7 @@ class InvestLearningApp {
               <div class="qa-answer-box">
                 <div style="color:var(--claude-terracotta); font-weight:700; font-size:0.88rem; padding-bottom:8px; margin-bottom:10px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:6px;">
                   <span>✔</span>
-                  <span>投决会深度解析与标准参考答案</span>
+                  <span>参考解析</span>
                 </div>
                 <div class="qa-answer-content" style="line-height:1.72; font-size:0.9rem; color:var(--text-secondary);">${ansText}</div>
               </div>
