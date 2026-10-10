@@ -1250,3 +1250,33 @@ canvas {
   margin: 0;
   padding: 0;
 }
+
+
+/* Individual Investor Step-by-Step Practical Guide */
+ol.step-guide-list {
+  margin: 14px 0 22px 0;
+  padding-left: 22px;
+}
+
+ol.step-guide-list > li {
+  margin-bottom: 14px;
+  font-size: 0.92rem;
+  line-height: 1.72;
+  color: var(--text-secondary);
+}
+
+ol.step-guide-list > li strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+ol.step-guide-list ul {
+  margin-top: 6px;
+  padding-left: 18px;
+}
+
+ol.step-guide-list ul li {
+  margin-bottom: 5px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
