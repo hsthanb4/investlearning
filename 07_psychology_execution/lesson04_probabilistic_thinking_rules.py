@@ -108,6 +108,7 @@ def calculate_kelly_fraction(expected_payoff_ratio: float, win_probability: floa
 
 
 if __name__ == "__main__":
-    assert should_take_trade(2.5, 0.40) == True # 0.4 * 2.5 - 0.6 = 1.0 - 0.6 = 0.4 >= 0.20
-    assert should_take_trade(1.5, 0.40) == False # 0.4 * 1.5 - 0.6 = 0.6 - 0.6 = 0.0 < 0.20
-    print("Lesson 04 (Probabilistic Thinking) Exercise Passed!")
+    # 待补齐 TODO 实现后取消注释以验证断言:
+    # assert should_take_trade(2.5, 0.40) == True # 0.4 * 2.5 - 0.6 = 1.0 - 0.6 = 0.4 >= 0.20
+    # assert should_take_trade(1.5, 0.40) == False # 0.4 * 1.5 - 0.6 = 0.6 - 0.6 = 0.0 < 0.20
+    print("Lesson 04 (Probabilistic Thinking) Stub Initialized. Complete TODOs to verify assertions.")

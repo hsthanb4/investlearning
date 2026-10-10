@@ -129,6 +129,6 @@ def estimate_implied_loss_aversion(gamble_win: float, gamble_loss: float, alpha:
 
 
 if __name__ == "__main__":
-    # 基础标量断言
-    assert calculate_disposition_effect(0.65, 0.25) == 0.40
-    print("Lesson 01 (Prospect Theory) Exercise Passed!")
+    # 待补齐 TODO 实现后取消注释以验证断言:
+    # assert calculate_disposition_effect(0.65, 0.25) == 0.40
+    print("Lesson 01 (Prospect Theory) Stub Initialized. Complete TODOs to verify assertions.")
