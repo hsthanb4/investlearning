@@ -1516,3 +1516,109 @@ ol.step-guide-list ul li {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
+
+
+/* Feynman Intuition Scaffolding Bridge Card (Anthropic 3-Color Aesthetic) */
+.feynman-bridge-card {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--claude-terracotta);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin: 0 0 28px 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.feynman-bridge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.feynman-bridge-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--claude-terracotta);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feynman-bridge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--claude-terracotta-light);
+  color: var(--claude-terracotta);
+}
+
+.feynman-section {
+  margin-bottom: 16px;
+}
+
+.feynman-sub-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.feynman-analogy-text {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--text-primary);
+  margin: 0;
+}
+
+.feynman-jargon-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feynman-jargon-item {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+.feynman-jargon-term {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.feynman-jargon-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--claude-terracotta);
+  margin: 0 4px;
+}
+
+.feynman-jargon-plain {
+  color: var(--text-secondary);
+}
+
+.feynman-calc-box {
+  background: var(--claude-terracotta-light);
+  border: 1px dashed var(--claude-terracotta);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 0.89rem;
+  line-height: 1.72;
+  color: var(--text-primary);
+}

@@ -525,17 +525,57 @@ class InvestLearningApp {
       this.renderMath(objContainer);
     }
 
-    // 3. Theory Body
+    // 3. Theory Body (Prepend Feynman Intuition Bridge + Full Institutional Theory)
     const theoryBody = document.getElementById("lessonTheoryBody");
     if (theoryBody) {
-      theoryBody.innerHTML = this.sanitizeSvgHtml(lesson.theory) || `
+      let feynmanHtml = "";
+      if (lesson.feynman_analogy) {
+        const jargonRows = (lesson.feynman_jargon || []).map(([term, plain]) => `
+          <div class="feynman-jargon-item">
+            <span class="feynman-jargon-term">${term}</span>
+            <span class="feynman-jargon-arrow">➔ 说人话：</span>
+            <span class="feynman-jargon-plain">${plain}</span>
+          </div>
+        `).join("");
+
+        feynmanHtml = `
+          <div class="feynman-bridge-card">
+            <div class="feynman-bridge-header">
+              <div class="feynman-bridge-title">
+                <span>💡</span>
+                <span>零基础费曼降维导读：大白话直觉 × 黑话翻译 × 一分钟算术验算</span>
+              </div>
+              <span class="feynman-bridge-tag">INTUITION FIRST</span>
+            </div>
+
+            <div class="feynman-section">
+              <div class="feynman-sub-label">🏠 1. 三十秒生活化直觉类比（先懂本质，再看公式）</div>
+              <p class="feynman-analogy-text">${lesson.feynman_analogy}</p>
+            </div>
+
+            <div class="feynman-section">
+              <div class="feynman-sub-label">📖 2. 本课核心金融黑话“说人话”速查</div>
+              <div class="feynman-jargon-grid">
+                ${jargonRows}
+              </div>
+            </div>
+
+            <div class="feynman-section" style="margin-bottom:0;">
+              <div class="feynman-sub-label">🧮 3. 核心模型一分钟真实数字代入验算（小学生算术级拆解）</div>
+              <div class="feynman-calc-box">${lesson.feynman_calc}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      theoryBody.innerHTML = feynmanHtml + (this.sanitizeSvgHtml(lesson.theory) || `
         <h3>核心理论概述</h3>
         <p>本课围绕 <strong>${lesson.title}</strong> 展开深入数学推导与实战机理拆解。请阅读核心代码并完成课后思考题与自测判分。</p>
         <div class="callout callout-info">
           <div class="callout-icon">💡</div>
-          <div>本课详细讲义可在本地或仓库对应分支通过 Jupyter Notebook / Quarto 深入研读。建议结合下方 5 大交互式可视化工具进行直观验证！</div>
+          <div>本课详细讲义可在本地或仓库对应分支通过 Jupyter Notebook / Quarto 深入研读。</div>
         </div>
-      `;
+      `);
     }
 
     // 4. Code Block
