@@ -83,9 +83,9 @@ r"""
 【数学与状态机模型】
 $$\text{State}_{t} = \begin{cases} 
 \text{BULLISH}, & \text{if } C_t > \text{Last\_SH} \text{ and } \text{Prev\_State} = \text{BULLISH} \\
-\text{BEAR_CHOCH}, & \text{if } C_t < \text{Last\_HL} \text{ and } \text{Prev\_State} = \text{BULLISH} \\
+\text{BEAR\_CHOCH}, & \text{if } C_t < \text{Last\_HL} \text{ and } \text{Prev\_State} = \text{BULLISH} \\
 \text{BEARISH}, & \text{if } C_t < \text{Last\_SL} \text{ and } \text{Prev\_State} = \text{BEARISH} \\
-\text{BULL_CHOCH}, & \text{if } C_t > \text{Last\_LH} \text{ and } \text{Prev\_State} = \text{BEARISH}
+\text{BULL\_CHOCH}, & \text{if } C_t > \text{Last\_LH} \text{ and } \text{Prev\_State} = \text{BEARISH}
 \end{cases}$$
 定义域：$C_t > 0, \quad \text{window } k \ge 2, \quad t \ge 2k+1$。
 
