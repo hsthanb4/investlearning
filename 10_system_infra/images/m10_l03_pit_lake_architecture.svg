@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">工业级 Point-in-Time (PIT) 数据湖双时间戳不可变快照架构</text>
+
+  <!-- Left: Raw Feed Source -->
+  <g transform="translate(50, 60)">
+    <rect width="180" height="135" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="90" y="25" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#486A7D" text-anchor="middle">数据入湖源 (Raw)</text>
+    <text x="15" y="55" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B">report_date: 2023-12-31</text>
+    <text x="15" y="75" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">publish_date: 2024-04-20</text>
+    <text x="15" y="95" font-family="JetBrains Mono, monospace" font-size="9" fill="#CC5A36">revised_date: 2024-06-15</text>
+    <text x="15" y="115" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">披露与多次财报更正</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="230" y1="125" x2="275" y2="125" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="280,125 272,121 272,129" fill="#1F1E1B"/>
+
+  <!-- Middle: Bi-Temporal Lake -->
+  <g transform="translate(285, 60)">
+    <rect width="210" height="135" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="2"/>
+    <text x="105" y="25" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1F1E1B" text-anchor="middle">PIT 双时序存储引擎</text>
+    
+    <rect x="15" y="40" width="180" height="35" rx="3" fill="#FAF8F5" stroke="#E5DFD5"/>
+    <text x="25" y="55" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#1F1E1B">1. 业务生效时 (Valid Time)</text>
+    <text x="25" y="68" font-family="JetBrains Mono, monospace" font-size="9" fill="#7D786F">数据反映的财务经营周期</text>
+
+    <rect x="15" y="85" width="180" height="35" rx="3" fill="#FAF8F5" stroke="#E5DFD5"/>
+    <text x="25" y="100" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#5F7355">2. 物理系统时间 (System Time)</text>
+    <text x="25" y="113" font-family="JetBrains Mono, monospace" font-size="9" fill="#5F7355">外部世界可获取该数据的时刻</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="495" y1="125" x2="540" y2="125" stroke="#1F1E1B" stroke-width="1.5"/>
+  <polygon points="545,125 537,121 537,129" fill="#1F1E1B"/>
+
+  <!-- Right: As-of Query Replay -->
+  <g transform="translate(550, 60)">
+    <rect width="160" height="135" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+    <text x="80" y="25" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5F7355" text-anchor="middle">AS-OF 回放视图</text>
+    <text x="15" y="55" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B">query_time: T</text>
+    <text x="15" y="75" font-family="Inter, sans-serif" font-size="9" fill="#5F7355">仅抽取满足:</text>
+    <text x="15" y="95" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355">publish_date &le; T</text>
+    <text x="15" y="115" font-family="Inter, sans-serif" font-size="9" fill="#7D786F">的最新不可变快照</text>
+  </g>
+
+  <!-- Bottom Principle -->
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">禁止直接基于已披露更正后的最终财务数据进行全量替换覆盖，必须保留各历史截面的知识视图</text>
+</svg>

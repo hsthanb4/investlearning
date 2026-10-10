@@ -1,70 +1,102 @@
 r"""
 ================================================================================
-模块 05：量化投资、多因子模型与统计套利 · 第 5/5 课
-第 5 课：横截面动量与时间序列趋势复合策略 (Dual Momentum Composite Strategy)
+模块 05：量化投资多因子与统计套利 · 第 5/5 课
+第 5 课：截面动量 (CSMOM) 与时间序列动量 (TSMOM)：崩盘机制与波动率过滤 (Momentum Dynamics)
 ================================================================================
 
 【课程定位与第一性原理】
-动量效应（Momentum Effect）是现代量化金融中最为普遍且持久的经典异象之一。
-动量策略在学术与工业界演化为两大核心分支：
+动量效应（Momentum Effect）是现代金融学中被证实跨百年、跨全大类资产存在的最顽健市场异象（Jegadeesh & Titman 1993; Moskowitz et al. 2012）。
+然而，动量策略并非平稳的无风险套利机器；历史统计显示，纯动量策略呈现显著的负偏度（Negative Skewness）与毁灭性的“动量崩盘（Momentum Crash）”风险。
+投资委员会在审视动量对冲系统时，必须从做空垃圾股的隐含期权物理机制与宏观体制反转出发，
+建立自适应目标波动率调整（Volatility Targeting）与宏观趋势过滤双重安全网。
 
-1. 横截面动量（Cross-Sectional Momentum, CSMOM, Jegadeesh & Titman 1993）：
-   - 相对强弱博弈：在股票资产池内部，按照过去收益率排序，买入表现最好的前 $K$ 只“赢家组合（Winners）”，
-     卖出/剔除表现最差的“输家组合（Losers）”；
-   - 行为金融学成因：分析师对企业基本面渐进消息的“反应不足（Under-reaction）”以及后续散户追涨杀跌的“过度反应（Over-reaction）”；
-   - 经典“12-1 动量”准则：计算过去 12 个月收益率时，必须剔除最近 1 个月（或周频剔除最近 1 周），
-     因为最近 1 个月存在强烈的短线流动性反冲与指令单失衡引起的“短期反转效应（Short-term Reversal）”。
+- **[动量双雄的构造对立]**：截面动量（CSMOM）做多相对强胜者、做空相对弱败者，净头寸美元中性；时间序列动量（TSMOM）根据资产自身绝对趋势决定多空方向，享有宏观危机 Alpha。
+- **[动量崩盘的做空期权本质]**：在熊市触底强力反弹期，前期跌幅巨大的做空败者组合相当于深度虚值看涨期权（Deep OTM Call），反弹时涨幅惊人，引发空头腿狂暴轧空踩踏。
+- **[自适应波动率控制的破局解法]**：基于已实现波动率动态倒数调整名义杠杆（$w_t \propto 1/\hat{\sigma}_t$），在波动放大时主动退防，彻底消除左尾黑天鹅。
 
-2. 时间序列动量（Time-Series Momentum / Trend Following, TSMOM, Moskowitz, Ooi & Pedersen 2012）：
-   - 绝对趋势跟踪：仅关注资产自身过去一段时间的绝对走势方向（如收盘价是否站在移动均线上方、或者过去 60 日收益率是否为正）；
-   - 顺势而为：趋势向上时开多，趋势向下时平仓空仓或做空，提供下行保护与“危机 Alpha（Crisis Alpha）”。
+【核心概念与就近图文排版】
 
-3. 动量崩溃（Momentum Crash, Daniel & Moskowitz 2016）与双动量（Dual Momentum）复合破局：
-   - 纯截面动量存在致命阿喀琉斯之踵：在极端熊市或恐慌杀跌触底后的 V 型报复性反弹中，输家资产（高财务杠杆、高 Beta、濒临违约资产）
-     具有极强的“深虚值看涨期权凸性（Option-like Convexity）”，往往在几天内暴涨 50%~100%；而赢家资产（低波防御股）反弹滞后，
-     导致纯截面动量发生惨烈的“动量崩溃（回撤常达 40%~60%）”；
-   - 双动量复合策略：以大盘时间序列趋势（TSMOM）作为全组合的“宏观总开关”——
-     大盘处于上升通道时，全力在股票池中选拔横截面领头羊（满仓 CSMOM 获取高 Alpha）；
-     大盘跌破生命线均线时，果断空仓避险，彻底切断系统性大跌与动量崩溃风险。
+1. 截面动量与时间序列动量机制对比：
+观察下图关于截面相对排序与时间序列绝对趋势跟踪的拓扑结构对比：
 
-【核心流程与心智模型】
-```mermaid
-flowchart TD
-    Bench["基准大盘指数时序 (如沪深300 / 标普500)"] --> MA["计算时序均线: MA(P, window)"]
-    Bench --> TrendCheck{"时序趋势判断: Index >= MA ?"}
-    
-    TrendCheck -- "否 (下行熊市/破位)" --> CashMode["宏观防御模式: 组合总仓位降为 0% (持有现金/国债)"]
-    
-    TrendCheck -- "是 (上升通道/多头)" --> StockPool["激活股票池截面选拔引擎"]
-    StockPool --> CSMOM["计算 12-1 剔除近期反转的截面动量得分"]
-    CSMOM --> TopK["排序选拔相对强弱排名前 Top K 领头羊"]
-    TopK --> Alloc["满仓等权/风险平价配置 Top K 赢家资产"]
-    
-    Alloc --> NextPeriod["T+1 日严格执行换仓 (杜绝前视偏差)"]
-    CashMode --> NextPeriod
-```
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 5.5.1：截面动量 (CSMOM) 与时间序列动量 (TSMOM) 机制拓扑对比</span>
+    <span class="diagram-tag">MOMENTUM-DUALITY</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m05_l05_csmom_vs_tsmom_matrix.svg -->
+  </div>
+</div>
 
-【工业界实战场景与风控陷阱】
-1. 震荡市中的假突破与洗盘摩擦（Whipsaw Loss）：
-   在无趋势的窄幅震荡市中，大盘指数在均线上下频繁穿梭，时序过滤器容易频繁触发追涨买入与割肉空仓，
-   产生摩擦损耗。工业界通常加入 ATR 波动率通道或 3%~5% 缓冲带以过滤高频假信号。
-2. 股票停牌与流动性黑洞：
-   动量股往往是热点题材，突发停牌会导致组合无法执行换手，必须建立替代标的与风险限额机制。
-3. 因子拥挤（Factor Crowding）：
-   当市场上大量量化产品集中在相同形成期的动量股时，一旦趋势逆转，多头止损踩踏将导致闪崩。
+- **[CSMOM 截面相对强弱]**：在同一时间切片上，做多表现前 20% 赢家、做空表现后 20% 输家，严格保持多空金额对称（Dollar Neutral）。
+- **[TSMOM 时序绝对趋势]**：考察单一资产过去 12 个月的累计超额回报，若 $R_{t-12M:t} > 0$ 则全额做多，若 $< 0$ 则做空或清仓至无风险现金。
+- **[危机 Alpha 的非对称保护]**：TSMOM 在 2008 年金融危机与 2020 年流动性踩踏中能够迅速翻空大盘，提供卓越的跨资产危机保护。
+
+2. 动量崩盘 (Momentum Crash) 物理机理：
+下图展示了市场自熊市底部 V 型暴力反弹期，前期做空输家暴涨轧空引发动量净值断崖下挫的过程：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 5.5.2：动量崩盘 (Momentum Crash) 物理机理：熊市触底剧烈反弹期的空头反噬</span>
+    <span class="diagram-tag">MOMENTUM-CRASH</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m05_l05_momentum_crash_volatility.svg -->
+  </div>
+</div>
+
+- **[高 Beta 垃圾股的期权凸性爆发]**：前期深跌的败者组（如高负债、濒临退市垃圾股）在央行紧急救市宽松时弹性巨大，反弹涨幅往往超过 $+150\%$。
+- **[前期防守赢家组的滞涨滞后]**：在牛市初期，前期抗跌的公用事业与防御绩优股（多头持仓）表现平平，仅上涨 $+20\%$。
+- **[空头腿巨额亏损击穿本金]**：多头盈利远远无法抵消空头轧空亏损，纯动量组合短时间内净值暴跌 50%~70%，发生惨烈的动量崩盘。
+
+3. 宏观体制波动率过滤与自适应目标杠杆：
+下图展示了通过市场体制判决与目标波动率缩放（Vol Targeting）平抑极端下行风险的自适应架构：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 5.5.3：宏观市场体制过滤器与动量策略动态波动率自适应杠杆控制</span>
+    <span class="diagram-tag">VOL-TARGETING</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m05_l05_macro_regime_trend_filter.svg -->
+  </div>
+</div>
+
+- **[宏观均线趋势滤网]**：当市场大盘指数运行在 200 日移动平均线下方时，判定处于高危熊市体制，强制关闭空头腿或缩减杠杆。
+- **[波动率动态倒数缩放]**：设定年化目标波动率 $\sigma_{\text{target}} = 12\%$，实时名义仓位乘数 $w_t = \min\left(1.5, \frac{\sigma_{\text{target}}}{\hat{\sigma}_t}\right)$。
+- **[收益偏度修复与夏普倍增]**：波动率自适应缩放将收益分布从负偏度扭转为中性或正偏度，最大回撤收窄 30% 以上。
+
+<div class="callout callout-note">
+  <div class="callout-title">📌 投决会核心心智模型：动量是贪婪的顺风车，必须系好波动率安全带</div>
+  <div class="callout-body">
+    动量策略赚取的是全市场投资者认知滞后与锚定效应的红利。但在剧烈转折点，群体共识的瓦解如雪崩般迅速。优秀的动量基金经理不是在单边市中多赚 10%，而是在市场见底反弹的屠宰场中全身而退。
+  </div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ 投决会风控警示与认知陷阱</div>
+  <div class="callout-body">
+    严禁在极端高波动熊市（VIX > 35）期间满杠杆做空前期输家组合！此时垃圾股已沉淀了极度不对称的看涨期权凸性，任何超预期的货币政策放水都会瞬间引发做空仓位的核爆级轧空。
+  </div>
+</div>
+
+【数学与复合策略模型】
+$$\text{CSMOM\_Score}_i = \frac{P_{i, t-1M}}{P_{i, t-12M}} - 1.0 \quad (\text{剔除最近1个月短期反转})$$
+$$\text{Filter}_t = \mathbb{I}(P_{\text{mkt}, t} > \text{SMA}_{200}(P_{\text{mkt}})_t)$$
+$$w_t = \text{Filter}_t \times \min\left(1.5, \frac{\sigma_{\text{target}}}{\hat{\sigma}_{\text{roll}, t}}\right)$$
+$$R_{\text{composite}, t} = w_t \times R_{\text{CSMOM}, t}$$
+定义域：$N \ge 20, \quad \sigma_{\text{target}} > 0, \quad \hat{\sigma}_{\text{roll}, t} > 0$。
 
 【思考题】
-Q1: 为什么纯粹的截面动量多空策略在熊市触底、市场强力暴力反弹时容易发生惨烈的“动量崩溃”（Momentum Crash）？请从输家资产的期权凸性（Option-like Convexity）与空头平仓踩踏剖析其深层机制。
-Q2: 为什么在经典动量因子构建中，学术界与业界普遍采用“12-1 动量”（即过去 12 个月收益率，但剔除最近 1 个月）而不是“近 12 个月完整动量”？最近 1 个月的价格行为存在什么微观市场结构效应？
-Q3: 怎样利用大盘时间序列趋势（如基准指数 MA 均线）作为过滤器，构建双动量（Dual Momentum）复合轮动策略？该策略在牛市、熊市和震荡市中的行为特征分别是什么？
+Q1: 截面动量（CSMOM）与时间序列动量（TSMOM）的源泉与构造差异：请从投资组合净敞口（Dollar Exposure）、Alpha 来源（相对排名溢价 vs 宏观趋势危机 Alpha）对比两种动量范式。为什么 TSMOM 在历次宏观金融危机中能展现强大的非线性正向对冲收益？
+Q2: 动量崩盘（Momentum Crash）的期权特征与物理机制：Barroso & Santa-Clara (2015) 发现动量策略呈现显著的负偏度（Negative Skewness）与极端左尾崩盘风险。为什么在熊市触底、市场狂暴反弹阶段，做多前期赢家、做空前期输家的纯动量头寸会遭遇高达 50%~70% 的毁灭性单边回撤？从做空低价垃圾股的隐含空头看涨期权（Short Call Option）结构推导。
+Q3: 目标波动率自适应缩放（Volatility Targeting）：为什么在动量策略中强制引入基于已实现波动率的动态仓位倒数加权 $w_t \propto 1/\hat{\sigma}_t$，不仅没有降低长期年化复合收益率，反而将历史最大回撤削减了 40% 以上并大幅提升了收益的右偏度？
 
 【评分与通过规则】
-- 代码 4 分：
-  1. 准确实现带跳过期的截面动量得分计算矩阵 (1分)；
-  2. 准确实现大盘时间序列趋势过滤器 (1分)；
-  3. 准确实现双动量复合策略回测引擎并验证相对于纯动量的风控提升 (2分)；
-- Q1~Q3 问答题各 2 分（共 6 分）：必须从期权凸性、流动性微观结构与周期环境行为特征展开；
-- 通过线：8/10 分。一票否决：回测信号未滞后 1 期引入未来函数、删除断言校验。
+- 代码 4 分：截面动量 12-1M 评分计算 (1分) + 大盘宏观趋势状态过滤器 (1分) + 复合自适应动量回测引擎 (2分)
+- Q1~Q3 深度思考题各 2 分（共 6 分）：从动量期权凸性反噬、TSMOM危机Alpha与波动率倒数加权展开
+- 通过线：8/10 分。一票否决：未剔除最近1个月反转、复合夏普未显著超越原始动量
 """
 
 from typing import List, Dict, Any, Tuple

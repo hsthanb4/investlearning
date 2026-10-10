@@ -1,68 +1,101 @@
 r"""
 ================================================================================
-模块 05：量化投资、多因子模型与统计套利 · 第 4/5 课
-第 4 课：机器学习因子合成与带隔离时序交叉验证 (Machine Learning Factor Combination)
+模块 05：量化投资多因子与统计套利 · 第 4/5 课
+第 4 课：机器学习多因子组合与非线性特征挖掘 (ML Factor Combination & Purged Walk-Forward)
 ================================================================================
 
 【课程定位与第一性原理】
-在多因子量化投资的前沿实践中，传统的线性因子合成（等权加权、IC 加权、ICIR 倒数协方差加权）
-建立在两个过于理想化的假设之上：
-1. 因子与未来收益之间呈现恒定的线性正比关系；
-2. 各因子之间相互独立，不存在非线性条件约束或高阶交互。
+传统多因子模型采用线性加权（OLS 或 IC 权重），默认假定各个因子对收益率的贡献是相互独立且线性可加的。
+然而，真实金融市场中充斥着复杂的非线性交互作用（如：高动量只有在低估值与高 ROIC 共振时才爆发）。
+机器学习（如 GBDT、LightGBM、随机森林）能够自动挖掘深层非线性特征，但极易掉入“回测过拟合”的万劫不复深渊。
+投资委员会在审视机器学习量化策略时，首要审查其是否严格执行了金融时序的因果清洗契约。
 
-然而，真实的资本市场充满了深度的非线性结构与条件概率：
-- 价值陷阱（Value Trap）：低估值（低 PE）若搭配恶化的盈利质量（负 ROE）与高财务杠杆，往往是濒临破产的信号；
-  只有当高估值折扣与高资产回报率（High Quality）同时满足时，估值因子才释放强烈的正向 Alpha；
-- 动量与波动非线性：高动量策略只有在低特质波动率（Low Volatility）环境下才具备极高的夏普比率，
-  在极端高波动环境下盲目追逐高动量则极易发生灾难性的“动量崩溃（Momentum Crash）”。
+- **[金融机器学习的样本重叠泄漏]**：传统 K-Fold 随机切分在金融时序中彻底失效；前向多期持有收益标签的重叠（Overlapping Labels）会导致严重的未来信息渗透。
+- **[Purged & Embargoed 滚动交叉验证]**：必须对训练集与测试集边界实施样本清洗（Purging）与隔离缓冲（Embargo），建立绝对零前视偏差的时序交叉验证。
+- **[树模型集成与特征重要性]**：利用 GBDT 树模型的决策分叉提取因子非线性重要性，并以样本外（OOS）Rank IC 与多空收益作为唯一验收标准。
 
-梯度提升树（GBDT / Random Forest / LightGBM / XGBoost）能够天然学习特征空间的正交轴向切分，
-自动捕捉高阶交互作用。但金融时间序列机器学习存在一个致命的死穴——数据泄露（Data Leakage）与伪泛化：
-- 严禁使用普通统计机器学习的 K-Fold 随机打乱交叉验证！将未来的数据作为训练集预测过去的数据，
-  会导致模型学习到未来的未来函数特征，产生虚假的高准确率，实盘必死无疑；
-- 必须采用**带净化与封锁的前向滚动时序验证（Purged & Embargoed Walk-Forward Validation）**：
-  训练窗口 $[t - T_{\text{train}}, t]$ $\to$ 封锁隔离期（Embargo） $\to$ 样本外测试窗口 $[t + \tau, t + \tau + T_{\text{test}}]$。
+【核心概念与就近图文排版】
 
-【核心流程与心智模型】
-```mermaid
-flowchart TD
-    RawFactors["多因子特征面板 [VAL, MOM, QUAL, VOL, GROWTH]"] --> Standardize["截面 MAD 去极值 + 截面 Z-Score 标准化"]
-    Standardize --> PurgedSplit["Purged Walk-Forward 滚动窗口切分 (训练集 + 封锁隔离期 + 测试集)"]
-    
-    subgraph 滚动时序推断流水线 (Walk-Forward Loops)
-        PurgedSplit --> TrainWindow["训练集窗口 [t-T_train, t] ➔ 拟合随机森林/GBDT"]
-        TrainWindow --> Embargo["封锁隔离期 (Embargo) ➔ 阻断自相关标签泄漏"]
-        Embargo --> TestWindow["测试集窗口 [t+embargo, t+embargo+T_test] ➔ 样本外预测 OOS"]
-        TestWindow --> RollStep["窗口向前滚动滑动步长 ➔ 迭代下一折"]
-    end
-    
-    RollStep --> Aggregate["拼接全区间样本外预测时序 (OOS Composite Score)"]
-    Aggregate --> OOS_Eval["样本外性能评价: OOS Rank IC / 特征重要性排序 / 多空分层收益"]
-```
+1. Purged & Embargoed 滚动步进交叉验证：
+观察下图关于金融时序防泄漏交叉验证的样本重叠清洗与隔离期拓扑架构：
 
-【工业界实战场景与风控陷阱】
-1. 标签重叠（Label Overlap）与序列自相关污染：
-   若模型预测目标为未来 5 天收益率（$R_{t \to t+5}$），则 $t$ 期的标签与 $t+1, \dots, t+4$ 期的标签共享了
-   相同的价格波动信息。若不在训练集与测试集边界剔除重叠期（Purging），模型会直接“抄袭”未闭环的历史价格。
-2. 特征重要性过拟合假象（MDI vs MDA）：
-   树模型默认的基尼/方差不纯度减少（MDI）天然偏向连续型高方差噪音特征。工业界应结合置换特征重要性
-   （Permutation Importance / MDA），通过破坏单列特征后观察样本外损失上升幅度，鉴别真正的有效特征。
-3. 结构性体制断裂（Structural Regime Shift）：
-   模型在低利率牛市环境训练出的非线性规则，在进入激进加息熊市时往往迅速失效。滚动窗口大小（Lookback Window）
-   需要平衡“历史样本丰富度”与“最新市场体制适应性”。
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 5.4.1：金融机器学习 Purged &amp; Embargoed 滚动步进时序交叉验证</span>
+    <span class="diagram-tag">PURGED-CV</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m05_l04_purged_walk_forward_cv.svg -->
+  </div>
+</div>
+
+- **[Purging 样本重叠清洗]**：若训练集样本的预测持有期跨越到了测试集的起始点，必须强制从训练集中剔除该样本，防止标签泄露。
+- **[Embargo 隔离期缓冲]**：在测试集结束后追加一定时长的隔离期（通常为因子的自相关半衰期），防止时序自回归记忆泄露。
+- **[Walk-Forward 步进推进]**：测试窗口随时间向前滚动推进，严格模拟实盘样本外无前视预测环境。
+
+2. 梯度提升树因子非线性特征重要性：
+下图展示了集成树模型自动学习多因子非线性交互后的特征重要性（SHAP）分解：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 5.4.2：梯度提升树 (GBDT / LightGBM) 因子非线性交互与 SHAP 重要度分解</span>
+    <span class="diagram-tag">FEATURE-IMPORTANCE</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m05_l04_tree_ensemble_feature_importance.svg -->
+  </div>
+</div>
+
+- **[基本面与动量非线性共振]**：树模型优先以 ROIC-WACC 差额进行根节点切分，随后在优质资产子集内部切分动量与换手率。
+- **[特征贡献度绝对归一]**：特征增益（Gain）重要性严格归一化为 100%，反映各维因子在集成预测中的边际决策权重。
+- **[树深度与正则化约束]**：金融数据的信噪比极低，树最大深度必须控制在 3~5 层以内，防止拟合随机市场噪声。
+
+3. 回测多重检验陷阱与伪发现率：
+下图展示了随着模型尝试试验次数激增，样本内虚假夏普比率的非线性膨胀与样本外真实表现衰减：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 5.4.3：量化回测多重检验陷阱与伪发现率 (False Discovery Rate) 衰减律</span>
+    <span class="diagram-tag">P-HACKING-DEFENSE</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m05_l04_overfitting_backtest_trap.svg -->
+  </div>
+</div>
+
+- **[多重假设检验陷阱]**：测试 10,000 个随机特征必然能筛选出数个样本内夏普 $> 3.0$ 的假特征。
+- **[折损夏普比率 DSR]**：显式对试验次数 $N$、收益偏度与超额峰度施加数学惩罚，推导真实未被过拟合污染的置信度。
+- **[经济学因果链前置]**：任何因子在进入机器学习模型前，必须先具备扎实的商业逻辑与会计恒等支撑。
+
+<div class="callout callout-note">
+  <div class="callout-title">📌 投决会核心心智模型：金融数据与计算机视觉/NLP 的本质差异</div>
+  <div class="callout-body">
+    图像与自然语言的物理规律是静态不变的（猫永远是猫）；而金融市场是非平稳、对抗博弈、低信噪比（Signal-to-Noise Ratio < 5%）的自适应复杂系统。在金融领域盲目套用深度过参数化大模型，99% 的概率是在精确拟合历史噪声。
+  </div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ 投决会风控警示与认知陷阱</div>
+  <div class="callout-body">
+    严禁使用未经 Purging 和 Embargo 隔离的时序数据作为模型回测证明！任何样本内夏普高达 4.0 但未经严格样本外步进验证的机器学习策略，实盘上线后必然遭遇净值永久归零。
+  </div>
+</div>
+
+【数学与验证模型】
+$$\text{Train\_Idx} = \{t \mid t \le T_{\text{train\_end}} - \text{Label\_Horizon}\}$$
+$$\text{Test\_Idx} = \{t \mid T_{\text{test\_start}} \le t \le T_{\text{test\_end}}\}, \quad T_{\text{test\_start}} = T_{\text{train\_end}} + \text{Embargo}$$
+$$\text{DSR} = \Phi\left(\frac{(\text{SR} - \text{SR}^*)\sqrt{T-1}}{\sqrt{1 - \gamma_3 \text{SR} + \frac{\gamma_4 - 1}{4}\text{SR}^2}}\right)$$
+定义域：$\text{Train\_Len} > \text{Test\_Len} > \text{Embargo} \ge 0, \quad \text{DSR} \in [0, 1]$。
 
 【思考题】
-Q1: 什么是金融机器学习中的“前视偏差”（Lookahead Bias）与“标签重叠”（Label Overlap）？如果采用未来 5 天收益率作为预测目标，为何未经 Purging 的标准交叉验证会导致样本外模型彻底失效？
-Q2: 为什么在树模型特征重要性中，某些高频高波动的量价特征虽然被频繁分裂（Split Gain / MDI 很高），但在样本外预测时却导致灾难性过拟合？工业界如何用 Permutation Importance (MDA) 进行纠偏？
-Q3: 怎样利用 SHAP (SHapley Additive exPlanations) 框架穿透机器学习黑盒模型？在量化投研报告或投资委员会答辩时，如何向合规与投资人解释单只股票的非线性综合打分因果逻辑？
+Q1: 金融时序中的样本重叠与 Purging / Embargo 机制：传统机器学习的 K-Fold 随机交叉验证为什么在金融资产回报率预测中是完全失效的？请从前向持有期重叠（Overlapping Labels）导致的严重信息泄露（Information Leakage）推导 López de Prado 的 Purged K-Fold 算法设计原理。
+Q2: 线性多因子加权 vs 树模型集成（GBDT/LightGBM）：在挖掘 Alpha 时，树模型相比传统线性 IC 加权的核心优势是什么？树模型如何天然捕获多因子之间的“非线性条件交互”（例如：只有在低估值且高研发支出时，动量因子才显著有效）？
+Q3: 多重假设检验（Multiple Testing）与折损夏普比率（Deflated Sharpe Ratio, DSR）：如果量化研究员尝试了 10,000 个公式化 Alpha 因子，筛选出一个样本内夏普高达 3.0 的因子，为什么投决会必须使用 Bailey & López de Prado 的 DSR 算法对试验次数 $N$ 进行严厉惩罚？伪发现率（FDR）如何摧毁实盘表现？
 
 【评分与通过规则】
-- 代码 4 分：
-  1. 准确实现带封锁隔离期（Embargo）的 Walk-Forward 滚动切分生成器 (1.5分)；
-  2. 准确构建树模型滚动训练与样本外预测拼接流水线 (1.5分)；
-  3. 准确计算样本外 Rank IC、特征重要性与多空年化超额 (1分)；
-- Q1~Q3 问答题各 2 分（共 6 分）：必须从时序因果链、特征重叠机制与金融可解释性展开；
-- 通过线：8/10 分。一票否决：出现测试集时间先于训练集的反向泄露、删除断言校验。
+- 代码 4 分：时序 Purged & Embargoed 滚动切分生成器 (2分) + 随机森林/GBDT 因子集成与样本外验证 (2分)
+- Q1~Q3 深度思考题各 2 分（共 6 分）：从时序交叉验证、特征非线性交互与过拟合数学惩罚展开
+- 通过线：8/10 分。一票否决：交叉验证存在时间倒流前视泄漏、样本外 Rank IC 计算错误
 """
 
 from typing import List, Tuple, Dict, Any

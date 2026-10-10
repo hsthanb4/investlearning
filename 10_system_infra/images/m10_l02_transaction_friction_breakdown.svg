@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="28" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">中国 A 股全套法定交易税费与微观滑点漏斗</text>
+
+  <!-- Fee Funnel Cards -->
+  <!-- 1. Broker Commission -->
+  <g transform="translate(50, 60)">
+    <rect width="150" height="135" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <rect width="150" height="24" rx="6" fill="#486A7D"/>
+    <text x="75" y="17" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">券商佣金 Commission</text>
+    <text x="75" y="55" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#486A7D" text-anchor="middle">万分之 2.5</text>
+    <text x="75" y="75" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">双边征收 (买+卖)</text>
+    <rect x="15" y="90" width="120" height="30" rx="3" fill="#FDF0ED" stroke="#CC5A36" stroke-width="1"/>
+    <text x="75" y="110" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">最低 5 元门槛!</text>
+  </g>
+
+  <!-- 2. Transfer Fee -->
+  <g transform="translate(220, 60)">
+    <rect width="140" height="135" rx="6" fill="#FFFFFF" stroke="#5F7355" stroke-width="1.5"/>
+    <rect width="140" height="24" rx="6" fill="#5F7355"/>
+    <text x="70" y="17" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">过户费 Transfer</text>
+    <text x="70" y="55" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#5F7355" text-anchor="middle">十万分之一</text>
+    <text x="70" y="75" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">(0.001%)</text>
+    <text x="70" y="105" font-family="Inter, sans-serif" font-size="10" fill="#1F1E1B" text-anchor="middle">中登公司双边收取</text>
+  </g>
+
+  <!-- 3. Stamp Duty -->
+  <g transform="translate(380, 60)">
+    <rect width="150" height="135" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+    <rect width="150" height="24" rx="6" fill="#CC5A36"/>
+    <text x="75" y="17" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">印花税 Stamp Duty</text>
+    <text x="75" y="55" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">千分之 0.5 (0.05%)</text>
+    <text x="75" y="75" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">单边征收 (仅卖出)</text>
+    <text x="75" y="105" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#5F7355" text-anchor="middle">买入免征印花税</text>
+  </g>
+
+  <!-- 4. Slippage -->
+  <g transform="translate(550, 60)">
+    <rect width="160" height="135" rx="6" fill="#FFFFFF" stroke="#1F1E1B" stroke-width="1.5"/>
+    <rect width="160" height="24" rx="6" fill="#1F1E1B"/>
+    <text x="80" y="17" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">微观冲击滑点</text>
+    <text x="80" y="55" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1F1E1B" text-anchor="middle">Slippage = Base</text>
+    <text x="80" y="75" font-family="JetBrains Mono, monospace" font-size="10" fill="#1F1E1B" text-anchor="middle">+ η · √(Vol/BarVol)</text>
+    <text x="80" y="105" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="middle">买入上滑 / 卖出下滑</text>
+  </g>
+
+  <!-- Bottom Tip -->
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">高频策略年化换手率高达 50~100 倍时，微小的费率与冲击低估将在实盘中将全部超额收益啃食殆尽</text>
+</svg>

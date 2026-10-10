@@ -1,65 +1,101 @@
 r"""
 ================================================================================
 模块 06：现代投资组合理论与仓位风控算法 · 第 1/5 课
-第 1 课：马科维茨均值-方差模型、有效前沿与最大夏普组合 (Markowitz MVO)
+第 1 课：马科维茨均值-方差理论 (MVO) 与有效前沿求解 (Markowitz Efficient Frontier)
 ================================================================================
 
 【课程定位与第一性原理】
-Harry Markowitz 在 1952 年发表的《Portfolio Selection》奠定了现代投资组合理论（MPT）的数理基石。
-在此之前，投资者仅关注单项资产的预期收益，而忽视了资产之间的联动结构。
-MPT 的第一性原理：
-1. 单个资产的风险无法在孤立中评估，组合的整体风险取决于资产两两之间的**协方差（Covariance）**；
-2. 只要资产之间的相关系数 $\rho < 1.0$，非完全相关的分散化配置就能消灭个股特质方差，
-   实现在不牺牲组合预期收益的前提下大幅压降总波动率；
-3. **有效前沿（Efficient Frontier）**：在给定期望收益水平下使得方差最小化（或在给定风险下最大化收益）
-   的所有最优权重组合在“风险-收益”平面构成的凸双曲线轨迹；
-4. **切线组合（Tangency Portfolio / 最大夏普组合）**：在引入无风险利率 $r_f$ 后，从 $(0, r_f)$ 点出发
-   与有效前沿相切的切线（资本资产配置线 CAL）的切点组合，拥有全市场最高的夏普比率（Sharpe Ratio）。
+哈里·马科维茨（Harry Markowitz 1952）现代投资组合理论（Modern Portfolio Theory, MPT）
+是量化资产配置历史上的奠基之石。它首次以严格数学语言证明了：
+投资组合的风险不等于各个单资产风险的简单线性加权，通过资产间的非完全相关性（$\rho < 1$），
+分散化投资能够作为全金融市场中唯一的“免费午餐（Free Lunch）”，在不牺牲预期回报的前提下压缩总方差。
 
-【核心数理模型】
-设资产池包含 $N$ 项资产，预期收益率向量为 $\mu \in \mathbb{R}^N$，单期协方差矩阵为 $\Sigma \in \mathbb{R}^{N \times N}$。
-投资组合权重向量 $w \in \mathbb{R}^N$，满足非负无做空约束 $w_i \ge 0$ 及资金全仓约束 $\sum_{i=1}^N w_i = 1$。
-- 组合预期收益率：
-  $$\mathbb{E}[R_p] = w^T \mu = \sum_{i=1}^N w_i \mu_i$$
-- 组合方差与波动率：
-  $$\sigma_p^2 = w^T \Sigma w = \sum_{i=1}^N \sum_{j=1}^N w_i w_j \sigma_{ij}, \quad \sigma_p = \sqrt{w^T \Sigma w}$$
-- 最大夏普比率二次规划问题：
-  $$\max_{w} \frac{w^T \mu - r_f}{\sqrt{w^T \Sigma w}} \quad \text{s.t.} \quad \sum_{i=1}^N w_i = 1, \; w_i \ge 0$$
-- 全球最小方差组合（Global Minimum Variance, GMV）：
-  $$\min_{w} \frac{1}{2} w^T \Sigma w \quad \text{s.t.} \quad \sum_{i=1}^N w_i = 1, \; w_i \ge 0$$
+- **[两基金分离定理与切点组合]**：在引入无风险借贷利率 $R_f$ 后，所有理性投资者的有效前沿坍缩为一条唯一的资本市场线（CML），其与双曲线前沿的切点即为最大夏普比率组合。
+- **[二次规划 (QP) 凸优化求解]**：在禁止做空（$w_i \ge 0$）与满仓预算（$\sum w_i = 1$）约束下，有效前沿是典型的严格凸二次规划问题，收敛于全局唯一最优解。
+- **[误差放大器 (Error Maximizer) 现实缺陷]**：由于输入预期收益率 $\mu$ 极其难以准确估计，协方差矩阵求逆运算会放大估计噪音，必须引入权重上限或收缩估计治理。
 
-【核心流程与心智模型】
-```mermaid
-flowchart TD
-    AssetData["大类资产历史收益序列 [Equity, Bond, Commodity, Gold]"] --> CovMatrix["计算历史收益协方差矩阵 Sigma 与期望收益向量 mu"]
-    CovMatrix --> GMV_Solve["二次规划求解全球最小方差组合 GMV: min w^T Sigma w"]
-    CovMatrix --> MaxSharpe_Solve["二次规划求解最大夏普切线组合: max (w^T mu - rf) / sigma_p"]
-    GMV_Solve --> FrontierGen["在收益区间 [R_min, R_max] 内线性插值生成 N 个目标收益率"]
-    FrontierGen --> TargetVar["约束规划: min w^T Sigma w  s.t.  w^T mu = R_target"]
-    TargetVar --> Curve["绘制风险-收益有效前沿 (Efficient Frontier) 上半支双曲线"]
-```
+【核心概念与就近图文排版】
 
-【工业界实战场景与风控陷阱】
-1. “错误放大器（Error Maximizer）”陷阱：
-   Richard Michaud (1989) 证明，传统 MVO 会将绝大多数资金分配给历史样本中因随机游走而收益高估、方差低估的资产，
-   导致样本外实际表现灾难性溃败。工业界通常对协方差矩阵使用 Ledoit-Wolf 收缩估计，对收益率引入 Black-Litterman 贝叶斯先验。
-2. 协方差矩阵病态条件数与奇异性（Ill-conditioned Matrix）：
-   当资产数量接近或大于样本期数时（$N \approx T$），样本协方差矩阵极易接近奇异，导致求逆或优化震荡。
-3. 索提诺比率（Sortino Ratio）与下行风险：
-   夏普比率假设正态分布，对向上的暴涨波动同样施加惩罚；在非对称期权或趋势跟踪资产配置中，应结合下行波动率进行优化。
+1. 有效前沿双曲线与资本市场线 CML：
+观察下图关于全局最小方差组合 (GMV)、有效前沿上支与无风险利率切点组合 (Max Sharpe) 拓扑几何：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 6.1.1：马科维茨有效前沿 (Efficient Frontier) 与资本市场线 (CML) 切点模型</span>
+    <span class="diagram-tag">MARKOWITZ-MVO</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m06_l01_efficient_frontier_cml.svg -->
+  </div>
+</div>
+
+- **[可行投资组合集 (Feasible Set)]**：所有权重合法组合构成的紧凑凸集，其最左侧外边缘构成投资组合双曲线前沿。
+- **[全局最小方差组合 GMV]**：前沿最左端的顶点，代表在不考虑预期收益率约束下组合能达到的绝对最低波动率。
+- **[有效前沿上支 (Efficient Frontier)]**：GMV 以上的凸边界曲线；对于相同的波动率，上支提供严格更高的预期收益率，下半支为劣解。
+
+2. 二次规划求解等高椭圆与约束超平面：
+下图展示了均值-方差凸优化在权重单纯形与协方差等高椭圆上的几何投影：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 6.1.2：二次规划 (QP) 求解几何拓扑：凸优化等高椭圆与单纯形约束面</span>
+    <span class="diagram-tag">CONVEX-OPTIMIZATION</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m06_l01_quadratic_programming_geometry.svg -->
+  </div>
+</div>
+
+- **[等方差椭圆轮廓线]**：目标函数 $\frac{1}{2} w^T \Sigma w$ 在权重空间中形成一组以原点或无约束极值点为中心的同心同轴椭球。
+- **[线性单纯形约束超平面]**：$\sum w_i = 1$ 与 $w_i \ge 0$ 构成了多维多胞体可行域（Simplex）。
+- **[KKT 切点条件收敛]**：优化解发生在等高线椭球与单纯形可行域边界相切的切点位置，保证解的全局唯一性。
+
+3. 误差放大器效应与病态权重翻转：
+下图展示了预期收益率产生微小 $0.5\%$ 估计扰动时，无约束优化权重发生的剧烈病态翻转：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 6.1.3：马科维茨“误差放大器”(Error Maximizer) 效应与病态权重翻转</span>
+    <span class="diagram-tag">NUMERICAL-INSTABILITY</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m06_l01_error_maximization_instability.svg -->
+  </div>
+</div>
+
+- **[协方差矩阵求逆敏感性]**：无约束解析解 $w^* \propto \Sigma^{-1} (\mu - r \mathbf{1})$。条件数（Condition Number）过高时对 $\mu$ 的扰动极度放大。
+- **[极端权重荒谬配置]**：微调某个资产预期收益率，其配置权重可能从 50% 暴增至 92%，而另一个资产被动砍至 8%。
+- **[工程治理约束网]**：必须施加单资产上限（如 $w_i \le 15\%$）或对协方差矩阵使用 Ledoit-Wolf 收缩估计。
+
+<div class="callout callout-note">
+  <div class="callout-title">📌 投决会核心心智模型：分散化是全金融市场唯一的免费午餐</div>
+  <div class="callout-body">
+    只要资产间相关系数 $\rho < 1$，资产组合方差就必然严格小于加权单项方差之和。通过将低相关甚至负相关的资产（股票、国债、黄金、CTA）有机组合，组合能在完全不牺牲收益的前提下将波动率削减 30%~50%。
+  </div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ 投决会风控警示与认知陷阱</div>
+  <div class="callout-body">
+    严禁直接将未经正则化或未经收缩的原始历史收益率均值作为 $\mu$ 输入 MVO 优化器！对历史平均收益的盲信只会产生对过去赢家资产的过度杠杆集中配置，在风格反转时招致毁灭性打击。
+  </div>
+</div>
+
+【数学与优化模型】
+$$\min_{w} \frac{1}{2} w^T \Sigma w \quad \text{s.t.} \quad \mathbf{1}^T w = 1, \quad w_i \ge 0 \quad (\text{GMV 规划})$$
+$$\max_{w} \frac{w^T \mu - R_f}{\sqrt{w^T \Sigma w}} \quad \text{s.t.} \quad \mathbf{1}^T w = 1, \quad w_i \ge 0 \quad (\text{Max Sharpe 规划})$$
+$$\mu_p = w^T \mu, \quad \sigma_p = \sqrt{w^T \Sigma w}$$
+定义域：$\Sigma \succ 0 \text{ (严格正定)}, \quad w \in [0, 1]^N, \quad R_f \ge 0$。
 
 【思考题】
-Q1: 为什么实践中对历史协方差矩阵直接求逆（Markowitz 纯数学优化）会导致“极端畸变权重”（Error Maximizer）？如何用 Ledoit-Wolf 收缩估计进行修正？
-Q2: 什么是夏普比率（Sharpe Ratio）与索提诺比率（Sortino Ratio）的区别？为什么下行波动率（Downside Volatility）比总波动率更符合机构投资者的真实效用偏好？
-Q3: 为什么负相关的两项资产组合（$\rho < 0$）可以实现在预期收益不降的前提下大幅压低总方差？请从方差展开式推导证明“完全负相关下构建零方差组合”的数学条件。
+Q1: 托宾两基金分离定理（Tobin's Separation Theorem）与资本市场线（CML）第一性原理：为什么在引入无风险利率 $R_f$ 后，所有理性投资者的最优风险资产配置都会收敛到唯一的“切点组合（Tangency Portfolio / Max Sharpe）”？不同风险偏好的投资者如何通过借贷无风险资产实现效用最大化？
+Q2: 均值-方差优化“误差放大器（Error Maximizer）”假说：为什么理查德·米肖（Michaud）尖锐指出未加约束的 MVO 优化器实质是在“过度拟合收益率估计误差”？在协方差矩阵求逆 $\Sigma^{-1}$ 运算中，微小的输入预期收益率误差（如 $\Delta \mu = 0.5\%$）为何会导致最优权重发生高达 50% 以上的荒谬极端翻转？工程上如何通过收缩估计（Ledoit-Wolf Shrinkage）或黑石-利特曼（Black-Litterman）模型进行解耦？
+Q3: 卖空约束（No-Shorting Constraint）的凸优化非线性影响：当允许无限制做空时，MVO 有析出封闭解析解；而当施加 $w_i \ge 0$ 的非负权重约束时，为什么必须借助 Karush-Kuhn-Tucker (KKT) 条件或二次规划（QP）数值求解？卖空限制是如何将有效前沿向右下方推移并降低理论最大夏普的？
 
 【评分与通过规则】
-- 代码 4 分：
-  1. 准确实现投资组合预期收益与波动率计算函数 (1分)；
-  2. 准确实现全球最小方差组合（GMV）与最大夏普组合（Tangency）二次规划求解 (1.5分)；
-  3. 准确计算并生成有效前沿离散轨迹点集 (1.5分)；
-- Q1~Q3 问答题各 2 分（共 6 分）：必须从计量矩阵病态条件数、下行非对称效用与方差代数展开严格推导；
-- 通过线：8/10 分。一票否决：权重之和不为 1、出现未授权做空负权重、删除断言校验。
+- 代码 4 分：全局最小方差组合 GMV 求解 (1分) + 最大夏普切线组合求解 (1.5分) + 有效前沿生成器 (1.5分)
+- Q1~Q3 深度思考题各 2 分（共 6 分）：从两基金分离、误差放大器求逆数值不稳定性及凸优化 KKT 条件展开
+- 通过线：8/10 分。一票否决：权重之和不等于 1、有效前沿非单调
 """
 
 from typing import Tuple, Dict, Any, List

@@ -1,0 +1,29 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="26" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">除权除息机械跳空与累计前复权 (Backward Adjustment) 折算拓扑</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="205" x2="680" y2="205" stroke="#A6A095" stroke-width="1.5"/>
+  <line x1="80" y1="45" x2="80" y2="205" stroke="#A6A095" stroke-width="1.5"/>
+  <text x="680" y="220" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">时间 (交易日)</text>
+  <text x="70" y="55" font-family="Inter, sans-serif" font-size="10" fill="#7D786F" text-anchor="end">价格 (元)</text>
+
+  <!-- Raw Price (Broken Jump) - Terracotta -->
+  <polyline points="100,75 220,65 340,60" fill="none" stroke="#CC5A36" stroke-width="2"/>
+  <polyline points="340,140 480,135 640,120" fill="none" stroke="#CC5A36" stroke-width="2"/>
+  <!-- Gap annotation -->
+  <line x1="340" y1="60" x2="340" y2="140" stroke="#CC5A36" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="350" y="100" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#CC5A36">除权除息日跳空断层 (10送10+分红)</text>
+  <text x="220" y="55" font-family="JetBrains Mono, monospace" font-size="10" fill="#CC5A36">原始未复权 (Raw Price)</text>
+
+  <!-- Adjusted Price (Smooth Backward Adjusted) - Sage Green -->
+  <path d="M 100,148 L 220,143 L 340,140 L 480,135 L 640,120" fill="none" stroke="#5F7355" stroke-width="2.5"/>
+  <circle cx="640" cy="120" r="4" fill="#5F7355"/>
+  <text x="220" y="165" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#5F7355">累计前复权曲线 (连续无跳空)</text>
+  <text x="645" y="115" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#5F7355">最新市价保真 (因子=1.0)</text>
+
+  <!-- Formula Callout -->
+  <rect x="180" y="180" width="400" height="40" rx="5" fill="#FFFFFF" stroke="#486A7D" stroke-width="1"/>
+  <text x="380" y="200" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D" text-anchor="middle">P_adj(τ) = P_raw(τ) × Π_{k=τ+1}^T f_k,   f_k = P_ex / P_{close, k-1}</text>
+  <text x="380" y="215" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">技术指标与均线计算必须使用前复权，确保历史均线不因机械分红产生假死叉</text>
+</svg>

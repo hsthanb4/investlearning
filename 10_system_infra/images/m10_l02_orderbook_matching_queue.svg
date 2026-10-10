@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="260" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="380" y="26" font-family="Newsreader, Georgia, serif" font-size="15" font-weight="700" fill="#1F1E1B" text-anchor="middle">限价订单簿 (LOB) 微观排队撮合与参与率上限仿真</text>
+
+  <!-- Order Queue Container -->
+  <g transform="translate(60, 50)">
+    <rect width="320" height="150" rx="6" fill="#FFFFFF" stroke="#486A7D" stroke-width="1.5"/>
+    <text x="160" y="25" font-family="Newsreader, Georgia, serif" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">真实撮合队列 (价格优先、时间优先)</text>
+
+    <!-- Queue Items -->
+    <rect x="20" y="40" width="80" height="40" rx="3" fill="#EBF2ED" stroke="#5F7355" stroke-width="1"/>
+    <text x="60" y="58" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">头部大单</text>
+    <text x="60" y="72" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">优先成交</text>
+
+    <rect x="110" y="40" width="80" height="40" rx="3" fill="#EBF2ED" stroke="#5F7355" stroke-width="1"/>
+    <text x="150" y="58" font-family="JetBrains Mono, monospace" font-size="10" fill="#5F7355" text-anchor="middle">机构挂单</text>
+    <text x="150" y="72" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">排队中...</text>
+
+    <rect x="200" y="40" width="100" height="40" rx="3" fill="#FDF0ED" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="250" y="58" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#CC5A36" text-anchor="middle">策略买单 (队尾)</text>
+    <text x="250" y="72" font-family="Inter, sans-serif" font-size="9" fill="#CC5A36" text-anchor="middle">容量不足部分成交</text>
+
+    <text x="160" y="115" font-family="JetBrains Mono, monospace" font-size="10" fill="#486A7D" text-anchor="middle">Bar 参与率上限 α = 10% ~ 15%</text>
+    <text x="160" y="132" font-family="Inter, sans-serif" font-size="9" fill="#7D786F" text-anchor="middle">单 Bar 成交量 ≤ α × Bar_Volume，严禁瞬时全额吃单</text>
+  </g>
+
+  <!-- Extreme Scenarios: Limit-Up & Limit-Down -->
+  <g transform="translate(420, 50)">
+    <rect width="280" height="150" rx="6" fill="#FFFFFF" stroke="#CC5A36" stroke-width="1.5"/>
+    <text x="140" y="25" font-family="Newsreader, Georgia, serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">涨跌停板与停牌极端物理约束</text>
+
+    <rect x="20" y="40" width="240" height="30" rx="3" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1"/>
+    <text x="30" y="58" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#CC5A36">一字涨停板 (Limit Up):</text>
+    <text x="250" y="58" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">买单成交量 ≡ 0</text>
+
+    <rect x="20" y="75" width="240" height="30" rx="3" fill="#FAF8F5" stroke="#CC5A36" stroke-width="1"/>
+    <text x="30" y="93" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#CC5A36">一字跌停板 (Limit Down):</text>
+    <text x="250" y="93" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">卖单出逃量 ≡ 0</text>
+
+    <rect x="20" y="110" width="240" height="30" rx="3" fill="#FAF8F5" stroke="#486A7D" stroke-width="1"/>
+    <text x="30" y="128" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#486A7D">股票停牌 (Suspended):</text>
+    <text x="250" y="128" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">所有撮合一律拒绝</text>
+  </g>
+
+  <!-- Bottom Tip -->
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">回测引擎若允许跌停板市价轻松止损，实盘面对无法平仓的连续补跌将遭遇毁灭性破产</text>
+</svg>

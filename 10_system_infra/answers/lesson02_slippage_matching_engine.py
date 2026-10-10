@@ -1,8 +1,107 @@
-"""
+r"""
 ================================================================================
-模块 10：量化回测引擎避坑指南与实盘系统工程 · 第 2/4 课
-第 2 课：真实微观撮合仿真：滑点、排队模型与交易摩擦成本【参考实现】
+模块 10：量化回测避坑指南与实盘系统工程 · 第 2/4 课
+第 2 课：真实微观撮合仿真：滑点、排队模型与交易摩擦成本 (参考答案版)
 ================================================================================
+
+【课程定位与投决会核心心智模型】
+::: callout-note
+### 📌 投决会核心心智模型：零滑点与无限流动性是回测中最隐蔽的自欺欺人
+业余量化回测最致命的玩具级假设有二：“零滑点无限流动性”与“静态无门槛交易费”。现实中，任何策略指令送入交易所订单簿（LOB）都必须经历物理排队与对手盘消耗。大额订单不可避免地产生非线性市场冲击（Market Impact）；而中国 A 股特有的“券商佣金最低 5 元”、“双边十万分之一过户费”、“卖出单向千分之零点五印花税”以及涨跌停一字封板不可成交，共同构成了侵蚀高频高换手策略真实收益的摩擦黑洞。
+:::
+
+- **[平方根市场冲击定律（Square-Root Law）]**：根据 Almgren-Chriss 与微观结构理论，市场冲击成本与订单量占 Bar 成交量的平方根成正比。资金规模越大，单位滑点呈非线性加速恶化。
+- **[订单排队与容量上限截断]**：在限价订单簿中，单 Bar 撮合量受制于参与率上限（通常 $\alpha = 10\% \sim 15\%$）。超过容量的订单必须部分成交（Partial Fill）并结转至下一 Bar，严禁瞬时全额无感吃单。
+- **[极端行情物理封死判定]**：一字涨停板买单封死（成交为 0）、一字跌停板卖单封死（出逃为 0）、停牌拒绝撮合；任何假设在跌停板能够自由市价止损的回测均为造假。
+
+【微观机理与三位一体就近图文剖析】
+
+锚点指引：下图展示了限价订单簿（LOB）微观排队机制与参与率上限截断流程。
+
+```mermaid
+flowchart TD
+    Order["策略提交大额订单 (Order Volume)"] --> Check{"检查 Bar 状态与流动性"}
+    Check -->|停牌 Volume=0 或 is_suspended| Reject["拒单: SUSPENSION (无法成交)"]
+    Check -->|一字涨停且买入 / 一字跌停且卖出| LimitLock["拒单: LIMIT_LOCK (封板排队在队尾)"]
+    Check -->|正常连续交易| Match["计算容量上限: Available = Bar_Volume × α (10%)"]
+    Match --> Fill["本次成交 = min(剩余委托量, Available) ➔ 剩余结转下一期"]
+```
+
+- **[要点 1：价格优先与时间优先的残酷性]**：当策略大单到达盘口时，队列前排早已堆积了做市商与快速通道挂单，策略订单排在队尾无法瞬时消化。
+- **[要点 2：参与率上限防范自成交易]**：若某股票 1 分钟仅成交 500 手，策略下单 2000 手若全部以当前价成交，本质是凭空虚构了 1500 手对手盘流动性。
+- **[要点 3：部分成交状态流转]**：未成交部分保持 `PARTIALLY_FILLED` 状态，随时间序列推移继续等待后续 Bar 的流动性释放。
+
+锚点指引：下图拆解了 A 股全套法定交易税费漏斗与非线性冲击滑点构成。
+
+```mermaid
+flowchart LR
+    Trade["单笔成交金额 Amount = P_exec × Q_fill"] --> Fee1["券商佣金: max(5.0, Amount × 0.00025) [双边]"]
+    Trade --> Fee2["过户费: Amount × 0.00001 [双边]"]
+    Trade --> Fee3["印花税: Amount × 0.0005 [仅卖出]"]
+    Trade --> Slip["冲击滑点: Amount × [Base_Slippage + η·√(Q_fill / Bar_Vol)]"]
+    Fee1 & Fee2 & Fee3 & Slip --> Total["总摩擦损耗 Total Friction = 佣金 + 过户费 + 印花税 + 滑点"]
+```
+
+- **[要点 1：最低 5 元佣金的散户刺客]**：高频小单交易中，数千元成交额的实际佣金率可能高达千分之二（5元 / 2500元），远超名义万 2.5。
+- **[要点 2：印花税的单边惩罚]**：卖出时万分之五的印花税属于不可避免的财政硬扣税，直接抬高了每一次换仓的获利门槛。
+- **[要点 3：平方根滑点的资金容量天花板]**：随着策略资产规模膨胀，滑点开销呈超线性上升，导致策略出现著名的“规模是 Alpha 的敌人”容量衰竭。
+
+【数学与估值模型】
+真实 A 股微观撮合成交价与滑点公式（Almgren-Chriss）：
+$$
+\text{Slippage} = \text{Base\_Slippage} + \eta \cdot \sqrt{\frac{\text{Order\_Volume}}{\text{Bar\_Volume}}}
+$$
+$$
+P_{\text{exec}} = \begin{cases}
+P_{\text{bench}} \times (1 + \text{Slippage}), & \text{Direction} = \text{'BUY'} \\
+P_{\text{bench}} \times (1 - \text{Slippage}), & \text{Direction} = \text{'SELL'}
+\end{cases}
+$$
+变量定义域与参数约束：
+- $\text{Base\_Slippage} \in [0.0001, 0.0005]$：通常设为 $0.0002$（2 bps，覆盖买卖最小跳价差）；
+- $\eta \in [0.02, 0.15]$：市场冲击敏感系数，日频大盘取 $0.03$，分钟频小盘取 $0.08$；
+- $\text{Fill\_Volume} \le \text{Bar\_Volume} \times \alpha$，$\alpha \in [0.05, 0.15]$。
+
+A 股法定交易税费方程：
+$$
+\text{Commission} = \max(5.0, \; \text{Trade\_Amount} \times 0.00025)
+$$
+$$
+\text{Transfer\_Fee} = \text{Trade\_Amount} \times 0.00001
+$$
+$$
+\text{Stamp\_Duty} = \begin{cases}
+\text{Trade\_Amount} \times 0.0005, & \text{Direction} = \text{'SELL'} \\
+0.0, & \text{Direction} = \text{'BUY'}
+\end{cases}
+$$
+
+::: callout-warning
+### ⚠️ 投决会风控红线与认知陷阱防范
+1. **高换手率的摩擦复利吞噬**：年化单边换手率 50 倍的策略，一年仅手续费与双边滑点即可吞噬 10%~15% 的总收益，回测中未加税费的高夏普属于虚无泡沫。
+2. **限价单逆向选择（Adverse Selection）**：回测中挂单买入若轻易全额成交，实盘中通常意味着有剧烈的大卖单正在向下击穿盘口，成交后大概率立即面临浮亏。
+3. **停牌与一字跌停不可撤销**：持有标的一旦暴雷停牌或一字跌停封死，实盘中卖单只能排在数亿封单队尾，回测中任何当日平仓成功的记录一律视为严重合规事故。
+:::
+
+【思考题】
+Q1: 为什么小市值高换手策略（例如年化单边换手率 50~100 倍）在扣除万分之五滑点与真实交易成本后，纸面上 80% 的年化超额收益往往会断崖式暴跌至负收益？请从摩擦成本复利损耗的角度定量推导。
+Q2: 在基于分钟 Bar 的事件驱动回测中，如果某个 Bar 内限价买单价格为 10.20 元，而该 Bar 的价格区间为 [Low=10.00, High=10.50]，真实市场成交量仅为 500 手（50,000 股），策略下单量为 2,000 手（200,000 股）。为什么绝不能允许这 2,000 手在当前 Bar 全部以 10.20 元成交？如何设计合理的局部成交与排队结转机制？
+Q3: 什么是撮合中的“逆向选择（Adverse Selection）”？为什么在回测中限价单（Limit Order）成交往往意味着当前行情正朝着对该订单不利的方向剧烈运动？如何在仿真中刻画这一微观结构现象？
+
+【Q1 深度参考答案】
+- **[单笔全流程摩擦成本分解]**：一次完整的买入+卖出换仓，其不可规避的法定税费与微观滑点包含：双边券商佣金（$0.025\% \times 2 = 0.05\%$）、单向卖出印花税（$0.05\%$）、双边过户费（$0.001\% \times 2 = 0.002\%$）以及双边冲击滑点（假设保守取各 $0.05\% \times 2 = 0.10\%$）。单次换仓全摩擦成本约为 $0.202\%$。
+- **[高换手率下的复利磨损放大]**：若策略年化单边换手率为 50 倍（即一年换仓 50 次），仅摩擦成本在时间序列上的机械性扣除就高达 $50 \times 0.202\% = 10.10\%$；若年化换手率达到 100 倍且规模较大导致滑点升至 $0.1\%$，摩擦损耗将飙升至 $25\% \sim 30\%$。
+- **[容量天花板与 Alpha 衰减]**：当策略规模扩大时，冲击滑点呈 $O(\sqrt{\text{Size}})$ 非线性膨胀，而总超额收益仅呈常数或衰减，边际摩擦成本迅速抹平全部纸面 Alpha，导致实盘净利润断崖式归零。
+
+【Q2 深度参考答案】
+- **[物理流动性承载力违背]**：若整个分钟 Bar 市场真实总成交仅有 500 手，代表在 $[10.00, 10.50]$ 整个价格带上全市场所有参与者的博弈总和仅为 500 手。若允许策略单笔瞬时吃下 2000 手，相当于策略在回测中虚构了多达 1500 手的凭空对手盘流动性。
+- **[参与率上限（Participation Cap）截断]**：工业级事件驱动引擎必须强制设定单 Bar 参与率上限（通常 $\alpha = 10\%$）。本例中该 Bar 最多撮合 $500 \times 10\% = 50$ 手，成交状态置为 `PARTIALLY_FILLED`。
+- **[跨期排队结转架构（Order Walk-Forward）]**：剩余 1950 手作为在途活动委托留在撮合队列中。在下一分钟 Bar 到来时，重新判定价格区间（是否仍在 10.20 元以内）并根据新 Bar 的成交量配额继续撮合，直到全额成交或超时撤单。
+
+【Q3 深度参考答案】
+- **[做市商与限价单的逆向选择机制]**：作为流动性提供者（Maker）在盘口挂出限价买单，该订单被成交的充要条件是有知情交易者或激进的主动市价卖单（Taker）向下扫盘。当限价买单成交时，通常伴随着空头动量极强的毒性订单流（Toxic Flow），价格大概率会继续向下击穿。
+- **[回测中盲目假设触价即成的偏误]**：如果价格仅仅触及委托价 10.20 元便立刻反弹，实盘中该限价单排在队列末尾大概率根本无法成交；回测若判定成交，则严重高估了逢低买入的成功率。
+- **[微观仿真刻画方案]**：在 Bar 级撮合中引入“深度穿越阈值”或“逆向滑点惩罚”：仅当后续最低价显著低于委托价（例如 $P_{\text{low}} < P_{\text{limit}} - \text{TickSize}$）且成交量超过该挂单规模数倍时，才确认订单成交，以精准拟合微观结构中的逆向选择成本。
 """
 
 from dataclasses import dataclass
@@ -61,13 +160,13 @@ class EventDrivenMatchingEngine:
 
     def __init__(
         self,
-        commission_rate: float = 0.00025,   # 佣金率 万分之2.5
-        min_commission: float = 5.0,        # 佣金最低 5 元
-        transfer_fee_rate: float = 0.00001, # 过户费率 十万分之一 (0.001%)
-        stamp_duty_rate: float = 0.0005,    # 印花税率 千分之0.5 (仅卖出)
-        base_slippage: float = 0.0002,      # 基础固定滑点 2 bps
-        impact_coef: float = 0.08,          # 平方根冲击系数
-        max_volume_ratio: float = 0.10      # 单 Bar 最大成交量参与率上限 10%
+        commission_rate: float = 0.00025,
+        min_commission: float = 5.0,
+        transfer_fee_rate: float = 0.00001,
+        stamp_duty_rate: float = 0.0005,
+        base_slippage: float = 0.0002,
+        impact_coef: float = 0.05,
+        max_volume_ratio: float = 0.10
     ):
         self.commission_rate = commission_rate
         self.min_commission = min_commission
@@ -79,41 +178,45 @@ class EventDrivenMatchingEngine:
 
     def calculate_transaction_fees(self, trade_amount: float, direction: str) -> Tuple[float, float, float]:
         """
-        计算交易法定规费:
-        返回: (commission, transfer_fee, stamp_duty)
-        - commission: max(min_commission, trade_amount * commission_rate)
-        - transfer_fee: trade_amount * transfer_fee_rate
-        - stamp_duty: trade_amount * stamp_duty_rate (仅当 direction == 'SELL' 时征收，BUY 为 0)
+        计算法定交易规费：
+        1. 券商佣金 (双边，最低 5 元)
+        2. 过户费 (双边)
+        3. 印花税 (仅卖出)
         """
-        commission = max(self.min_commission, trade_amount * self.commission_rate)
+        raw_comm = trade_amount * self.commission_rate
+        commission = max(self.min_commission, raw_comm) if trade_amount > 0 else 0.0
         transfer_fee = trade_amount * self.transfer_fee_rate
-        stamp_duty = trade_amount * self.stamp_duty_rate if direction == "SELL" else 0.0
+        stamp_duty = trade_amount * self.stamp_duty_rate if direction.upper() == 'SELL' else 0.0
         return commission, transfer_fee, stamp_duty
 
     def calculate_impact_slippage(
         self,
         benchmark_price: float,
         direction: str,
-        fill_volume: int,
+        order_volume: int,
         bar_volume: int
     ) -> Tuple[float, float]:
         """
-        基于平方根定律 (Square-Root Law) 计算非线性冲击滑点与实际执行价格
+        计算平方根市场冲击滑点。
         """
-        vol_ratio = fill_volume / max(bar_volume, 1)
-        slippage_pct = self.base_slippage + self.impact_coef * math.sqrt(vol_ratio)
+        if bar_volume <= 0 or order_volume <= 0:
+            return benchmark_price, 0.0
 
-        if direction == "BUY":
-            executed_price = benchmark_price * (1.0 + slippage_pct)
+        part_ratio = order_volume / bar_volume
+        slippage_rate = self.base_slippage + self.impact_coef * math.sqrt(part_ratio)
+
+        if direction.upper() == 'BUY':
+            exec_price = benchmark_price * (1.0 + slippage_rate)
+            slippage_cost = (exec_price - benchmark_price) * order_volume
         else:
-            executed_price = benchmark_price * (1.0 - slippage_pct)
+            exec_price = benchmark_price * (1.0 - slippage_rate)
+            slippage_cost = (benchmark_price - exec_price) * order_volume
 
-        slippage_cost = abs(executed_price - benchmark_price) * fill_volume
-        return executed_price, slippage_cost
+        return exec_price, slippage_cost
 
     def match(self, order: Order, bar: BarData) -> ExecutionReport:
         """
-        核心撮合内核实现
+        执行单 Bar 粒度事件撮合逻辑。
         """
         rem_before = order.volume - order.filled_volume
 
@@ -122,7 +225,7 @@ class EventDrivenMatchingEngine:
             order.status = "REJECTED"
             return ExecutionReport(
                 order_id=order.order_id,
-                status="REJECTED",
+                status=order.status,
                 filled_this_bar=0,
                 cumulative_filled=order.filled_volume,
                 remaining_volume=rem_before,
@@ -135,21 +238,7 @@ class EventDrivenMatchingEngine:
             )
 
         # 2. 涨跌停封板流动性截断
-        if order.direction == "BUY" and bar.low >= bar.limit_up:
-            return ExecutionReport(
-                order_id=order.order_id,
-                status=order.status,
-                filled_this_bar=0,
-                cumulative_filled=order.filled_volume,
-                remaining_volume=rem_before,
-                executed_price=0.0,
-                commission=0.0,
-                transfer_fee=0.0,
-                stamp_duty=0.0,
-                slippage_cost=0.0,
-                total_friction=0.0
-            )
-        if order.direction == "SELL" and bar.high <= bar.limit_down:
+        if order.direction == "BUY" and bar.low >= bar.limit_up and bar.high >= bar.limit_up:
             return ExecutionReport(
                 order_id=order.order_id,
                 status=order.status,
@@ -164,7 +253,22 @@ class EventDrivenMatchingEngine:
                 total_friction=0.0
             )
 
-        # 3. 限价单价格未触及判定
+        if order.direction == "SELL" and bar.low <= bar.limit_down and bar.high <= bar.limit_down:
+            return ExecutionReport(
+                order_id=order.order_id,
+                status=order.status,
+                filled_this_bar=0,
+                cumulative_filled=order.filled_volume,
+                remaining_volume=rem_before,
+                executed_price=0.0,
+                commission=0.0,
+                transfer_fee=0.0,
+                stamp_duty=0.0,
+                slippage_cost=0.0,
+                total_friction=0.0
+            )
+
+        # 3. 限价单触价判定
         if order.order_type == "LIMIT":
             if order.direction == "BUY" and bar.low > order.price:
                 return ExecutionReport(
@@ -259,7 +363,6 @@ class EventDrivenMatchingEngine:
 # ==============================================================================
 # 自动化测试与参考答案解析
 # ==============================================================================
-
 if __name__ == "__main__":
     print("正在运行 10_system_infra / Lesson 02 参考实现断言验证...")
 
@@ -335,32 +438,3 @@ if __name__ == "__main__":
     assert rep_hit.remaining_volume == 0
 
     print("Lesson 02 参考实现全部断言通过 (Exit Code 0)！\n")
-
-    print("=" * 80)
-    print("【思考题标准答案深度解析 (Q1 ~ Q3)】")
-    print("=" * 80)
-    print("Q1 解析:")
-    print("  (1) 摩擦成本对高换手策略的复利毁灭：")
-    print("      假设策略单边年换手率为 50 倍（双边 100 次买卖）。每次买入+卖出的单次全摩擦成本约为：")
-    print("      双边佣金 (0.025% * 2) + 卖出印花税 (0.05%) + 双边过户费 (0.001% * 2) + 双边滑点 (0.05% * 2) ≈ 0.202%。")
-    print("      一年仅交易成本总损耗就高达：50 × 0.202% ≈ 10.10%！若滑点因规模扩大上升至 0.1%，年化损耗将飙升至 15%~20%。")
-    print("  (2) 资金容量 (Capacity) 惩罚推导：")
-    print("      根据 Square-Root 冲击定律，滑点成本随交易规模增长以 $O(\\sqrt{Capital})$ 乃至超线性增长，而策略的纯 Alpha 收益")
-    print("      随资金规模仅呈常数或次线性增长。当资金规模达到临界阈值时，边际摩擦成本将完全吞噬边际超额，导致净夏普比率迅速归零。")
-    print("-" * 80)
-    print("Q2 解析:")
-    print("  (1) 物理现实违背：如果一个 Bar 的总成交量仅有 500 手，说明在 10.00 到 10.50 整个价格带上，市场上所有参与者")
-    print("      累计成交才 500 手。若允许策略一人瞬间买入 2,000 手，相当于策略创造了不存在的对手盘，是极端的伪流动性。")
-    print("  (2) 参与率截断与排队结转机制：")
-    print("      工业级回测引擎必须强制实施参与率上限（Participation Cap, 常用 10%）。")
-    print("      本例中该 Bar 最多成交 500 × 10% = 50 手，剩余 1,950 手作为未完成订单保留在撮合引擎等待队列中。")
-    print("      在下一个分钟 Bar 到来时，重新判定价格条件与容量，实现连续部分成交（Partial Fill Walk-Forward）。")
-    print("-" * 80)
-    print("Q3 解析:")
-    print("  (1) 逆向选择效应 (Adverse Selection)：")
-    print("      在限价订单簿中，作为流动性提供者（Maker）挂单买入，当且仅当市场上有更激进的主动大卖单砸盘时，你的买单才会被吃掉。")
-    print("      这意味着：当你的限价买单成交时，往往预示着空头动量极强，短期价格极大概率会继续向下击穿你的买价。")
-    print("  (2) 回测仿真刻画：")
-    print("      不能假设限价单永远以委托价成交；工业引擎中常引入'逆向滑点惩罚'或'成交概率衰减函数'：")
-    print("      当行情仅触及委托价即反弹时，判定未排到队；只有当后续成交量充分穿越委托价达一定深度时，才确认成交。")
-    print("=" * 80)

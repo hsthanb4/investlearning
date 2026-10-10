@@ -1,78 +1,106 @@
 r"""
 ================================================================================
 模块 06：现代投资组合理论与仓位风控算法 · 第 4/5 课
-第 4 课：风险价值 (VaR)、条件风险价值 (CVaR) 与动态回撤熔断控制
+第 4 课：风险价值 (VaR)、条件风险价值 (CVaR) 与动态回撤熔断控制 (VaR, CVaR & Drawdown Sentinel)
 ================================================================================
 
 【课程定位与第一性原理】
-在现代金融机构风控与对冲基金资本充足率监管体系中，波动率（$\sigma_p$）已不足以衡量非对称的左侧极端尾部损失。
-巴塞尔协议（Basel Accords）确立了两大核心风险度量标准：
+在现代金融机构监管与量化资管资本充足率评价中，波动率（$\sigma_p$）已不足以刻画非对称的左侧极端尾部损失。
+巴塞尔协议（Basel Accords）确立了两大核心风险度量标准：风险价值（VaR）与条件风险价值（CVaR / Expected Shortfall）。
+投资委员会在审视量化产品风控底线时，必须穿透高斯正态假设在极端黑天鹅面前的虚伪粉饰，
+建立一致性风险度量与基于历史最高水位线（High-Water Mark, HWM）的动态阶梯式熔断断路器。
 
-1. 风险价值（Value at Risk, VaR）：
-   - 在置信水平 $1 - \alpha$（如 95% 或 99%）及持有期 $\Delta t$ 内，组合预期发生的最大潜在损失：
-     $$P(\text{Loss} \le \text{VaR}_{\alpha}) = 1 - \alpha \iff P(R \le -\text{VaR}_{\alpha}) = \alpha$$
-   - **致命缺陷（Artzner et al. 1999）**：
-     - **黑天鹅盲区**：VaR 仅回答了“在 95% 的正常情况下最坏亏损是多少”，却完全无法回答“在剩下 5% 的黑天鹅灾难发生时究竟会亏损多少”；
-     - **非一致性风险度量（Non-subadditive）**：VaR 不满足次可加性公理 $\rho(X + Y) \le \rho(X) + \rho(Y)$。
-       在特定非线性期权或极度肥尾组合中，分散化组合的 VaR 可能会大于单资产 VaR 之和，违背了投资学常识。
+- **[VaR 的黑天鹅盲区与次可加性失效]**：VaR 仅度量分位数阈值，对击穿阈值后的损失深浅完全失明，且在非线性资产中不满足次可加性公理。
+- **[CVaR 的一致性风险度量优越性]**：CVaR 积分计算击穿 VaR 后的条件期望损失，严格满足凸性与次可加性公理，已成为巴塞尔协议 III 的绝对基准。
+- **[动态高水位哨兵与熔断断路器]**：逐日追踪历史最高净值峰值与回撤深度，实施“-5% 一级预警降半仓、-10% 二级硬熔断冷冻”的严格因果风控纪律。
 
-2. 条件风险价值（Conditional VaR / Expected Shortfall, CVaR）：
-   - 一旦损失击穿 VaR 阈值时，极端尾部损失的条件数学期望：
-     $$\text{CVaR}_{\alpha} = \mathbb{E}[\text{Loss} \mid \text{Loss} \ge \text{VaR}_{\alpha}] = -\frac{1}{\alpha} \int_0^{\alpha} F^{-1}(p) dp$$
-   - **数理优越性**：Rockafellar & Uryasev (2000) 证明 CVaR 满足凸性与次可加性，是一致性风险度量指标；
-     巴塞尔协议 III（Basel III）已全面强制以 97.5% CVaR 替代 99% VaR 作为银行与资管机构风险准备金的计提底座。
+【核心概念与就近图文排版】
 
-3. 计量方法对比：
-   - 参数法（Parametric / Variance-Covariance Method）：假定收益率服从正态分布 $R \sim \mathcal{N}(\mu, \sigma^2)$：
-     $$\text{VaR}_{\alpha}^{\text{param}} = z_{\alpha} \sigma - \mu, \quad \text{CVaR}_{\alpha}^{\text{param}} = \sigma \frac{\phi(z_{\alpha})}{\alpha} - \mu$$
-     其中 $\phi(\cdot)$ 为标准正态概率密度函数，$z_{0.05} \approx 1.6449$。
-   - 非参数历史模拟法（Historical Simulation）：
-     直接从历史真实收益率经验分布中提取 $\alpha$ 分位数：
-     $$\text{VaR}_{\alpha}^{\text{hist}} = -Q_{\alpha}(R), \quad \text{CVaR}_{\alpha}^{\text{hist}} = -\frac{1}{|R \le -Q_{\alpha}|} \sum_{R_t \le -Q_{\alpha}} R_t$$
-     不依赖任何理论分布假设，能够真实保留历史厚尾、极端暴跌与流动性抽干。
+1. 正态假设 vs 真实肥尾分布下的 VaR 与 CVaR 积分：
+观察下图关于正态分布与肥尾分布在尾部损失积分（CVaR）上的巨大差距：
 
-4. 动态高水位回撤控制与阶梯式熔断器（Drawdown Sentinel）：
-   - 动态回撤率：$DD_t = (W_t - H_t) / H_t$，其中 $H_t = \max_{s \le t} W_s$ 为历史最高水位线（High Water Mark）；
-   - 阶梯式自动风控规则（必须滞后 1 期执行以防止前视未来偏差）：
-     - 正常仓位：$DD > -5\%$，仓位乘数 $M = 1.0$；
-     - 一级预警：$-10\% < DD \le -5\%$，仓位乘数压缩至 $M = 0.5$（主动降杠杆以平抑波动）；
-     - 二级硬熔断：$DD \le -10\%$，仓位强制清零 $M = 0.0$（全仓现金止损熔断，切断深不见底的主跌浪）。
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 6.4.1：正态分布 vs 真实厚尾分布：VaR 阈值盲区与 CVaR 条件期望尾部损失</span>
+    <span class="diagram-tag">VAR-VS-CVAR-TAILS</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m06_l04_var_vs_cvar_tail_distribution.svg -->
+  </div>
+</div>
 
-【核心流程与心智模型】
-```mermaid
-stateDiagram-v2
-    [*] --> 正常运行状态 (Normal: 100%仓位)
-    
-    正常运行状态 (Normal: 100%仓位) --> 一级预警状态 (Warning: 50%仓位): 回撤突破预警线 (DD <= -5%)
-    一级预警状态 (Warning: 50%仓位) --> 正常运行状态 (Normal: 100%仓位): 净值修复 (DD > -5%)
-    
-    一级预警状态 (Warning: 50%仓位) --> 二级硬熔断状态 (Halted: 0%现金): 灾难回撤突破熔断线 (DD <= -10%)
-    正常运行状态 (Normal: 100%仓位) --> 二级硬熔断状态 (Halted: 0%现金): 单日闪崩暴跌突破熔断线 (DD <= -10%)
-    
-    二级硬熔断状态 (Halted: 0%现金) --> [*]: 强制终止交易并进入投委会复盘审查
-```
+- **[参数法 VaR 的正态粉饰]**：假定收益率服从正态分布，$\text{VaR}_{95\%} = 1.645 \sigma - \mu$。在金融肥尾危机面前严重低估极端损失。
+- **[历史模拟法非参数 CVaR]**：直接从真实经验分布中提取 $\alpha$ 尾部样本均值：$\text{CVaR} = -\mathbb{E}[R \mid R \le -\text{VaR}]$，保留真实黑天鹅冲击。
+- **[肥尾倒挂倍数]**：在 Student-t 厚尾市场中，真实历史 CVaR 往往是参数法正态 VaR 的 2~3 倍以上。
 
-【工业界实战场景与风控陷阱】
-1. 正态高斯假说的“黑天鹅粉饰”：
-   在真实金融市场中，收益率严重肥尾（Kurtosis 往往在 6~30 以上）。若盲信参数法正态 VaR，
-   2008 年金融危机与 2020 年流动性踩踏将连续出现理论概率为“数万年一次”的 6-Sigma 事件，引发瞬间穿仓。
-2. 历史模拟法的数据样本窗口选择（Windowing Trade-off）：
-   窗口过短（如 60 天）在牛市中会严重低估熊市杀伤力；窗口过长（如 5 年）则无法及时捕捉近期微观波动率聚集。
-3. 动态回撤熔断后的“踏空综合征”与冷冻期设计：
-   熔断清仓后若市场瞬间 V 型反弹，策略可能面临踏空。机构风控必须引入“波动率回落至历史中枢”或“大盘站上均线”等客观解冻条件。
+2. 历史最高水位线 (HWM) 与水下回撤刻画：
+下图展示了累计财富曲线与历史最高峰值（HWM）的阶梯推进与水下回撤（Underwater）深度图谱：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 6.4.2：动态历史最高水位线 (HWM) 与水下回撤 (Underwater Chart) 深度刻画</span>
+    <span class="diagram-tag">HIGH-WATER-MARK</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m06_l04_drawdown_high_water_mark.svg -->
+  </div>
+</div>
+
+- **[最高水位线 HWM]**：$H_t = \max_{s \le t} W_s$，单调递增阶梯式上升，记录策略所达到的历史最巅峰财富。
+- **[动态回撤率 DD]**：$\text{DD}_t = \frac{W_t - H_t}{H_t}$，恒为非正值（$\le 0$），直观反映投资者的实际被套深度。
+- **[水下时间 (Time Underwater)]**：从发生回撤到重新刷新 HWM 创出新高所耗费的时间跨度，度量 LP 资金的心理耐受极限。
+
+3. 阶梯式回撤风控哨兵状态转移模型：
+下图展示了多策略量化系统内部基于回撤阈值的自适应降仓与硬熔断状态机：
+
+<div class="diagram-card">
+  <div class="diagram-header">
+    <span class="diagram-title">图 6.4.3：阶梯式动态回撤风控哨兵状态转移模型 (Drawdown Sentinel State Machine)</span>
+    <span class="diagram-tag">SENTINEL-CIRCUITS</span>
+  </div>
+  <div class="diagram-svg-container">
+    <!-- SVG 锚点: assets/m06_l04_circuit_breaker_sentinel_states.svg -->
+  </div>
+</div>
+
+- **[正常运行态 (Normal)]**：$\text{DD} > -5\%$，仓位乘数 $M = 1.0$，策略全功率运行。
+- **[一级降仓预警态 (Warning)]**：$-10\% < \text{DD} \le -5\%$，仓位乘数压缩至 $M = 0.5$，主动削减组合方差以平抑巨震。
+- **[二级硬熔断冷冻态 (Halted)]**：$\text{DD} \le -10\%$，仓位强制清零 $M = 0.0$，策略全部平仓置换为无风险现金，进入人工投决会复盘审查。
+
+<div class="callout callout-note">
+  <div class="callout-title">📌 投决会核心心智模型：风控前置与资本保全的绝对性</div>
+  <div class="callout-body">
+    在对冲基金行业中，收益率决定了基金经理能飞多高，而回撤控制决定了基金能活多久。当净值回撤触及熔断红线时，任何关于“基本面被错杀即将反弹”的侥幸辩解都是非法的，算法必须冷酷执行硬熔断。
+  </div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ 投决会风控警示与认知陷阱</div>
+  <div class="callout-body">
+    风控决策必须严格实施因果时序滞后（$T-1$ 日回撤决定 $T$ 日仓位乘数），严禁用当日包含盘中未结价格的高水位直接作为当日收盘风控判决，杜绝日内前视偏差作弊。
+  </div>
+</div>
+
+【数学与风控模型】
+$$\text{VaR}_{\alpha} = -Q_{\alpha}(R), \quad \text{CVaR}_{\alpha} = -\frac{1}{\alpha} \int_0^{\alpha} Q_p(R) dp$$
+$$\text{Parametric}: \quad \text{VaR}_{\alpha} = z_{\alpha} \sigma - \mu, \quad \text{CVaR}_{\alpha} = \sigma \frac{\phi(z_{\alpha})}{\alpha} - \mu$$
+$$\text{HWM}_t = \max_{s \le t} W_s, \quad \text{DD}_t = \frac{W_t - \text{HWM}_t}{\text{HWM}_t}$$
+$$M_t = \begin{cases} 
+1.0, & \text{if } \text{DD}_{t-1} > \text{Warning\_DD} \\
+0.5, & \text{if } \text{Circuit\_Breaker\_DD} < \text{DD}_{t-1} \le \text{Warning\_DD} \\
+0.0, & \text{if } \text{DD}_{t-1} \le \text{Circuit\_Breaker\_DD}
+\end{cases}$$
+定义域：$\alpha = 0.05 \text{ (95% 置信度)}, \quad \text{Warning\_DD} = -0.05, \quad \text{Circuit\_Breaker\_DD} = -0.10$。
 
 【思考题】
-Q1: 为什么假设正态分布计算的参数法 VaR 在金融危机爆发时会低估真实亏损几十倍甚至上百倍？（肥尾与极端离群值）。
-Q2: 历史模拟法与参数法计算 VaR / CVaR 各有何优劣？巴塞尔协议 III 为何要求商业银行与投行全面以 97.5% CVaR 取代 99% VaR 作为资本充足率计量底座？
-Q3: 怎样利用高水位线回撤（Drawdown from High Water Mark）设计量化系统的动态阶梯降仓与硬熔断止损器？在回撤触发熔断清仓后，量化团队应如何设置科学的冷冻期与再进场条件，避免“追涨杀跌两头挨巴掌”？
+Q1: 风险价值（VaR）的“黑天鹅盲区”与次可加性（Sub-additivity）公理失效：为什么阿茨纳（Artzner et al. 1999）将 VaR 斥为“非一致性风险度量指标”？请构造一个期权空头组合或极端肥尾组合，说明为什么在特定情况下两个低风险子组合合并后，整体组合的 VaR 竟然大于子组合 VaR 之和？为什么巴塞尔协议 III 强制采用 CVaR（Expected Shortfall）替代 VaR？
+Q2: 参数法正态 VaR 在 2008 / 2020 危机中的系统性穿仓：正态分布假设下，收益率偏离均值 6 个标准差（$6\sigma$）的发生概率为数亿年一次。但在真实金融危机中，为何连续多日出现所谓的 $6\sigma \sim 8\sigma$ 事件？肥尾柯西/帕累托分布如何彻底击穿参数法 VaR 的防线？
+Q3: 动态历史最高水位线（HWM）阶梯式风控哨兵的因果性契约：在量化私募实盘风控中，为什么要实施“回撤超 -5% 降半仓，回撤超 -10% 硬熔断全现金冷冻”的阶梯式断路器？在算法架构上，为什么该风控决策必须严格滞后 1 期（Shift-1）执行？
 
 【评分与通过规则】
-- 代码 4 分：
-  1. 准确实现参数法 VaR 与 CVaR 正态解析计算 (1分)；
-  2. 准确实现历史模拟法经验分位数 VaR 与 CVaR 计算 (1.5分)；
-  3. 准确实现动态高水位阶梯式回撤熔断器模拟并验证最大回撤大幅压降 (1.5分)；
-- Q1~Q3 问答题各 2 分（共 6 分）：必须从次可加性公理、厚尾极值与实盘熔断解冻机制深入展开；
-- 通过线：8/10 分。一票否决：回测中引入前视未来净值、损失符号定义颠倒、删除断言校验。
+- 代码 4 分：参数法正态 VaR/CVaR 计算 (1分) + 经验分布历史模拟法计算 (1.5分) + 动态高水位熔断哨兵模拟引擎 (1.5分)
+- Q1~Q3 深度思考题各 2 分（共 6 分）：从次可加性公理、肥尾极端损失积分与阶梯式断路器因果隔离展开
+- 通过线：8/10 分。一票否决：VaR 以负数损失表达、熔断器未实施 T-1 滞后执行
 """
 
 from typing import Tuple, Dict, Any, List

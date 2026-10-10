@@ -14,6 +14,7 @@
 class KLineVisualizer {
   constructor(canvasId, hudId) {
     this.canvas = document.getElementById(canvasId);
+    if (!this.canvas || typeof this.canvas.getContext !== 'function') return;
     if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d');
     this.hud = document.getElementById(hudId);
@@ -473,7 +474,8 @@ class LimitOrderBookEngine {
   constructor(ladderContainerId, chartCanvasId) {
     this.container = document.getElementById(ladderContainerId);
     this.canvas = document.getElementById(chartCanvasId);
-    this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
+    if (!this.canvas || typeof this.canvas.getContext !== 'function') return;
+    this.ctx = this.canvas.getContext('2d');
 
     this.bids = [];
     this.asks = [];
@@ -716,6 +718,7 @@ class LimitOrderBookEngine {
 class MarkowitzOptimizer {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
+    if (!this.canvas || typeof this.canvas.getContext !== 'function') return;
     if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d');
 
@@ -901,6 +904,7 @@ class MarkowitzOptimizer {
 class KellySimulator {
   constructor(canvasId, curveCanvasId) {
     this.canvas = document.getElementById(canvasId);
+    if (!this.canvas || typeof this.canvas.getContext !== 'function') return;
     this.curveCanvas = document.getElementById(curveCanvasId);
     this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
     this.curveCtx = this.curveCanvas ? this.curveCanvas.getContext('2d') : null;
