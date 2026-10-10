@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InvestLearning | 投资与量化金融体系课程 (Anthropic Edition)</title>
+  <meta name="description" content="全球顶级对冲基金与专业投资机构的核心认知体系。涵盖宏观周期、订单流微观结构、现代基本面建模、量化多因子统计套利、衍生品定价与分布式交易系统工程。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="切换目录侧边栏">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <a href="index.html" class="nav-brand">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <span>InvestLearning</span>
+          <span class="brand-badge">INSTITUTIONAL</span>
+        </a>
+      </div>
+
+      <nav class="nav-center-menu">
+        <a href="#curriculumSection" class="nav-item-btn active">📚 课程体系</a>
+        <a href="#visualizersSection" class="nav-item-btn">📊 5大交互组件</a>
+        <a href="#librarySection" class="nav-item-btn">🏛️ Anna's Archive 文库</a>
+        <a href="#workbenchSection" class="nav-item-btn">💻 代码工作台</a>
+      </nav>
+
+      <div class="nav-right-actions">
+        <!-- Progress Tracker -->
+        <div class="progress-widget" title="当前课程通过进度">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+          </div>
+          <span class="progress-text" id="progressText">21/84 (25.0%)</span>
+        </div>
+
+        <!-- Daily Streak Check-in -->
+        <button class="checkin-btn" id="checkinStreakBtn" title="点击完成今日学习签到">
+          🔥 7 天打卡
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="切换深色/浅色模式">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- GitHub Repo Link -->
+        <a href="https://github.com/hsthanb4/investlearning" target="_blank" rel="noopener" class="theme-toggle-btn" title="查看 GitHub 仓库源码">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Body Container -->
+    <div class="main-wrapper">
+      <!-- Left Course Sidebar -->
+      <aside class="course-sidebar" id="courseSidebar">
+        <div class="sidebar-header">
+          <!-- Search box -->
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="sidebarSearchInput" placeholder="检索 10 大模块与 84 节课...">
+          </div>
+          <!-- Filter pills -->
+          <div class="filter-pills">
+            <button class="filter-pill active" data-filter="all">全部</button>
+            <button class="filter-pill" data-filter="in_progress">学习中</button>
+            <button class="filter-pill" data-filter="completed">已通过</button>
+            <button class="filter-pill" data-filter="not_started">未开始</button>
+          </div>
+        </div>
+
+        <!-- 10 Modules Tree List -->
+        <div class="module-tree-container" id="moduleTreeContainer">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </aside>
+
+      <!-- Center Main Content Workspace -->
+      <main class="content-area">
+        <!-- Top AI Recharge Promo Notice -->
+        <div class="callout callout-info" style="margin-top:0; margin-bottom:20px;">
+          <div class="callout-icon">💡</div>
+          <div style="font-size:0.86rem; line-height:1.6;">
+            <b>必备科研与开发生产力：海外 AI 充值渠道推荐</b><br>
+            在量化研究与算法调试中，如需高频订阅海外 AI 服务（Codex、Claude、Gemini、Grok 会员及 API）：推荐使用 
+            <a href="https://payai.top" target="_blank" rel="noopener" style="color:var(--accent-blue); font-weight:700;">payai.top</a>（🌟 综合首选推荐，合规稳定分钟到账）或 
+            <a href="https://payai.win" target="_blank" rel="noopener" style="color:var(--accent-gold); font-weight:700;">payai.win</a>（💰 极致性价比优选，GPT 充值更便宜）。
+          </div>
+        </div>
+
+        <!-- Current Lesson Card Header -->
+        <div class="lesson-card-header" id="curriculumSection">
+          <div class="lesson-breadcrumbs">
+            <span>课程目录</span>
+            <span>/</span>
+            <span id="lessonBreadcrumbMod">01 宏观经济与流动性周期</span>
+            <span>/</span>
+            <span id="lessonBreadcrumbLesson" style="color:var(--accent-gold); font-weight:600;">第 01 课</span>
+          </div>
+          <h1 class="lesson-title-main" id="lessonMainTitle">
+            货币创造与央行资产负债表机制
+          </h1>
+          <div class="lesson-tags">
+            <span class="meta-chip">
+              <span>模块：</span><b id="lessonMetaModule">宏观经济与流动性周期</b>
+            </span>
+            <span class="meta-chip" id="lessonMetaDiff">入门</span>
+            <span class="meta-chip">
+              <span>⏱ 预估学习：</span><span id="lessonMetaTime">25 分钟</span>
+            </span>
+            <span class="meta-chip" style="background:var(--accent-gold-soft); color:var(--accent-gold);">
+              <span>通过线：</span><b>8 / 10 分</b>
+            </span>
+          </div>
+
+          <div class="learning-objectives-box">
+            <div class="learning-objectives-title">
+              <span>🎯</span>
+              <span>本课核心交付与认知目标</span>
+            </div>
+            <ul class="objectives-list" id="lessonObjectivesList">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- Content Tabs -->
+        <div class="content-tabs">
+          <button class="tab-btn active" data-tab="theory" onclick="app.switchTab('theory')">
+            <span>📖</span> 理论精讲与公式推导
+          </button>
+          <button class="tab-btn" data-tab="code" onclick="app.switchTab('code')">
+            <span>⚡</span> 生产级代码实现
+          </button>
+          <button class="tab-btn" data-tab="qa" onclick="app.switchTab('qa')">
+            <span>❓</span> 核心思考与问答 Q1~Q3
+          </button>
+          <button class="tab-btn" data-tab="workbench" onclick="app.switchTab('workbench')" id="workbenchSection">
+            <span>💻</span> 自测工作台与自动化判分
+          </button>
+        </div>
+
+        <!-- Tab 1: Theory -->
+        <div class="tab-panel active" id="tabPanel_theory">
+          <article class="prose" id="lessonTheoryBody">
+            <!-- Dynamically populated -->
+          </article>
+        </div>
+
+        <!-- Tab 2: Code -->
+        <div class="tab-panel" id="tabPanel_code">
+          <div class="code-container">
+            <div class="code-header-bar">
+              <span class="code-lang-tag">Python 3.12 / NumPy / Pandas</span>
+              <div class="code-actions">
+                <button class="code-btn" onclick="navigator.clipboard.writeText(document.getElementById('lessonCodeContent').innerText); app.showToast('代码已成功复制到剪贴板！', 'info');">
+                  复制实现
+                </button>
+              </div>
+            </div>
+            <pre class="code-pre" id="lessonCodeContent"></pre>
+          </div>
+        </div>
+
+        <!-- Tab 3: Q&A -->
+        <div class="tab-panel" id="tabPanel_qa">
+          <div class="qa-accordion" id="lessonQAContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Tab 4: Interactive Workbench -->
+        <div class="tab-panel" id="tabPanel_workbench">
+          <div class="callout callout-warning" style="margin-top:0;">
+            <div class="callout-icon">⚖️</div>
+            <div>
+              <b>严格评分契约</b>：代码填空题满分 4 分（需通过严格数值边界与无前视偏差检验）；Q1~Q3 问答各 2 分（共 6 分）；总分达到 <b>8.0 / 10.0 分</b> 即可自动标记本课通关晋级！
+            </div>
+          </div>
+          <div class="workbench-container">
+            <!-- Left Editor -->
+            <div class="editor-box">
+              <div class="editor-toolbar">
+                <div class="editor-title">
+                  <span>⌨</span> 核心代码填空实操
+                </div>
+                <button class="run-test-btn" onclick="app.runCodeTest()">
+                  <span>▶</span> 运行测试与判分
+                </button>
+              </div>
+              <textarea class="code-textarea" id="workbenchEditor" spellcheck="false"></textarea>
+            </div>
+
+            <!-- Right Terminal Output -->
+            <div class="output-box">
+              <div class="output-header">
+                <span style="font-size:0.8rem; font-weight:600; color:var(--text-secondary); display:flex; align-items:center; gap:6px;">
+                  <span>💻</span> 沙盒测试断言输出
+                </span>
+                <span class="lesson-badge badge-easy" id="workbenchScoreBadge">准备就绪</span>
+              </div>
+              <div class="output-console" id="workbenchConsole">
+// 点击【运行测试与判分】按钮执行沙盒断言测试...
+// 系统将自动评估算法边界条件、数值精度与时间因果约束。
+              </div>
+              <div class="score-badge-banner">
+                <span style="font-size:0.8rem; color:var(--text-muted);">综合得分：</span>
+                <span style="font-family:var(--font-mono); font-size:1.1rem; font-weight:800; color:var(--accent-gold);" id="workbenchScoreVal">-- / 10.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
+             5 MAJOR INTERACTIVE FINANCIAL VISUALIZATION ENGINES
+             ========================================================= -->
+        <section class="interactive-visualizer-section" id="visualizersSection">
+          <div class="visualizer-top-header">
+            <div class="visualizer-title">
+              <span>📊</span>
+              <span>5 大交互式金融与量化可视化实验引擎</span>
+            </div>
+            <div class="visualizer-nav-pills">
+              <button class="v-pill-btn active" data-v="kline">1. K线指标画板</button>
+              <button class="v-pill-btn" data-v="lob">2. LOB订单簿深度</button>
+              <button class="v-pill-btn" data-v="markowitz">3. 马科维茨有效前沿</button>
+              <button class="v-pill-btn" data-v="kelly">4. 凯利蒙特卡洛破产</button>
+              <button class="v-pill-btn" data-v="dcf">5. DCF敏感性热力图</button>
+            </div>
+          </div>
+
+          <!-- 1. K-Line Visualizer -->
+          <div class="visualizer-panel" data-v="kline" style="display:block;">
+            <div class="kline-controls-bar">
+              <div class="kline-toolbar-group">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">周期：</span>
+                <button class="kline-btn active" onclick="this.classList.toggle('active')">1日</button>
+                <button class="kline-btn" onclick="this.classList.toggle('active')">1周</button>
+                <button class="kline-btn" onclick="this.classList.toggle('active')">1小时</button>
+                <button class="kline-btn" onclick="this.classList.toggle('active')">15分</button>
+              </div>
+
+              <div class="kline-toolbar-group">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">指标：</span>
+                <button class="kline-btn active" onclick="app.vKline.showMA = !app.vKline.showMA; this.classList.toggle('active'); app.vKline.render();">均线(MA5/20/60)</button>
+                <button class="kline-btn active" onclick="app.vKline.showBollinger = !app.vKline.showBollinger; this.classList.toggle('active'); app.vKline.render();">布林带(BOLL)</button>
+                <button class="kline-btn" onclick="app.vKline.subIndicator = app.vKline.subIndicator === 'MACD' ? 'RSI' : 'MACD'; this.innerText = app.vKline.subIndicator === 'MACD' ? '切换为RSI' : '切换为MACD'; app.vKline.render();">切换为RSI</button>
+              </div>
+
+              <div class="kline-toolbar-group">
+                <button class="run-test-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="app.vKline.addCandleTick()">
+                  ⚡ 模拟生成新Bar
+                </button>
+                <button class="kline-btn" onclick="app.vKline.generateMarketData(100); app.vKline.render();">
+                  重置数据
+                </button>
+              </div>
+            </div>
+
+            <!-- Dynamic HUD Readout -->
+            <div class="kline-hud-box" id="klineHud" style="margin-bottom:8px; min-height:22px;">
+              <span>移动光标至图表查看实时 OHLCV 与指标深度读数...</span>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="chart-canvas-wrap">
+              <canvas id="klineCanvas" height="480"></canvas>
+            </div>
+          </div>
+
+          <!-- 2. LOB Depth Ladder Visualizer -->
+          <div class="visualizer-panel" data-v="lob" style="display:none;">
+            <div class="lob-grid">
+              <!-- Left: Order Ladder -->
+              <div id="lobLadderContainer"></div>
+
+              <!-- Right: Interactive Order Panel & Depth Chart -->
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <div class="chart-canvas-wrap" style="height:210px;">
+                  <canvas id="lobDepthCanvas" height="210"></canvas>
+                </div>
+
+                <div class="lob-trade-panel">
+                  <div style="font-size:0.85rem; font-weight:700; color:var(--text-primary); display:flex; justify-content:space-between; align-items:center;">
+                    <span>⚡ 模拟实盘撮合下单</span>
+                    <button class="code-btn" onclick="app.vLob.randomTick()">生成随机流水</button>
+                  </div>
+                  
+                  <div class="order-form-group">
+                    <label>订单类型</label>
+                    <select id="lobOrderType">
+                      <option value="LIMIT">限价单 (Limit Order)</option>
+                      <option value="MARKET">市价单 (Market Order)</option>
+                    </select>
+                  </div>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="order-form-group">
+                      <label>委托价格 ($)</label>
+                      <input type="number" id="lobOrderPrice" step="0.05" value="180.00">
+                    </div>
+                    <div class="order-form-group">
+                      <label>委托数量 (股)</label>
+                      <input type="number" id="lobOrderQty" step="10" value="100">
+                    </div>
+                  </div>
+
+                  <div class="order-btn-pair">
+                    <button class="order-action-btn buy" onclick="let log = app.vLob.submitOrder('BUY', document.getElementById('lobOrderType').value, document.getElementById('lobOrderPrice').value, document.getElementById('lobOrderQty').value); app.showToast(log, 'success');">
+                      买入 / 挂买单
+                    </button>
+                    <button class="order-action-btn sell" onclick="let log = app.vLob.submitOrder('SELL', document.getElementById('lobOrderType').value, document.getElementById('lobOrderPrice').value, document.getElementById('lobOrderQty').value); app.showToast(log, 'warning');">
+                      卖出 / 挂卖单
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Markowitz Efficient Frontier Visualizer -->
+          <div class="visualizer-panel" data-v="markowitz" style="display:none;">
+            <div class="markowitz-grid">
+              <!-- Canvas plot -->
+              <div class="chart-canvas-wrap" style="height:440px;">
+                <canvas id="markowitzCanvas" height="440"></canvas>
+              </div>
+
+              <!-- Controls & Metrics -->
+              <div>
+                <div class="stat-metric-card" style="margin-bottom:14px;">
+                  <div class="stat-metric-title">马科维茨有效前沿优化指标</div>
+                  <div style="font-size:0.8rem; color:var(--text-secondary); line-height:1.7;">
+                    • <b>1,200 组蒙特卡洛组合</b>：依据夏普比率渲染渐变色<br>
+                    • <b>黄色 CAL 射线</b>：切点组合夏普最大化资本配置线<br>
+                    • <b>绿色 MVP 节点</b>：全局最小方差组合
+                  </div>
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>资产A(股票) 预期收益 E(R)</span>
+                    <b id="retAVal">12%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="retA" min="0.05" max="0.20" step="0.01" value="0.12">
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>资产A(股票) 波动率 σ</span>
+                    <b id="volAVal">18%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="volA" min="0.08" max="0.30" step="0.01" value="0.18">
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>资产B(国债) 预期收益 / 波动率</span>
+                    <b id="retBVal">4%</b> / <b id="volBVal">6%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="retB" min="0.01" max="0.08" step="0.005" value="0.04">
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>资产A与B 相关系数 ρ</span>
+                    <b id="rhoABVal">-10%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="rhoAB" min="-0.6" max="0.8" step="0.05" value="-0.10">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Kelly Criterion & Ruin Visualizer -->
+          <div class="visualizer-panel" data-v="kelly" style="display:none;">
+            <div class="kelly-sim-grid">
+              <!-- Left: Monte Carlo Paths & Curve -->
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div class="chart-canvas-wrap" style="height:320px;">
+                  <canvas id="kellyCanvas" height="320"></canvas>
+                </div>
+                <div class="chart-canvas-wrap" style="height:140px;">
+                  <canvas id="kellyCurveCanvas" height="140"></canvas>
+                </div>
+              </div>
+
+              <!-- Right: Controls -->
+              <div>
+                <div class="stat-metric-card">
+                  <div class="stat-metric-title">凯利最优理论值 f*</div>
+                  <div class="stat-metric-val" id="kellyOptimalFVal" style="color:var(--accent-blue);">25.0%</div>
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+                    破产概率 (&lt;15%本金): <b id="kellyRuinRateVal" style="color:var(--accent-red);">0.0%</b> | 财富中位数: <b id="kellyMedianVal" style="color:var(--accent-green);">$35,420</b>
+                  </div>
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>策略胜率 (Win Rate p)</span>
+                    <b id="kellyWinRateVal">55%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="kellyWinRate" min="0.30" max="0.85" step="0.01" value="0.55">
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>盈亏比 (Payoff Ratio b)</span>
+                    <b id="kellyPayoffVal">1.5:1</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="kellyPayoff" min="0.5" max="3.5" step="0.1" value="1.5">
+                </div>
+
+                <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:8px; font-weight:600;">仓位下注策略对比：</div>
+                <div class="strategy-radio-group">
+                  <div class="strategy-radio-card active" data-strat="HALF_KELLY">
+                    <span>🛡️ 半凯利 (0.5 f*)</span>
+                  </div>
+                  <div class="strategy-radio-card" data-strat="FULL_KELLY">
+                    <span>⚡ 全凯利 (1.0 f*)</span>
+                  </div>
+                  <div class="strategy-radio-card" data-strat="DOUBLE_KELLY">
+                    <span>💥 双倍过度下注 (2.0 f*)</span>
+                  </div>
+                  <div class="strategy-radio-card" data-strat="FIXED_2PCT">
+                    <span>🔒 固定 2% 底仓</span>
+                  </div>
+                </div>
+
+                <div class="callout callout-info" style="margin:10px 0 0 0; padding:10px 14px; font-size:0.78rem;">
+                  <b>数学警示</b>：下方曲线展示几何增长率 g(f)。当仓位超过 f* 时，增长率急剧跳水；若超过 2f*，长期增长率转为负数，<b>爆仓几率为 100%</b>！
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. DCF Sensitivity Heatmap Visualizer -->
+          <div class="visualizer-panel" data-v="dcf" style="display:none;">
+            <div class="dcf-grid">
+              <!-- Controls -->
+              <div>
+                <div id="dcfMetricsContainer"></div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>高增长阶段增速 (g1)</span>
+                    <b id="dcfGrowthVal">15.0%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="dcfGrowth" min="0.05" max="0.30" step="0.01" value="0.15">
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>加权平均资本成本 (WACC)</span>
+                    <b id="dcfWaccVal">8.5%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="dcfWacc" min="0.065" max="0.12" step="0.005" value="0.085">
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label-row">
+                    <span>永续终值增长率 (g2)</span>
+                    <b id="dcfTermGVal">2.5%</b>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="dcfTermG" min="0.01" max="0.04" step="0.005" value="0.025">
+                </div>
+              </div>
+
+              <!-- Heatmap Matrix -->
+              <div>
+                <div style="font-size:0.82rem; font-weight:700; color:var(--text-secondary); margin-bottom:10px; display:flex; justify-content:space-between;">
+                  <span>二维敏感性分析热力矩阵 (WACC vs 永续增长 g)</span>
+                  <span style="font-size:0.72rem; color:var(--text-muted);">绿色: 显著低估 | 红色: 溢价高估</span>
+                </div>
+                <div id="dcfMatrixContainer" style="overflow-x:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             ANNA'S ARCHIVE CLASSICAL FINANCE LIBRARY SECTION
+             ========================================================= -->
+        <section class="library-section" id="librarySection">
+          <div class="library-header-bar">
+            <div>
+              <h2 style="font-size:1.35rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
+                <span>🏛️</span>
+                <span>Anna's Archive 经典文库检索中心</span>
+              </h2>
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">
+                精选 50+ 本世界顶级投资经典与量化工程名著，支持直达去中心化开放知识库检索原著。
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span class="brand-badge" id="booksCountBadge">共收录 50 本经典</span>
+              <div style="position:relative;">
+                <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-muted);">🔍</span>
+                <input type="text" class="library-search-input" id="bookSearchInput" placeholder="按书名、作者、标签搜索...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Category filter pills -->
+          <div class="filter-pills" style="margin-bottom:20px;">
+            <button class="filter-pill book-cat-pill active" data-cat="all">全部书单</button>
+            <button class="filter-pill book-cat-pill" data-cat="01_macro">01 宏观周期</button>
+            <button class="filter-pill book-cat-pill" data-cat="02_micro">02 市场微观</button>
+            <button class="filter-pill book-cat-pill" data-cat="03_fundamental">03 基本面估值</button>
+            <button class="filter-pill book-cat-pill" data-cat="04_technical">04 技术分析与PA</button>
+            <button class="filter-pill book-cat-pill" data-cat="05_quant">05 量化多因子</button>
+            <button class="filter-pill book-cat-pill" data-cat="06_risk">06 组合与风控</button>
+            <button class="filter-pill book-cat-pill" data-cat="07_psychology">07 交易心理</button>
+            <button class="filter-pill book-cat-pill" data-cat="08_derivatives">08 衍生品期权</button>
+            <button class="filter-pill book-cat-pill" data-cat="09_special">09 特殊事件套利</button>
+            <button class="filter-pill book-cat-pill" data-cat="10_infra">10 系统实盘工程</button>
+          </div>
+
+          <!-- Books Grid -->
+          <div class="books-grid" id="booksGridContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Book Detail Modal -->
+    <div class="modal-overlay" id="bookModalOverlay">
+      <div class="modal-content-card">
+        <button class="modal-close-btn" onclick="app.closeModal()">✕</button>
+        <div id="bookModalBody"></div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div>
+        <div style="font-weight:700; color:var(--text-primary); margin-bottom:4px;">InvestLearning 现代投资与量化工程通识课程</div>
+        <div style="font-size:0.75rem;">严谨 • 科学 • 遍历性 • 期望值驱动 | 本项目所有代码与算法均遵循 MIT 开源协议</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/hsthanb4/investlearning" target="_blank" rel="noopener">GitHub 仓库</a>
+        <a href="https://annas-archive.li/" target="_blank" rel="noopener">Anna's Archive</a>
+        <a href="https://payai.top" target="_blank" rel="noopener">AI 充值渠道</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data-curriculum.js"></script>
+  <script src="js/data-books.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
