@@ -1284,3 +1284,8 @@ ol.step-guide-list ul li {
 .course-sidebar.collapsed {
   display: none !important;
 }
+
+/* Prevent duplicate MathML text rendering in KaTeX */
+.katex-mathml {
+  display: none !important;
+}

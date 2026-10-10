@@ -90,7 +90,7 @@ class InvestLearningApp {
       let rendered = false;
       if (typeof katex !== 'undefined' && typeof katex.renderToString === 'function') {
         try {
-          fEl.innerHTML = katex.renderToString(raw, { displayMode: true, throwOnError: false });
+          fEl.innerHTML = katex.renderToString(raw, { displayMode: true, output: "html", throwOnError: false });
           rendered = true;
         } catch (err) {
           console.warn("KaTeX direct block render warning:", err);
@@ -111,6 +111,7 @@ class InvestLearningApp {
             { left: "\\[", right: "\\]", display: true },
             { left: "\\(", right: "\\)", display: false }
           ],
+          output: "html",
           throwOnError: false,
           ignoredClasses: ["math-formula", "diagram-card"],
           ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code", "svg", "annotation"]
@@ -329,10 +330,16 @@ class InvestLearningApp {
     const diffBadge = document.getElementById("lessonMetaDiff");
     if (diffBadge) diffBadge.style.display = "none";
 
-    // 2. Learning Objectives
+    // 2. Learning Objectives (Highlight Content, Skills & Mastery Level)
     const objContainer = document.getElementById("lessonObjectivesList");
     if (objContainer && lesson.objectives) {
-      objContainer.innerHTML = lesson.objectives.map(o => `<li>${o}</li>`).join("");
+      objContainer.innerHTML = lesson.objectives.map(o => {
+        let formatted = o
+          .replace(/^【(核心内容|实战技能)】/, '<strong style="color:var(--text-primary); font-weight:700;">【$1】</strong>')
+          .replace(/^【(掌握程度)】/, '<strong style="color:var(--claude-terracotta); font-weight:700;">【$1与考核标准】</strong>');
+        return `<li style="margin-bottom:8px; line-height:1.65;">${formatted}</li>`;
+      }).join("");
+      this.renderMath(objContainer);
     }
 
     // 3. Theory Body
