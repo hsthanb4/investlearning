@@ -350,6 +350,32 @@ class InvestLearningApp {
     const diffBadge = document.getElementById("lessonMetaDiff");
     if (diffBadge) diffBadge.style.display = "none";
 
+        // 1.5 Module Systemic Role & Intra-Module Chapter Progression Context
+    const ctxBox = document.getElementById("lessonSystemContextBox");
+    if (ctxBox) {
+      const chainSteps = mod.lessons.map((item, idx) => {
+        const shortName = item.title.split("(")[0].strip ? item.title.split("(")[0].trim() : item.title;
+        const isCurr = idx === this.currentLessonIndex;
+        return `<a href="#" onclick="app.selectLesson(${this.currentModuleIndex}, ${idx}); return false;" style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:0.78rem; text-decoration:none; ${isCurr ? 'background:var(--claude-terracotta); color:#fff; font-weight:700;' : 'background:var(--bg-secondary); color:var(--text-secondary); border:1px solid var(--border-primary);'}">L${item.num} ${shortName}</a>`;
+      }).join(' <span style="color:var(--claude-terracotta); font-weight:700;">➔</span> ');
+
+      ctxBox.innerHTML = `
+        <div class="callout-title" style="margin-bottom:8px; font-size:0.9rem;">
+          <span>🧭</span>
+          <span>体系定位与章节承上启下脉络（${mod.layer || '核心模块'}）</span>
+        </div>
+        <div class="callout-body" style="font-size:0.86rem; line-height:1.65;">
+          <div style="margin-bottom:6px;"><strong style="color:var(--text-primary);">【模块在体系中的角色】</strong>：${mod.system_role || mod.desc}</div>
+          <div style="margin-bottom:8px;"><strong style="color:var(--claude-terracotta);">【本课承上启下定位】</strong>：${lesson.chapter_bridge || ''}</div>
+          <div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border-primary); display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+            <span style="font-size:0.76rem; font-weight:700; color:var(--text-muted);">本模块章节递进链：</span>
+            ${chainSteps}
+          </div>
+        </div>
+      `;
+      this.renderMath(ctxBox);
+    }
+
     // 2. Learning Objectives (Highlight Content, Skills & Mastery Level)
     const objContainer = document.getElementById("lessonObjectivesList");
     if (objContainer && lesson.objectives) {
