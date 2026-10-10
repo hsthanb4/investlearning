@@ -346,6 +346,7 @@ class InvestLearningApp {
 
     // 6. Trigger Math Formatting
     if (theoryBody) this.renderMath(theoryBody);
+    this.initLessonSimulator();
     if (qaContainer) this.renderMath(qaContainer);
 
     // 7. Workbench Preset Code
@@ -427,6 +428,39 @@ class InvestLearningApp {
     if (vKey === "dcf" && this.vDcf) this.vDcf.render();
   }
 
+    initLessonSimulator() {
+    // 1. KLine
+    if (document.getElementById("klineCanvas") && typeof KLineVisualizer !== "undefined") {
+      try {
+        this.vKline = new KLineVisualizer("klineCanvas", "klineHud");
+      } catch (e) { console.warn("kline:", e); }
+    }
+    // 2. LOB
+    if (document.getElementById("lobLadderContainer") && typeof LimitOrderBookEngine !== "undefined") {
+      try {
+        this.vLob = new LimitOrderBookEngine("lobLadderContainer", "lobDepthCanvas");
+      } catch (e) { console.warn("lob:", e); }
+    }
+    // 3. Markowitz
+    if (document.getElementById("markowitzCanvas") && typeof MarkowitzOptimizer !== "undefined") {
+      try {
+        this.vMarkowitz = new MarkowitzOptimizer("markowitzCanvas");
+      } catch (e) { console.warn("markowitz:", e); }
+    }
+    // 4. Kelly
+    if (document.getElementById("kellyCanvas") && typeof KellySimulator !== "undefined") {
+      try {
+        this.vKelly = new KellySimulator("kellyCanvas", "kellyCurveCanvas");
+      } catch (e) { console.warn("kelly:", e); }
+    }
+    // 5. DCF
+    if (document.getElementById("dcfMatrixContainer") && typeof DCFValuationEngine !== "undefined") {
+      try {
+        this.vDcf = new DCFValuationEngine("dcfMatrixContainer", "dcfMetricsContainer");
+      } catch (e) { console.warn("dcf:", e); }
+    }
+  }
+
   initVisualizers() {
     try {
       if (document.getElementById("klineCanvas") && typeof KLineVisualizer !== "undefined") {
@@ -492,11 +526,14 @@ class InvestLearningApp {
           <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:12px;">
             ${b.tags.map(t => `<span class="module-tag" style="font-size:0.65rem;">#${t}</span>`).join('')}
           </div>
-          <div class="book-btn-group">
-            <a class="book-dl-btn" href="https://annas-archive.li/search?q=${encodeURIComponent(b.title_en + ' ' + b.author)}" target="_blank" rel="noopener">
-              🔍 Anna's Archive 检索
+          <div class="book-btn-group" style="display:flex; gap:6px;">
+            <a class="book-dl-btn" href="${b.read_online_url}" target="_blank" rel="noopener" style="flex:1.2; text-align:center; background:var(--claude-terracotta); color:#fff; border-color:var(--claude-terracotta); padding:6px 8px; font-size:0.75rem; border-radius:var(--radius-sm); text-decoration:none; font-weight:600;">
+              📖 在线阅读直达
             </a>
-            <button class="book-md5-btn" onclick="app.showBookDetail('${b.id}')">详情</button>
+            <a class="book-dl-btn" href="${b.download_url}" target="_blank" rel="noopener" style="flex:1; text-align:center; background:var(--bg-tertiary); color:var(--text-primary); border:1px solid var(--border-primary); padding:6px 8px; font-size:0.75rem; border-radius:var(--radius-sm); text-decoration:none; font-weight:600;">
+              📥 极速下载直达
+            </a>
+            <button class="book-md5-btn" onclick="app.showBookDetail('${b.id}')" style="padding:6px 10px; font-size:0.75rem; border-radius:var(--radius-sm); border:1px solid var(--border-primary); background:var(--bg-secondary); color:var(--text-muted); cursor:pointer;">详情</button>
           </div>
         </div>
       </div>
