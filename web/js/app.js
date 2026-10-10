@@ -228,7 +228,7 @@ class InvestLearningApp {
     // Re-render Mermaid diagrams in the new theme
     const theoryBody = document.getElementById("lessonTheoryBody");
     if (theoryBody && this.currentView === 'curriculum') {
-      const currentLesson = CURRICULUM_DATA[this.currentModuleIdx]?.lessons[this.currentLessonIdx];
+      const currentLesson = CURRICULUM_DATA[this.currentModuleIndex]?.lessons[this.currentLessonIndex];
       if (currentLesson) {
         theoryBody.innerHTML = currentLesson.theory;
         this.renderMath(theoryBody);
@@ -399,6 +399,33 @@ class InvestLearningApp {
       this.renderMermaid(theoryBody);
     }
     this.initLessonSimulator();
+
+    // Dynamic Tab Adaptation: Practical Guide for Non-Quant, Code for Quant
+    const currentMod = CURRICULUM_DATA[this.currentModuleIndex];
+    const isQuant = ['m05', 'm06', 'm10'].includes(currentMod?.id);
+
+    const btnGuide = document.getElementById("tabBtn_guide");
+    const btnCode = document.getElementById("tabBtn_code");
+    const btnBench = document.getElementById("tabBtn_workbench");
+    const guideBody = document.getElementById("lessonGuideBody");
+
+    if (isQuant) {
+      if (btnGuide) btnGuide.style.display = "none";
+      if (btnCode) btnCode.style.display = "inline-flex";
+      if (btnBench) btnBench.style.display = "inline-flex";
+      if (this.currentTab === "guide") this.switchTab("theory");
+    } else {
+      if (btnGuide) btnGuide.style.display = "inline-flex";
+      if (btnCode) btnCode.style.display = "none";
+      if (btnBench) btnBench.style.display = "none";
+      if (this.currentTab === "code" || this.currentTab === "workbench") {
+        this.switchTab("theory");
+      }
+      if (guideBody) {
+        guideBody.innerHTML = lesson.practical_guide || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>";
+        this.renderMath(guideBody);
+      }
+    }
     if (qaContainer) this.renderMath(qaContainer);
 
     // 7. Workbench Preset Code

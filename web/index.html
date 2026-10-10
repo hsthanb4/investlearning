@@ -38,7 +38,6 @@
         <a href="#overviewSection" class="nav-item-btn active" onclick="app.switchMainView('overview'); return false;">📖 课程总览</a>
         <a href="#curriculumSection" class="nav-item-btn" onclick="app.switchMainView('curriculum'); return false;">📚 课程研习</a>
         <a href="#librarySection" class="nav-item-btn" onclick="app.switchMainView('library'); return false;">🏛️ 经典文献文库</a>
-        <a href="#workbenchSection" class="nav-item-btn" onclick="app.switchMainView('workbench'); return false;">💻 代码自测台</a>
       </nav>
 
       <div class="nav-right-actions">
@@ -227,19 +226,22 @@
 
         <!-- Current Lesson Card Header -->
 
-        <!-- Content Tabs -->
+        <!-- Content Tabs (Dynamic: Practical Guide for Non-Quant, Code for Quant) -->
         <div class="content-tabs">
-          <button class="tab-btn active" data-tab="theory" onclick="app.switchTab('theory')">
-            <span>📖</span> 理论精讲与公式推导
+          <button class="tab-btn active" data-tab="theory" onclick="app.switchTab('theory')" id="tabBtn_theory">
+            <span>📖</span> 核心理论与市场机制
           </button>
-          <button class="tab-btn" data-tab="code" onclick="app.switchTab('code')">
-            <span>⚡</span> 生产级代码实现
+          <button class="tab-btn" data-tab="guide" onclick="app.switchTab('guide')" id="tabBtn_guide">
+            <span>📋</span> 个人实战决策清单
           </button>
-          <button class="tab-btn" data-tab="qa" onclick="app.switchTab('qa')">
-            <span>❓</span> 核心思考与问答 Q1~Q3
+          <button class="tab-btn" data-tab="code" onclick="app.switchTab('code')" id="tabBtn_code" style="display:none;">
+            <span>⚡</span> 量化算法与工程实现
           </button>
-          <button class="tab-btn" data-tab="workbench" onclick="app.switchTab('workbench')" id="workbenchSection">
-            <span>💻</span> 自测工作台与自动化判分
+          <button class="tab-btn" data-tab="qa" onclick="app.switchTab('qa')" id="tabBtn_qa">
+            <span>❓</span> 核心思考与问答
+          </button>
+          <button class="tab-btn" data-tab="workbench" onclick="app.switchTab('workbench')" id="tabBtn_workbench" style="display:none;">
+            <span>💻</span> 代码自测工作台
           </button>
         </div>
 
@@ -247,6 +249,13 @@
         <div class="tab-panel active" id="tabPanel_theory">
           <article class="prose" id="lessonTheoryBody">
             <!-- Dynamically populated -->
+          </article>
+        </div>
+
+        <!-- Tab 1.5: Practical Action Guide (For Individual Investors in Non-Quant Lessons) -->
+        <div class="tab-panel" id="tabPanel_guide">
+          <article class="prose" id="lessonGuideBody">
+            <!-- Dynamically populated with individual investor practical checklist & decision guide -->
           </article>
         </div>
 
