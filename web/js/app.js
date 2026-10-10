@@ -9,6 +9,7 @@ class InvestLearningApp {
     window.app = this;
     this.currentModuleIndex = 0;
     this.currentLessonIndex = 0;
+    this.expandedModules = new Set([0]);
     this.currentTab = "theory"; // 'theory', 'guide', 'code', 'qa'
     this.activeVisualizer = "kline"; // 'kline', 'lob', 'markowitz', 'kelly', 'dcf'
 
@@ -146,26 +147,35 @@ class InvestLearningApp {
     });
 
     this.currentView = viewName;
+    this.renderSidebar();
     if (viewName === 'overview') {
       if (overviewSec) overviewSec.style.display = 'block';
       if (lessonView) lessonView.style.display = 'none';
       if (libSec) libSec.style.display = 'none';
-      if (sidebar) sidebar.style.display = 'flex';
+      if (sidebar) {
+        sidebar.style.display = '';
+        sidebar.classList.remove('collapsed');
+      }
       if (overviewSec) this.renderMath(overviewSec);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'curriculum') {
       if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'block';
       if (libSec) libSec.style.display = 'none';
-      
-      if (sidebar) sidebar.style.display = 'flex';
+      if (sidebar) {
+        sidebar.style.display = '';
+        sidebar.classList.remove('collapsed');
+      }
       this.switchTab(this.currentTab || 'theory');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (viewName === 'library') {
       if (overviewSec) overviewSec.style.display = 'none';
       if (lessonView) lessonView.style.display = 'none';
       if (libSec) libSec.style.display = 'block';
-      if (sidebar) sidebar.style.display = 'none';
+      if (sidebar) {
+        sidebar.style.display = '';
+        sidebar.classList.remove('collapsed');
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
@@ -252,7 +262,9 @@ class InvestLearningApp {
       if (filteredLessons.length === 0 && filterQuery) return;
 
       let isCurrentMod = modIdx === this.currentModuleIndex;
-      let expandedClass = (isCurrentMod || filterQuery) ? "expanded" : "";
+      if (!this.expandedModules) this.expandedModules = new Set([0]);
+      let isExpanded = this.expandedModules.has(modIdx) || Boolean(filterQuery);
+      let expandedClass = isExpanded ? "expanded" : "";
 
       html += `
         <div class="module-group ${expandedClass}" data-mod-idx="${modIdx}">
@@ -269,15 +281,16 @@ class InvestLearningApp {
           <div class="lesson-list">
       `;
 
-      filteredLessons.forEach((lesson, lIdx) => {
-        let isCurrent = isCurrentMod && lIdx === this.currentLessonIndex;
+      filteredLessons.forEach((lesson) => {
+        const realIdx = mod.lessons.findIndex(item => item.id === lesson.id);
+        const lIdx = realIdx >= 0 ? realIdx : 0;
+        let isCurrent = (this.currentView === 'curriculum') && isCurrentMod && lIdx === this.currentLessonIndex;
         html += `
           <div class="lesson-item ${isCurrent ? 'active' : ''}" onclick="app.selectLesson(${modIdx}, ${lIdx})">
             <div class="lesson-left-meta">
               <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted)">L${lesson.num}</span>
               <span style="overflow:hidden; text-overflow:ellipsis;" title="${lesson.title}">${lesson.title}</span>
             </div>
-            
           </div>
         `;
       });
@@ -289,15 +302,22 @@ class InvestLearningApp {
   }
 
   toggleModuleExpand(modIdx) {
+    if (!this.expandedModules) this.expandedModules = new Set([0]);
     const el = document.querySelector(`.module-group[data-mod-idx="${modIdx}"]`);
-    if (el) {
-      el.classList.toggle("expanded");
+    if (this.expandedModules.has(modIdx)) {
+      this.expandedModules.delete(modIdx);
+      if (el) el.classList.remove("expanded");
+    } else {
+      this.expandedModules.add(modIdx);
+      if (el) el.classList.add("expanded");
     }
   }
 
   selectLesson(modIdx, lIdx) {
     this.currentModuleIndex = modIdx;
     this.currentLessonIndex = lIdx;
+    if (!this.expandedModules) this.expandedModules = new Set([0]);
+    this.expandedModules.add(modIdx);
     this.switchMainView('curriculum');
     this.renderSidebar();
     this.renderCurrentLesson();
@@ -734,6 +754,7 @@ class InvestLearningApp {
     document.getElementById("sidebarToggleBtn")?.addEventListener("click", () => {
       const sb = document.getElementById("courseSidebar");
       if (sb) {
+        sb.style.display = "";
         sb.classList.toggle("mobile-open");
         sb.classList.toggle("collapsed");
       }
