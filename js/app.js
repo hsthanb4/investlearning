@@ -40,6 +40,13 @@ class InvestLearningApp {
   // ==========================================
   // KaTeX & Semantic Math Renderer (Bulletproof)
   // ==========================================
+  sanitizeSvgHtml(html) {
+    if (!html) return html;
+    return html.replace(/<svg[\s\S]*?<\/svg>/gi, (svgMatch) => {
+      return svgMatch.replace(/<\/?p>/gi, '').replace(/&le;/gi, '≤');
+    });
+  }
+
   sanitizeMath(str) {
     if (!str) return str;
     return str
@@ -344,10 +351,10 @@ class InvestLearningApp {
     if (theoryBody && this.currentView === 'curriculum') {
       const currentLesson = CURRICULUM_DATA[this.currentModuleIndex]?.lessons[this.currentLessonIndex];
       if (currentLesson) {
-        theoryBody.innerHTML = currentLesson.theory;
+        theoryBody.innerHTML = this.sanitizeSvgHtml(currentLesson.theory);
         this.renderMath(theoryBody);
         this.renderMermaid(theoryBody);
-      this.bindDiagramZoom(theoryBody);
+        this.bindDiagramZoom(theoryBody);
       }
     }
   }
@@ -503,7 +510,7 @@ class InvestLearningApp {
     // 3. Theory Body
     const theoryBody = document.getElementById("lessonTheoryBody");
     if (theoryBody) {
-      theoryBody.innerHTML = lesson.theory || `
+      theoryBody.innerHTML = this.sanitizeSvgHtml(lesson.theory) || `
         <h3>核心理论概述</h3>
         <p>本课围绕 <strong>${lesson.title}</strong> 展开深入数学推导与实战机理拆解。请阅读核心代码并完成课后思考题与自测判分。</p>
         <div class="callout callout-info">
@@ -587,7 +594,7 @@ class InvestLearningApp {
         this.switchTab("theory");
       }
       if (guideBody) {
-        guideBody.innerHTML = lesson.practical_guide || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>";
+        guideBody.innerHTML = this.sanitizeSvgHtml(lesson.practical_guide) || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>";
         this.renderMath(guideBody);
       }
     }
