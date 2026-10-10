@@ -235,7 +235,7 @@ class InvestLearningApp {
               <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted)">L${lesson.num}</span>
               <span style="overflow:hidden; text-overflow:ellipsis;" title="${lesson.title}">${lesson.title}</span>
             </div>
-            <span class="lesson-badge">${lesson.difficulty}</span>
+            
           </div>
         `;
       });
@@ -280,8 +280,7 @@ class InvestLearningApp {
     document.getElementById("lessonMetaModule").innerText = mod.title;
     document.getElementById("lessonMetaTime").innerText = lesson.time;
     const diffBadge = document.getElementById("lessonMetaDiff");
-    diffBadge.innerText = lesson.difficulty;
-    diffBadge.className = `meta-chip ${lesson.difficulty === '入门' ? 'badge-easy' : (lesson.difficulty === '进阶' ? 'badge-medium' : 'badge-hard')}`;
+    if (diffBadge) diffBadge.style.display = "none";
 
     // 2. Learning Objectives
     const objContainer = document.getElementById("lessonObjectivesList");
