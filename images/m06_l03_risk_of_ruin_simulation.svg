@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="250" fill="#FAF8F5" rx="8" stroke="#E5DFD5" stroke-width="1"/>
+  <text x="30" y="32" font-family="Newsreader, Georgia, serif" font-size="14" font-weight="700" fill="#1F1E1B">图 6.3.2：过度杠杆下几何平均增长率崩塌与破产概率 (Risk of Ruin) 爆炸</text>
+  <text x="730" y="32" font-family="JetBrains Mono, monospace" font-size="10" fill="#7D786F" text-anchor="end">RUIN PROBABILITY</text>
+
+  <!-- Left: Equity Trajectories Monte Carlo -->
+  <g transform="translate(60, 50)">
+    <line x1="30" y1="140" x2="320" y2="140" stroke="#1F1E1B" stroke-width="1.5"/>
+    <line x1="30" y1="20" x2="30" y2="140" stroke="#1F1E1B" stroke-width="1.5"/>
+    <text x="325" y="144" font-family="Inter, sans-serif" font-size="9" fill="#1F1E1B">时间步 (交易次数 N)</text>
+    <text x="25" y="15" font-family="JetBrains Mono, monospace" font-size="9" fill="#1F1E1B" text-anchor="end">Log Wealth</text>
+
+    <!-- Half Kelly Path (Smooth compounder in Fir Green) -->
+    <path d="M 30 110 Q 100 95 180 70 T 310 25" fill="none" stroke="#5F7355" stroke-width="2.5"/>
+    <text x="315" y="28" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#5F7355">半凯利稳健复利</text>
+
+    <!-- Full Kelly Path (Wild fluctuations in Ochre) -->
+    <path d="M 30 110 Q 70 50 120 90 T 200 40 T 310 35" fill="none" stroke="#C08535" stroke-width="1.5"/>
+    <text x="315" y="45" font-family="JetBrains Mono, monospace" font-size="9" fill="#C08535">全凯利 (高波动回撤)</text>
+
+    <!-- Overbetting 2.5x Kelly Path (Crash into Ruin in Terracotta) -->
+    <path d="M 30 110 Q 60 30 110 50 T 170 138 L 310 139" fill="none" stroke="#CC5A36" stroke-width="2.5"/>
+    <circle cx="170" cy="138" r="5" fill="#CC5A36"/>
+    <text x="240" y="130" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="#CC5A36">2.5x 杠杆: 破产归零</text>
+  </g>
+
+  <!-- Right: Ruin Formula Card -->
+  <g transform="translate(420, 50)">
+    <rect x="0" y="0" width="280" height="145" rx="6" fill="#FAF8F5" stroke="#CC5A36"/>
+    <text x="140" y="24" font-family="Newsreader, serif" font-size="12" font-weight="700" fill="#CC5A36" text-anchor="middle">破产概率解析解 (Risk of Ruin)</text>
+
+    <text x="140" y="55" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#1F1E1B" text-anchor="middle">
+      P(	ext{Ruin}) = \left(rac{1 - 	ext{Edge}}{1 + 	ext{Edge}}ight)^{	ext{Capital} / 	ext{Bet}}
+    </text>
+
+    <text x="20" y="85" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F">• 只要存在 1 次爆仓可能，长期大数定律必然兑现</text>
+    <text x="20" y="105" font-family="Inter, sans-serif" font-size="9.5" fill="#7D786F">• 几何平均收益远低于算术平均收益</text>
+    <text x="20" y="125" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#5F7355">• 资深对冲基金只采用 0.3x ~ 0.5x 凯利下注</text>
+  </g>
+
+  <text x="380" y="235" font-family="Inter, sans-serif" font-size="11" fill="#7D786F" text-anchor="middle">算术平均是无知的幻觉，几何平均才是财富积累的铁律：亏损 50% 需要盈利 100% 才能回本</text>
+</svg>
