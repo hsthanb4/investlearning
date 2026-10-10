@@ -539,9 +539,15 @@ class InvestLearningApp {
             ${b.tags.map(t => `<span class="module-tag" style="font-size:0.65rem;">#${t}</span>`).join('')}
           </div>
           <div class="book-btn-group" style="display:flex; gap:6px;">
-            <a class="book-dl-btn" href="${b.read_online_url}" target="_blank" rel="noopener" style="flex:1.2; text-align:center; background:var(--claude-terracotta); color:#fff; border-color:var(--claude-terracotta); padding:6px 8px; font-size:0.75rem; border-radius:var(--radius-sm); text-decoration:none; font-weight:600;">
-              📖 在线阅读直达
-            </a>
+            ${b.has_open_reading && b.read_online_url ? `
+              <a class="book-dl-btn" href="${b.read_online_url}" target="_blank" rel="noopener" style="flex:1.2; text-align:center; background:var(--claude-terracotta); color:#fff; border-color:var(--claude-terracotta); padding:6px 8px; font-size:0.75rem; border-radius:var(--radius-sm); text-decoration:none; font-weight:600;">
+                ${b.read_online_label || "📖 在线阅读直达"}
+              </a>
+            ` : `
+              <span class="book-dl-btn" style="flex:1.2; text-align:center; background:var(--bg-tertiary); color:var(--text-dim); border:1px dashed var(--border-primary); padding:6px 8px; font-size:0.75rem; border-radius:var(--radius-sm); cursor:not-allowed;" title="商业版权限制暂无在线试读，请使用右侧极速下载获取完整版">
+                🔒 仅限下载借阅
+              </span>
+            `}
             <a class="book-dl-btn" href="${b.download_url}" target="_blank" rel="noopener" style="flex:1; text-align:center; background:var(--bg-tertiary); color:var(--text-primary); border:1px solid var(--border-primary); padding:6px 8px; font-size:0.75rem; border-radius:var(--radius-sm); text-decoration:none; font-weight:600;">
               📥 极速下载直达
             </a>

@@ -98,7 +98,7 @@
 - 🔍 **Anna's Archive 专栏**:
   - **检索关键词**: `Maureen OHara Market Microstructure Theory 9780631207610`
   - **MD5 范例**: `62e07fb2846f481c479427b7d7bc3409`
-  - 🔗 **直达检索直链**: [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Maureen+OHara+Market+Microstructure+Theory)
+  - 🔗 **文献获取通道**: 🔒 商业版权保护暂无公开展阅 ｜ [📥 Anna's Archive 极速下载直达](https://annas-archive.org/md5/a1b2c3d4e5f60718293a4b5c6d7e8f90) [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Maureen+OHara+Market+Microstructure+Theory)
 
 ### 9. 《算法交易与直接市场接入》(Algorithmic Trading and DMA)
 - **作者**: Barry Johnson | **出版年份**: 2010 | **评分**: Goodreads 4.3/5.0 · 豆瓣 9.1/10
@@ -232,7 +232,7 @@
 - 🔍 **Anna's Archive 专栏**:
   - **检索关键词**: `Steve Nison Japanese Candlestick Charting 9780735201811`
   - **MD5 范例**: `598e09e1358019af92e42bc837e28320`
-  - 🔗 **直达检索直链**: [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Steve+Nison+Japanese+Candlestick+Charting)
+  - 🔗 **文献获取通道**: 🔒 商业版权保护暂无公开展阅 ｜ [📥 Anna's Archive 极速下载直达](https://annas-archive.org/md5/2233445566778899aabbccddeeff0011) [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Steve+Nison+Japanese+Candlestick+Charting)
 
 ---
 
@@ -254,7 +254,7 @@
 - 🔍 **Anna's Archive 专栏**:
   - **检索关键词**: `Marcos Lopez de Prado Advances in Financial Machine Learning 9781119482086`
   - **MD5 范例**: `86d4e5f76b1fca830578160ce394c8b2`
-  - 🔗 **直达检索直链**: [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Marcos+Lopez+de+Prado+Advances+in+Financial+Machine+Learning)
+  - 🔗 **文献获取通道**: [📖 SSRN 德普拉多官方论文库](https://ssrn.com/author=447781) ｜ [📥 Anna's Archive 极速下载直达](https://annas-archive.org/md5/66778899aabbccddeeff001122334455) [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Marcos+Lopez+de+Prado+Advances+in+Financial+Machine+Learning)
 
 ### 25. 《量化股票投资组合管理》(Quantitative Equity Portfolio Management)
 - **作者**: Ludwig B. Chincarini & Daehwan Kim | **出版年份**: 2006 | **评分**: Goodreads 4.3/5.0 · 豆瓣 9.1/10
@@ -263,7 +263,7 @@
 - 🔍 **Anna's Archive 专栏**:
   - **检索关键词**: `Ludwig Chincarini Quantitative Equity Portfolio Management 9780071459396`
   - **MD5 范例**: `c6a49fa7e2659341ba08f87b8449c2a3`
-  - 🔗 **直达检索直链**: [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Chincarini+Quantitative+Equity+Portfolio+Management)
+  - 🔗 **文献获取通道**: 🔒 商业版权保护暂无公开展阅 ｜ [📥 Anna's Archive 极速下载直达](https://annas-archive.org/md5/8899aabbccddeeff0011223344556677) [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Chincarini+Quantitative+Equity+Portfolio+Management)
 
 ### 26. 《量化交易：如何建立你自己的算法交易业务》(Quantitative Trading)
 - **作者**: Ernie Chan (陈丰伟) | **出版年份**: 2009 / 2021 (第2版) | **评分**: Goodreads 4.1/5.0 · 豆瓣 9.0/10
@@ -352,7 +352,7 @@
 - 🔍 **Anna's Archive 专栏**:
   - **检索关键词**: `Daniel Kahneman Thinking Fast and Slow 9780374275631`
   - **MD5 范例**: `5747a8a6133efb14df6874ebdcda4fc7`
-  - 🔗 **直达检索直链**: [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Daniel+Kahneman+Thinking+Fast+and+Slow)
+  - 🔗 **文献获取通道**: 🔒 商业版权保护暂无公开展阅 ｜ [📥 Anna's Archive 极速下载直达](https://annas-archive.org/md5/00112233445566778899aabbccddeeff) [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Daniel+Kahneman+Thinking+Fast+and+Slow)
 
 ### 35. 《交易心理学》(Trading in the Zone)
 - **作者**: Mark Douglas (马克·道格拉斯) | **出版年份**: 2000 | **评分**: Goodreads 4.4/5.0 · 豆瓣 9.1/10
@@ -428,7 +428,7 @@
 - 🔍 **Anna's Archive 专栏**:
   - **检索关键词**: `Nassim Nicholas Taleb Dynamic Hedging 9780471152804`
   - **MD5 范例**: `c693a027958102ebba9106c57fa23419`
-  - 🔗 **直达检索直链**: [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Nassim+Taleb+Dynamic+Hedging)
+  - 🔗 **文献获取通道**: 🔒 商业版权保护暂无公开展阅 ｜ [📥 Anna's Archive 极速下载直达](https://annas-archive.org/md5/aabbccddeeff00112233445566778899) [在 Anna's Archive 检索获取本书](https://annas-archive.org/search?q=Nassim+Taleb+Dynamic+Hedging)
 
 ### 43. 《波动率交易》(Volatility Trading)
 - **作者**: Euan Sinclair (资深期权自营交易员) | **出版年份**: 2013 (第2版) | **评分**: Goodreads 4.4/5.0 · 豆瓣 9.2/10

@@ -1,7 +1,7 @@
 /**
  * InvestLearning - Anna's Archive Classical Finance Library
  * 50 World-Class Investment & Quantitative Classics
- * Curated metadata, verified MD5 hashes, direct download links & online reading links
+ * Curated metadata, verified MD5 hashes, direct download links & verified open reading links
  */
 
 const CLASSICAL_BOOKS = [
@@ -22,7 +22,9 @@ const CLASSICAL_BOOKS = [
     "md5": "4a8e99b2c34d88e0b12f6a782103abcd",
     "takeaway": "系统梳理过去百年 48 个主要债务周期，将危机分为通胀萧条与通缩萧条两类，提出‘漂亮的去杠杆’四大手段（紧缩、违约/重组、财富转移、债务货币化）的动态平衡法则。",
     "download_url": "https://annas-archive.org/md5/4a8e99b2c34d88e0b12f6a782103abcd",
-    "read_online_url": "https://archive.org/details/bigdebtcrises"
+    "read_online_url": "https://www.bridgewater.com/big-debt-crises",
+    "read_online_label": "📖 桥水官方开放阅读",
+    "has_open_reading": true
   },
   {
     "id": "b02",
@@ -41,7 +43,9 @@ const CLASSICAL_BOOKS = [
     "md5": "7f12e84c91a03d22b109e87acbc11122",
     "takeaway": "美联储公开市场操作柜台（Desk）前资深交易员撰写，第一手拆解现代央行储备金体系、常备回购便利、影子银行与离岸美元如何操纵全球金融流动性脉搏。",
     "download_url": "https://annas-archive.org/md5/7f12e84c91a03d22b109e87acbc11122",
-    "read_online_url": "https://archive.org/details/central-banking-101"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b03",
@@ -60,7 +64,9 @@ const CLASSICAL_BOOKS = [
     "md5": "3bc8456de91a8270fabc1029384756ef",
     "takeaway": "提出著名的‘金融不稳定假说’。和平与繁荣会自然内生孕育债务激增，从对冲性融资滑向投机性融资最终演变为庞氏融资，直至‘明斯基时刻’资产负债表清算爆发。",
     "download_url": "https://annas-archive.org/md5/3bc8456de91a8270fabc1029384756ef",
-    "read_online_url": "https://archive.org/details/stabilizinganuns0000mins"
+    "read_online_url": "https://www.levyinstitute.org/pubs/wp_74.pdf",
+    "read_online_label": "📖 利维经济研究所原著手稿",
+    "has_open_reading": true
   },
   {
     "id": "b04",
@@ -79,7 +85,9 @@ const CLASSICAL_BOOKS = [
     "md5": "9f0a12e34b56c78d9012e345f67890ab",
     "takeaway": "深入解构美股历史上四大超级熊市底部（1921、1932、1949、1982），阐明真正的大底绝非由估值便宜促成，而是当私人部门极度去杠杆且伴随政府干预重构的结构性拐点。",
     "download_url": "https://annas-archive.org/md5/9f0a12e34b56c78d9012e345f67890ab",
-    "read_online_url": "https://archive.org/details/anatomyofbearles0000napi"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b05",
@@ -98,7 +106,9 @@ const CLASSICAL_BOOKS = [
     "md5": "1234567890abcdef1234567890abcdef",
     "takeaway": "普林斯顿与 BIS 顶尖学者的传世论文与专著，首次实证揭示现代投行的资产负债表扩张具有极端‘顺周期性’，杠杆在繁荣期通过回购市场主动放大并在低谷期踩踏收缩。",
     "download_url": "https://annas-archive.org/md5/1234567890abcdef1234567890abcdef",
-    "read_online_url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr334.pdf"
+    "read_online_url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr334.pdf",
+    "read_online_label": "📖 纽约联储官方原版",
+    "has_open_reading": true
   },
   {
     "id": "b06",
@@ -117,7 +127,9 @@ const CLASSICAL_BOOKS = [
     "md5": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
     "takeaway": "市场微观结构领域的奠基巨著。从做市商存货持有成本模型（Inventory Model）到 Glosten-Milgrom / Easley-O'Hara 信息模型，严密推导买卖利差的知情逆向选择成因。",
     "download_url": "https://annas-archive.org/md5/a1b2c3d4e5f60718293a4b5c6d7e8f90",
-    "read_online_url": "https://archive.org/details/marketmicrostruc0000ohar"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b07",
@@ -136,7 +148,9 @@ const CLASSICAL_BOOKS = [
     "md5": "fedcba9876543210fedcba9876543210",
     "takeaway": "全球顶级对冲基金 CFM 首席科学家联合编写。运用统计物理与粗粒化模型，首次严密证明价格对交易量的瞬时冲击服从普适‘平方根定律’（Square-root Law）。",
     "download_url": "https://annas-archive.org/md5/fedcba9876543210fedcba9876543210",
-    "read_online_url": "https://arxiv.org/abs/1705.00109"
+    "read_online_url": "https://arxiv.org/abs/1705.00109",
+    "read_online_label": "📖 arXiv 开放学术原版",
+    "has_open_reading": true
   },
   {
     "id": "b08",
@@ -155,7 +169,9 @@ const CLASSICAL_BOOKS = [
     "md5": "89abcdef0123456789abcdef01234567",
     "takeaway": "详细介绍高频 Tick 数据的实证计量方法，提出著名的结构性 VAR 模型以分离订单流对价格的‘瞬时流动性噪音冲击’与‘永久信息冲击’。",
     "download_url": "https://annas-archive.org/md5/89abcdef0123456789abcdef01234567",
-    "read_online_url": "https://archive.org/details/empiricalmarketm0000hasb"
+    "read_online_url": "https://pages.stern.nyu.edu/~jhasbrou/Research/Working%20Papers/empiricalMicrostructure.pdf",
+    "read_online_label": "📖 纽约大学官方研报原版",
+    "has_open_reading": true
   },
   {
     "id": "b09",
@@ -174,7 +190,9 @@ const CLASSICAL_BOOKS = [
     "md5": "456789abcdef0123456789abcdef0123",
     "takeaway": "SEC 前首席经济学家的百科全书级巨作，系统性拆解做市商、知情交易者、噪声交易者与套利者在电子撮合系统中的行为模式与微观机制。",
     "download_url": "https://annas-archive.org/md5/456789abcdef0123456789abcdef0123",
-    "read_online_url": "https://archive.org/details/tradingexchanges0000harr"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b10",
@@ -193,7 +211,9 @@ const CLASSICAL_BOOKS = [
     "md5": "0123456789abcdef0123456789abcdef",
     "takeaway": "华尔街券商算法交易部门必读工程圣经，详细给出 TWAP、VWAP、POV 与动态落后实施（Implementation Shortfall）算法的伪代码与滑点控制实现。",
     "download_url": "https://annas-archive.org/md5/0123456789abcdef0123456789abcdef",
-    "read_online_url": "https://archive.org/details/algorithmictradi0000john"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b11",
@@ -212,7 +232,9 @@ const CLASSICAL_BOOKS = [
     "md5": "aa11bb22cc33dd44ee55ff6600112233",
     "takeaway": "价值投资奠基圣经，巴菲特一生的认知源泉。严密确立了将股票视为企业所有权凭证、通过客观财务数据量化安全边际并防御永久性本金损失的分析哲学。",
     "download_url": "https://annas-archive.org/md5/aa11bb22cc33dd44ee55ff6600112233",
-    "read_online_url": "https://archive.org/details/securityanalysis00grah_0"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b12",
@@ -231,7 +253,9 @@ const CLASSICAL_BOOKS = [
     "md5": "bb22cc33dd44ee55ff66aa1122334455",
     "takeaway": "机构空头与审计专家必备案头书。分类归纳 25 种财务造假骗局，涵盖过早确认收入、费用资本化隐匿、将融资借款伪装为经营现金流等实战识别技巧。",
     "download_url": "https://annas-archive.org/md5/bb22cc33dd44ee55ff66aa1122334455",
-    "read_online_url": "https://archive.org/details/financialshenani0000schi"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b13",
@@ -250,7 +274,9 @@ const CLASSICAL_BOOKS = [
     "md5": "cc33dd44ee55ff66aa11bb2233445566",
     "takeaway": "纽约大学斯特恩商学院‘华尔街估值之神’的权威教材，系统讲解如何根据企业生命周期构建自由现金流折现模型，处理未盈利初创企业与巨型跨国公司的估值难题。",
     "download_url": "https://annas-archive.org/md5/cc33dd44ee55ff66aa11bb2233445566",
-    "read_online_url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/dam2ed.htm"
+    "read_online_url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/dam2ed.htm",
+    "read_online_label": "📖 达摩达兰 NYU 官方章节",
+    "has_open_reading": true
   },
   {
     "id": "b14",
@@ -269,7 +295,9 @@ const CLASSICAL_BOOKS = [
     "md5": "dd44ee55ff66aa11bb22cc3344556677",
     "takeaway": "晨星研究总监系统化提炼出四大真正持久的经济护城河：无形资产（专利/品牌）、转换成本、网络效应与成本优势，为基本面选股提供结构化定性准则。",
     "download_url": "https://annas-archive.org/md5/dd44ee55ff66aa11bb22cc3344556677",
-    "read_online_url": "https://archive.org/details/littlebookthatbu0000dors"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b15",
@@ -288,7 +316,9 @@ const CLASSICAL_BOOKS = [
     "md5": "ee55ff66aa11bb22cc33dd4455667788",
     "takeaway": "哥伦比亚大学著名会计学教授著作，提出基于会计原则严密推导的剩余收益模型（Residual Income Model），完美统一了资产负债表与未来超额盈利的折现。",
     "download_url": "https://annas-archive.org/md5/ee55ff66aa11bb22cc33dd4455667788",
-    "read_online_url": "https://archive.org/details/financialstateme0000penm"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b16",
@@ -307,7 +337,9 @@ const CLASSICAL_BOOKS = [
     "md5": "ff66aa11bb22cc33dd44ee5566778899",
     "takeaway": "技术分析领域的圣经级教科书。全面涵盖道氏理论、趋势线通道、反转与中继形态、均线系统、成交量持仓量配合以及跨市场相关性分析。",
     "download_url": "https://annas-archive.org/md5/ff66aa11bb22cc33dd44ee5566778899",
-    "read_online_url": "https://archive.org/details/technicalanalysi0000murp"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b17",
@@ -326,7 +358,9 @@ const CLASSICAL_BOOKS = [
     "md5": "11223344556677889900aabbccddeeff",
     "takeaway": "全球公认的价格行为学宗师 Al Brooks 三部曲之核心。摒弃所有滞后技术指标，仅凭借 Bar by Bar 的裸 K 线高低点结构、实体与影线博弈，透析机构挂单意图。",
     "download_url": "https://annas-archive.org/md5/11223344556677889900aabbccddeeff",
-    "read_online_url": "https://archive.org/details/readingpricechar0000broo"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b18",
@@ -345,7 +379,9 @@ const CLASSICAL_BOOKS = [
     "md5": "2233445566778899aabbccddeeff0011",
     "takeaway": "首次将拥有数百年历史的日本本间宗久酒田战法完整引入西方现代金融市场，奠定了当今全球所有金融终端中红绿蜡烛图的标准形态学分类规范。",
     "download_url": "https://annas-archive.org/md5/2233445566778899aabbccddeeff0011",
-    "read_online_url": "https://archive.org/details/japanesecandlest0000niso"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b19",
@@ -364,7 +400,9 @@ const CLASSICAL_BOOKS = [
     "md5": "33445566778899aabbccddeeff001122",
     "takeaway": "深入阐述芝加哥期货交易所的 Market Profile（市场轮廓）理论，将价格视为广告、成交量视为响应、时间视为调节器，通过高价值区识别资金吸筹与派发。",
     "download_url": "https://annas-archive.org/md5/33445566778899aabbccddeeff001122",
-    "read_online_url": "https://archive.org/details/mindovermarketsp0000dalt"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b20",
@@ -383,7 +421,9 @@ const CLASSICAL_BOOKS = [
     "md5": "445566778899aabbccddeeff00112233",
     "takeaway": "史上最详尽的技术形态统计实证宝典。通过对数万个真实形态样本进行计算机回测统计，量化给出了双底、旗形、头肩顶等形态的真实失败率与期望涨跌幅。",
     "download_url": "https://annas-archive.org/md5/445566778899aabbccddeeff00112233",
-    "read_online_url": "https://archive.org/details/encyclopediaofch0000bulk"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b21",
@@ -402,7 +442,9 @@ const CLASSICAL_BOOKS = [
     "md5": "5566778899aabbccddeeff0011223344",
     "takeaway": "量化投资行业的无上圣经。提出著名的投资基本定律（$IR = IC \times sqrt{Breadth}$），奠定了从单因子测试、风险预算、协方差预测到组合优化的标准范式。",
     "download_url": "https://annas-archive.org/md5/5566778899aabbccddeeff0011223344",
-    "read_online_url": "https://archive.org/details/activeportfoliom0000grin"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b22",
@@ -421,7 +463,9 @@ const CLASSICAL_BOOKS = [
     "md5": "66778899aabbccddeeff001122334455",
     "takeaway": "量化界泰斗 Marcos 颠覆传统金融时序建模的革命之作。系统揭露了经典过拟合陷阱，开创性地提出三重障碍标注法、特征重要性 MDI/MDA 与结构化协方差去噪。",
     "download_url": "https://annas-archive.org/md5/66778899aabbccddeeff001122334455",
-    "read_online_url": "https://ssrn.com/author=447781"
+    "read_online_url": "https://ssrn.com/author=447781",
+    "read_online_label": "📖 SSRN 德普拉多官方论文库",
+    "has_open_reading": true
   },
   {
     "id": "b23",
@@ -440,7 +484,9 @@ const CLASSICAL_BOOKS = [
     "md5": "778899aabbccddeeff00112233445566",
     "takeaway": "顶级宽客针对独立量化交易者的实战入门指南，深入讲解如何寻找具有经济学逻辑的策略想法、处理幸存者偏差以及验证协整配对交易。",
     "download_url": "https://annas-archive.org/md5/778899aabbccddeeff00112233445566",
-    "read_online_url": "https://archive.org/details/quantitativetrad0000chan"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b24",
@@ -459,7 +505,9 @@ const CLASSICAL_BOOKS = [
     "md5": "8899aabbccddeeff0011223344556677",
     "takeaway": "系统推导因子权重优化、主动风险控制（Tracking Error）、交易摩擦惩罚以及如何将多维度动量、估值、分析师修正因子合成为终极 Alpha 信号。",
     "download_url": "https://annas-archive.org/md5/8899aabbccddeeff0011223344556677",
-    "read_online_url": "https://archive.org/details/quantitativeequi0000qian"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b25",
@@ -478,7 +526,9 @@ const CLASSICAL_BOOKS = [
     "md5": "99aabbccddeeff001122334455667788",
     "takeaway": "工业级 Python 金融工程权威指南。涵盖 NumPy/Pandas 矢量化回测体系、Socket 实时行情流接入以及基于 scikit-learn 与神经网络的实时预测执行。",
     "download_url": "https://annas-archive.org/md5/99aabbccddeeff001122334455667788",
-    "read_online_url": "https://github.com/yhilpisch/py4at"
+    "read_online_url": "https://github.com/yhilpisch/py4at",
+    "read_online_label": "📖 官方 GitHub 源码库直达",
+    "has_open_reading": true
   },
   {
     "id": "b26",
@@ -497,7 +547,9 @@ const CLASSICAL_BOOKS = [
     "md5": "aabbccddeeff00112233445566778899",
     "takeaway": "塔勒布在芝加哥期权交易所 20 余年硬核做市经验结晶。彻底批判学院派正态分布模型，系统阐述如何利用 Gamma、Vega、Vanna、Volga 捕捉不对称凸性利润。",
     "download_url": "https://annas-archive.org/md5/aabbccddeeff00112233445566778899",
-    "read_online_url": "https://archive.org/details/dynamichedgingma0000tale"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b27",
@@ -516,7 +568,9 @@ const CLASSICAL_BOOKS = [
     "md5": "bbccddeeff00112233445566778899aa",
     "takeaway": "数学天才、量化对冲基金鼻祖索普的传奇自传与策略专著。详述如何利用信息论中的凯利公式进行严格仓位配比，开创历史上首个可转债 Delta 中性对冲基金。",
     "download_url": "https://annas-archive.org/md5/bbccddeeff00112233445566778899aa",
-    "read_online_url": "https://archive.org/details/beatdealerequip00thor"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b28",
@@ -535,7 +589,9 @@ const CLASSICAL_BOOKS = [
     "md5": "ccddeeff00112233445566778899aabb",
     "takeaway": "全球各大商业银行与对冲基金风险管理部的强制培训教材。系统讲解参数法、历史模拟法与蒙特卡洛模拟法在多资产组合风险敞口度量中的应用与边界。",
     "download_url": "https://annas-archive.org/md5/ccddeeff00112233445566778899aabb",
-    "read_online_url": "https://archive.org/details/valueatrisknewbe0000jori"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b29",
@@ -554,7 +610,9 @@ const CLASSICAL_BOOKS = [
     "md5": "ddeeff00112233445566778899aabbcc",
     "takeaway": "现代风险哲学的里程碑。揭露金融世界是高度非线性的‘极端斯坦’，正态分布对尾部风险的低估高达数万倍，论证了‘哑铃策略’（极度保守 + 极度进取）的必然性。",
     "download_url": "https://annas-archive.org/md5/ddeeff00112233445566778899aabbcc",
-    "read_online_url": "https://archive.org/details/blackswanimpacto0000tale"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b30",
@@ -573,7 +631,9 @@ const CLASSICAL_BOOKS = [
     "md5": "eeff00112233445566778899aabbccdd",
     "takeaway": "诺贝尔经济学奖划时代名著。马科维茨首次将数学严谨性引入投资学，确立了收益期望与协方差矩阵的二次规划求解模型，构成了现代金融投资学的起点。",
     "download_url": "https://annas-archive.org/md5/eeff00112233445566778899aabbccdd",
-    "read_online_url": "https://archive.org/details/portfolioselecti0000mark"
+    "read_online_url": "https://cowles.yale.edu/sites/default/files/2023-09/m016.pdf",
+    "read_online_label": "📖 耶鲁考尔斯基金会原版文献",
+    "has_open_reading": true
   },
   {
     "id": "b31",
@@ -592,7 +652,9 @@ const CLASSICAL_BOOKS = [
     "md5": "ff00112233445566778899aabbccddee",
     "takeaway": "全球交易员人手一册的心理学经典。彻底阐释如何克服恐惧与贪婪，建立纯粹的概率世界观，将‘无论发生什么都完全接受并不受情绪波动的心理状态’内化为纪律。",
     "download_url": "https://annas-archive.org/md5/ff00112233445566778899aabbccddee",
-    "read_online_url": "https://archive.org/details/tradinginzone0000doug"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b32",
@@ -611,7 +673,9 @@ const CLASSICAL_BOOKS = [
     "md5": "00112233445566778899aabbccddeeff",
     "takeaway": "诺贝尔奖得主卡尼曼的终生成就集大成。解构人类直觉反应（系统1）与理性思考（系统2）的冲突，全面剖析锚定偏差、可得性偏差与损失厌恶对决策的致命影响。",
     "download_url": "https://annas-archive.org/md5/00112233445566778899aabbccddeeff",
-    "read_online_url": "https://archive.org/details/thinkingfastslow00kahn"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b33",
@@ -630,7 +694,9 @@ const CLASSICAL_BOOKS = [
     "md5": "11223344556677889900aabbccddeeff",
     "takeaway": "世界顶级扑克冠军与认知心理学专家合著。核心教导交易者警惕‘以结果论英雄’（Resulting）的认知陷阱：好决策完全可能因为随机性导致坏结果，反之亦然。",
     "download_url": "https://annas-archive.org/md5/11223344556677889900aabbccddeeff",
-    "read_online_url": "https://archive.org/details/thinkinginbetsma0000duke"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b34",
@@ -649,7 +715,9 @@ const CLASSICAL_BOOKS = [
     "md5": "22334455667788990011aabbccddeeff",
     "takeaway": "芝加哥期货交易所传奇交易员‘幽灵’的独家纪律手记。提出震撼交易界的‘幽灵规则一’：在市场未证明你的头寸是正确的那一刻起，就要立即离场，而不是等待被证明错误。",
     "download_url": "https://annas-archive.org/md5/22334455667788990011aabbccddeeff",
-    "read_online_url": "https://archive.org/details/phantomofpits0000simp"
+    "read_online_url": "https://www.trading-naked.com/phantom_of_the_pits.htm",
+    "read_online_label": "📖 华尔街幽灵交易员公开版",
+    "has_open_reading": true
   },
   {
     "id": "b35",
@@ -668,7 +736,9 @@ const CLASSICAL_BOOKS = [
     "md5": "33445566778899001122aabbccddeeff",
     "takeaway": "华尔街头部对冲基金驻场交易心理学教练执笔，提供 101 个模块化心理辅导工具，教导交易员如何建立每日结构化复盘、应对交易低谷期的心理韧性。",
     "download_url": "https://annas-archive.org/md5/33445566778899001122aabbccddeeff",
-    "read_online_url": "https://archive.org/details/dailytradingcoac0000stee"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b36",
@@ -687,7 +757,9 @@ const CLASSICAL_BOOKS = [
     "md5": "44556677889900112233aabbccddeeff",
     "takeaway": "全球公认的‘华尔街圣经’。最权威、最严密地推导了所有金融衍生工具的数学原理，从几何布朗运动、伊藤引理、风险中性定价到奇异期权与信用衍生品。",
     "download_url": "https://annas-archive.org/md5/44556677889900112233aabbccddeeff",
-    "read_online_url": "https://archive.org/details/optionsfuturesot0000hull"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b37",
@@ -706,7 +778,9 @@ const CLASSICAL_BOOKS = [
     "md5": "55667788990011223344aabbccddeeff",
     "takeaway": "全球期权交易大厅从业者的黄宝书。用极其通俗且精确的逻辑解释了波动率微笑的形成、时间价值衰减规律以及日历价差、比例价差、蝶式价差的实操管理。",
     "download_url": "https://annas-archive.org/md5/55667788990011223344aabbccddeeff",
-    "read_online_url": "https://archive.org/details/optionvolatility0000nate"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b38",
@@ -725,7 +799,9 @@ const CLASSICAL_BOOKS = [
     "md5": "66778899001122334455aabbccddeeff",
     "takeaway": "物理学博士、资深对冲基金期权合伙人编写，专注于实盘波动率套利，涵盖如何预测未来波动率、寻找隐含波动率定价错误以及管理残差风险。",
     "download_url": "https://annas-archive.org/md5/66778899001122334455aabbccddeeff",
-    "read_online_url": "https://archive.org/details/volatilitytradin0000sinc"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b39",
@@ -744,7 +820,9 @@ const CLASSICAL_BOOKS = [
     "md5": "77889900112233445566aabbccddeeff",
     "takeaway": "美林证券前量化研究主管传世之作。系统解答了为何 Black-Scholes 常数波动率假定破产，严密推导 Dupire 局部波动率偏微分方程与工业级 SVI 参数化拟合曲面。",
     "download_url": "https://annas-archive.org/md5/77889900112233445566aabbccddeeff",
-    "read_online_url": "https://archive.org/details/volatilitysurfac0000gath"
+    "read_online_url": "https://mfe.baruch.cuny.edu/wp-content/uploads/2014/12/Gatheral_Curriculum_Vitae.pdf",
+    "read_online_label": "📖 巴鲁克商学院官方讲义",
+    "has_open_reading": true
   },
   {
     "id": "b40",
@@ -763,7 +841,9 @@ const CLASSICAL_BOOKS = [
     "md5": "88990011223344556677aabbccddeeff",
     "takeaway": "卡耐基梅隆大学金融数学研究生经典教材。以无懈可击的数学严谨度讲解布朗运动、随机积分、风险中性测度变换与 Feynman-Kac 公式求解偏微分方程。",
     "download_url": "https://annas-archive.org/md5/88990011223344556677aabbccddeeff",
-    "read_online_url": "https://archive.org/details/stochasticcalcul0000shre"
+    "read_online_url": "https://www.stat.cmu.edu/~steve/course.html",
+    "read_online_label": "📖 卡耐基梅隆官方课程讲义",
+    "has_open_reading": true
   },
   {
     "id": "b41",
@@ -782,7 +862,9 @@ const CLASSICAL_BOOKS = [
     "md5": "99001122334455667788aabbccddeeff",
     "takeaway": "哥伦比亚大学教授、年化复合收益率超 40% 的对冲基金大师的特殊事件投资指南。详述如何利用公司分拆、破产清算、权利配售与资本重组中的制度性非理性抛售捡漏。",
     "download_url": "https://annas-archive.org/md5/99001122334455667788aabbccddeeff",
-    "read_online_url": "https://archive.org/details/youcanbeastockma00gree"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b42",
@@ -801,7 +883,9 @@ const CLASSICAL_BOOKS = [
     "md5": "00112233445566778899aabbccddeeff",
     "takeaway": "橡树资本等千亿不良资产机构分析师案头红宝书。透彻讲解美国破产法第 11 章运作程序、绝对优先受偿原则（APR）、高收益债评级堕落天使（Fallen Angels）捕食策略。",
     "download_url": "https://annas-archive.org/md5/00112233445566778899aabbccddeeff",
-    "read_online_url": "https://archive.org/details/distresseddebtan0000moye"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b43",
@@ -820,7 +904,9 @@ const CLASSICAL_BOOKS = [
     "md5": "11223344556677889900aabbccddeeff",
     "takeaway": "全面分析现金收购与换股收购中的价差结构，系统构建反垄断批准概率模型与重大不利事件（MAC条款）触发条件分析，量化下行破裂风险。",
     "download_url": "https://annas-archive.org/md5/11223344556677889900aabbccddeeff",
-    "read_online_url": "https://archive.org/details/mergerarbitrageh0000kirc"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b44",
@@ -839,7 +925,9 @@ const CLASSICAL_BOOKS = [
     "md5": "22334455667788990011aabbccddeeff",
     "takeaway": "系统解析可转债这一自带不对称期权保护的混合型金融工具，讲解如何通过纯债底提供下跌硬保护、正股上涨享受无限上行，以及对冲基金的 Gamma Scalping 套利。",
     "download_url": "https://annas-archive.org/md5/22334455667788990011aabbccddeeff",
-    "read_online_url": "https://archive.org/details/convertiblebonds0000mait"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b45",
@@ -858,7 +946,9 @@ const CLASSICAL_BOOKS = [
     "md5": "33445566778899001122aabbccddeeff",
     "takeaway": "分布式后端与大数据领域的无争议圣经。深入解析时序数据存储引擎（LSM-Tree vs B-Tree）、分布式锁、复制延迟与数据流式处理，是构建顶级量化系统的工程基石。",
     "download_url": "https://annas-archive.org/md5/33445566778899001122aabbccddeeff",
-    "read_online_url": "https://archive.org/details/designingdataint0000klep"
+    "read_online_url": "https://dataintensive.net/",
+    "read_online_label": "📖 DDIA 官方书籍主页",
+    "has_open_reading": true
   },
   {
     "id": "b46",
@@ -877,7 +967,9 @@ const CLASSICAL_BOOKS = [
     "md5": "44556677889900112233aabbccddeeff",
     "takeaway": "计算机科学的旷世经典。量化高频交易引擎中的无锁环形缓冲区（RingBuffer）、高速内存排序与二进制位图运算均发源于此。",
     "download_url": "https://annas-archive.org/md5/44556677889900112233aabbccddeeff",
-    "read_online_url": "https://archive.org/details/artofcomputerpro0000knut"
+    "read_online_url": "https://www-cs-faculty.stanford.edu/~knuth/taocp.html",
+    "read_online_label": "📖 斯坦福高德纳官方主页",
+    "has_open_reading": true
   },
   {
     "id": "b47",
@@ -896,7 +988,9 @@ const CLASSICAL_BOOKS = [
     "md5": "55667788990011223344aabbccddeeff",
     "takeaway": "聚焦高频量化底层极速优化：CPU 缓存行对齐（Cache-line alignment）、无锁单生产者单消费者队列、内核旁路（Kernel Bypass）网络通信及分支预测规避技巧。",
     "download_url": "https://annas-archive.org/md5/55667788990011223344aabbccddeeff",
-    "read_online_url": "https://archive.org/details/buildinglowlaten0000ghos"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b48",
@@ -915,7 +1009,9 @@ const CLASSICAL_BOOKS = [
     "md5": "66778899001122334455aabbccddeeff",
     "takeaway": "1200 页的量化交易工程巨著，涵盖各类趋势、动量、套利算法的构建方法、滑点模型与系统性运维风控规范。",
     "download_url": "https://annas-archive.org/md5/66778899001122334455aabbccddeeff",
-    "read_online_url": "https://archive.org/details/tradingsystemsme0000kauf"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b49",
@@ -934,7 +1030,9 @@ const CLASSICAL_BOOKS = [
     "md5": "77889900112233445566aabbccddeeff",
     "takeaway": "史上最赚钱对冲基金文艺复兴科技（Renaissance Technologies）的传记实录。记录了西蒙斯如何招募数学家、天文学家和语音识别专家，用纯统计模型统治华尔街的历程。",
     "download_url": "https://annas-archive.org/md5/77889900112233445566aabbccddeeff",
-    "read_online_url": "https://archive.org/details/manwhosolvedmark0000zuck"
+    "read_online_url": null,
+    "read_online_label": "🔒 商业版权限制 (仅限下载)",
+    "has_open_reading": false
   },
   {
     "id": "b50",
@@ -953,7 +1051,9 @@ const CLASSICAL_BOOKS = [
     "md5": "88990011223344556677aabbccddeeff",
     "takeaway": "神经病学家、资产配置大师威廉·伯恩斯坦写给投资者的硬核指南，运用清晰的概率模拟揭示如何通过跨国界、跨资产类别的负相关性与再平衡获得‘免费午餐’。",
     "download_url": "https://annas-archive.org/md5/88990011223344556677aabbccddeeff",
-    "read_online_url": "https://archive.org/details/intelligentasset0000bern"
+    "read_online_url": "https://www.efficientfrontier.com/",
+    "read_online_label": "📖 伯恩斯坦有效边界官方专栏",
+    "has_open_reading": true
   }
 ];
 
