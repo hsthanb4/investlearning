@@ -282,59 +282,6 @@ a:hover {
   gap: 12px;
 }
 
-.progress-widget {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 5px 12px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-sm);
-}
-
-.progress-bar-wrap {
-  width: 70px;
-  height: 5px;
-  background: var(--border-primary);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  width: 25%;
-  background: var(--claude-terracotta);
-  border-radius: var(--radius-full);
-  transition: width 0.4s ease;
-}
-
-.progress-text {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.checkin-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: var(--claude-terracotta-light);
-  color: var(--claude-terracotta);
-  border: 1px solid var(--claude-terracotta-border);
-  transition: all var(--transition-fast);
-}
-
-.checkin-btn:hover {
-  background: var(--claude-terracotta);
-  color: #FFFFFF;
-}
-
 .theme-toggle-btn, .sidebar-toggle-btn {
   width: 34px;
   height: 34px;
@@ -406,36 +353,6 @@ a:hover {
   color: var(--text-primary);
   font-size: 0.82rem;
   outline: none;
-}
-
-.filter-pills {
-  display: flex;
-  gap: 5px;
-}
-
-.filter-pill {
-  flex: 1;
-  padding: 4px 6px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-primary);
-  background: var(--bg-tertiary);
-  color: var(--text-secondary);
-  font-size: 0.72rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  text-align: center;
-}
-
-.filter-pill:hover {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-}
-
-.filter-pill.active {
-  background: var(--claude-terracotta);
-  color: #FFFFFF;
-  border-color: var(--claude-terracotta);
 }
 
 .module-tree-container {
@@ -529,17 +446,6 @@ a:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-.lesson-status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--border-primary);
-  flex-shrink: 0;
-}
-
-.lesson-status-dot.completed { background: var(--claude-terracotta); }
-.lesson-status-dot.in_progress { background: var(--text-muted); }
 
 .lesson-badge {
   font-family: var(--font-mono);
