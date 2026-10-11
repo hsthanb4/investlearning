@@ -607,28 +607,67 @@ class InvestLearningApp {
     }
     this.initLessonSimulator();
 
-    // Dynamic Tab Adaptation: Practical Guide for Non-Quant, Code for Quant
+    // Unified Single-Page Display: Theory + (Guide for Non-Quant OR Code for Quant) + Q&A all expanded together!
     const currentMod = CURRICULUM_DATA[this.currentModuleIndex];
     const isQuant = ['m05', 'm06', 'm10'].includes(currentMod?.id);
 
     const btnGuide = document.getElementById("tabBtn_guide");
     const btnCode = document.getElementById("tabBtn_code");
+    const panelTheory = document.getElementById("tabPanel_theory");
+    const panelGuide = document.getElementById("tabPanel_guide");
+    const panelCode = document.getElementById("tabPanel_code");
+    const panelQA = document.getElementById("tabPanel_qa");
     const guideBody = document.getElementById("lessonGuideBody");
+
+    if (panelTheory) panelTheory.style.display = "block";
+    if (panelQA) panelQA.style.display = "block";
 
     if (isQuant) {
       if (btnGuide) btnGuide.style.display = "none";
       if (btnCode) btnCode.style.display = "inline-flex";
-      if (this.currentTab === "guide") this.switchTab("theory");
+      if (panelGuide) panelGuide.style.display = "none";
+      if (panelCode) panelCode.style.display = "block";
     } else {
       if (btnGuide) btnGuide.style.display = "inline-flex";
       if (btnCode) btnCode.style.display = "none";
-      if (this.currentTab === "code") {
-        this.switchTab("theory");
-      }
+      if (panelGuide) panelGuide.style.display = "block";
+      if (panelCode) panelCode.style.display = "none";
       if (guideBody) {
         guideBody.innerHTML = this.sanitizeSvgHtml(lesson.practical_guide) || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>";
         this.renderMath(guideBody);
       }
+    }
+
+    // Render Bottom Prev / Next Lesson Navigation
+    const bottomNav = document.getElementById("lessonBottomNav");
+    if (bottomNav) {
+      let prevModIdx = this.currentModuleIndex;
+      let prevLesIdx = this.currentLessonIndex - 1;
+      if (prevLesIdx < 0) {
+        prevModIdx = this.currentModuleIndex - 1;
+        if (prevModIdx >= 0) {
+          prevLesIdx = CURRICULUM_DATA[prevModIdx].lessons.length - 1;
+        }
+      }
+
+      let nextModIdx = this.currentModuleIndex;
+      let nextLesIdx = this.currentLessonIndex + 1;
+      if (nextLesIdx >= mod.lessons.length) {
+        nextModIdx = this.currentModuleIndex + 1;
+        nextLesIdx = 0;
+      }
+
+      const hasPrev = prevModIdx >= 0 && prevLesIdx >= 0;
+      const hasNext = nextModIdx < CURRICULUM_DATA.length;
+
+      const prevBtn = hasPrev
+        ? `<button class="code-btn" style="padding:10px 18px; font-size:0.88rem;" onclick="app.selectLesson(${prevModIdx}, ${prevLesIdx})">⬅ 上一课：${CURRICULUM_DATA[prevModIdx].lessons[prevLesIdx].title}</button>`
+        : `<span></span>`;
+      const nextBtn = hasNext
+        ? `<button class="code-btn" style="padding:10px 18px; font-size:0.88rem; background:var(--claude-terracotta); color:#fff; border-color:var(--claude-terracotta); font-weight:600;" onclick="app.selectLesson(${nextModIdx}, ${nextLesIdx})">下一课：${CURRICULUM_DATA[nextModIdx].lessons[nextLesIdx].title} ➡</button>`
+        : `<span></span>`;
+
+      bottomNav.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:36px; padding-top:20px; border-top:1px solid var(--border-primary);">${prevBtn}${nextBtn}</div>`;
     }
     if (qaContainer) this.renderMath(qaContainer);
   }
@@ -643,16 +682,17 @@ class InvestLearningApp {
   }
 
   // ==========================================
-  // Tab Switching
+  // Section Quick-Jump Anchor Navigation (All Sections Stay Expanded on Same Page)
   // ==========================================
   switchTab(tabId) {
     this.currentTab = tabId;
     document.querySelectorAll(".tab-btn").forEach(btn => {
       btn.classList.toggle("active", btn.getAttribute("data-tab") === tabId);
     });
-    document.querySelectorAll(".tab-panel").forEach(panel => {
-      panel.classList.toggle("active", panel.id === `tabPanel_${tabId}`);
-    });
+    const targetPanel = document.getElementById(`tabPanel_${tabId}`);
+    if (targetPanel && targetPanel.style.display !== "none" && typeof targetPanel.scrollIntoView === "function") {
+      targetPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   // ==========================================

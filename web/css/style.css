@@ -1622,3 +1622,40 @@ ol.step-guide-list ul li {
   line-height: 1.72;
   color: var(--text-primary);
 }
+
+
+/* Unified Single-Page Lesson Sections (All Expanded Vertically) */
+.lesson-unified-section {
+  display: block;
+  margin-bottom: 42px;
+  scroll-margin-top: 84px;
+}
+
+.lesson-section-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-primary);
+}
+
+.lesson-section-num {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--claude-terracotta-light);
+  color: var(--claude-terracotta);
+  border: 1px solid var(--claude-terracotta-border);
+  letter-spacing: 0.04em;
+}
+
+.lesson-section-heading {
+  font-family: var(--font-serif);
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
