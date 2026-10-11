@@ -215,7 +215,31 @@ class InvestLearningApp {
       const resp = await fetch(`js/live-market-data.json?t=${Date.now()}`);
       if (resp && resp.ok) {
         this.liveMarketData = await resp.json();
-        this.applyLiveDataToCurrentDashboard();
+        // For m01_l02 (Yield Curve), inject interactive 10Y-2Y calculator bar
+    if (lessonId === 'm01_l02' && !card.querySelector('.live-calc-bar')) {
+      const yc = this.liveMarketData?.metrics?.yield_curve || { us10y: 4.21, us02y: 3.98 };
+      const calcBar = document.createElement('div');
+      calcBar.className = 'live-calc-bar';
+      calcBar.innerHTML = `
+        <div style="font-size:0.78rem; font-weight:700; color:var(--text-primary); margin-bottom:8px;">
+          <span>⚡ 交互式美债利差与衰退结论实时重算器（修改收益率即时更新下方表格与操作结论）</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:3px;">US10Y 十年期美债收益率 (%)</label>
+            <input type="number" step="0.05" id="liveInputUs10y" value="${yc.us10y}" oninput="app.recalcYieldCurve()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+          </div>
+          <div>
+            <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:3px;">US02Y 两年期美债收益率 (%)</label>
+            <input type="number" step="0.05" id="liveInputUs02y" value="${yc.us02y}" oninput="app.recalcYieldCurve()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+          </div>
+        </div>
+      `;
+      const kpiGrid = card.querySelector('.result-kpi-grid');
+      if (kpiGrid) kpiGrid.insertAdjacentElement('afterend', calcBar);
+    }
+
+    this.applyLiveDataToCurrentDashboard();
         if (showToastMsg) {
           this.showToast(`✅ 已同步最新实时数据（更新于 ${this.liveMarketData.updated_at}）`, "info");
         }
@@ -294,17 +318,126 @@ class InvestLearningApp {
     const w = parseFloat(document.getElementById('liveInputWalcl')?.value || 0);
     const t = parseFloat(document.getElementById('liveInputTga')?.value || 0);
     const r = parseFloat(document.getElementById('liveInputRrp')?.value || 0);
-    const net = (w - t - r).toFixed(1);
+    const netVal = w - t - r;
+    const net = netVal.toFixed(1);
+
+    // Reference 4-week-ago baseline from live data or default 5820.7
+    const base4w = this.liveMarketData?.metrics?.fed_liquidity?.net_liq_4w_b || 5820.7;
+    const impulseVal = ((netVal - base4w) / base4w) * 100.0;
+    const impulseStr = (impulseVal >= 0 ? '+' : '') + impulseVal.toFixed(2) + '%';
+
+    // Determine dynamic regime, position advice, and conclusion text
+    let kpiSubText = '';
+    let tableSignal = '';
+    let conclusionHtml = '';
+    const ts = this.liveMarketData?.updated_at || '刚刚实时重算';
+
+    if (impulseVal >= 1.0) {
+      kpiSubText = `4周脉冲 ${impulseStr} (🟢 加速扩张)`;
+      tableSignal = `🟢 净活水充裕 (建议 80%~90% 仓位)`;
+      conclusionHtml = `💡 <b>实时动态结论（同步于 ${ts}）</b>：当前核算美联储净流动性为 <b>$${net} B</b>（约 $${(netVal/1000).toFixed(2)} 万亿美元），4周变动率为 <b>${impulseStr}（🟢 正脉冲扩张期）</b>；国内 R007-DR007 利差平稳。资金正从逆回购/国库流入市场，分母端折现率下行，<b>当前决策结论：维持【积极进攻（建议权益仓位 80%~90%）】，重点超配纳指科技与沪深300等高弹性宽基 ETF。</b>`;
+    } else if (impulseVal >= -1.0) {
+      kpiSubText = `4周脉冲 ${impulseStr} (🟡 存量震荡)`;
+      tableSignal = `🟡 存量拉锯 (建议 50%~60% 标配)`;
+      conclusionHtml = `💡 <b>实时动态结论（同步于 ${ts}）</b>：当前核算美联储净流动性为 <b>$${net} B</b>（约 $${(netVal/1000).toFixed(2)} 万亿美元），4周变动率为 <b>${impulseStr}（🟡 存量均衡期）</b>。总水源未出现大幅增量，市场以结构性轮动为主，<b>当前决策结论：执行【稳健标配（建议权益仓位 50%~60%）】，回避高估值纯题材炒作，逢低配置高现金流红利与核心蓝筹。</b>`;
+    } else {
+      kpiSubText = `4周脉冲 ${impulseStr} (🔴 净抽水警报)`;
+      tableSignal = `🔴 紧缩抽水 (建议 ≤30% 防御仓位)`;
+      conclusionHtml = `💡 <b>实时动态结论（同步于 ${ts}）</b>：🚨 <b>流动性紧缩警报！</b>当前核算美联储净流动性已降至 <b>$${net} B</b>（约 $${(netVal/1000).toFixed(2)} 万亿美元），4周变动率为 <b>${impulseStr}（🔴 显著负脉冲抽水）</b>。因 TGA 发债抽水或缩表加速，银行准备金水位正在快速退潮，<b>当前决策结论：立即启动【紧缩防御模式（将股票仓位压缩至 30% 以内）】，将多余资金转入超短债 ETF（511360）或货币基金规避杀估值风险！</b>`;
+    }
+
     const readout = document.getElementById('liveNetLiqFormulaReadout');
     if (readout) {
-      readout.textContent = `Net Liquidity = ${w.toFixed(1)} - ${t.toFixed(1)} - ${r.toFixed(1)} = $${net} B`;
+      readout.textContent = `Net Liquidity = ${w.toFixed(1)} - ${t.toFixed(1)} - ${r.toFixed(1)} = $${net} B (${impulseStr})`;
     }
-    const kpiBoxes = document.querySelectorAll('#lessonGuideBody .result-kpi-box');
+
+    const card = document.querySelector('#lessonGuideBody .result-data-card');
+    if (!card) return;
+
+    // 1. Update KPI Boxes
+    const kpiBoxes = card.querySelectorAll('.result-kpi-box');
     if (kpiBoxes.length >= 4) {
       kpiBoxes[0].querySelector('.result-kpi-val').textContent = `$${w.toFixed(1)} B`;
       kpiBoxes[1].querySelector('.result-kpi-val').textContent = `$${t.toFixed(1)} B`;
       kpiBoxes[2].querySelector('.result-kpi-val').textContent = `$${r.toFixed(1)} B`;
       kpiBoxes[3].querySelector('.result-kpi-val').textContent = `$${net} B`;
+      const sub3 = kpiBoxes[3].querySelector('.result-kpi-sub');
+      if (sub3) sub3.textContent = kpiSubText;
+    }
+
+    // 2. Update the Latest Row in the Result Data Table
+    const rows = card.querySelectorAll('.result-data-table tbody tr');
+    if (rows.length > 0) {
+      const lastRow = rows[rows.length - 1];
+      const cells = lastRow.querySelectorAll('td');
+      if (cells.length >= 8) {
+        cells[1].textContent = w.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        cells[2].textContent = t.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        cells[3].textContent = r.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        cells[4].textContent = netVal.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        cells[5].textContent = impulseStr;
+        cells[7].textContent = tableSignal;
+      }
+    }
+
+    // 3. Update the Bottom Conclusion Box (.result-table-footnote)
+    const footnote = card.querySelector('.result-table-footnote');
+    if (footnote) {
+      footnote.innerHTML = conclusionHtml;
+    }
+  }
+
+  recalcYieldCurve() {
+    const y10 = parseFloat(document.getElementById('liveInputUs10y')?.value || 4.21);
+    const y2 = parseFloat(document.getElementById('liveInputUs02y')?.value || 3.98);
+    const spreadBps = Math.round((y10 - y2) * 100);
+    const spreadStr = (spreadBps >= 0 ? '+' : '') + spreadBps + ' bps';
+    const ts = this.liveMarketData?.updated_at || '刚刚实时重算';
+
+    let regimeTitle = '';
+    let actionSignal = '';
+    let conclusionHtml = '';
+
+    if (spreadBps < -20) {
+      regimeTitle = '🔴 深度倒挂预警期';
+      actionSignal = '🟡 持股警惕 (不加高倍杠杆)';
+      conclusionHtml = `💡 <b>实时动态结论（同步于 ${ts}）</b>：当前 10Y-2Y 利差为 <b>${spreadStr}（深度倒挂）</b>。商业银行借短贷长净息差（NIM）严重承压，未来 12 个月经济衰退概率突破 70%。<b>当前决策结论：处于衰退倒计时预警期（但初次倒挂期股市常有末日轮上涨），宜持有低负债核心资产、严禁使用融资杠杆，紧盯倒挂解除时刻！</b>`;
+    } else if (spreadBps >= -20 && spreadBps <= 35) {
+      regimeTitle = '🟡 倒挂解除 (牛陡观察窗)';
+      actionSignal = '🟡 股60% + 30年国债/黄金40%';
+      conclusionHtml = `💡 <b>实时动态结论（同步于 ${ts}）</b>：当前 10Y-2Y 利差为 <b>${spreadStr}（处于倒挂解除转正临界窗口）</b>。按过去 60 年历史规律，利差从深度负值回升转正阶段往往对应降息周期开启与实体盈利考验，<b>当前决策结论：执行【攻守兼备配置（股票 60% + 30年国债 ETF / 黄金 ETF 40%）】，用长久期国债锁定降息资本利得并对冲潜在衰退波动。</b>`;
+    } else {
+      regimeTitle = '🟢 常态陡峭复苏期';
+      actionSignal = '🟢 顺周期进攻 (权益 80%)';
+      conclusionHtml = `💡 <b>实时动态结论（同步于 ${ts}）</b>：当前 10Y-2Y 利差为 <b>${spreadStr}（健康正斜率陡峭形态）</b>。长短端利差充裕，商业银行信贷扩张意愿良好，经济处于常态增长周期，<b>当前决策结论：维持【顺周期进攻配置（权益仓位 80%）】，超配顺周期蓝筹与成长龙头。</b>`;
+    }
+
+    const card = document.querySelector('#lessonGuideBody .result-data-card');
+    if (!card) return;
+
+    const kpiBoxes = card.querySelectorAll('.result-kpi-box');
+    if (kpiBoxes.length >= 4) {
+      kpiBoxes[0].querySelector('.result-kpi-val').textContent = `${y10.toFixed(2)}%`;
+      kpiBoxes[1].querySelector('.result-kpi-val').textContent = `${y2.toFixed(2)}%`;
+      kpiBoxes[2].querySelector('.result-kpi-val').textContent = spreadStr;
+      kpiBoxes[3].querySelector('.result-kpi-val').textContent = regimeTitle;
+    }
+
+    const rows = card.querySelectorAll('.result-data-table tbody tr');
+    if (rows.length > 0) {
+      const cells = rows[rows.length - 1].querySelectorAll('td');
+      if (cells.length >= 7) {
+        cells[1].textContent = `${y10.toFixed(2)}%`;
+        cells[2].textContent = `${y2.toFixed(2)}%`;
+        cells[3].textContent = spreadStr;
+        cells[4].textContent = regimeTitle;
+        cells[6].textContent = actionSignal;
+      }
+    }
+
+    const footnote = card.querySelector('.result-table-footnote');
+    if (footnote) {
+      footnote.innerHTML = conclusionHtml;
     }
   }
 
@@ -331,17 +464,26 @@ class InvestLearningApp {
       this.recalcNetLiquidity();
     } else if (lesson.id === 'm01_l02' && m.yield_curve) {
       const yc = m.yield_curve;
-      const kpiBoxes = document.querySelectorAll('#lessonGuideBody .result-kpi-box');
-      if (kpiBoxes.length >= 3) {
-        kpiBoxes[0].querySelector('.result-kpi-val').textContent = `${yc.us10y}%`;
-        kpiBoxes[1].querySelector('.result-kpi-val').textContent = `${yc.us02y}%`;
-        kpiBoxes[2].querySelector('.result-kpi-val').textContent = `${yc.spread_bps >= 0 ? '+' : ''}${yc.spread_bps} bps`;
-      }
+      const y10In = document.getElementById('liveInputUs10y');
+      const y2In = document.getElementById('liveInputUs02y');
+      if (y10In) y10In.value = yc.us10y;
+      if (y2In) y2In.value = yc.us02y;
+      this.recalcYieldCurve();
     } else if (lesson.id === 'm08_l04' && m.vix) {
       const vx = m.vix;
-      const kpiBoxes = document.querySelectorAll('#lessonGuideBody .result-kpi-box');
-      if (kpiBoxes.length >= 1) {
-        kpiBoxes[0].querySelector('.result-kpi-val').textContent = `${vx.value} (${vx.regime})`;
+      const card = document.querySelector('#lessonGuideBody .result-data-card');
+      if (card) {
+        const kpiBoxes = card.querySelectorAll('.result-kpi-box');
+        if (kpiBoxes.length >= 1) {
+          kpiBoxes[0].querySelector('.result-kpi-val').textContent = `${vx.value} (${vx.regime})`;
+        }
+        const footnote = card.querySelector('.result-table-footnote');
+        if (footnote) {
+          const advice = vx.value > 35
+            ? '🔥 当前 VIX 突破 35 极度恐慌阈值，历史级黄金坑出现，结论：分批满仓抄底宽基 ETF！'
+            : (vx.value < 13 ? '🟡 当前 VIX 低于 13 极度自满阈值，期权保费极便宜，结论：兑现部分浮盈并花 1% 保费买入认沽期权防身。' : '🟢 当前 VIX 处于常态平稳区间（13~25），市场无系统性去杠杆风险，结论：按趋势与基本面正常持仓。');
+          footnote.innerHTML = `💡 <b>实时动态结论（同步于 ${this.liveMarketData.updated_at}）</b>：最新 CBOE VIX 读数为 <b>${vx.value}</b>（${vx.date}）。${advice}`;
+        }
       }
     }
   }
