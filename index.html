@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20261011_v19">
+  <link rel="stylesheet" href="css/style.css?v=20261011_v20">
   
   <!-- KaTeX High-Performance Math Engine (Vendored Local + Cloudflare Fast CDN Fallback) -->
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css';">
@@ -570,38 +570,50 @@
             </div>
           </div>
 
-        <!-- Content Tabs (Dynamic: Practical Guide for Non-Quant, Code for Quant) -->
-        <div class="content-tabs">
+        <!-- Quick-Jump Section Anchor Bar (All Sections Expanded on Same Page) -->
+        <div class="content-tabs" style="margin-bottom:24px;">
           <button class="tab-btn active" data-tab="theory" onclick="app.switchTab('theory')" id="tabBtn_theory">
-            <span>📖</span> 核心理论与市场机制
+            <span>📖</span> 1. 核心理论与市场机制
           </button>
           <button class="tab-btn" data-tab="guide" onclick="app.switchTab('guide')" id="tabBtn_guide">
-            <span>📋</span> 个人实战决策清单
+            <span>📋</span> 2. 个人实战决策清单
           </button>
           <button class="tab-btn" data-tab="code" onclick="app.switchTab('code')" id="tabBtn_code" style="display:none;">
-            <span>⚡</span> 量化算法与工程实现
+            <span>⚡</span> 2. 量化算法与工程实现
           </button>
           <button class="tab-btn" data-tab="qa" onclick="app.switchTab('qa')" id="tabBtn_qa">
-            <span>❓</span> 核心思考与问答
+            <span>❓</span> 3. 核心思考与问答
           </button>
         </div>
 
-        <!-- Tab 1: Theory -->
-        <div class="tab-panel active" id="tabPanel_theory">
+        <!-- Section 1: Theory (Always Expanded) -->
+        <section class="lesson-unified-section" id="tabPanel_theory">
+          <div class="lesson-section-banner">
+            <span class="lesson-section-num">PART 01</span>
+            <h2 class="lesson-section-heading">📖 核心理论与市场机制</h2>
+          </div>
           <article class="prose" id="lessonTheoryBody">
             <!-- Dynamically populated -->
           </article>
-        </div>
+        </section>
 
-        <!-- Tab 1.5: Practical Action Guide (For Individual Investors in Non-Quant Lessons) -->
-        <div class="tab-panel" id="tabPanel_guide">
+        <!-- Section 2A: Practical Action Guide (Always Expanded in Non-Quant Lessons) -->
+        <section class="lesson-unified-section" id="tabPanel_guide">
+          <div class="lesson-section-banner">
+            <span class="lesson-section-num">PART 02</span>
+            <h2 class="lesson-section-heading">📋 个人实战决策清单</h2>
+          </div>
           <article class="prose" id="lessonGuideBody">
-            <!-- Dynamically populated with individual investor practical checklist & decision guide -->
+            <!-- Dynamically populated -->
           </article>
-        </div>
+        </section>
 
-        <!-- Tab 2: Code -->
-        <div class="tab-panel" id="tabPanel_code">
+        <!-- Section 2B: Quant Code (Always Expanded in Quant Lessons) -->
+        <section class="lesson-unified-section" id="tabPanel_code" style="display:none;">
+          <div class="lesson-section-banner">
+            <span class="lesson-section-num">PART 02</span>
+            <h2 class="lesson-section-heading">⚡ 量化算法与工程实现</h2>
+          </div>
           <div class="code-container">
             <div class="code-header-bar">
               <span class="code-lang-tag">Python 3.12 / NumPy / Pandas</span>
@@ -613,14 +625,21 @@
             </div>
             <pre class="code-pre" id="lessonCodeContent"></pre>
           </div>
-        </div>
+        </section>
 
-        <!-- Tab 3: Q&A -->
-        <div class="tab-panel" id="tabPanel_qa">
+        <!-- Section 3: Q&A (Always Expanded) -->
+        <section class="lesson-unified-section" id="tabPanel_qa">
+          <div class="lesson-section-banner">
+            <span class="lesson-section-num">PART 03</span>
+            <h2 class="lesson-section-heading">❓ 核心思考与问答</h2>
+          </div>
           <div class="qa-accordion" id="lessonQAContainer">
             <!-- Dynamically populated -->
           </div>
-        </div>
+        </section>
+
+        <!-- Bottom Prev / Next Lesson Navigation -->
+        <div class="lesson-bottom-nav" id="lessonBottomNav"></div>
         </div><!-- End lessonViewContainer -->
 
 
@@ -721,9 +740,9 @@
 
 
   <!-- Scripts -->
-  <script src="js/data-curriculum.js?v=20261011_v19"></script>
-  <script src="js/data-books.js?v=20261011_v19"></script>
-  <script src="js/charts.js?v=20261011_v19"></script>
-  <script src="js/app.js?v=20261011_v19"></script>
+  <script src="js/data-curriculum.js?v=20261011_v20"></script>
+  <script src="js/data-books.js?v=20261011_v20"></script>
+  <script src="js/charts.js?v=20261011_v20"></script>
+  <script src="js/app.js?v=20261011_v20"></script>
 </body>
 </html>
