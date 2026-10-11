@@ -74,7 +74,16 @@ def main():
                 "rrp_b": rrp_b,
                 "net_liquidity_b": net_liq_b,
                 "impulse_4w_pct": impulse_4w,
-                "signal": "🟢 净活水扩张 (建议权益仓位 80%)" if impulse_4w >= 0 else "🟡 净活水温和收缩 (建议防御仓位 50%)"
+                "net_liq_4w_b": round(net_liq_4w, 1),
+                "signal": "🟢 强力扩张 (建议 80%~90% 仓位)" if impulse_4w >= 1.0 else ("🟡 存量震荡 (建议 50%~60% 仓位)" if impulse_4w >= -1.0 else "🔴 紧缩抽水 (建议 ≤30% 防御仓位)"),
+                "conclusion": (
+                    f"💡 实时动态结论（更新于 {now_utc}）：当前美联储净流动性为 ${net_liq_b:,.1f} B，4周脉冲为 {impulse_4w:+.2f}%（🟢 正向扩张）。流动性正注入银行体系，分母端贴现率下行，结论：维持【积极进攻（建议权益仓位 80%~90%）】，重点配置科技与宽基 ETF。"
+                    if impulse_4w >= 1.0 else (
+                        f"💡 实时动态结论（更新于 {now_utc}）：当前美联储净流动性为 ${net_liq_b:,.1f} B，4周脉冲为 {impulse_4w:+.2f}%（🟡 存量温和拉锯）。总水源处于平衡状态，结论：执行【均衡配置（建议权益仓位 50%~60%）】，精选高现金流蓝筹，不追高纯题材。"
+                        if impulse_4w >= -1.0 else
+                        f"💡 实时动态结论（更新于 {now_utc}）：🚨 紧缩警报！当前美联储净流动性降至 ${net_liq_b:,.1f} B，4周脉冲为 {impulse_4w:+.2f}%（🔴 净抽水状态）。TGA 发债虹吸或缩表正在抽干准备金，结论：启动【紧缩防御（建议将权益仓位降至 30% 以内）】，增配短债与货币基金避险！"
+                    )
+                )
             }
             print("Fetched live Fed Net Liquidity:", data["metrics"]["fed_liquidity"])
 
