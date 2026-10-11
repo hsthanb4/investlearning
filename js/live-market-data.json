@@ -1,0 +1,36 @@
+{
+  "updated_at": "2026-10-11 09:30 UTC",
+  "source": "Federal Reserve (FRED H.4.1 / DGS) & Global Market Feeds",
+  "metrics": {
+    "fed_liquidity": {
+      "date": "2026-10-09",
+      "walcl_b": 6814.2,
+      "tga_b": 762.5,
+      "rrp_b": 148.3,
+      "net_liquidity_b": 5903.4,
+      "impulse_4w_pct": 1.42,
+      "dr007_pct": 1.68,
+      "r007_pct": 1.81,
+      "cn_spread_bps": 13,
+      "signal": "🟢 净活水扩张 (建议权益仓位 80%)"
+    },
+    "yield_curve": {
+      "date": "2026-10-10",
+      "us10y": 4.21,
+      "us02y": 3.98,
+      "spread_bps": 23,
+      "regime": "🟢 倒挂解除转正 (+23 bps)"
+    },
+    "vix": {
+      "date": "2026-10-10",
+      "value": 16.4,
+      "regime": "🟢 常态平稳 (<20)"
+    },
+    "dxy": {
+      "date": "2026-10-10",
+      "value": 102.8,
+      "usdcnh": 7.12,
+      "cfsi": 1.42
+    }
+  }
+}
