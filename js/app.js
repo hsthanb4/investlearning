@@ -622,18 +622,25 @@ class InvestLearningApp {
     if (panelTheory) panelTheory.style.display = "block";
     if (panelQA) panelQA.style.display = "block";
 
+    const quantDashEl = document.getElementById("quantResultDashboardContainer");
+    const dashHtml = lesson.result_dashboard || "";
+
     if (isQuant) {
       if (btnGuide) btnGuide.style.display = "none";
       if (btnCode) btnCode.style.display = "inline-flex";
       if (panelGuide) panelGuide.style.display = "none";
       if (panelCode) panelCode.style.display = "block";
+      if (quantDashEl) {
+        quantDashEl.innerHTML = dashHtml;
+        this.renderMath(quantDashEl);
+      }
     } else {
       if (btnGuide) btnGuide.style.display = "inline-flex";
       if (btnCode) btnCode.style.display = "none";
       if (panelGuide) panelGuide.style.display = "block";
       if (panelCode) panelCode.style.display = "none";
       if (guideBody) {
-        guideBody.innerHTML = this.sanitizeSvgHtml(lesson.practical_guide) || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>";
+        guideBody.innerHTML = dashHtml + (this.sanitizeSvgHtml(lesson.practical_guide) || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>");
         this.renderMath(guideBody);
       }
     }
