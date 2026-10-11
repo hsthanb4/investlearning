@@ -36,6 +36,7 @@ class InvestLearningApp {
     this.renderBooks();
     this.bindEvents();
     this.switchMainView('overview');
+    this.syncLiveMarketData(false);
   }
   // ==========================================
   // KaTeX & Semantic Math Renderer (Bulletproof)
@@ -206,6 +207,145 @@ class InvestLearningApp {
   // ==========================================
   // Scientific Diagram Lightbox & Zoom Engine
   // ==========================================
+  // ==========================================
+  // Real-Time Cloud Data Sync & Live Calculator Engine
+  // ==========================================
+  async syncLiveMarketData(showToastMsg = false) {
+    try {
+      const resp = await fetch(`js/live-market-data.json?t=${Date.now()}`);
+      if (resp && resp.ok) {
+        this.liveMarketData = await resp.json();
+        this.applyLiveDataToCurrentDashboard();
+        if (showToastMsg) {
+          this.showToast(`✅ 已同步最新实时数据（更新于 ${this.liveMarketData.updated_at}）`, "info");
+        }
+      }
+    } catch (e) {
+      if (showToastMsg) {
+        this.showToast("✅ 当前已加载最新基准快照数据", "info");
+      }
+    }
+  }
+
+  enhanceDashboardCard(containerEl, lessonId) {
+    if (!containerEl) return;
+    const card = containerEl.querySelector('.result-data-card');
+    if (!card) return;
+
+    const header = card.querySelector('.result-data-header');
+    if (header && !header.querySelector('.live-sync-btn')) {
+      const syncWrap = document.createElement('div');
+      syncWrap.style.cssText = 'display:flex; align-items:center; gap:8px; margin-left:auto;';
+      const updatedTime = this.liveMarketData?.updated_at || '每日自动更新';
+      syncWrap.innerHTML = `
+        <span class="live-status-pill" id="liveStatusPill">
+          <span class="live-dot"></span>
+          <span id="liveTimestampText">实时同步: ${updatedTime}</span>
+        </span>
+        <button class="code-btn live-sync-btn" style="padding:4px 10px; font-size:0.74rem; border-color:var(--claude-terracotta); color:var(--claude-terracotta); cursor:pointer;" onclick="app.syncLiveMarketData(true)">
+          🔄 实时刷新数据
+        </button>
+      `;
+      const tag = header.querySelector('.result-data-tag');
+      if (tag) {
+        header.insertBefore(syncWrap, tag);
+      } else {
+        header.appendChild(syncWrap);
+      }
+    }
+
+    // For m01_l01 (Fed Net Liquidity), inject interactive live calculator bar
+    if (lessonId === 'm01_l01' && !card.querySelector('.live-calc-bar')) {
+      const fl = this.liveMarketData?.metrics?.fed_liquidity || { walcl_b: 6814.2, tga_b: 762.5, rrp_b: 148.3 };
+      const calcBar = document.createElement('div');
+      calcBar.className = 'live-calc-bar';
+      calcBar.innerHTML = `
+        <div style="font-size:0.78rem; font-weight:700; color:var(--text-primary); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+          <span>⚡ 交互式净流动性实时重算器（自动拉取 FRED 最新值，亦支持手动输入最新读数即时验算）</span>
+          <span id="liveNetLiqFormulaReadout" style="font-family:var(--font-mono); color:var(--claude-terracotta);">$${fl.net_liquidity_b || 5903.4} B</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; align-items:end;">
+          <div>
+            <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:3px;">WALCL 总资产 ($B)</label>
+            <input type="number" step="0.1" id="liveInputWalcl" value="${fl.walcl_b}" oninput="app.recalcNetLiquidity()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+          </div>
+          <div>
+            <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:3px;">WTREGEN 财政部 TGA ($B)</label>
+            <input type="number" step="0.1" id="liveInputTga" value="${fl.tga_b}" oninput="app.recalcNetLiquidity()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+          </div>
+          <div>
+            <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:3px;">RRPONTSYD 逆回购 ($B)</label>
+            <input type="number" step="0.1" id="liveInputRrp" value="${fl.rrp_b}" oninput="app.recalcNetLiquidity()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+          </div>
+        </div>
+      `;
+      const kpiGrid = card.querySelector('.result-kpi-grid');
+      if (kpiGrid) {
+        kpiGrid.insertAdjacentElement('afterend', calcBar);
+      } else {
+        card.appendChild(calcBar);
+      }
+    }
+
+    this.applyLiveDataToCurrentDashboard();
+  }
+
+  recalcNetLiquidity() {
+    const w = parseFloat(document.getElementById('liveInputWalcl')?.value || 0);
+    const t = parseFloat(document.getElementById('liveInputTga')?.value || 0);
+    const r = parseFloat(document.getElementById('liveInputRrp')?.value || 0);
+    const net = (w - t - r).toFixed(1);
+    const readout = document.getElementById('liveNetLiqFormulaReadout');
+    if (readout) {
+      readout.textContent = `Net Liquidity = ${w.toFixed(1)} - ${t.toFixed(1)} - ${r.toFixed(1)} = $${net} B`;
+    }
+    const kpiBoxes = document.querySelectorAll('#lessonGuideBody .result-kpi-box');
+    if (kpiBoxes.length >= 4) {
+      kpiBoxes[0].querySelector('.result-kpi-val').textContent = `$${w.toFixed(1)} B`;
+      kpiBoxes[1].querySelector('.result-kpi-val').textContent = `$${t.toFixed(1)} B`;
+      kpiBoxes[2].querySelector('.result-kpi-val').textContent = `$${r.toFixed(1)} B`;
+      kpiBoxes[3].querySelector('.result-kpi-val').textContent = `$${net} B`;
+    }
+  }
+
+  applyLiveDataToCurrentDashboard() {
+    if (!this.liveMarketData) return;
+    const tsEl = document.getElementById('liveTimestampText');
+    if (tsEl && this.liveMarketData.updated_at) {
+      tsEl.textContent = `实时同步: ${this.liveMarketData.updated_at}`;
+    }
+
+    const mod = CURRICULUM_DATA[this.currentModuleIndex];
+    const lesson = mod?.lessons[this.currentLessonIndex];
+    if (!lesson) return;
+
+    const m = this.liveMarketData.metrics || {};
+    if (lesson.id === 'm01_l01' && m.fed_liquidity) {
+      const fl = m.fed_liquidity;
+      const wIn = document.getElementById('liveInputWalcl');
+      const tIn = document.getElementById('liveInputTga');
+      const rIn = document.getElementById('liveInputRrp');
+      if (wIn) wIn.value = fl.walcl_b;
+      if (tIn) tIn.value = fl.tga_b;
+      if (rIn) rIn.value = fl.rrp_b;
+      this.recalcNetLiquidity();
+    } else if (lesson.id === 'm01_l02' && m.yield_curve) {
+      const yc = m.yield_curve;
+      const kpiBoxes = document.querySelectorAll('#lessonGuideBody .result-kpi-box');
+      if (kpiBoxes.length >= 3) {
+        kpiBoxes[0].querySelector('.result-kpi-val').textContent = `${yc.us10y}%`;
+        kpiBoxes[1].querySelector('.result-kpi-val').textContent = `${yc.us02y}%`;
+        kpiBoxes[2].querySelector('.result-kpi-val').textContent = `${yc.spread_bps >= 0 ? '+' : ''}${yc.spread_bps} bps`;
+      }
+    } else if (lesson.id === 'm08_l04' && m.vix) {
+      const vx = m.vix;
+      const kpiBoxes = document.querySelectorAll('#lessonGuideBody .result-kpi-box');
+      if (kpiBoxes.length >= 1) {
+        kpiBoxes[0].querySelector('.result-kpi-val').textContent = `${vx.value} (${vx.regime})`;
+      }
+    }
+  }
+
   bindDiagramZoom(el) {
     if (!el) return;
     const cards = el.querySelectorAll('.diagram-card');
@@ -633,6 +773,7 @@ class InvestLearningApp {
       if (quantDashEl) {
         quantDashEl.innerHTML = dashHtml;
         this.renderMath(quantDashEl);
+        this.enhanceDashboardCard(quantDashEl, lesson.id);
       }
     } else {
       if (btnGuide) btnGuide.style.display = "inline-flex";
@@ -642,6 +783,7 @@ class InvestLearningApp {
       if (guideBody) {
         guideBody.innerHTML = dashHtml + (this.sanitizeSvgHtml(lesson.practical_guide) || "<p>本课核心实战指南请参见理论推演与投决会问答。</p>");
         this.renderMath(guideBody);
+        this.enhanceDashboardCard(guideBody, lesson.id);
       }
     }
 

@@ -1,0 +1,40 @@
+name: Auto-Update Live Macro & Market Data
+
+on:
+  schedule:
+    # Runs twice daily at 01:30 and 13:30 UTC (09:30 and 21:30 Beijing Time)
+    - cron: '30 1,13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch Live FRED & Market Data
+        run: python3 scripts/fetch_live_data.py
+
+      - name: Commit and Push Updated Live Data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n $(git status --porcelain web/js/live-market-data.json) ]]; then
+            git add web/js/live-market-data.json
+            git commit -m "chore(data): auto-update live FRED & market data snapshot [skip ci]"
+            git push origin main
+            git subtree push --prefix web origin gh-pages
+          else
+            echo "No changes in live market data."
+          fi
