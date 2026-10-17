@@ -208,7 +208,114 @@ class InvestLearningApp {
   // Scientific Diagram Lightbox & Zoom Engine
   // ==========================================
   // ==========================================
-  // Real-Time Cloud Data Sync & Live Calculator Engine
+  // ==========================================
+  // Universal Position Sizing & Real-Time Risk Engine
+  // ==========================================
+  calcPositionSizing() {
+    const eq = parseFloat(document.getElementById("calcAccountEquity")?.value || 100000);
+    const rPct = parseFloat(document.getElementById("calcRiskPct")?.value || 1.5);
+    const pEntry = parseFloat(document.getElementById("calcEntryPrice")?.value || 25.0);
+    const pStop = parseFloat(document.getElementById("calcStopPrice")?.value || 23.5);
+
+    const riskAmt = eq * (rPct / 100.0);
+    const deltaP = Math.abs(pEntry - pStop);
+    const pctLoss = pEntry > 0 ? (deltaP / pEntry) * 100.0 : 0;
+
+    let shares = 0;
+    if (deltaP > 0.001) {
+      shares = Math.floor(riskAmt / deltaP);
+    }
+    const lots = Math.floor(shares / 100);
+    const notional = shares * pEntry;
+    const posRatio = eq > 0 ? (notional / eq) * 100.0 : 0;
+
+    const r1 = pEntry + deltaP;
+    const r2 = pEntry + 2.0 * deltaP;
+    const r3 = pEntry + 3.0 * deltaP;
+
+    const riskBadge = document.getElementById("sizingRiskBadge");
+    if (riskBadge) riskBadge.textContent = `锁定风险: ¥${riskAmt.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+
+    const elDeltaP = document.getElementById("sizingDeltaP");
+    if (elDeltaP) elDeltaP.textContent = `¥${deltaP.toFixed(2)}`;
+
+    const elDeltaPSub = document.getElementById("sizingDeltaPSub");
+    if (elDeltaPSub) elDeltaPSub.textContent = `跌幅 -${pctLoss.toFixed(1)}% 严格止损`;
+
+    const elShares = document.getElementById("sizingShares");
+    if (elShares) elShares.textContent = `${shares.toLocaleString()} 股`;
+
+    const elLotText = document.getElementById("sizingLotText");
+    if (elLotText) elLotText.textContent = `整手: ${lots.toLocaleString()} 手 (A股)`;
+
+    const elNotional = document.getElementById("sizingNotional");
+    if (elNotional) elNotional.textContent = `¥${notional.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+
+    const elPosRatio = document.getElementById("sizingPosRatio");
+    if (elPosRatio) elPosRatio.textContent = `占总本金 ${posRatio.toFixed(1)}%`;
+
+    const elTargets = document.getElementById("sizingTargets");
+    if (elTargets) elTargets.textContent = `¥${r1.toFixed(2)} / ¥${r2.toFixed(2)} / ¥${r3.toFixed(2)}`;
+  }
+
+  injectUniversalSizingTool(containerEl) {
+    if (!containerEl) return;
+    const calcBox = containerEl.querySelector(".trader-calc-box");
+    if (!calcBox || calcBox.querySelector(".interactive-sizing-tool")) return;
+
+    const tool = document.createElement("div");
+    tool.className = "interactive-sizing-tool";
+    tool.innerHTML = `
+      <div style="font-size:0.8rem; font-weight:700; color:var(--claude-terracotta); margin-top:14px; margin-bottom:8px; padding-top:10px; border-top:1px dashed var(--border-primary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <span>⚡ 操盘手即时以损定量计算器（输入你的账户资金与止损价，即时计算买入股数与止盈目标）</span>
+        <span class="live-status-pill" id="sizingRiskBadge" style="color:var(--claude-terracotta); font-weight:700;">锁定风险: ¥1,500</span>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:12px;">
+        <div>
+          <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:2px;">账户总资金 (元)</label>
+          <input type="number" id="calcAccountEquity" value="100000" step="5000" oninput="app.calcPositionSizing()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:2px;">单笔最大风险比例 (%)</label>
+          <input type="number" id="calcRiskPct" value="1.5" step="0.1" min="0.5" max="5.0" oninput="app.calcPositionSizing()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:2px;">计划买入价 (元)</label>
+          <input type="number" id="calcEntryPrice" value="25.00" step="0.1" oninput="app.calcPositionSizing()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:2px;">技术止损价 (元)</label>
+          <input type="number" id="calcStopPrice" value="23.50" step="0.1" oninput="app.calcPositionSizing()" style="width:100%; padding:5px 8px; font-family:var(--font-mono); font-size:0.82rem; background:var(--bg-primary); border:1px solid var(--border-primary); color:var(--text-primary); border-radius:4px;">
+        </div>
+      </div>
+      <div class="result-kpi-grid" style="margin-bottom:0;" id="sizingOutputGrid">
+        <div class="result-kpi-box">
+          <div class="result-kpi-label">每股风险 ΔP</div>
+          <div class="result-kpi-val" id="sizingDeltaP" style="color:var(--text-primary);">¥1.50</div>
+          <div class="result-kpi-sub" id="sizingDeltaPSub">跌幅 -6.0% 严格止损</div>
+        </div>
+        <div class="result-kpi-box">
+          <div class="result-kpi-label">最大允许买入股数</div>
+          <div class="result-kpi-val" id="sizingShares" style="color:var(--claude-terracotta);">1,000 股</div>
+          <div class="result-kpi-sub" id="sizingLotText">整手: 10 手 (A股)</div>
+        </div>
+        <div class="result-kpi-box">
+          <div class="result-kpi-label">开仓金额 / 仓位占比</div>
+          <div class="result-kpi-val" id="sizingNotional" style="color:var(--text-primary);">¥25,000</div>
+          <div class="result-kpi-sub" id="sizingPosRatio">占总本金 25.0%</div>
+        </div>
+        <div class="result-kpi-box">
+          <div class="result-kpi-label">止盈路径 (1R / 2R / 3R)</div>
+          <div class="result-kpi-val" id="sizingTargets" style="color:var(--claude-terracotta); font-size:0.92rem;">¥26.50 / ¥28.00 / ¥29.50</div>
+          <div class="result-kpi-sub">1R保本 | 2R半仓 | 3R移动止盈</div>
+        </div>
+      </div>
+    `;
+    calcBox.appendChild(tool);
+    this.calcPositionSizing();
+  }
+
+    // Real-Time Cloud Data Sync & Live Calculator Engine
   // ==========================================
   async syncLiveMarketData(showToastMsg = false) {
     try {
@@ -240,6 +347,7 @@ class InvestLearningApp {
     }
 
     this.applyLiveDataToCurrentDashboard();
+    this.injectUniversalSizingTool(containerEl);
         if (showToastMsg) {
           this.showToast(`✅ 已同步最新实时数据（更新于 ${this.liveMarketData.updated_at}）`, "info");
         }

@@ -39,7 +39,28 @@ r"""
 from typing import Tuple, Dict, Any
 import numpy as np
 import pandas as pd
-from scipy import stats
+try:
+    from scipy import stats
+except ImportError:
+    import statistics
+    import math
+    class _MockNorm:
+        _nd = statistics.NormalDist()
+        @staticmethod
+        def ppf(p):
+            return _MockNorm._nd.inv_cdf(p)
+        @staticmethod
+        def pdf(x):
+            return _MockNorm._nd.pdf(x)
+    class _MockT:
+        @staticmethod
+        def rvs(df, loc=0.0, scale=1.0, size=1):
+            return np.random.standard_t(df=df, size=size) * scale + loc
+    class _MockStats:
+        norm = _MockNorm()
+        t = _MockT()
+    stats = _MockStats()
+
 
 
 def calculate_parametric_var_cvar(

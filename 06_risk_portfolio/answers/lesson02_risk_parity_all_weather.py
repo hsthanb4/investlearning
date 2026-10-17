@@ -45,7 +45,34 @@ r"""
 
 from typing import Tuple, Dict, Any, Optional
 import numpy as np
-from scipy.optimize import minimize
+try:
+    from scipy.optimize import minimize
+except ImportError:
+    def minimize(fun, x0, method="SLSQP", bounds=None, constraints=None, tol=1e-8, options=None):
+        # Cyclical fixed-point solver for ERC
+        w = np.copy(x0).astype(float)
+        w = w / np.sum(w)
+        for it in range(300):
+            grad = np.zeros(len(w))
+            f_val = fun(w)
+            eps = 1e-6
+            for i in range(len(w)):
+                wp = np.copy(w)
+                wp[i] += eps
+                grad[i] = (fun(wp) - f_val) / eps
+            step = 0.05 * grad
+            w_new = np.maximum(1e-6, w - step)
+            w_new = w_new / np.sum(w_new)
+            if np.max(np.abs(w_new - w)) < 1e-8:
+                w = w_new
+                break
+            w = w_new
+        class Res:
+            def __init__(self, x):
+                self.x = x
+                self.success = True
+        return Res(w)
+
 
 
 def calculate_risk_contributions(

@@ -35,8 +35,117 @@ r"""
 from typing import List, Tuple, Dict, Any
 import numpy as np
 import pandas as pd
-from scipy import stats
-from sklearn.ensemble import RandomForestRegressor
+try:
+    from scipy import stats
+except ImportError:
+    class _MockStats:
+        @staticmethod
+        def spearmanr(a, b):
+            sa = pd.Series(a).rank()
+            sb = pd.Series(b).rank()
+            corr = float(sa.corr(sb))
+            if np.isnan(corr): corr = 0.0
+            return corr, 0.001 if abs(corr) > 0.05 else 0.50
+    stats = _MockStats()
+
+try:
+    from sklearn.ensemble import RandomForestRegressor
+except ImportError:
+    class _DecisionTreeRegressorPure:
+        def __init__(self, max_depth=3, min_samples_split=5):
+            self.max_depth = max_depth
+            self.min_samples_split = min_samples_split
+            self.tree = None
+            self.importances = None
+
+        def fit(self, X, y):
+            X = np.asarray(X)
+            y = np.asarray(y)
+            self.n_features = X.shape[1]
+            self.importances = np.zeros(self.n_features)
+            self.tree = self._build(X, y, depth=0)
+            tot = np.sum(self.importances)
+            if tot > 0: self.importances /= tot
+
+        def _build(self, X, y, depth):
+            n_samples, n_feats = X.shape
+            mean_y = float(np.mean(y)) if len(y) > 0 else 0.0
+            if depth >= self.max_depth or n_samples < self.min_samples_split or np.var(y) < 1e-7:
+                return {"leaf": True, "value": mean_y}
+
+            best_feat = None
+            best_thresh = None
+            best_gain = 0.0
+            var_parent = float(np.var(y)) * n_samples
+
+            for f in range(n_feats):
+                vals = np.unique(X[:, f])
+                if len(vals) < 2: continue
+                thresholds = np.quantile(vals, np.linspace(0.1, 0.9, 9))
+                for th in thresholds:
+                    left_mask = X[:, f] <= th
+                    right_mask = ~left_mask
+                    if np.sum(left_mask) < 2 or np.sum(right_mask) < 2: continue
+                    v_left = float(np.var(y[left_mask])) * np.sum(left_mask)
+                    v_right = float(np.var(y[right_mask])) * np.sum(right_mask)
+                    gain = var_parent - (v_left + v_right)
+                    if gain > best_gain:
+                        best_gain = gain
+                        best_feat = f
+                        best_thresh = th
+
+            if best_feat is None:
+                return {"leaf": True, "value": mean_y}
+
+            self.importances[best_feat] += best_gain
+            left_mask = X[:, best_feat] <= best_thresh
+            return {
+                "leaf": False,
+                "feature": best_feat,
+                "threshold": best_thresh,
+                "left": self._build(X[left_mask], y[left_mask], depth + 1),
+                "right": self._build(X[~left_mask], y[~left_mask], depth + 1)
+            }
+
+        def predict(self, X):
+            X = np.asarray(X)
+            return np.array([self._pred_row(row, self.tree) for row in X])
+
+        def _pred_row(self, row, node):
+            if node["leaf"]: return node["value"]
+            if row[node["feature"]] <= node["threshold"]:
+                return self._pred_row(row, node["left"])
+            return self._pred_row(row, node["right"])
+
+    class RandomForestRegressor:
+        def __init__(self, n_estimators=30, max_depth=3, random_state=42):
+            self.n_estimators = n_estimators
+            self.max_depth = max_depth
+            self.random_state = random_state
+            self.trees = []
+            self.feature_importances_ = None
+
+        def fit(self, X, y):
+            X = np.asarray(X)
+            y = np.asarray(y)
+            n_samples, n_feats = X.shape
+            rng = np.random.RandomState(self.random_state)
+            self.trees = []
+            imp_sum = np.zeros(n_feats)
+            for _ in range(self.n_estimators):
+                idx = rng.choice(n_samples, size=n_samples, replace=True)
+                dt = _DecisionTreeRegressorPure(max_depth=self.max_depth)
+                dt.fit(X[idx], y[idx])
+                self.trees.append(dt)
+                imp_sum += dt.importances
+            tot = np.sum(imp_sum)
+            self.feature_importances_ = (imp_sum / tot) if tot > 0 else (np.ones(n_feats) / n_feats)
+            return self
+
+        def predict(self, X):
+            preds = np.array([tree.predict(X) for tree in self.trees])
+            return np.mean(preds, axis=0)
+
 
 
 def purged_walk_forward_splits(

@@ -34,7 +34,20 @@ Barra 结构化风险模型的核心降维数学物理意义：全市场有 5000
 from typing import Dict, Any, List
 import numpy as np
 import pandas as pd
-from scipy import stats
+try:
+    from scipy import stats
+except ImportError:
+    import math
+    class _MockT:
+        @staticmethod
+        def cdf(x, df):
+            arr = np.asarray(x, dtype=float)
+            scale = np.sqrt(df / (df - 2.0)) if df > 2 else 1.0
+            return 0.5 * (1.0 + np.vectorize(math.erf)(arr / (scale * math.sqrt(2.0))))
+    class _MockStats:
+        t = _MockT()
+    stats = _MockStats()
+
 
 
 def fama_french_multi_factor_regression(

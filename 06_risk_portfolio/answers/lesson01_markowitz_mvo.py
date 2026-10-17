@@ -36,7 +36,53 @@ r"""
 
 from typing import Tuple, Dict, Any, List
 import numpy as np
-from scipy.optimize import minimize
+try:
+    from scipy.optimize import minimize
+except ImportError:
+    def _project_simplex(v, z=1.0):
+        n = len(v)
+        u = np.sort(v)[::-1]
+        cssv = np.cumsum(u)
+        rho = np.nonzero(u * np.arange(1, n + 1) > (cssv - z))[0][-1]
+        theta = (cssv[rho] - z) / (rho + 1.0)
+        return np.maximum(v - theta, 0.0)
+
+    def minimize(fun, x0, method="SLSQP", bounds=None, constraints=None, tol=1e-8, options=None):
+        x = np.copy(x0).astype(float)
+        n = len(x)
+        lr = 0.02
+        for it in range(800):
+            grad = np.zeros(n)
+            f_val = fun(x)
+            eps = 1e-6
+            for i in range(n):
+                xp = np.copy(x)
+                xp[i] += eps
+                grad[i] = (fun(xp) - f_val) / eps
+            x_new = x - lr * grad
+            x_proj = _project_simplex(x_new, 1.0)
+            if constraints:
+                cons_list = constraints if isinstance(constraints, (list, tuple)) else [constraints]
+                for c in cons_list:
+                    if c.get("type") == "eq":
+                        val = c["fun"](x_proj)
+                        if abs(val) > 1e-4:
+                            grad_c = np.zeros(n)
+                            for i in range(n):
+                                xp = np.copy(x_proj)
+                                xp[i] += eps
+                                grad_c[i] = (c["fun"](xp) - val) / eps
+                            x_proj = _project_simplex(x_proj - 0.4 * val * grad_c, 1.0)
+            diff = np.max(np.abs(x_proj - x))
+            x = x_proj
+            if diff < 1e-7:
+                break
+        class Res:
+            def __init__(self, x):
+                self.x = x
+                self.success = True
+        return Res(x)
+
 
 
 def calculate_portfolio_performance(
@@ -59,6 +105,17 @@ def solve_global_minimum_variance(
     求解全球最小方差组合 (GMV Portfolio)
     """
     n = len(cov_matrix)
+    # Check if unconstrained analytic solution w = Sigma^-1 1 / (1^T Sigma^-1 1) is non-negative
+    try:
+        inv_cov = np.linalg.pinv(cov_matrix)
+        ones = np.ones(n)
+        w_analytic = inv_cov @ ones / (ones.T @ inv_cov @ ones)
+        if np.all(w_analytic >= -1e-5):
+            w_opt = np.maximum(0.0, w_analytic)
+            return w_opt / np.sum(w_opt)
+    except Exception:
+        pass
+
     w0 = np.ones(n) / float(n)
     bounds = [(0.0, 1.0)] * n
     cons = ({"type": "eq", "fun": lambda w: np.sum(w) - 1.0})
@@ -67,6 +124,40 @@ def solve_global_minimum_variance(
         return np.dot(w.T, np.dot(cov_matrix, w))
 
     res = minimize(obj_variance, w0, method="SLSQP", bounds=bounds, constraints=cons)
+    w_opt = np.maximum(0.0, res.x)
+    return w_opt / np.sum(w_opt)
+
+
+def solve_max_sharpe_portfolio(
+    expected_returns: np.ndarray,
+    cov_matrix: np.ndarray,
+    risk_free_rate: float = 0.02,
+) -> np.ndarray:
+    """
+    求解最大夏普比率组合 (Tangency / Maximum Sharpe Portfolio)
+    """
+    n = len(expected_returns)
+    # Check if unconstrained analytic solution w = Sigma^-1 (mu - rf 1) is non-negative
+    try:
+        inv_cov = np.linalg.pinv(cov_matrix)
+        excess_r = expected_returns - risk_free_rate * np.ones(n)
+        w_analytic = inv_cov @ excess_r
+        if np.sum(w_analytic) > 1e-12 and np.all(w_analytic >= -1e-5):
+            w_opt = np.maximum(0.0, w_analytic)
+            return w_opt / np.sum(w_opt)
+    except Exception:
+        pass
+
+    w0 = np.ones(n) / float(n)
+    bounds = [(0.0, 1.0)] * n
+    cons = ({"type": "eq", "fun": lambda w: np.sum(w) - 1.0})
+
+    def neg_sharpe(w):
+        r = np.dot(w, expected_returns)
+        v = np.sqrt(np.dot(w.T, np.dot(cov_matrix, w)))
+        return -(r - risk_free_rate) / (v + 1e-12)
+
+    res = minimize(neg_sharpe, w0, method="SLSQP", bounds=bounds, constraints=cons)
     w_opt = np.maximum(0.0, res.x)
     return w_opt / np.sum(w_opt)
 

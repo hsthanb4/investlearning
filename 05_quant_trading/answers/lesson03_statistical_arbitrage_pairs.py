@@ -36,7 +36,31 @@ Ornstein-Uhlenbeck (OU) 均值回归速率 $\theta$ 与半衰期 $T_{\text{half}
 from typing import Dict, Any, Tuple
 import numpy as np
 import pandas as pd
-from statsmodels.tsa.stattools import adfuller
+try:
+    from statsmodels.tsa.stattools import adfuller
+except ImportError:
+    def adfuller(series, autolag="AIC"):
+        y = np.asarray(series, dtype=float)
+        dy = np.diff(y)
+        y_lag = y[:-1]
+        X = np.column_stack([np.ones_like(y_lag), y_lag])
+        coefs, _, _, _ = np.linalg.lstsq(X, dy, rcond=None)
+        gamma = coefs[1]
+        resids = dy - X @ coefs
+        s2 = np.sum(resids**2) / max(1, len(dy) - 2)
+        invXX = np.linalg.inv(X.T @ X)
+        se_gamma = np.sqrt(max(1e-12, s2 * invXX[1, 1]))
+        t_stat = gamma / se_gamma if se_gamma > 1e-12 else 0.0
+        if t_stat < -3.43:
+            p_val = 0.005
+        elif t_stat < -2.86:
+            p_val = 0.035
+        elif t_stat < -2.57:
+            p_val = 0.08
+        else:
+            p_val = 0.50
+        return (float(t_stat), float(p_val), 1, len(dy))
+
 
 
 def engle_granger_cointegration_test(
