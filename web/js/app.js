@@ -913,7 +913,8 @@ class InvestLearningApp {
       if (panelGuide) panelGuide.style.display = "none";
       if (panelCode) panelCode.style.display = "block";
       if (quantDashEl) {
-        quantDashEl.innerHTML = dashHtml;
+        const fullQuantGuide = dashHtml + (this.sanitizeSvgHtml(lesson.practical_guide) || "");
+        quantDashEl.innerHTML = fullQuantGuide;
         this.renderMath(quantDashEl);
         this.enhanceDashboardCard(quantDashEl, lesson.id);
       }
