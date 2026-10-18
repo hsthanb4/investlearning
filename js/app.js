@@ -706,7 +706,7 @@ class InvestLearningApp {
             fontFamily: 'Inter, sans-serif',
             primaryColor: isDark ? '#1C2028' : '#FAF8F5',
             primaryTextColor: isDark ? '#F3F1EC' : '#1F1E1B',
-            primaryBorderColor: '#CC5A36',
+            primaryBorderColor: '#2563EB',
             lineColor: isDark ? '#928C81' : '#7D786F',
             secondaryColor: isDark ? '#222732' : '#F5F2EB',
             tertiaryColor: isDark ? '#15181E' : '#FFFFFF'
@@ -783,7 +783,7 @@ class InvestLearningApp {
               <span>${mod.num}. ${mod.title}</span>
             </div>
             <div style="display:flex; align-items:center; gap:6px;">
-              <span class="module-tag">${mod.lessons_count}课</span>
+              <span class="module-tag" style="background:${mod.blue_bg || "rgba(37,99,235,0.08)"}; color:${mod.blue_color || "#2563EB"}; border-color:${mod.blue_border || "rgba(37,99,235,0.25)"}">${mod.lessons_count}课</span>
               <span class="module-chevron">▶</span>
             </div>
           </div>
@@ -844,11 +844,18 @@ class InvestLearningApp {
 
     const isCompleted = this.completedLessons.has(lesson.id);
 
-    // 1. Breadcrumbs & Header (Null-safe)
+    // 1. Breadcrumbs & Header (Null-safe & Module Blue Tone Sync)
+    const modColor = mod.blue_color || "#2563EB";
+    const modBg = mod.blue_bg || "rgba(37,99,235,0.08)";
+    const modBorder = mod.blue_border || "rgba(37,99,235,0.25)";
+
     const bMod = document.getElementById("lessonBreadcrumbMod");
     if (bMod) bMod.innerText = `${mod.num} ${mod.title}`;
     const bLes = document.getElementById("lessonBreadcrumbLesson");
-    if (bLes) bLes.innerText = `第 ${lesson.num} 课`;
+    if (bLes) {
+      bLes.innerText = `第 ${lesson.num} 课`;
+      bLes.style.color = modColor;
+    }
     const mTitle = document.getElementById("lessonMainTitle");
     if (mTitle) mTitle.innerText = lesson.title;
 
