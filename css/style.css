@@ -1,200 +1,200 @@
 /* ===================================================================
-   InvestLearning - Blue & White Institutional Design System (蓝白专业金融体系)
-   Clean Ice White Canvas, Deep Navy Ink, and 10 Module Blue Concentrated Tokens
+   InvestLearning - Premium Editorial Minimalist System (简约高级学术出版级蓝白色系)
+   Benchmarked on Swiss International Style, Stripe Press & Oxford Marine Blue.
+   Features 10 Progressive Monochromatic Blue Gradients across modules.
    =================================================================== */
 
 :root {
-  /* 1. Base Canvas & Cards: Crisp Ice White & Pure White */
-  --bg-primary: #F8FAFC;              /* 主背景：冰川纯净灰白 (Slate 50) */
-  --bg-secondary: #FFFFFF;            /* 主卡片：纯白 (Pure White) */
-  --bg-tertiary: #F1F5F9;             /* 次级卡片：柔和浅灰蓝 (Slate 100) */
-  --bg-surface: #E2E8F0;              /* 悬停面：(Slate 200) */
+  /* 1. Base Canvas & Cards: Natural Warm Alabaster Paper & Crisp Pure White */
+  --bg-primary: #FBFBFA;              /* 画布底色：天然雪花石膏暖纸色 (Warm Alabaster) */
+  --bg-secondary: #FFFFFF;            /* 内容卡片：纯净无瑕白 (Crisp Pure White) */
+  --bg-tertiary: #F3F3F0;             /* 次级卡片与底衬：柔和暖灰砂石 (Muted Stone Sand) */
+  --bg-surface: #EAEAE6;              /* 交互悬停底色 (Subtle Surface Hover) */
   --bg-card: #FFFFFF;
-  --bg-glass: rgba(255, 255, 255, 0.94);
-  --bg-code: #0B1120;                 /* 终端代码区：深邃午夜蓝黑 (Navy Dark) */
-  --bg-code-header: #111C35;          /* 代码标签栏底色 */
+  --bg-glass: rgba(251, 251, 250, 0.95);
+  --bg-code: #131720;                 /* 终端与代码区：深邃克制黑石墨 (Obsidian Graphite) */
+  --bg-code-header: #1A1F2C;          /* 代码头部底色 */
 
-  /* 2. Neutral Ink & Structural Borders */
-  --text-primary: #0F172A;            /* 主标题与主文本：深邃藏青墨黑 (Slate 900) */
-  --text-secondary: #334155;          /* 次级正文与说明：稳健石墨蓝 (Slate 700) */
-  --text-muted: #64748B;              /* 辅助说明与元数据：柔和灰蓝 (Slate 500) */
-  --text-dim: #94A3B8;                /* 弱化与禁用标签：(Slate 400) */
+  /* 2. Neutral Ink & Structural Hairline Borders */
+  --text-primary: #18191C;            /* 主标题与主文本：高对比度深碳墨黑 (Deep Carbon Ink) */
+  --text-secondary: #484A51;          /* 正文与阐述：自然玄石墨 (Charcoal Slate) */
+  --text-muted: #71737D;              /* 辅助说明与元数据：柔和石墨灰 (Muted Zinc Slate) */
+  --text-dim: #9FA1AC;                /* 弱化标签与边线 (Dim Slate) */
 
-  --border-primary: #E2E8F0;          /* 主边框：精细浅蓝灰 */
-  --border-subtle: #F1F5F9;           /* 内部列表轻量分隔线 */
-  --border-dark: #1E293B;             /* 代码块深边框 */
-  --border-focus: #2563EB;            /* 聚焦边框：明亮皇家蓝 */
+  --border-primary: #E5E5E0;          /* 极细主边框：低饱和自然石灰线 (Hairline Stone) */
+  --border-subtle: #EFEFEA;           /* 极淡内部次级分隔线 */
+  --border-dark: #272C38;             /* 深色代码区边框 */
+  --border-focus: #1E3A5F;            /* 聚焦状态边框：牛津藏青 */
 
-  /* 3. Primary Brand Accent Blue (经典金融/彭博蓝) */
-  --theme-blue: #2563EB;              /* 核心高亮蓝 (Blue 600) */
-  --theme-blue-hover: #1D4ED8;        /* 悬停深蓝 (Blue 700) */
-  --theme-blue-light: rgba(37, 99, 235, 0.08);   /* 8% 透明度浅蓝底 */
-  --theme-blue-subtle: rgba(37, 99, 235, 0.04);  /* 4% 透明度极淡底 */
-  --theme-blue-border: rgba(37, 99, 235, 0.25);  /* 25% 透明度边框 */
+  /* 3. Primary Brand Accent: Oxford Marine Navy Blue (高级牛津海事先锋蓝) */
+  --theme-blue: #1E3A5F;              /* 核心高雅主蓝 (Oxford Marine Blue) */
+  --theme-blue-hover: #152A45;        /* 悬停加深蓝 */
+  --theme-blue-light: rgba(30, 58, 95, 0.05);   /* 5% 极淡优雅蓝洗 */
+  --theme-blue-subtle: rgba(30, 58, 95, 0.025); /* 2.5% 微弱呼吸底 */
+  --theme-blue-border: rgba(30, 58, 95, 0.18);  /* 18% 克制高雅边框 */
 
-  /* Backward Compatibility Aliases strictly mapped to Blue Series */
+  /* Backward Compatibility Semantic Aliases */
   --claude-terracotta: var(--theme-blue);
   --claude-terracotta-hover: var(--theme-blue-hover);
   --claude-terracotta-light: var(--theme-blue-light);
   --claude-terracotta-border: var(--theme-blue-border);
-  --accent-gold: var(--theme-blue);
-  --accent-gold-soft: var(--theme-blue-light);
+  --accent-gold: #8B6E3F;             /* 高级温润金棕 */
+  --accent-gold-soft: rgba(139, 110, 63, 0.06);
   --accent-blue: var(--theme-blue);
   --accent-blue-soft: var(--theme-blue-light);
-  --accent-green: #0D9488;            /* 辅助成功绿：松石碧蓝 (Teal 600) */
-  --accent-green-soft: rgba(13, 148, 136, 0.08);
-  --accent-red: #E11D48;              /* 警示：冷艳玫红 (Rose 600) */
-  --accent-red-soft: rgba(225, 29, 72, 0.08);
-  --accent-purple: #4F46E5;           /* 靛蓝 */
-  --accent-sage: #0284C7;             /* 天青蓝 */
-  --accent-slate: #1E40AF;            /* 深海蓝 */
-  --accent-ochre: #0891B2;            /* 电青蓝 */
+  --accent-green: #2B6858;            /* 沉稳英伦墨绿 (British Racing Green) */
+  --accent-green-soft: rgba(43, 104, 88, 0.06);
+  --accent-red: #A83A32;              /* 优雅庞贝深红 (Pompeian Red) */
+  --accent-red-soft: rgba(168, 58, 50, 0.06);
+  --accent-purple: #3B4B74;
+  --accent-sage: #4E6B66;
+  --accent-slate: #3B536B;
+  --accent-ochre: #8F6A3B;
 
-  /* 4. 10 Module Distinct Concentrations & Opacities of Blue (十模块蓝系梯度) */
-  --mod-01-color: #1E3A8A; /* 模块01 宏观周期：深邃午夜蓝 (Deep Midnight Navy) */
-  --mod-01-bg: rgba(30, 58, 138, 0.08);
-  --mod-01-border: rgba(30, 58, 138, 0.25);
+  /* 4. 10 Module Distinct Monochromatic Blue Gradients (十模块单色系高雅蓝阶) */
+  --mod-01-color: #0F243E; /* 模块01 宏观周期：深渊午夜蓝 (Abyssal Navy) */
+  --mod-01-bg: rgba(15, 36, 62, 0.05);
+  --mod-01-border: rgba(15, 36, 62, 0.18);
 
-  --mod-02-color: #1D4ED8; /* 模块02 微观盘口：经典皇家蓝 (Classic Royal Blue) */
-  --mod-02-bg: rgba(29, 78, 216, 0.08);
-  --mod-02-border: rgba(29, 78, 216, 0.25);
+  --mod-02-color: #152E4E; /* 模块02 微观盘口：普鲁士海蓝 (Prussian Blue) */
+  --mod-02-bg: rgba(21, 46, 78, 0.05);
+  --mod-02-border: rgba(21, 46, 78, 0.18);
 
-  --mod-03-color: #4338CA; /* 模块03 财务估值：靛青宝石蓝 (Indigo Sapphire) */
-  --mod-03-bg: rgba(67, 56, 202, 0.08);
-  --mod-03-border: rgba(67, 56, 202, 0.25);
+  --mod-03-color: #1B385E; /* 模块03 财务估值：牛津学术蓝 (Oxford Navy) */
+  --mod-03-bg: rgba(27, 56, 94, 0.05);
+  --mod-03-border: rgba(27, 56, 94, 0.18);
 
-  --mod-04-color: #0284C7; /* 模块04 价格行为：天青蔚蓝 (Sky Azure Blue) */
-  --mod-04-bg: rgba(2, 132, 199, 0.08);
-  --mod-04-border: rgba(2, 132, 199, 0.25);
+  --mod-04-color: #22436F; /* 模块04 价格行为：皇家海事蓝 (Imperial Navy) */
+  --mod-04-bg: rgba(34, 67, 111, 0.05);
+  --mod-04-border: rgba(34, 67, 111, 0.18);
 
-  --mod-05-color: #0891B2; /* 模块05 量化多因子：电光青蓝 (Electric Cyan Blue) */
-  --mod-05-bg: rgba(8, 145, 178, 0.08);
-  --mod-05-border: rgba(8, 145, 178, 0.25);
+  --mod-05-color: #2A4F82; /* 模块05 量化多因子：波罗的海蓝 (Baltic Blue) */
+  --mod-05-bg: rgba(42, 79, 130, 0.05);
+  --mod-05-border: rgba(42, 79, 130, 0.18);
 
-  --mod-06-color: #1E40AF; /* 模块06 组合风控：深海钴蓝 (Deep Cobalt Blue) */
-  --mod-06-bg: rgba(30, 64, 175, 0.08);
-  --mod-06-border: rgba(30, 64, 175, 0.25);
+  --mod-06-color: #335C95; /* 模块06 组合风控：钢青海蓝 (Steel Marine) */
+  --mod-06-bg: rgba(51, 92, 149, 0.05);
+  --mod-06-border: rgba(51, 92, 149, 0.18);
 
-  --mod-07-color: #2563EB; /* 模块07 交易心理：冰川明蓝 (Glacier Bright Blue) */
-  --mod-07-bg: rgba(37, 99, 235, 0.08);
-  --mod-07-border: rgba(37, 99, 235, 0.25);
+  --mod-07-color: #3D6AA8; /* 模块07 交易心理：北欧雾蓝 (Nordic Mist) */
+  --mod-07-bg: rgba(61, 106, 168, 0.05);
+  --mod-07-border: rgba(61, 106, 168, 0.18);
 
-  --mod-08-color: #312E81; /* 模块08 期权衍生品：深紫外层蓝 (Cosmic Violet Blue) */
-  --mod-08-bg: rgba(49, 46, 129, 0.08);
-  --mod-08-border: rgba(49, 46, 129, 0.25);
+  --mod-08-color: #4879BC; /* 模块08 期权衍生品：冰川岩蓝 (Glacier Slate) */
+  --mod-08-bg: rgba(72, 121, 188, 0.05);
+  --mod-08-border: rgba(72, 121, 188, 0.18);
 
-  --mod-09-color: #0F766E; /* 模块09 特殊套利：孔雀湖蓝 (Teal Ocean Blue) */
-  --mod-09-bg: rgba(15, 118, 110, 0.08);
-  --mod-09-border: rgba(15, 118, 110, 0.25);
+  --mod-09-color: #5488D0; /* 模块09 特殊套利：阿尔卑斯湖蓝 (Alpine Lake) */
+  --mod-09-bg: rgba(84, 136, 208, 0.05);
+  --mod-09-border: rgba(84, 136, 208, 0.18);
 
-  --mod-10-color: #0369A1; /* 模块10 实盘工程：极光科技蓝 (Arctic Tech Blue) */
-  --mod-10-bg: rgba(3, 105, 161, 0.08);
-  --mod-10-border: rgba(3, 105, 161, 0.25);
+  --mod-10-color: #6197E4; /* 模块10 实盘工程：极地晴空蓝 (Polar Cerulean) */
+  --mod-10-bg: rgba(97, 151, 228, 0.05);
+  --mod-10-border: rgba(97, 151, 228, 0.18);
 
-  /* Shadows & Layout Metrics */
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  /* Shadows: Feather-soft, ambient non-blurry shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(24, 25, 28, 0.03);
+  --shadow-md: 0 3px 6px -1px rgba(24, 25, 28, 0.04), 0 2px 4px -1px rgba(24, 25, 28, 0.02);
+  --shadow-lg: 0 8px 16px -2px rgba(24, 25, 28, 0.05), 0 4px 6px -2px rgba(24, 25, 28, 0.02);
 
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
   --radius-full: 9999px;
-  --header-height: 64px;
-  --sidebar-width: 330px;
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.25s ease;
+  --header-height: 60px;
+  --sidebar-width: 320px;
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.22s ease;
 }
 
 /* ===================================================================
-   Dark Mode: Deep Navy & Ice Blue Series (深海黑蓝与冰蓝夜间模式)
+   Dark Mode: Obsidian Charcoal & Soft French Slate Blue (高级黑曜石暗调)
    =================================================================== */
 [data-theme="dark"] {
-  --bg-primary: #070B14;              /* 深海午夜黑蓝底色 */
-  --bg-secondary: #0F172A;            /* 卡片底色：深邃蓝灰 (Slate 900) */
-  --bg-tertiary: #1E293B;             /* 次级卡片：(Slate 800) */
-  --bg-surface: #334155;              /* 悬停面：(Slate 700) */
-  --bg-card: #0F172A;
-  --bg-glass: rgba(15, 23, 42, 0.94);
-  --bg-code: #030712;
-  --bg-code-header: #0F172A;
+  --bg-primary: #101114;              /* 暗黑画布：黑曜石深岩 (Obsidian Slate) */
+  --bg-secondary: #17181D;            /* 暗黑卡片：石墨深灰 (Graphite Card) */
+  --bg-tertiary: #1E2027;             /* 次级底衬 (Subtle Dark Slate) */
+  --bg-surface: #272A34;              /* 悬停面 */
+  --bg-card: #17181D;
+  --bg-glass: rgba(17, 18, 21, 0.95);
+  --bg-code: #0A0B0E;
+  --bg-code-header: #14151B;
 
-  --text-primary: #F8FAFC;            /* 主文本：高亮纯净白 (Slate 50) */
-  --text-secondary: #CBD5E1;          /* 正文：冰蓝浅灰 (Slate 300) */
-  --text-muted: #94A3B8;              /* 辅助说明：(Slate 400) */
-  --text-dim: #64748B;
+  --text-primary: #F3F3F5;            /* 主文本：珍珠象牙白 (Pearl White) */
+  --text-secondary: #B4B6C0;          /* 正文：高级冷银灰 (Cool Silver) */
+  --text-muted: #7A7C88;              /* 辅助说明：中性岩灰 */
+  --text-dim: #545662;
 
-  --border-primary: #1E293B;          /* 主边框：深邃蓝线 */
-  --border-subtle: #131E31;
-  --border-dark: #1E293B;
-  --border-focus: #60A5FA;            /* 聚焦边框：冰蓝 */
+  --border-primary: #252731;          /* 暗黑主边框：沉稳微弱暗线 */
+  --border-subtle: #1B1D25;
+  --border-dark: #22242D;
+  --border-focus: #7FA8DA;
 
-  --theme-blue: #3B82F6;              /* 夜间模式亮蓝 (Blue 500) */
-  --theme-blue-hover: #60A5FA;
-  --theme-blue-light: rgba(59, 130, 246, 0.15);
-  --theme-blue-subtle: rgba(59, 130, 246, 0.08);
-  --theme-blue-border: rgba(59, 130, 246, 0.35);
+  --theme-blue: #7FA8DA;              /* 暗黑模式高雅法式板岩蓝 (French Slate Blue) */
+  --theme-blue-hover: #98BEEB;
+  --theme-blue-light: rgba(127, 168, 218, 0.10);
+  --theme-blue-subtle: rgba(127, 168, 218, 0.05);
+  --theme-blue-border: rgba(127, 168, 218, 0.25);
 
   --claude-terracotta: var(--theme-blue);
   --claude-terracotta-hover: var(--theme-blue-hover);
   --claude-terracotta-light: var(--theme-blue-light);
   --claude-terracotta-border: var(--theme-blue-border);
-  --accent-gold: var(--theme-blue);
-  --accent-gold-soft: var(--theme-blue-light);
+  --accent-gold: #C2A26A;
+  --accent-gold-soft: rgba(194, 162, 106, 0.10);
   --accent-blue: var(--theme-blue);
   --accent-blue-soft: var(--theme-blue-light);
-  --accent-green: #2DD4BF;
-  --accent-green-soft: rgba(45, 212, 191, 0.15);
-  --accent-red: #FB7185;
-  --accent-red-soft: rgba(251, 113, 133, 0.15);
-  --accent-purple: #818CF8;
-  --accent-sage: #38BDF8;
-  --accent-slate: #93C5FD;
-  --accent-ochre: #22D3EE;
+  --accent-green: #4FA88F;
+  --accent-green-soft: rgba(79, 168, 143, 0.10);
+  --accent-red: #D6635A;
+  --accent-red-soft: rgba(214, 99, 90, 0.10);
+  --accent-purple: #8B9CC7;
+  --accent-sage: #759B93;
+  --accent-slate: #7393B3;
+  --accent-ochre: #C49E69;
 
   /* 10 Module Blue Gradients (Dark Mode) */
-  --mod-01-color: #60A5FA;
-  --mod-01-bg: rgba(96, 165, 250, 0.15);
-  --mod-01-border: rgba(96, 165, 250, 0.35);
+  --mod-01-color: #8BB2E5;
+  --mod-01-bg: rgba(139, 178, 229, 0.10);
+  --mod-01-border: rgba(139, 178, 229, 0.25);
 
-  --mod-02-color: #38BDF8;
-  --mod-02-bg: rgba(56, 189, 248, 0.15);
-  --mod-02-border: rgba(56, 189, 248, 0.35);
+  --mod-02-color: #8FB7EA;
+  --mod-02-bg: rgba(143, 183, 234, 0.10);
+  --mod-02-border: rgba(143, 183, 234, 0.25);
 
-  --mod-03-color: #818CF8;
-  --mod-03-bg: rgba(129, 140, 248, 0.15);
-  --mod-03-border: rgba(129, 140, 248, 0.35);
+  --mod-03-color: #94BCF0;
+  --mod-03-bg: rgba(148, 188, 240, 0.10);
+  --mod-03-border: rgba(148, 188, 240, 0.25);
 
-  --mod-04-color: #22D3EE;
-  --mod-04-bg: rgba(34, 211, 238, 0.15);
-  --mod-04-border: rgba(34, 211, 238, 0.35);
+  --mod-04-color: #99C2F5;
+  --mod-04-bg: rgba(153, 194, 245, 0.10);
+  --mod-04-border: rgba(153, 194, 245, 0.25);
 
-  --mod-05-color: #06B6D4;
-  --mod-05-bg: rgba(6, 182, 212, 0.15);
-  --mod-05-border: rgba(6, 182, 212, 0.35);
+  --mod-05-color: #9EC7FA;
+  --mod-05-bg: rgba(158, 199, 250, 0.10);
+  --mod-05-border: rgba(158, 199, 250, 0.25);
 
-  --mod-06-color: #93C5FD;
-  --mod-06-bg: rgba(147, 197, 253, 0.15);
-  --mod-06-border: rgba(147, 197, 253, 0.35);
+  --mod-06-color: #A4CEFF;
+  --mod-06-bg: rgba(164, 206, 255, 0.10);
+  --mod-06-border: rgba(164, 206, 255, 0.25);
 
-  --mod-07-color: #60A5FA;
-  --mod-07-bg: rgba(96, 165, 250, 0.15);
-  --mod-07-border: rgba(96, 165, 250, 0.35);
+  --mod-07-color: #B0D4FF;
+  --mod-07-bg: rgba(176, 212, 255, 0.10);
+  --mod-07-border: rgba(176, 212, 255, 0.25);
 
-  --mod-08-color: #A5B4FC;
-  --mod-08-bg: rgba(165, 180, 252, 0.15);
-  --mod-08-border: rgba(165, 180, 252, 0.35);
+  --mod-08-color: #BCD9FF;
+  --mod-08-bg: rgba(188, 217, 255, 0.10);
+  --mod-08-border: rgba(188, 217, 255, 0.25);
 
-  --mod-09-color: #2DD4BF;
-  --mod-09-bg: rgba(45, 212, 191, 0.15);
-  --mod-09-border: rgba(45, 212, 191, 0.35);
+  --mod-09-color: #C8E0FF;
+  --mod-09-bg: rgba(200, 224, 255, 0.10);
+  --mod-09-border: rgba(200, 224, 255, 0.25);
 
-  --mod-10-color: #38BDF8;
-  --mod-10-bg: rgba(56, 189, 248, 0.15);
-  --mod-10-border: rgba(56, 189, 248, 0.35);
+  --mod-10-color: #D4E6FF;
+  --mod-10-bg: rgba(212, 230, 255, 0.10);
+  --mod-10-border: rgba(212, 230, 255, 0.25);
 }
-
 /* Typography */
   --font-serif: "Newsreader", "Georgia", "Cambria", serif;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
@@ -212,61 +212,7 @@
   --transition-normal: 0.25s ease;
 }
 
-[data-theme="dark"] {
-  /* 1. Base Backgrounds (Dark - Obsidian) */
-  --bg-primary: #0D0F12;
-  --bg-secondary: #15181E;
-  --bg-tertiary: #1C2028;
-  --bg-surface: #222732;
-  --bg-card: #15181E;
-  --bg-glass: rgba(21, 24, 30, 0.92);
-  --bg-code: #0A0C0E;
-  --bg-code-header: #14171C;
 
-  /* 2. Neutral Ink & Structural Borders */
-  --text-primary: #F3F1EC;
-  --text-secondary: #C5BFB5;
-  --text-muted: #928C81;
-  --text-dim: #59554E;
-
-  --border-primary: #2A2F3A;
-  --border-subtle: #202530;
-  --border-dark: #373E4D;
-  --border-focus: #E06D48;
-
-  /* 3. Single Monochromatic Accent (Dark Terracotta) */
-  --claude-terracotta: #E06D48;
-  --claude-terracotta-hover: #F2805A;
-  --claude-terracotta-light: rgba(224, 109, 72, 0.12);
-  --claude-terracotta-border: rgba(224, 109, 72, 0.35);
-
-  --accent-gold: #E06D48;
-  --accent-gold-soft: rgba(224, 109, 72, 0.12);
-  --accent-blue: #E06D48;
-  --accent-blue-soft: rgba(224, 109, 72, 0.12);
-  --accent-green: #E06D48;
-  --accent-green-soft: rgba(224, 109, 72, 0.12);
-  --accent-red: #E06D48;
-  --accent-red-soft: rgba(224, 109, 72, 0.12);
-  --accent-purple: #E06D48;
-  --accent-purple-soft: rgba(224, 109, 72, 0.12);
-
-  --accent-sage: #E06D48;
-  --accent-sage-bg: rgba(224, 109, 72, 0.12);
-  --accent-sage-border: rgba(224, 109, 72, 0.35);
-  --accent-slate: #E06D48;
-  --accent-slate-bg: rgba(224, 109, 72, 0.12);
-  --accent-slate-border: rgba(224, 109, 72, 0.35);
-  --accent-ochre: #E06D48;
-  --accent-ochre-bg: rgba(224, 109, 72, 0.12);
-  --accent-ochre-border: rgba(224, 109, 72, 0.35);
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.7);
-  --shadow-glow-gold: 0 0 16px rgba(224, 109, 72, 0.25);
-  --shadow-glow-blue: 0 0 16px rgba(224, 109, 72, 0.25);
-}
 
 /* ===================================================================
    Base Elements & Reset

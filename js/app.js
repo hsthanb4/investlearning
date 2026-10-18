@@ -706,7 +706,7 @@ class InvestLearningApp {
             fontFamily: 'Inter, sans-serif',
             primaryColor: isDark ? '#1C2028' : '#FAF8F5',
             primaryTextColor: isDark ? '#F3F1EC' : '#1F1E1B',
-            primaryBorderColor: '#2563EB',
+            primaryBorderColor: '#1E3A5F',
             lineColor: isDark ? '#928C81' : '#7D786F',
             secondaryColor: isDark ? '#222732' : '#F5F2EB',
             tertiaryColor: isDark ? '#15181E' : '#FFFFFF'
@@ -783,7 +783,7 @@ class InvestLearningApp {
               <span>${mod.num}. ${mod.title}</span>
             </div>
             <div style="display:flex; align-items:center; gap:6px;">
-              <span class="module-tag" style="background:${mod.blue_bg || "rgba(37,99,235,0.08)"}; color:${mod.blue_color || "#2563EB"}; border-color:${mod.blue_border || "rgba(37,99,235,0.25)"}">${mod.lessons_count}课</span>
+              <span class="module-tag" style="background:${mod.blue_bg || "rgba(30,58,95,0.05)"}; color:${mod.blue_color || "#1E3A5F"}; border-color:${mod.blue_border || "rgba(30,58,95,0.18)"}">${mod.lessons_count}课</span>
               <span class="module-chevron">▶</span>
             </div>
           </div>
@@ -845,9 +845,9 @@ class InvestLearningApp {
     const isCompleted = this.completedLessons.has(lesson.id);
 
     // 1. Breadcrumbs & Header (Null-safe & Module Blue Tone Sync)
-    const modColor = mod.blue_color || "#2563EB";
-    const modBg = mod.blue_bg || "rgba(37,99,235,0.08)";
-    const modBorder = mod.blue_border || "rgba(37,99,235,0.25)";
+    const modColor = mod.blue_color || "#1E3A5F";
+    const modBg = mod.blue_bg || "rgba(30,58,95,0.05)";
+    const modBorder = mod.blue_border || "rgba(30,58,95,0.18)";
 
     const bMod = document.getElementById("lessonBreadcrumbMod");
     if (bMod) bMod.innerText = `${mod.num} ${mod.title}`;
