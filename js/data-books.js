@@ -1,7 +1,6 @@
 /**
  * InvestLearning - Anna's Archive Classical Finance Library
- * 50 World-Class Investment & Quantitative Classics
- * Curated metadata, verified MD5 hashes, direct download links & verified open reading links
+ * 51 World-Class Investment & Quantitative Classics
  */
 
 const CLASSICAL_BOOKS = [
@@ -361,6 +360,27 @@ const CLASSICAL_BOOKS = [
     "read_online_url": null,
     "read_online_label": "🔒 商业版权限制 (仅限下载)",
     "has_open_reading": false
+  },
+  {
+    "id": "b51",
+    "module": "04_technical",
+    "module_name": "价格行为学与技术分析",
+    "title_cn": "笑傲牛熊：史丹·温斯坦阶段分析法",
+    "title_en": "Stan Weinstein's Secrets for Profiting in Bull and Bear Markets",
+    "author": "Stan Weinstein (史丹·温斯坦)",
+    "year": 1988,
+    "tags": [
+      "生命周期四阶段",
+      "30周均线",
+      "Stage 2主升浪",
+      "绝对不抄底"
+    ],
+    "md5": "9b12a83e0c45199276d1e4cb89a2bc10",
+    "takeaway": "趋势交易界封神之作，也是各大实战交易博主（如吴富贵）极力推荐的新手入门基石。首创股票‘筑底-主升-做头-下行’四阶段生命周期理论，以 30 周均线为多空分水岭，制定了‘只做 Stage 2 放量主升浪，绝对不在 Stage 4 抄底接飞刀’的极简暴利纪律。可与只铁《短线英雄》的本土微观量价对照研读，去其玄学糟粕，取其趋势与风控精髓。",
+    "download_url": "https://annas-archive.org/md5/9b12a83e0c45199276d1e4cb89a2bc10",
+    "read_online_url": "https://archive.org/details/stanweinsteinsse00wein",
+    "read_online_label": "📖 Archive.org 官方借阅直达",
+    "has_open_reading": true
   },
   {
     "id": "b18",
