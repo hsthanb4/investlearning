@@ -1157,30 +1157,175 @@ class InvestLearningApp {
         this.vKline = new KLineVisualizer("klineCanvas", "klineHud");
       } catch (e) { console.warn("kline:", e); }
     }
-    // 2. LOB
+
+    // 2. LOB Engine (m02_l01)
     if (document.getElementById("lobLadderContainer") && typeof LimitOrderBookEngine !== "undefined") {
       try {
         this.vLob = new LimitOrderBookEngine("lobLadderContainer", "lobDepthCanvas");
+        const submitBtn = document.getElementById("lobSubmitBtn");
+        if (submitBtn) {
+          submitBtn.onclick = () => {
+            const side = document.querySelector('input[name="lobSide"]:checked')?.value || "BUY";
+            const type = document.getElementById("lobOrderType")?.value || "LIMIT";
+            const price = parseFloat(document.getElementById("lobPrice")?.value || 180.0);
+            const qty = parseInt(document.getElementById("lobQuantity")?.value || 100);
+            this.vLob.submitOrder(side, type, price, qty);
+          };
+        }
+        const resetBtn = document.getElementById("lobResetBtn");
+        if (resetBtn) {
+          resetBtn.onclick = () => {
+            this.vLob.initBook();
+            this.vLob.render();
+          };
+        }
       } catch (e) { console.warn("lob:", e); }
     }
-    // 3. Markowitz
-    if (document.getElementById("markowitzCanvas") && typeof MarkowitzOptimizer !== "undefined") {
+
+    // 3. DuPont Diagnostic Engine (m03_l01)
+    if (document.getElementById("dupontSimCard") && typeof DupontDiagnosticEngine !== "undefined") {
       try {
-        this.vMarkowitz = new MarkowitzOptimizer("markowitzCanvas");
-      } catch (e) { console.warn("markowitz:", e); }
+        this.vDupont = new DupontDiagnosticEngine("dupontMargin", "dupontTurnover", "dupontLeverage");
+        ["dupontMargin", "dupontTurnover", "dupontLeverage"].forEach(id => {
+          document.getElementById(id)?.addEventListener("input", () => this.vDupont.render());
+        });
+      } catch (e) { console.warn("dupont:", e); }
     }
-    // 4. Kelly
-    if (document.getElementById("kellyCanvas") && typeof KellySimulator !== "undefined") {
-      try {
-        this.vKelly = new KellySimulator("kellyCanvas", "kellyCurveCanvas");
-      } catch (e) { console.warn("kelly:", e); }
-    }
-    // 5. DCF
+
+    // 4. DCF Valuation & Sensitivity Matrix Engine (m03_l04)
     if (document.getElementById("dcfMatrixContainer") && typeof DCFValuationEngine !== "undefined") {
       try {
         this.vDcf = new DCFValuationEngine("dcfMatrixContainer", "dcfMetricsContainer");
+        ["dcfGrowth", "dcfWacc", "dcfTermG"].forEach(id => {
+          document.getElementById(id)?.addEventListener("input", (e) => {
+            let val = parseFloat(e.target.value);
+            const valEl = document.getElementById(id + "Val");
+            if (valEl) valEl.innerText = (val * 100).toFixed(1) + "%";
+            let update = {};
+            if (id === "dcfGrowth") update.growthRate = val;
+            if (id === "dcfWacc") update.wacc = val;
+            if (id === "dcfTermG") update.terminalG = val;
+            this.vDcf.updateParams(update);
+          });
+        });
       } catch (e) { console.warn("dcf:", e); }
     }
+
+    // 5. Markowitz Optimizer (m06_l01)
+    if (document.getElementById("markowitzCanvas") && typeof MarkowitzOptimizer !== "undefined") {
+      try {
+        this.vMarkowitz = new MarkowitzOptimizer("markowitzCanvas");
+        ["mvoRetA", "mvoVolA", "mvoRetB", "mvoVolB", "mvoRhoAB"].forEach(id => {
+          document.getElementById(id)?.addEventListener("input", (e) => {
+            let val = parseFloat(e.target.value);
+            const labelEl = document.getElementById(id + "Val");
+            if (labelEl) {
+              labelEl.innerText = id.includes("Rho") ? val.toFixed(2) : (val * 100).toFixed(0) + "%";
+            }
+            let update = {};
+            if (id === "mvoRetA") update.retA = val;
+            if (id === "mvoVolA") update.volA = val;
+            if (id === "mvoRetB") update.retB = val;
+            if (id === "mvoVolB") update.volB = val;
+            if (id === "mvoRhoAB") update.rhoAB = val;
+            this.vMarkowitz.updateParams(update);
+          });
+        });
+      } catch (e) { console.warn("markowitz:", e); }
+    }
+
+    // 6. Kelly Criterion Simulator (m06_l03)
+    if (document.getElementById("kellyCanvas") && typeof KellySimulator !== "undefined") {
+      try {
+        this.vKelly = new KellySimulator("kellyCanvas", "kellyCurveCanvas");
+        const winEl = document.getElementById("kellyWinRate");
+        if (winEl) {
+          winEl.addEventListener("input", (e) => {
+            this.vKelly.winRate = parseFloat(e.target.value);
+            document.getElementById("kellyWinRateVal").innerText = (this.vKelly.winRate * 100).toFixed(0) + "%";
+            this.vKelly.runSimulation();
+            this.vKelly.render();
+            this.updateKellyStatsUI();
+          });
+        }
+        const payEl = document.getElementById("kellyPayoff");
+        if (payEl) {
+          payEl.addEventListener("input", (e) => {
+            this.vKelly.payoffRatio = parseFloat(e.target.value);
+            document.getElementById("kellyPayoffVal").innerText = this.vKelly.payoffRatio.toFixed(1) + ":1";
+            this.vKelly.runSimulation();
+            this.vKelly.render();
+            this.updateKellyStatsUI();
+          });
+        }
+        document.querySelectorAll(".strategy-radio-card").forEach(card => {
+          card.onclick = () => {
+            document.querySelectorAll(".strategy-radio-card").forEach(c => c.classList.remove("active"));
+            card.classList.add("active");
+            this.vKelly.strategy = card.getAttribute("data-strat");
+            this.vKelly.runSimulation();
+            this.vKelly.render();
+            this.updateKellyStatsUI();
+          };
+        });
+        const rerunBtn = document.getElementById("kellyRerunBtn");
+        if (rerunBtn) {
+          rerunBtn.onclick = () => {
+            this.vKelly.runSimulation();
+            this.vKelly.render();
+            this.updateKellyStatsUI();
+          };
+        }
+        this.updateKellyStatsUI();
+      } catch (e) { console.warn("kelly:", e); }
+    }
+
+    // 7. VIX Volatility Regime Simulator (m08_l04)
+    if (document.getElementById("vixSimCard") && typeof VixRegimeSimulator !== "undefined") {
+      try {
+        this.vVix = new VixRegimeSimulator("vixLevel", "vixTermStructure");
+        document.getElementById("vixLevel")?.addEventListener("input", () => this.vVix.render());
+        document.querySelectorAll('input[name="vixTermStructure"]').forEach(radio => {
+          radio.addEventListener("change", () => this.vVix.render());
+        });
+      } catch (e) { console.warn("vix:", e); }
+    }
+
+    // 8. Friction Decay Simulator (m10_l02)
+    if (document.getElementById("frictionSimCard") && typeof FrictionSimulator !== "undefined") {
+      try {
+        this.vFriction = new FrictionSimulator("frictionDecayCanvas");
+        document.getElementById("frictionCapital")?.addEventListener("input", (e) => {
+          const cap = parseFloat(e.target.value || 100000);
+          const capVal = document.getElementById("frictionCapitalVal");
+          if (capVal) capVal.textContent = "¥" + cap.toLocaleString();
+          this.vFriction.updateParams({ capital: cap });
+        });
+        document.getElementById("frictionOrderSize")?.addEventListener("input", (e) => {
+          const sz = parseFloat(e.target.value || 10000);
+          const szVal = document.getElementById("frictionOrderSizeVal");
+          if (szVal) szVal.textContent = "¥" + sz.toLocaleString();
+          this.vFriction.updateParams({ orderSize: sz });
+        });
+        document.querySelectorAll("#frictionTurnoverBtns .sim-btn").forEach(btn => {
+          btn.onclick = () => {
+            document.querySelectorAll("#frictionTurnoverBtns .sim-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            this.vFriction.updateParams({ turnoverMode: btn.getAttribute("data-mode") });
+          };
+        });
+      } catch (e) { console.warn("friction:", e); }
+    }
+  }
+
+  updateKellyStatsUI() {
+    if (!this.vKelly || !this.vKelly.stats) return;
+    const optEl = document.getElementById("kellyOptimalFVal");
+    if (optEl) optEl.innerText = (this.vKelly.getOptimalKelly() * 100).toFixed(1) + "%";
+    const ruinEl = document.getElementById("kellyRuinRateVal");
+    if (ruinEl) ruinEl.innerText = this.vKelly.stats.ruinRate + "%";
+    const medEl = document.getElementById("kellyMedianVal");
+    if (medEl) medEl.innerText = "$" + (+this.vKelly.stats.medianWealth).toLocaleString();
   }
 
   initVisualizers() {

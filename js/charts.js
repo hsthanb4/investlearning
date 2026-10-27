@@ -161,7 +161,7 @@ class KLineVisualizer {
   }
 
   resizeCanvas() {
-    const rect = this.canvas.parentElement.getBoundingClientRect();
+    const rect = (this.canvas.parentElement && typeof this.canvas.parentElement.getBoundingClientRect === "function") ? this.canvas.parentElement.getBoundingClientRect() : { width: 800, height: 480 };
     this.canvas.width = rect.width;
     this.canvas.height = rect.height || 480;
     this.render();
@@ -1257,5 +1257,318 @@ class DCFValuationEngine {
       html += `</tbody></table>`;
       this.matrixContainer.innerHTML = html;
     }
+  }
+}
+
+
+// ===================================================================
+// 6. DuPont Three-Factor Diagnostic Engine
+// ===================================================================
+class DupontDiagnosticEngine {
+  constructor(marginInputId, turnoverInputId, leverageInputId) {
+    this.marginInput = document.getElementById(marginInputId);
+    this.turnoverInput = document.getElementById(turnoverInputId);
+    this.leverageInput = document.getElementById(leverageInputId);
+    this.render();
+  }
+
+  calculate() {
+    const margin = parseFloat(this.marginInput?.value || 18.0) / 100.0;
+    const turnover = parseFloat(this.turnoverInput?.value || 0.80);
+    const leverage = parseFloat(this.leverageInput?.value || 1.80);
+
+    const roe = margin * turnover * leverage * 100.0;
+    const debtRatio = leverage > 1.0 ? ((leverage - 1.0) / leverage) * 100.0 : 0;
+
+    let archetype = "高端品牌护城河型";
+    let archeDesc = "高利润驱动，不依赖负债";
+    let diagnosis = "💡 <b>体检诊断</b>：该企业呈现典型高定价权护城河特征，ROE 扎实健康，属于优质非杠杆型造血资产。";
+
+    if (leverage >= 4.0) {
+      archetype = "🚨 高负债暴雷预警型";
+      archeDesc = "资产负债率超 75%，极度脆弱";
+      diagnosis = "🚨 <b>暴雷警报！</b>该企业 ROE 表面看似尚可，但几乎全靠 4 倍以上高杠杆硬撑！一旦外部利率上升或资金链稍有断裂，极易突发债务违约崩盘！";
+    } else if (turnover >= 1.8 && margin <= 0.08) {
+      archetype = "Costco/薄利多销周转王";
+      archeDesc = "极高周转驱动，极致运营效率";
+      diagnosis = "💡 <b>体检诊断</b>：微利高周转商业模式。依靠闪电般的供应链周转创造丰厚 ROE，需警惕存货积压风险。";
+    } else if (margin >= 0.30 && turnover <= 0.5) {
+      archetype = "贵州茅台/奢侈暴利型";
+      archeDesc = "超高毛利，拥有自主提价权";
+      diagnosis = "💡 <b>体检诊断</b>：顶级印钞机模式！毛利率与净利率极高，即便周转较慢，无需借债加杠杆也能创造超过 25% 的卓越 ROE。";
+    } else if (margin < 0.04 && turnover < 0.5) {
+      archetype = "⚠️ 僵尸企业/资本黑洞";
+      archeDesc = "低利润且低周转，毁灭价值";
+      diagnosis = "⚠️ <b>资本黑洞警报</b>：主业既赚不到钱又卖不动货，资本回报率跑不赢银行利息，属于典型的毁灭股东财富的平庸资产。";
+    }
+
+    return { margin, turnover, leverage, roe, debtRatio, archetype, archeDesc, diagnosis };
+  }
+
+  render() {
+    const res = this.calculate();
+
+    const mVal = document.getElementById("dupontMarginVal");
+    if (mVal) mVal.textContent = (res.margin * 100).toFixed(1) + "%";
+
+    const tVal = document.getElementById("dupontTurnoverVal");
+    if (tVal) tVal.textContent = res.turnover.toFixed(2) + "x";
+
+    const lVal = document.getElementById("dupontLeverageVal");
+    if (lVal) lVal.textContent = res.leverage.toFixed(2) + "x";
+
+    const roeVal = document.getElementById("dupontRoeVal");
+    if (roeVal) roeVal.textContent = res.roe.toFixed(1) + "%";
+
+    const roeSub = document.getElementById("dupontRoeSub");
+    if (roeSub) roeSub.textContent = `${(res.margin*100).toFixed(1)}% × ${res.turnover.toFixed(2)} × ${res.leverage.toFixed(2)}`;
+
+    const debtVal = document.getElementById("dupontDebtRatio");
+    if (debtVal) debtVal.textContent = res.debtRatio.toFixed(1) + "%";
+
+    const debtSub = document.getElementById("dupontDebtSub");
+    if (debtSub) {
+      debtSub.textContent = res.debtRatio > 70 ? "🚨 负债率过高，风险极大" : (res.debtRatio < 30 ? "🟢 负债率极低，固若金汤" : "财务杠杆处于常态区间");
+    }
+
+    const archVal = document.getElementById("dupontArchetype");
+    if (archVal) archVal.textContent = res.archetype;
+
+    const archDesc = document.getElementById("dupontArchetypeDesc");
+    if (archDesc) archDesc.textContent = res.archeDesc;
+
+    const diagBanner = document.getElementById("dupontDiagnosisBanner");
+    if (diagBanner) diagBanner.innerHTML = res.diagnosis;
+
+    const badge = document.getElementById("dupontArchetypeBadge");
+    if (badge) badge.textContent = `商业模式：${res.archetype}`;
+  }
+}
+
+// ===================================================================
+// 7. Trading Friction & High Turnover Decay Simulator
+// ===================================================================
+class FrictionSimulator {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas && typeof this.canvas.getContext === 'function' ? this.canvas.getContext('2d') : null;
+    this.capital = 100000;
+    this.turnoverMode = "DAILY"; // DAILY (240), WEEKLY (50), MONTHLY (12), QUARTERLY (4)
+    this.orderSize = 10000;
+    this.slippage = 0.0015; // 0.15% 单边
+    this.stampDuty = 0.0005; // 0.05% 卖出
+    this.commissionRate = 0.00025; // 万 2.5 (单笔最低 5 元)
+
+    this.render();
+  }
+
+  updateParams(params) {
+    Object.assign(this, params);
+    this.render();
+  }
+
+  calculate() {
+    let tradesPerYear = 240;
+    if (this.turnoverMode === "DAILY") tradesPerYear = 240;
+    else if (this.turnoverMode === "WEEKLY") tradesPerYear = 50;
+    else if (this.turnoverMode === "MONTHLY") tradesPerYear = 12;
+    else if (this.turnoverMode === "QUARTERLY") tradesPerYear = 4;
+
+    const buyComm = Math.max(5, this.orderSize * this.commissionRate);
+    const sellComm = Math.max(5, this.orderSize * this.commissionRate);
+    const stamp = this.orderSize * this.stampDuty;
+    const slip = this.orderSize * this.slippage * 2; // 双边滑点
+
+    const roundTripFriction = buyComm + sellComm + stamp + slip;
+    const frictionRatePerTrade = roundTripFriction / Math.max(1, this.orderSize);
+
+    let equityActive = this.capital;
+    let equityPassive = this.capital;
+    let curveActive = [equityActive];
+    let curvePassive = [equityPassive];
+
+    const tradesPerDay = tradesPerYear / 240;
+    let totalFrictionPaid = 0;
+
+    for (let d = 1; d <= 240; d++) {
+      let tradesToday = tradesPerDay;
+      let lossToday = equityActive * frictionRatePerTrade * tradesToday;
+      equityActive = Math.max(0, equityActive - lossToday);
+      totalFrictionPaid += lossToday;
+
+      curveActive.push(equityActive);
+      curvePassive.push(equityPassive);
+    }
+
+    const lossRatio = ((this.capital - equityActive) / Math.max(1, this.capital)) * 100.0;
+    const remainingRatio = (equityActive / Math.max(1, this.capital)) * 100.0;
+
+    return {
+      tradesPerYear,
+      roundTripFriction,
+      frictionRatePerTrade,
+      totalFrictionPaid,
+      finalEquity: equityActive,
+      lossRatio,
+      remainingRatio,
+      curveActive,
+      curvePassive
+    };
+  }
+
+  render() {
+    const res = this.calculate();
+
+    const elTotalLoss = document.getElementById("frictionTotalLoss");
+    if (elTotalLoss) elTotalLoss.textContent = `¥${res.totalFrictionPaid.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+
+    const elLossPct = document.getElementById("frictionLossPct");
+    if (elLossPct) elLossPct.textContent = `蒸发本金 ${res.lossRatio.toFixed(1)}%`;
+
+    const elRemain = document.getElementById("frictionRemaining");
+    if (elRemain) elRemain.textContent = `¥${res.finalEquity.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+
+    const elRemainPct = document.getElementById("frictionRemainingPct");
+    if (elRemainPct) elRemainPct.textContent = `剩余本金 ${res.remainingRatio.toFixed(1)}%`;
+
+    const elRate = document.getElementById("frictionRatePerRound");
+    if (elRate) elRate.textContent = `${(res.frictionRatePerTrade * 100).toFixed(2)}% / 双边`;
+
+    if (!this.ctx || !this.canvas) return;
+    const ctx = this.ctx;
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    const pad = { left: 60, right: 25, top: 20, bottom: 25 };
+    const maxVal = this.capital * 1.05;
+    const minVal = 0;
+
+    const xPos = (t) => pad.left + (t / 240) * (w - pad.left - pad.right);
+    const yPos = (v) => (h - pad.bottom) - ((v - minVal) / (maxVal - minVal)) * (h - pad.top - pad.bottom);
+
+    // Grid lines
+    ctx.strokeStyle = "rgba(113, 115, 125, 0.15)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      let y = pad.top + (i / 4) * (h - pad.top - pad.bottom);
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(w - pad.right, y);
+      ctx.stroke();
+
+      let val = maxVal - (i / 4) * (maxVal - minVal);
+      ctx.fillStyle = "#71737D";
+      ctx.font = "10px JetBrains Mono, monospace";
+      ctx.fillText(`¥${(val/1000).toFixed(0)}k`, 10, y + 4);
+    }
+
+    // Passive benchmark line (dotted slate)
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = "#71737D";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(xPos(0), yPos(this.capital));
+    ctx.lineTo(xPos(240), yPos(this.capital));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Active decay curve (Oxford red/brick if high loss, marine blue if low)
+    ctx.strokeStyle = res.lossRatio > 30 ? "#A83A32" : "#1E3A5F";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    res.curveActive.forEach((v, i) => {
+      let x = xPos(i);
+      let y = yPos(v);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Fill area under active curve
+    ctx.fillStyle = res.lossRatio > 30 ? "rgba(168, 58, 50, 0.08)" : "rgba(30, 58, 95, 0.08)";
+    ctx.beginPath();
+    ctx.moveTo(xPos(0), yPos(minVal));
+    res.curveActive.forEach((v, i) => ctx.lineTo(xPos(i), yPos(v)));
+    ctx.lineTo(xPos(240), yPos(minVal));
+    ctx.closePath();
+    ctx.fill();
+
+    // End point marker
+    let lastX = xPos(240);
+    let lastY = yPos(res.finalEquity);
+    ctx.fillStyle = res.lossRatio > 30 ? "#A83A32" : "#1E3A5F";
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// ===================================================================
+// 8. CBOE VIX Volatility Regime & Forward Return Simulator
+// ===================================================================
+class VixRegimeSimulator {
+  constructor(levelInputId, termModeName) {
+    this.levelInput = document.getElementById(levelInputId);
+    this.termModeName = termModeName;
+    this.render();
+  }
+
+  calculate() {
+    const vix = parseFloat(this.levelInput?.value || 20.0);
+    const isBackwardation = document.querySelector(`input[name="${this.termModeName}"]:checked`)?.value === "BACKWARDATION";
+
+    let regime = "常态平稳运行期";
+    let winRate = "62.4%";
+    let avgReturn = "+11.2%";
+    let advice = "🟢 <b>持仓建议</b>：市场波动率处于常态区间，无系统性去杠杆危机，按照个股基本面与价格行为正常持仓。";
+
+    if (vix >= 38.0) {
+      if (isBackwardation) {
+        regime = "🚨 极度恐慌·历史级黄金坑 ★";
+        winRate = "94.5%";
+        avgReturn = "+28.4%";
+        advice = "🔥 <b>决策建议：别人恐惧我贪婪！</b>VIX 突破 38 且近远月深度倒挂，意味着机构正在被动强制平仓割肉！历史大数定律证明：此时分三批抄底宽基 ETF（如沪深300 / 标普500），未来 1 年胜率高达 <b>94.5%</b>！";
+      } else {
+        regime = "🔴 恐慌踩踏期";
+        winRate = "81.2%";
+        avgReturn = "+19.8%";
+        advice = "🟡 <b>决策建议</b>：波动率处于极高位，但期限结构未完全倒挂，建议分批试探性建仓，留足后手资金。";
+      }
+    } else if (vix <= 13.0) {
+      regime = "🟡 极度自满狂热期";
+      winRate = "48.2%";
+      avgReturn = "+4.5%";
+      advice = "⚠️ <b>警报建议：暴风雨前的平静！</b>全市场人人狂热自满，防备极低，期权认沽保费极度便宜。建议兑现部分高估值浮盈，花 1% 极小成本买入虚值 Put 锁死暴跌保险！";
+    } else if (vix > 25.0 && vix < 38.0) {
+      regime = "🟡 震荡避险警惕期";
+      winRate = "54.0%";
+      avgReturn = "+7.8%";
+      advice = "🟡 <b>决策建议</b>：市场避险情绪升温，适度收缩弹性仓位，增配防御性红利与短期国债。";
+    }
+
+    return { vix, isBackwardation, regime, winRate, avgReturn, advice };
+  }
+
+  render() {
+    const res = this.calculate();
+
+    const lvlVal = document.getElementById("vixLevelVal");
+    if (lvlVal) lvlVal.textContent = res.vix.toFixed(1);
+
+    const elRegime = document.getElementById("vixRegimeTitle");
+    if (elRegime) elRegime.innerHTML = res.regime;
+
+    const elWin = document.getElementById("vixWinRate");
+    if (elWin) elWin.textContent = res.winRate;
+
+    const elRet = document.getElementById("vixAvgReturn");
+    if (elRet) elRet.textContent = res.avgReturn;
+
+    const elAdv = document.getElementById("vixAdviceBox");
+    if (elAdv) elAdv.innerHTML = res.advice;
+
+    const badge = document.getElementById("vixRegimeBadge");
+    if (badge) badge.textContent = `市场状态：${res.regime.split("·")[0].replace(/[🚨🟡🟢🔴🔥⚠️\s]/g, "")}`;
   }
 }

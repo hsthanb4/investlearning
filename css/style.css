@@ -2037,3 +2037,71 @@ ol.step-guide-list ul li {
 .module-group[data-mod-idx="7"].expanded .module-header { border-left-color: var(--mod-08-color); }
 .module-group[data-mod-idx="8"].expanded .module-header { border-left-color: var(--mod-09-color); }
 .module-group[data-mod-idx="9"].expanded .module-header { border-left-color: var(--mod-10-color); }
+
+
+/* Interactive Simulators & Diagnostic Sandbox Cards */
+.interactive-simulator-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-left: 4px solid var(--claude-terracotta);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  margin: 26px 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.sim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.sim-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--claude-terracotta);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--claude-terracotta-light);
+  color: var(--claude-terracotta);
+  border: 1px solid var(--claude-terracotta-border);
+}
+
+.sim-btn-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sim-btn {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-primary);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sim-btn:hover, .sim-btn.active {
+  background: var(--claude-terracotta);
+  color: #FFFFFF;
+  border-color: var(--claude-terracotta);
+}
