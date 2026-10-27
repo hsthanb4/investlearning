@@ -1587,7 +1587,7 @@ ol.step-guide-list ul li {
 
 .diagram-lightbox-stage {
   display: inline-block;
-  background: #FAF8F5;
+  background: var(--bg-primary);
   padding: 16px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
@@ -1880,8 +1880,9 @@ ol.step-guide-list ul li {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--claude-terracotta);
+  background: #2B6858;
   display: inline-block;
+  animation: livePulse 2.2s infinite ease-in-out;
 }
 
 .live-calc-bar {
@@ -2104,4 +2105,137 @@ ol.step-guide-list ul li {
   background: var(--claude-terracotta);
   color: #FFFFFF;
   border-color: var(--claude-terracotta);
+}
+
+
+/* ===================================================================
+   Swiss & Editorial Luxury Polish Pack (瑞士国际主义与学术出版级高级质感)
+   =================================================================== */
+
+/* 1. Universal Tabular Numbers for High-Precision Financial Data */
+.result-kpi-val, .result-data-table, .stat-metric-val, .feynman-calc-box, 
+.trader-calc-box, .sim-control-label b, .heatmap-cell, .heatmap-table,
+code, pre, .step-node-num, .qa-badge, .live-calc-bar input {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* 2. Custom Editorial Range Sliders (Institutional Bloomberg/Stripe Style) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  background: var(--border-primary);
+  border-radius: var(--radius-full);
+  outline: none;
+  transition: background var(--transition-fast);
+  cursor: pointer;
+  margin: 6px 0;
+}
+
+input[type="range"]:hover {
+  background: var(--border-focus);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--theme-blue);
+  border: 2.5px solid var(--bg-secondary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--theme-blue-border);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 3px var(--theme-blue-light);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--theme-blue);
+  border: 2.5px solid var(--bg-secondary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 3px var(--theme-blue-light);
+}
+
+/* 3. Live Breathing Pulse Indicator for Macro & Real-Time Data */
+@keyframes livePulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(43, 104, 88, 0.55); }
+  70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(43, 104, 88, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(43, 104, 88, 0); }
+}
+
+.live-pulse-dot {
+  display: inline-block;
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 50%;
+  background: #2B6858;
+  margin-right: 6px;
+  animation: livePulse 2.2s infinite ease-in-out;
+}
+
+/* 4. Frosted Glass Luxury Top Bar */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-primary);
+  box-shadow: 0 1px 2px 0 rgba(24, 25, 28, 0.02);
+}
+
+/* 5. Refined Consistent Card Borders & Feather Elevation */
+.feynman-bridge-card {
+  border: 1px solid var(--border-primary);
+  border-left: 3.5px solid var(--theme-blue);
+  box-shadow: var(--shadow-sm);
+  background: var(--bg-secondary);
+}
+
+.trader-action-card {
+  border: 1px solid var(--border-primary);
+  border-left: 3.5px solid var(--theme-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.interactive-simulator-card {
+  border: 1px solid var(--border-primary);
+  border-left: 3.5px solid var(--theme-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.book-card {
+  border: 1px solid var(--border-primary);
+  border-left: 3.5px solid var(--theme-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 6. Refined Table Hover & Zebra Striping */
+.result-data-table tbody tr:nth-child(even) {
+  background: rgba(30, 58, 95, 0.015);
+}
+
+.result-data-table tbody tr:hover {
+  background: rgba(30, 58, 95, 0.04);
 }
