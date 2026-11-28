@@ -1,36 +1,33 @@
 {
-  "updated_at": "2026-11-27 22:15 UTC",
+  "updated_at": "2026-11-28 09:16 UTC",
   "source": "Federal Reserve (FRED H.4.1 / DGS) & Global Market Feeds",
   "metrics": {
     "fed_liquidity": {
-      "date": "2026-10-09",
-      "walcl_b": 6814.2,
-      "tga_b": 762.5,
-      "rrp_b": 148.3,
-      "net_liquidity_b": 5903.4,
-      "impulse_4w_pct": 1.42,
-      "dr007_pct": 1.68,
-      "r007_pct": 1.81,
-      "cn_spread_bps": 13,
-      "signal": "🟢 净活水扩张 (建议权益仓位 80%)"
+      "date": "2026-11-25",
+      "walcl_b": 6732.0,
+      "tga_b": 902.0,
+      "rrp_b": 0.3,
+      "net_liquidity_b": 5829.7,
+      "impulse_4w_pct": 1.46,
+      "net_liq_4w_b": 5745.6,
+      "signal": "🟢 强力扩张 (建议 80%~90% 仓位)",
+      "conclusion": "💡 实时动态结论（更新于 2026-11-28 09:16 UTC）：当前美联储净流动性为 $5,829.7 B，4周脉冲为 +1.46%（🟢 正向扩张）。流动性正注入银行体系，分母端贴现率下行，结论：维持【积极进攻（建议权益仓位 80%~90%）】，重点配置科技与宽基 ETF。"
     },
     "yield_curve": {
-      "date": "2026-10-10",
-      "us10y": 4.21,
-      "us02y": 3.98,
-      "spread_bps": 23,
-      "regime": "🟢 倒挂解除转正 (+23 bps)"
+      "date": "2026-11-25",
+      "us10y": 4.85,
+      "us02y": 4.61,
+      "spread_bps": 24,
+      "regime": "🟢 正利差常态陡峭"
     },
     "vix": {
-      "date": "2026-10-10",
-      "value": 16.4,
-      "regime": "🟢 常态平稳 (<20)"
+      "date": "2026-11-26",
+      "value": 26.8,
+      "regime": "🟢 常态平稳"
     },
     "dxy": {
-      "date": "2026-10-10",
-      "value": 102.8,
-      "usdcnh": 7.12,
-      "cfsi": 1.42
+      "date": "2026-11-20",
+      "value": 123.6
     }
   }
 }
